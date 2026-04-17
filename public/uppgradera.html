@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uppgradera till Pro — CVzume</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="/translations.js"></script>
+<style>
+  :root {
+    --navy: #0D1B2A;
+    --blue: #1A56DB;
+    --blue-hover: #1d4ed8;
+    --blue-light: #EFF6FF;
+    --border: #E2E8F0;
+    --muted: #64748B;
+    --off-white: #F8FAFC;
+    --sidebar-w: 240px;
+  }
+  body { font-family: 'DM Sans', sans-serif; color: var(--navy); background: var(--off-white); min-height: 100vh; display: flex; flex-direction: row; }
+
+  /* SIDEBAR */
+  .sidebar { width: var(--sidebar-w); background: var(--navy); min-height: 100vh; display: flex; flex-direction: column; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50; overflow: hidden; }
+  .sidebar::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 40% at 50% 100%, rgba(26,86,219,0.2), transparent); pointer-events: none; }
+  .sidebar-logo { padding: 28px 24px 20px; font-family: 'DM Serif Display', serif; font-size: 22px; color: white; text-decoration: none; display: block; }
+  .sidebar-logo span { color: #93C5FD; }
+  .sidebar-section { padding: 8px 12px 4px; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.3); margin-top: 8px; }
+  .sidebar-nav { flex: 1; padding: 0 12px; display: flex; flex-direction: column; gap: 2px; position: relative; z-index: 1; }
+  .nav-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 9px; font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.55); text-decoration: none; cursor: pointer; border: none; background: none; width: 100%; text-align: left; transition: all 0.18s; position: relative; }
+  .nav-item:hover { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.9); }
+  .nav-item.active { background: rgba(26,86,219,0.35); color: white; font-weight: 600; }
+  .nav-item.active::before { content: ''; position: absolute; left: 0; top: 20%; bottom: 20%; width: 3px; border-radius: 2px; background: #93C5FD; }
+  .nav-icon { font-size: 16px; width: 20px; text-align: center; flex-shrink: 0; }
+  .sidebar-footer { padding: 16px 12px; border-top: 1px solid rgba(255,255,255,0.07); position: relative; z-index: 1; }
+  .user-card { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 9px; }
+  .user-avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--blue); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: white; flex-shrink: 0; }
+  .user-name { font-size: 13px; font-weight: 600; color: white; }
+  .user-plan { font-size: 11px; color: rgba(255,255,255,0.4); }
+  .logout-btn { display: flex; align-items: center; gap: 8px; width: 100%; padding: 9px 12px; margin-top: 2px; border-radius: 9px; border: none; background: none; color: rgba(255,255,255,0.35); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.18s; }
+  .logout-btn:hover { background: rgba(220,38,38,0.15); color: #FCA5A5; }
+
+  /* MAIN */
+  .main { margin-left: var(--sidebar-w); flex: 1; padding: 48px 40px 80px; }
+
+  /* HERO */
+  .hero { text-align: center; margin-bottom: 52px; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 6px; background: #EFF6FF; color: var(--blue); font-size: 13px; font-weight: 600; padding: 6px 14px; border-radius: 20px; margin-bottom: 20px; border: 1.5px solid #BFDBFE; }
+  .hero-title { font-family: 'DM Serif Display', serif; font-size: 40px; color: var(--navy); margin-bottom: 14px; line-height: 1.2; }
+  .hero-title span { color: var(--blue); }
+  .hero-subtitle { font-size: 16px; color: var(--muted); max-width: 480px; margin: 0 auto; line-height: 1.7; }
+
+  /* BILLING TOGGLE */
+  .billing-toggle { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 40px; }
+  .toggle-label { font-size: 14px; font-weight: 500; color: var(--muted); }
+  .toggle-label.active { color: var(--navy); font-weight: 600; }
+  .toggle-switch { position: relative; width: 48px; height: 26px; }
+  .toggle-switch input { opacity: 0; width: 0; height: 0; }
+  .toggle-slider { position: absolute; inset: 0; background: var(--blue); border-radius: 20px; cursor: pointer; transition: 0.3s; }
+  .toggle-slider::before { content: ''; position: absolute; width: 20px; height: 20px; left: 3px; top: 3px; background: white; border-radius: 50%; transition: 0.3s; }
+  input:checked + .toggle-slider::before { transform: translateX(22px); }
+  .save-badge { background: #DCFCE7; color: #15803D; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+
+  /* PRICING CARDS */
+  .pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 780px; margin: 0 auto 60px; }
+
+  .pricing-card { background: white; border: 2px solid var(--border); border-radius: 20px; padding: 32px; position: relative; transition: all 0.2s; }
+  .pricing-card.featured { border-color: var(--blue); box-shadow: 0 8px 40px rgba(26,86,219,0.15); }
+  .popular-badge { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); background: var(--blue); color: white; font-size: 12px; font-weight: 600; padding: 4px 16px; border-radius: 20px; white-space: nowrap; }
+
+  .plan-name { font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+  .plan-price { display: flex; align-items: baseline; gap: 4px; margin-bottom: 6px; }
+  .price-amount { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--navy); }
+  .price-period { font-size: 14px; color: var(--muted); }
+  .price-yearly { font-size: 13px; color: var(--muted); margin-bottom: 24px; min-height: 20px; }
+  .price-yearly.highlight { color: #15803D; font-weight: 500; }
+
+  .plan-divider { border: none; border-top: 1.5px solid var(--border); margin: 20px 0; }
+
+  .feature-list { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+  .feature-item { display: flex; align-items: center; gap: 10px; font-size: 14px; color: #374151; }
+  .feature-item .check { color: #059669; font-size: 16px; flex-shrink: 0; }
+  .feature-item .cross { color: #CBD5E1; font-size: 16px; flex-shrink: 0; }
+  .feature-item.muted { color: var(--muted); }
+
+  .plan-btn { width: 100%; padding: 13px; border-radius: 11px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; border: none; transition: all 0.2s; }
+  .plan-btn-ghost { background: white; color: var(--navy); border: 2px solid var(--border); }
+  .plan-btn-ghost:hover { border-color: var(--navy); }
+  .plan-btn-primary { background: var(--blue); color: white; box-shadow: 0 4px 16px rgba(26,86,219,0.35); }
+  .plan-btn-primary:hover { background: #1d4ed8; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(26,86,219,0.4); }
+  .plan-btn-primary:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+
+  /* FAQ */
+  .faq-section { max-width: 680px; margin: 0 auto; }
+  .faq-title { font-family: 'DM Serif Display', serif; font-size: 26px; color: var(--navy); text-align: center; margin-bottom: 32px; }
+  .faq-item { border-bottom: 1.5px solid var(--border); }
+  .faq-question { width: 100%; padding: 18px 0; display: flex; align-items: center; justify-content: space-between; background: none; border: none; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; color: var(--navy); cursor: pointer; text-align: left; gap: 12px; }
+  .faq-icon { font-size: 18px; flex-shrink: 0; transition: transform 0.2s; color: var(--muted); }
+  .faq-item.open .faq-icon { transform: rotate(45deg); }
+  .faq-answer { font-size: 14px; color: var(--muted); line-height: 1.7; padding-bottom: 16px; display: none; }
+  .faq-item.open .faq-answer { display: block; }
+
+  /* TOAST */
+  .toast { position: fixed; bottom: 24px; right: 24px; padding: 13px 20px; border-radius: 11px; font-size: 14px; font-weight: 500; z-index: 999; box-shadow: 0 4px 20px rgba(0,0,0,0.15); transform: translateY(80px); opacity: 0; transition: all 0.3s; }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast.success { background: #059669; color: white; }
+  .toast.error { background: #DC2626; color: white; }
+
+  /* ── SIDEBAR TOGGLE ── */
+  :root { --sidebar-w: 240px; }
+  body.sidebar-collapsed { --sidebar-w: 0px; }
+  body.sidebar-collapsed .sidebar { transform: translateX(-240px); }
+  body.sidebar-collapsed .main { margin-left: 0; }
+  
+  .sidebar {
+    transition: transform 0.25s ease;
+  }
+  .main {
+    transition: margin-left 0.25s ease;
+  }
+
+  /* Toggle button */
+  .sidebar-toggle {
+    position: fixed;
+    top: 50%;
+    left: 228px;
+    transform: translateY(-50%);
+    z-index: 200;
+    width: 24px; height: 52px;
+    border-radius: 0 10px 10px 0;
+    border: 1.5px solid rgba(255,255,255,0.15);
+    border-left: none;
+    background: #1e3a6e;
+    color: rgba(255,255,255,0.9);
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 3px 0 12px rgba(0,0,0,0.25);
+    transition: left 0.25s ease, background 0.2s;
+  }
+  .sidebar-toggle:hover {
+    background: #1A56DB;
+    color: white;
+    box-shadow: 3px 0 16px rgba(26,86,219,0.4);
+  }
+  body.sidebar-collapsed .sidebar-toggle {
+    left: 0;
+    border-radius: 0 10px 10px 0;
+  }
+
+  /* Overlay for mobile */
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 49;
+  }
+  body.sidebar-open .sidebar-overlay { display: block; }
+
+  /* Desktop: show toggle on hover near edge */
+  @media (min-width: 769px) {
+    .sidebar-toggle { display: flex; }
+  }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    :root { --sidebar-w: 240px; }
+    .sidebar { transform: translateX(-240px); }
+    body.sidebar-open .sidebar { transform: translateX(0); }
+    .main { margin-left: 0 !important; }
+    .sidebar-toggle { display: flex; left: 12px; }
+    body.sidebar-open .sidebar-toggle { left: 252px; }
+  }
+
+
+  /* ═══════════════════════════════════════
+     MOBILE RESPONSIVE — Upgrade
+  ═══════════════════════════════════════ */
+  @media (max-width: 768px) {
+
+    .hero-section { padding: 24px 16px; }
+    .hero-title { font-size: 28px; }
+    .hero-subtitle { font-size: 14px; }
+
+    /* Pricing cards — vertical stack */
+    .pricing-grid {
+      grid-template-columns: 1fr !important;
+      gap: 16px;
+      padding: 0 16px;
+    }
+    .pricing-card { padding: 20px; }
+    .plan-price { gap: 4px; }
+    .price-number { font-size: 40px; }
+
+    /* FAQ */
+    .faq-section { padding: 0 16px; }
+    .faq-question { font-size: 14px; }
+    .faq-answer { font-size: 13px; }
+  }
+
+  @media (max-width: 480px) {
+    .hero-title { font-size: 24px; }
+    .pricing-card { padding: 16px; }
+  }
+
+</style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E9M4LF3KLL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E9M4LF3KLL');
+</script>
+</head>
+<body>
+<button class="sidebar-toggle" onclick="toggleSidebar()" id="sidebar-toggle-btn" title="Toggle menu">☰</button>
+<div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <a href="dashboard.html" class="sidebar-logo">CV<span>zume</span></a>
+  <div class="sidebar-section" data-i18n="nav_main_menu" data-i18n="nav_main_menu">Huvudmeny</div>
+  <nav class="sidebar-nav">
+    <a href="dashboard.html" class="nav-item"><span class="nav-icon">🏠</span> <span data-i18n="nav_dashboard">Dashboard</span></a>
+    <a href="dashboard.html?page=applications" class="nav-item"><span class="nav-icon">📋</span> <span data-i18n="nav_applications">Mina ansökningar</span></a>
+    <a href="profile.html" class="nav-item"><span class="nav-icon">📄</span> <span data-i18n="nav_cv">Mitt CV</span></a>
+    <a href="letter.html" class="nav-item"><span class="nav-icon">✉️</span> <span data-i18n="nav_letters">Personliga brev</span></a>
+    <a href="arkiv.html" class="nav-item"><span class="nav-icon">📁</span> <span data-i18n="nav_archive">Arkiv</span></a>
+    <div class="sidebar-section" style="margin-top:16px;" data-i18n="nav_account">Konto</div>
+    <a href="installningar.html" class="nav-item"><span class="nav-icon">⚙️</span> <span data-i18n="nav_settings">Inställningar</span></a>
+    <a href="uppgradera.html" class="nav-item active"><span class="nav-icon">⚡</span> <span data-i18n="nav_upgrade">Uppgradera</span></a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="user-card">
+      <div class="user-avatar" id="user-avatar">?</div>
+      <div>
+        <div class="user-name" id="user-name">Laddar...</div>
+        <div class="user-plan" id="user-plan-label">Gratis plan</div>
+      </div>
+    </div>
+    <button onclick="handleLogout()" style="display:flex;align-items:center;gap:8px;width:100%;padding:9px 12px;margin-top:2px;border-radius:9px;border:none;background:none;color:rgba(255,255,255,0.35);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all 0.18s;" onmouseover="this.style.background='rgba(220,38,38,0.15)';this.style.color='#FCA5A5'" onmouseout="this.style.background='none';this.style.color='rgba(255,255,255,0.35)'">
+      <span style="font-size:14px;">⏻</span> <span data-i18n="nav_logout">Logga ut</span>
+    </button>
+  </div>
+
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge">⚡ CVzume Pro</div>
+    <h1 class="hero-title" data-i18n="upgrade_title">Få jobbet du <span>förtjänar</span></h1>
+    <p class="hero-subtitle" data-i18n="upgrade_subtitle">Uppgradera till Pro och få obegränsad tillgång till AI-driven CV-analys och personliga brev.</p>
+  </div>
+
+  <!-- PRICING CARDS -->
+  <div class="pricing-grid" style="grid-template-columns:1fr 1fr 1fr; max-width:1000px;">
+
+    <!-- FREE -->
+    <div class="pricing-card" id="card-free">
+      <div class="plan-name" data-i18n="upgrade_free">Gratis</div>
+      <div class="plan-price">
+        <span class="price-amount">0</span>
+        <span class="price-period" data-i18n="upgrade_price_period">SEK/mån</span>
+      </div>
+      <div class="price-yearly" data-i18n="upgrade_always_free">Alltid gratis</div>
+      <hr class="plan-divider">
+      <ul class="feature-list">
+        <li class="feature-item"><span class="check">✓</span> <span data-i18n="upgrade_feat_free_cv">2 CV-analyser per månad</span></li>
+        <li class="feature-item"><span class="check">✓</span> <span data-i18n="upgrade_feat_free_letters">2 personliga brev per månad</span></li>
+        <li class="feature-item muted"><span class="cross">✕</span> <span data-i18n="upgrade_feat_pdf">PDF-export</span></li>
+        <li class="feature-item muted"><span class="cross">✕</span> <span data-i18n="upgrade_feat_ai">Prioriterad AI</span></li>
+        <li class="feature-item muted"><span class="cross">✕</span> <span data-i18n="upgrade_feat_history">Obegränsad historik</span></li>
+      </ul>
+      <button class="plan-btn plan-btn-ghost" id="free-btn" disabled data-i18n="upgrade_current_plan">Din nuvarande plan</button>
+    </div>
+
+    <!-- PRO MÅNADSVIS -->
+    <div class="pricing-card featured" id="card-monthly">
+      <div class="popular-badge" data-i18n="upgrade_most_popular">⚡ Mest populär</div>
+      <div class="plan-name">Pro</div>
+      <div class="plan-price">
+        <span class="price-amount">109</span>
+        <span class="price-period" data-i18n="upgrade_price_period">SEK/mån</span>
+      </div>
+      <div class="price-yearly" data-i18n="upgrade_billed_monthly">Faktureras månadsvis</div>
+      <hr class="plan-divider">
+      <ul class="feature-list">
+        <li class="feature-item"><span class="check">✓</span> <span data-i18n="upgrade_feat_unlimited_cv">Obegränsade CV-analyser</span></li>
+        <li class="feature-item"><span class="check">✓</span> <span data-i18n="upgrade_feat_unlimited_letters">Obegränsade personliga brev</span></li>
+        <li class="feature-item"><span class="check">✓</span> <span data-i18n="upgrade_feat_pdf">PDF-export</span></li>
+        <li class="feature-item"><span class="check">✓</span> <span data-i18n="upgrade_feat_ai">Prioriterad AI</span></li>
+        <li class="feature-item"><span class="check">✓</span> <span data-i18n="upgrade_feat_history">Obegränsad historik</span></li>
+      </ul>
+      <button class="plan-btn plan-btn-primary" id="checkout-btn-monthly" onclick="startCheckout(false)">
+        <span data-i18n="upgrade_btn_monthly">Välj Pro →</span>
+      </button>
+    </div>
+
+    <!-- PRO ÅRSPLAN -->
+    <div class="pricing-card" id="card-yearly" style="border-color:#059669; position:relative;">
+      <div class="popular-badge" style="background:#059669;" data-i18n="upgrade_best_value">🌟 Bästa värdet</div>
+      <div class="plan-name" style="color:#059669;" data-i18n="upgrade_yearly">Pro Årsplan</div>
+      <div class="plan-price">
+        <span class="price-amount" style="color:#059669;">83</span>
+        <span class="price-period" data-i18n="upgrade_price_period">SEK/mån</span>
+      </div>
+      <div class="price-yearly highlight" data-i18n="upgrade_save">999 SEK/år — spara 309 kr!</div>
+      <hr class="plan-divider">
+      <ul class="feature-list">
+        <li class="feature-item"><span class="check">✓</span> <span data-i18n="upgrade_feat_unlimited_cv">Obegränsade CV-analyser</span></li>
+        <li class="feature-item"><span class="check">✓</span> <span data-i18n="upgrade_feat_unlimited_letters">Obegränsade personliga brev</span></li>
+        <li class="feature-item"><span class="check">✓</span> <span data-i18n="upgrade_feat_pdf">PDF-export</span></li>
+        <li class="feature-item"><span class="check">✓</span> <span data-i18n="upgrade_feat_ai">Prioriterad AI</span></li>
+        <li class="feature-item"><span class="check">✓</span> <span data-i18n="upgrade_feat_history">Obegränsad historik</span></li>
+      </ul>
+      <button class="plan-btn plan-btn-primary" id="checkout-btn-yearly" onclick="startCheckout(true)" style="background:#059669; box-shadow: 0 4px 16px rgba(5,150,105,0.35);">
+        <span data-i18n="upgrade_btn_yearly">Välj Årsplan →</span>
+      </button>
+    </div>
+
+  </div>
+
+  <!-- FAQ -->
+  <div class="faq-section">
+    <div class="faq-title" data-i18n="upgrade_faq_title">Vanliga frågor</div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span data-i18n="upgrade_faq1_q">Kan jag avsluta när som helst?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer" data-i18n="upgrade_faq1_a">Ja, du kan avsluta din prenumeration när som helst. Du behåller Pro-åtkomst till slutet av din betalningsperiod.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span data-i18n="upgrade_faq2_q">Hur säker är betalningen?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer" data-i18n="upgrade_faq2_a">Alla betalningar hanteras av Stripe — en av världens ledande betalningsleverantörer. Vi lagrar aldrig dina kortuppgifter.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span data-i18n="upgrade_faq3_q">Vad händer med mina data om jag nedgraderar?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer" data-i18n="upgrade_faq3_a">Dina CV-analyser och personliga brev sparas. Du kan fortfarande se dem, men kan inte skapa nya utöver gränsen på 2 per månad.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span data-i18n="upgrade_faq4_q">Finns det en årsrabatt?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer" data-i18n="upgrade_faq4_a">Ja! Med årsplan betalar du 999 SEK istället för 1 308 SEK — du sparar 309 kronor, vilket motsvarar nästan 3 månaders gratis användning.</div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        <span data-i18n="upgrade_faq5_q">Kan jag byta från månads- till årsplan?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer" data-i18n="upgrade_faq5_a">Ja, du kan byta plan när som helst via dina kontoinställningar under "Plan".</div>
+    </div>
+
+  </div>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof applyTranslations === 'function') applyTranslations();
+    var userStr = localStorage.getItem('cvita_user');
+    var user = userStr ? JSON.parse(userStr) : {};
+    var isPro = localStorage.getItem('cvita_is_pro') === 'true';
+    var firstName = user.firstName || '';
+    var lastName  = user.lastName  || '';
+    var fullName  = (firstName + ' ' + lastName).trim() || user.email || '';
+    var initials  = ((firstName[0]||'') + (lastName[0]||'')).toUpperCase() || '?';
+
+    var el = document.getElementById('user-name'); if (el) el.textContent = fullName;
+    var av = document.getElementById('user-avatar'); if (av) av.textContent = initials;
+    var pl = document.getElementById('user-plan-label'); if (pl) pl.textContent = isPro ? 'Pro plan' : 'Gratis plan';
+
+    if (isPro) {
+      // Check if monthly or yearly - fetch from Stripe
+      fetch('/api/stripe/subscription?email=' + encodeURIComponent(user.email || ''))
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          var bm = document.getElementById('checkout-btn-monthly');
+          var by = document.getElementById('checkout-btn-yearly');
+          if (data.interval === 'yearly') {
+            // Already on yearly - disable both
+            var _lup = localStorage.getItem('cvita_language') || 'sv';
+            if (bm) { bm.textContent = _lup==='en'?'You are already Pro ✓':_lup==='es'?'Ya eres Pro ✓':_lup==='tr'?'Zaten Pro\'sunuz ✓':'Du är redan Pro ✓'; bm.disabled = true; }
+            if (by) { by.textContent = _lup==='en'?'You are already on Annual plan ✓':_lup==='es'?'Ya tienes el plan anual ✓':_lup==='tr'?'Zaten Yıllık plandасınız ✓':'Du är redan Årsplan ✓'; by.disabled = true; }
+          } else {
+            // Monthly Pro - disable monthly, keep yearly active
+            if (bm) { bm.textContent = _lup==='en'?'Your current plan':_lup==='es'?'Tu plan actual':_lup==='tr'?'Mevcut planınız':'Din nuvarande plan'; bm.disabled = true; bm.style.background = '#94A3B8'; bm.style.boxShadow = 'none'; }
+            if (by) { by.textContent = 'Uppgradera till Årsplan →'; by.disabled = false; }
+          }
+        });
+    }
+  });
+
+  function toggleBilling() {
+    isYearly = document.getElementById('billing-toggle').checked;
+    var priceEl = document.getElementById('pro-price');
+    var yearlyEl = document.getElementById('pro-yearly');
+    var saveBadge = document.getElementById('save-badge');
+    var labelMonthly = document.getElementById('label-monthly');
+    var labelYearly = document.getElementById('label-yearly');
+
+    if (isYearly) {
+      priceEl.textContent = '83';
+      yearlyEl.textContent = _lup==='en'?'Billed 999 SEK/year — save 309 SEK':_lup==='es'?'Facturado 999 SEK/año — ahorra 309 SEK':_lup==='tr'?'999 SEK/yıl faturalandırılır — 309 SEK tasarruf':'Faktureras 999 SEK/år — spara 309 kr';
+      yearlyEl.className = 'price-yearly highlight';
+      saveBadge.style.display = 'inline-flex';
+      labelMonthly.className = 'toggle-label';
+      labelYearly.className = 'toggle-label active';
+    } else {
+      priceEl.textContent = '109';
+      yearlyEl.textContent = '';
+      yearlyEl.className = 'price-yearly';
+      saveBadge.style.display = 'none';
+      labelMonthly.className = 'toggle-label active';
+      labelYearly.className = 'toggle-label';
+    }
+  }
+
+  async function startCheckout(yearly) {
+    var btnMonthly = document.getElementById('checkout-btn-monthly');
+    var btnYearly = document.getElementById('checkout-btn-yearly');
+    if (btnMonthly) btnMonthly.disabled = true;
+    if (btnYearly) btnYearly.disabled = true;
+
+    try {
+      var userStr = localStorage.getItem('cvita_user');
+      var user = userStr ? JSON.parse(userStr) : {};
+
+      var res = await fetch('/api/stripe/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: user.email,
+          yearly: yearly || false
+        })
+      });
+
+      var data = await res.json();
+      if (data.url) {
+        window.top.location.href = data.url;
+      } else {
+        throw new Error(data.error || 'Något gick fel');
+      }
+    } catch(e) {
+      showToast('Fel: ' + e.message, 'error');
+      if (btnMonthly) { btnMonthly.disabled = false; btnMonthly.textContent = 'Välj Pro →'; }
+      var _lu = localStorage.getItem('cvita_language') || 'sv';
+      if (btnYearly) { btnYearly.disabled = false; btnYearly.textContent = _lu==='en'?'Choose Annual plan →':_lu==='es'?'Elegir plan anual →':_lu==='tr'?'Välj Årsplan →':'Välj Årsplan →'; }
+    }
+  }
+
+  function toggleFaq(btn) {
+    var item = btn.parentElement;
+    item.classList.toggle('open');
+  }
+
+  function showToast(msg, type) {
+    type = type || 'success';
+    var toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.className = 'toast ' + type + ' show';
+    setTimeout(function() { toast.classList.remove('show'); }, 3000);
+  }
+</script>
+<script>
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  const urlLocale = params.get('locale');
+  const supportedLocales = ['sv', 'en', 'es', 'tr'];
+  if (urlLocale && supportedLocales.includes(urlLocale)) {
+    localStorage.setItem('cvita_language', urlLocale);
+  }
+})();
+</script>
+<script>document.addEventListener("DOMContentLoaded",function(){if(typeof applyTranslations==="function")applyTranslations();});</script>
+<script>
+// Token refresh — her sayfada çalışır
+(async function refreshTokenIfNeeded() {
+  const token = localStorage.getItem('cvita_token');
+  const refreshToken = localStorage.getItem('cvita_refresh_token');
+  const expiryRaw = localStorage.getItem('cvita_token_expiry');
+  if (!token || !refreshToken) return;
+  // Expiry kaydedilmemişse (eski oturum) — token JWT'den oku
+  let expiry = parseInt(expiryRaw || '0');
+  if (!expiryRaw || expiry === 0) {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      expiry = payload.exp * 1000;
+      localStorage.setItem('cvita_token_expiry', expiry);
+    } catch(e) { return; }
+  }
+  // 5 dakika kala yenile
+  if (Date.now() < expiry - 5 * 60 * 1000) return;
+  try {
+    const res = await fetch('https://soktmgtrejrlfcmbbzae.supabase.co/auth/v1/token?grant_type=refresh_token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'apikey': 'sb_publishable_8Pnblgu8y21ym9Pxsf9flA_A-OErMZX' },
+      body: JSON.stringify({ refresh_token: refreshToken })
+    });
+    if (!res.ok) {
+      // Refresh başarısız — logout
+      ['cvita_token','cvita_refresh_token','cvita_token_expiry','cvita_user','cvita_is_pro','cvita_plan_label','cvita_avatar','cvita_last_result','cvita_active_page','cvita_profile','cvita_pdf_count','cvita_open_app','cvita_language'].forEach(k => localStorage.removeItem(k));
+      top.location.href = '/auth.html';
+      return;
+    }
+    const data = await res.json();
+    localStorage.setItem('cvita_token', data.access_token);
+    localStorage.setItem('cvita_refresh_token', data.refresh_token);
+    localStorage.setItem('cvita_token_expiry', Date.now() + (data.expires_in * 1000));
+  } catch(e) { console.warn('Token refresh failed:', e); }
+})();
+
+  function handleLogout() {
+    ['cvita_token','cvita_refresh_token','cvita_token_expiry','cvita_user','cvita_is_pro',
+     'cvita_plan_label','cvita_avatar','cvita_last_result','cvita_active_page','cvita_profile',
+     'cvita_pdf_count','cvita_open_app','cvita_language'].forEach(k => localStorage.removeItem(k));
+    top.location.href = '/auth.html';
+  }
+
+  // Sidebar toggle
+  function toggleSidebar() {
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+      document.body.classList.toggle('sidebar-open');
+    } else {
+      document.body.classList.toggle('sidebar-collapsed');
+      localStorage.setItem('sidebar_collapsed', document.body.classList.contains('sidebar-collapsed') ? '1' : '0');
+    }
+    updateToggleIcon();
+  }
+
+  function updateToggleIcon() {
+    const btn = document.getElementById('sidebar-toggle-btn');
+    if (!btn) return;
+    const isMobile = window.innerWidth <= 768;
+    const isOpen = isMobile ? document.body.classList.contains('sidebar-open') : !document.body.classList.contains('sidebar-collapsed');
+    btn.textContent = isOpen ? '◀' : '▶';
+    if (isMobile) btn.textContent = document.body.classList.contains('sidebar-open') ? '✕' : '☰';
+  }
+
+  // Restore sidebar state on desktop
+  (function() {
+    if (window.innerWidth > 768 && localStorage.getItem('sidebar_collapsed') === '1') {
+      document.body.classList.add('sidebar-collapsed');
+    }
+    window.addEventListener('resize', updateToggleIcon);
+    document.addEventListener('DOMContentLoaded', updateToggleIcon);
+  })();
+
+</script>
+</body>
+</html>

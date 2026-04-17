@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CVzume — Logga in / Skapa konto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="/translations.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+  :root {
+    --navy: #0D1B2A;
+    --blue: #1A56DB;
+    --blue-hover: #1d4ed8;
+    --blue-light: #EFF6FF;
+    --blue-pale: #DBEAFE;
+    --slate: #475569;
+    --muted: #94A3B8;
+    --border: #E2E8F0;
+    --border-focus: #93C5FD;
+    --white: #FFFFFF;
+    --off-white: #F8FAFC;
+    --green: #059669;
+    --green-light: #ECFDF5;
+    --error: #DC2626;
+    --error-light: #FEF2F2;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    color: var(--navy);
+    background: var(--off-white);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── LAYOUT ── */
+  .page {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+  }
+
+  /* ── LEFT PANEL ── */
+  .left-panel {
+    background: var(--navy);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Background decoration */
+  .left-panel::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 20% 80%, rgba(26,86,219,0.3) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 40% at 80% 20%, rgba(26,86,219,0.15) 0%, transparent 60%);
+  }
+  .left-panel::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+
+  .left-content { position: relative; z-index: 1; }
+
+  .left-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    color: white;
+    text-decoration: none;
+    letter-spacing: -0.3px;
+    display: inline-block;
+    margin-bottom: 64px;
+  }
+  .left-logo span { color: #93C5FD; }
+
+  .left-headline {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(32px, 3vw, 44px);
+    color: white;
+    line-height: 1.15;
+    letter-spacing: -0.8px;
+    margin-bottom: 20px;
+  }
+  .left-headline em { font-style: italic; color: #93C5FD; }
+
+  .left-sub {
+    font-size: 16px;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.65;
+    max-width: 380px;
+    margin-bottom: 48px;
+  }
+
+  /* Feature list */
+  .left-features {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .left-feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .left-feature-icon {
+    width: 36px; height: 36px;
+    border-radius: 9px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .left-feature-text { padding-top: 2px; }
+  .left-feature-title {
+    font-size: 14px; font-weight: 600;
+    color: white; margin-bottom: 2px;
+  }
+  .left-feature-desc {
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.5;
+  }
+
+  /* Testimonial */
+  .left-testimonial {
+    position: relative; z-index: 1;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 24px;
+  }
+  .testimonial-quote {
+    font-size: 14px;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.65;
+    margin-bottom: 16px;
+    font-style: italic;
+  }
+  .testimonial-author {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .testimonial-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--blue);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 600; color: white;
+    flex-shrink: 0;
+  }
+  .testimonial-name {
+    font-size: 13px; font-weight: 600; color: white;
+  }
+  .testimonial-role {
+    font-size: 12px; color: rgba(255,255,255,0.45);
+  }
+
+  /* ── RIGHT PANEL ── */
+  .right-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 64px;
+    background: var(--white);
+    position: relative;
+  }
+
+  .back-link {
+    position: absolute; top: 32px; left: 40px;
+    display: flex; align-items: center; gap: 6px;
+    font-size: 13px; font-weight: 500;
+    color: var(--muted); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--navy); }
+  .back-link svg { width: 16px; height: 16px; }
+
+  .auth-box {
+    width: 100%;
+    max-width: 420px;
+    animation: fadeUp 0.5s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .auth-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 30px;
+    color: var(--navy);
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+  }
+  .auth-sub {
+    font-size: 15px;
+    color: var(--slate);
+    margin-bottom: 32px;
+    line-height: 1.5;
+  }
+
+  /* Tabs */
+  .auth-tabs {
+    display: flex;
+    background: var(--off-white);
+    border-radius: 10px;
+    padding: 4px;
+    margin-bottom: 32px;
+    border: 1px solid var(--border);
+  }
+  .auth-tab {
+    flex: 1; padding: 9px;
+    border: none; background: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 500;
+    color: var(--muted);
+    border-radius: 7px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .auth-tab.active {
+    background: white;
+    color: var(--navy);
+    font-weight: 600;
+    box-shadow: 0 1px 4px rgba(13,27,42,0.1);
+  }
+
+  /* Form */
+  .auth-form { display: flex; flex-direction: column; gap: 18px; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-label {
+    font-size: 13px; font-weight: 600;
+    color: var(--navy);
+  }
+  .form-input {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--navy);
+    background: var(--off-white);
+    border: 1.5px solid var(--border);
+    border-radius: 9px;
+    padding: 11px 14px;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+    width: 100%;
+  }
+  .form-input::placeholder { color: var(--muted); }
+  .form-input:focus {
+    border-color: var(--blue);
+    background: white;
+    box-shadow: 0 0 0 3px rgba(26,86,219,0.08);
+  }
+
+  /* Password field */
+  .input-wrap { position: relative; }
+  .input-wrap .form-input { padding-right: 44px; }
+  .toggle-pw {
+    position: absolute; right: 12px; top: 50%;
+    transform: translateY(-50%);
+    background: none; border: none;
+    color: var(--muted); cursor: pointer;
+    display: flex; align-items: center;
+    padding: 4px;
+    transition: color 0.2s;
+  }
+  .toggle-pw:hover { color: var(--slate); }
+  .toggle-pw svg { width: 18px; height: 18px; }
+
+  /* Forgot password */
+  .form-footer-row {
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .form-check {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; color: var(--slate);
+    cursor: pointer;
+  }
+  .form-check input[type="checkbox"] {
+    width: 16px; height: 16px;
+    accent-color: var(--blue);
+    cursor: pointer;
+  }
+  .forgot-link {
+    font-size: 13px; font-weight: 500;
+    color: var(--blue); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .forgot-link:hover { color: var(--blue-hover); text-decoration: underline; }
+
+  /* Submit button */
+  .btn-submit {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px; font-weight: 600;
+    color: white; background: var(--blue);
+    border: none; padding: 13px;
+    border-radius: 10px; cursor: pointer;
+    width: 100%;
+    box-shadow: 0 2px 8px rgba(26,86,219,0.3);
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-submit:hover { background: var(--blue-hover); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(26,86,219,0.35); }
+  .btn-submit:active { transform: translateY(0); }
+
+  /* Divider */
+  .auth-divider {
+    display: flex; align-items: center; gap: 12px;
+    margin: 4px 0;
+  }
+  .auth-divider-line { flex: 1; height: 1px; background: var(--border); }
+  .auth-divider-text { font-size: 12px; color: var(--muted); font-weight: 500; white-space: nowrap; }
+
+  /* Social buttons */
+  .social-buttons { display: flex; flex-direction: column; gap: 10px; }
+  .btn-social {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 500;
+    color: var(--navy); background: white;
+    border: 1.5px solid var(--border);
+    padding: 11px 16px; border-radius: 9px;
+    cursor: pointer; width: 100%;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    transition: all 0.2s;
+  }
+  .btn-social:hover { border-color: var(--blue); background: var(--blue-light); }
+  .btn-social svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+  /* Terms */
+  .auth-terms {
+    font-size: 12px; color: var(--muted);
+    text-align: center; line-height: 1.6;
+    margin-top: 4px;
+  }
+  .auth-terms a { color: var(--blue); text-decoration: none; }
+  .auth-terms a:hover { text-decoration: underline; }
+
+  /* Switch link */
+  .auth-switch {
+    text-align: center;
+    font-size: 13px; color: var(--slate);
+    margin-top: 24px;
+  }
+  .auth-switch a {
+    color: var(--blue); font-weight: 600;
+    text-decoration: none;
+  }
+  .auth-switch a:hover { text-decoration: underline; }
+
+  /* Panel visibility */
+  .panel { display: none; }
+  .panel.active { display: flex; flex-direction: column; gap: 18px; }
+
+  /* Password strength */
+  .pw-strength { display: flex; flex-direction: column; gap: 5px; }
+  .pw-strength-bars { display: flex; gap: 4px; }
+  .pw-bar {
+    flex: 1; height: 3px; border-radius: 2px;
+    background: var(--border);
+    transition: background 0.3s;
+  }
+  .pw-bar.active-weak { background: #EF4444; }
+  .pw-bar.active-medium { background: #F59E0B; }
+  .pw-bar.active-strong { background: var(--green); }
+  .pw-strength-label {
+    font-size: 11px; color: var(--muted);
+  }
+
+  /* Success state */
+  .success-message {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+    padding: 32px 0;
+    animation: fadeUp 0.4s ease both;
+  }
+  .success-icon {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: var(--green-light);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+  }
+  .success-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 24px; color: var(--navy);
+  }
+  .success-sub { font-size: 14px; color: var(--slate); line-height: 1.6; }
+
+  @media (max-width: 900px) {
+    .page { grid-template-columns: 1fr; }
+    .left-panel { display: none; }
+    .right-panel { padding: 48px 32px; }
+  }
+</style>
+<script>
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  const urlLocale = params.get('locale');
+  const supportedLocales = ['sv', 'en', 'es', 'tr'];
+  if (urlLocale && supportedLocales.includes(urlLocale)) {
+    localStorage.setItem('cvita_language', urlLocale);
+  }
+})();
+</script>
+<script>document.addEventListener("DOMContentLoaded",function(){if(typeof applyTranslations==="function")applyTranslations();});</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E9M4LF3KLL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E9M4LF3KLL');
+</script>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ── LEFT PANEL ── -->
+  <div class="left-panel">
+    <div class="left-content">
+      <a href="landing_page.html" class="left-logo">CV<span>zume</span></a>
+
+      <h2 class="left-headline">Din karriär.<br>Ditt <em>nästa steg.</em></h2>
+      <p class="left-sub">
+        CVzume hjälper dig skapa CV:n och personliga brev som faktiskt matchar jobben du söker — på minuter, inte timmar.
+      </p>
+
+      <div class="left-features">
+        <div class="left-feature">
+          <div class="left-feature-icon">🎯</div>
+          <div class="left-feature-text">
+            <div class="left-feature-title">Anpassat till varje annons</div>
+            <div class="left-feature-desc">AI:n läser platsannonsen och optimerar ditt CV automatiskt.</div>
+          </div>
+        </div>
+        <div class="left-feature">
+          <div class="left-feature-icon">⚡</div>
+          <div class="left-feature-text">
+            <div class="left-feature-title">Klart på under 3 minuter</div>
+            <div class="left-feature-desc">Från annons till färdigt ansökningspaket på rekordtid.</div>
+          </div>
+        </div>
+        <div class="left-feature">
+          <div class="left-feature-icon">🔒</div>
+          <div class="left-feature-text">
+            <div class="left-feature-title">GDPR-säkert inom EU</div>
+            <div class="left-feature-desc">Din data lagras säkert. Du äger allt, alltid.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="left-testimonial">
+      <div class="testimonial-quote">
+        "Jag fick tre intervjuer på en vecka efter att jag börjat använda CVzume. Det är som att ha en karriärcoach i fickan."
+      </div>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">AL</div>
+        <div>
+          <div class="testimonial-name">Anna Lindström</div>
+          <div class="testimonial-role">Frontend-utvecklare · Stockholm</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── RIGHT PANEL ── -->
+  <div class="right-panel">
+    <a href="landing_page.html" class="back-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Tillbaka till startsidan
+    </a>
+
+    <div class="auth-box">
+
+      <!-- Default: show form, not success -->
+      <div id="form-area">
+        <h1 class="auth-title" id="auth-title">Välkommen tillbaka</h1>
+        <p class="auth-sub" id="auth-sub">Logga in på ditt CVzume-konto.</p>
+
+        <!-- Tabs -->
+        <div class="auth-tabs">
+          <button class="auth-tab active" id="tab-login" onclick="switchTab('login')">Logga in</button>
+          <button class="auth-tab" id="tab-register" onclick="switchTab('register')">Skapa konto</button>
+        </div>
+
+        <!-- LOGIN PANEL -->
+        <div class="panel active" id="panel-login">
+          <div class="auth-form">
+            <div class="form-group">
+              <label class="form-label" for="login-email">E-postadress</label>
+              <input class="form-input" type="email" id="login-email" placeholder="du@exempel.se" autocomplete="email">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="login-pw">Lösenord</label>
+              <div class="input-wrap">
+                <input class="form-input" type="password" id="login-pw" placeholder="Ditt lösenord" autocomplete="current-password">
+                <button class="toggle-pw" onclick="togglePw('login-pw', this)" tabindex="-1" type="button">
+                  <svg id="eye-login" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="form-footer-row">
+              <label class="form-check">
+                <input type="checkbox"> Kom ihåg mig
+              </label>
+              <a href="#" class="forgot-link">Glömt lösenord?</a>
+            </div>
+            <button class="btn-submit" onclick="handleLogin()">Logga in →</button>
+          </div>
+
+          <div class="auth-divider">
+            <div class="auth-divider-line"></div>
+            <span class="auth-divider-text">eller fortsätt med</span>
+            <div class="auth-divider-line"></div>
+          </div>
+
+          <div class="social-buttons">
+            <button class="btn-social" onclick="signInWithGoogle()">
+              <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+              <span data-i18n="auth_google">Fortsätt med Google</span>
+            </button>
+            <button class="btn-social" onclick="signInWithGitHub()" style="margin-top:10px;">
+              <svg viewBox="0 0 24 24" style="fill:#24292e;width:20px;height:20px;"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+              <span data-i18n="auth_github">Fortsätt med GitHub</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- REGISTER PANEL -->
+        <div class="panel" id="panel-register">
+          <div class="auth-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="reg-fname">Förnamn</label>
+                <input class="form-input" type="text" id="reg-fname" placeholder="Anna" autocomplete="given-name">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="reg-lname">Efternamn</label>
+                <input class="form-input" type="text" id="reg-lname" placeholder="Lindström" autocomplete="family-name">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="reg-email">E-postadress</label>
+              <input class="form-input" type="email" id="reg-email" placeholder="du@exempel.se" autocomplete="email">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="reg-pw">Lösenord</label>
+              <div class="input-wrap">
+                <input class="form-input" type="password" id="reg-pw" placeholder="Minst 8 tecken" oninput="checkStrength(this.value)" autocomplete="new-password">
+                <button class="toggle-pw" onclick="togglePw('reg-pw', this)" tabindex="-1" type="button">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+              <div class="pw-strength">
+                <div class="pw-strength-bars">
+                  <div class="pw-bar" id="bar1"></div>
+                  <div class="pw-bar" id="bar2"></div>
+                  <div class="pw-bar" id="bar3"></div>
+                  <div class="pw-bar" id="bar4"></div>
+                </div>
+                <span class="pw-strength-label" id="pw-label"></span>
+              </div>
+            </div>
+            <div class="form-group" style="margin-bottom:4px;">
+              <label class="form-label">🌐 Välj språk / Choose language / Dil seçin</label>
+              <div style="display:flex;gap:8px;">
+                <button type="button" class="lang-btn active" id="lang-sv" onclick="selectLang('sv')" style="flex:1;padding:10px 8px;border:2px solid #4F46E5;border-radius:8px;background:#EEF2FF;color:#4F46E5;font-weight:600;cursor:pointer;font-size:13px;">🇸🇪 Svenska</button>
+                <button type="button" class="lang-btn" id="lang-en" onclick="selectLang('en')" style="flex:1;padding:10px 8px;border:2px solid #E2E8F0;border-radius:8px;background:#fff;color:#64748B;font-weight:500;cursor:pointer;font-size:13px;">🇬🇧 English</button>
+                <button type="button" class="lang-btn" id="lang-tr" onclick="selectLang('tr')" style="flex:1;padding:10px 8px;border:2px solid #E2E8F0;border-radius:8px;background:#fff;color:#64748B;font-weight:500;cursor:pointer;font-size:13px;">🇹🇷 Türkçe</button>
+              </div>
+            </div>
+            <button class="btn-submit" onclick="handleRegister()">Skapa konto gratis →</button>
+            <p class="auth-terms">
+              Genom att skapa ett konto godkänner du våra
+              <a href="#">Användarvillkor</a> och
+              <a href="#">Integritetspolicy</a>.
+            </p>
+          </div>
+
+          <div class="auth-divider">
+            <div class="auth-divider-line"></div>
+            <span class="auth-divider-text">eller fortsätt med</span>
+            <div class="auth-divider-line"></div>
+          </div>
+
+          <div class="social-buttons">
+            <button class="btn-social" onclick="signInWithGoogle()">
+              <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+              <span data-i18n="auth_google">Fortsätt med Google</span>
+            </button>
+            <button class="btn-social" onclick="signInWithGitHub()" style="margin-top:10px;">
+              <svg viewBox="0 0 24 24" style="fill:#24292e;width:20px;height:20px;"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+              <span data-i18n="auth_github">Fortsätt med GitHub</span>
+            </button>
+          </div>
+        </div>
+
+        <p class="auth-switch" id="auth-switch">
+          Inget konto? <a href="#" onclick="switchTab('register'); return false;">Skapa ett gratis →</a>
+        </p>
+      </div>
+
+      <!-- SUCCESS STATE -->
+      <div class="success-message" id="success-area">
+        <div class="success-icon">✅</div>
+        <h2 class="success-title">Konto skapat!</h2>
+        <p class="success-sub">Välkommen till CVzume, <span id="success-name"></span>!<br>Kontrollera din e-post för att bekräfta ditt konto.</p>
+        <button class="btn-submit" style="margin-top:8px;" onclick="goToDashboard()">Gå till dashboard →</button>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function switchTab(tab) {
+    const isLogin = tab === 'login';
+
+    document.getElementById('tab-login').classList.toggle('active', isLogin);
+    document.getElementById('tab-register').classList.toggle('active', !isLogin);
+    document.getElementById('panel-login').classList.toggle('active', isLogin);
+    document.getElementById('panel-register').classList.toggle('active', !isLogin);
+
+    document.getElementById('auth-title').textContent = isLogin ? 'Välkommen tillbaka' : 'Skapa ditt konto';
+    document.getElementById('auth-sub').textContent = isLogin
+      ? 'Logga in på ditt CVzume-konto.'
+      : 'Gratis för alltid. Inget kreditkort krävs.';
+    document.getElementById('auth-switch').innerHTML = isLogin
+      ? 'Inget konto? <a href="#" onclick="switchTab(\'register\'); return false;">Skapa ett gratis →</a>'
+      : 'Har du redan ett konto? <a href="#" onclick="switchTab(\'login\'); return false;">Logga in →</a>';
+  }
+
+  function togglePw(id, btn) {
+    const input = document.getElementById(id);
+    const isText = input.type === 'text';
+    input.type = isText ? 'password' : 'text';
+    btn.querySelector('svg').innerHTML = isText
+      ? '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>'
+      : '<path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>';
+  }
+
+  function checkStrength(pw) {
+    const bars = [document.getElementById('bar1'), document.getElementById('bar2'), document.getElementById('bar3'), document.getElementById('bar4')];
+    const label = document.getElementById('pw-label');
+    bars.forEach(b => b.className = 'pw-bar');
+
+    if (!pw) { label.textContent = ''; return; }
+
+    let score = 0;
+    if (pw.length >= 8) score++;
+    if (pw.length >= 12) score++;
+    if (/[A-Z]/.test(pw) && /[0-9]/.test(pw)) score++;
+    if (/[^A-Za-z0-9]/.test(pw)) score++;
+
+    const cls = score <= 1 ? 'active-weak' : score === 2 ? 'active-medium' : 'active-strong';
+    const labels = ['', 'Svagt', 'Svagt', 'Medel', 'Starkt'];
+    for (let i = 0; i < score; i++) bars[i].classList.add(cls);
+    label.textContent = labels[score] || '';
+    label.style.color = score <= 1 ? '#EF4444' : score === 2 ? '#F59E0B' : '#059669';
+  }
+
+  async function handleLogin() {
+    const email = document.getElementById('login-email').value;
+    const pw = document.getElementById('login-pw').value;
+    if (!email || !pw) { showError('login-error', 'Fyll i alla fält.'); return; }
+
+    const btn = document.querySelector('#panel-login .btn-submit');
+    btn.textContent = 'Loggar in...';
+    btn.disabled = true;
+
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password: pw })
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        // Anlaşılır İsveççe hata mesajları
+        const errMsg = data.error || '';
+        let friendlyMsg = 'Fel e-post eller lösenord.';
+        if (errMsg.includes('Invalid login credentials')) friendlyMsg = 'Fel e-postadress eller lösenord. Kontrollera dina uppgifter.';
+        else if (errMsg.includes('Email not confirmed')) friendlyMsg = 'Din e-post är inte bekräftad. Kolla din inkorg.';
+        else if (errMsg.includes('Too many requests')) friendlyMsg = 'För många försök. Vänta en stund och försök igen.';
+        else if (errMsg.includes('User not found')) friendlyMsg = 'Inget konto hittades med den e-postadressen.';
+        showError('login-error', friendlyMsg);
+        btn.textContent = 'Logga in →';
+        btn.disabled = false;
+        return;
+      }
+
+      // Token'ı kaydet
+      if (data.session) {
+        localStorage.setItem('cvita_token', data.session.access_token);
+        localStorage.setItem('cvita_refresh_token', data.session.refresh_token);
+        localStorage.setItem('cvita_token_expiry', Date.now() + (data.session.expires_in * 1000));
+        localStorage.setItem('cvita_user', JSON.stringify({
+          id: data.user.id,
+          email: data.user.email,
+          firstName: data.user.user_metadata?.first_name || '',
+          lastName: data.user.user_metadata?.last_name || ''
+        }));
+      }
+      // Temizle — önceki kullanıcının verilerini sil
+      ['cvita_active_page','cvita_profile','cvita_last_result','cvita_pdf_count','cvita_avatar','cvita_open_app','cvita_plan_label','cvita_is_pro'].forEach(k => localStorage.removeItem(k));
+      window.location.href = '/dashboard.html';
+    } catch (e) {
+      showError('login-error', 'Något gick fel. Försök igen.');
+      btn.textContent = 'Logga in →';
+      btn.disabled = false;
+    }
+  }
+
+  async function hashEmail(email) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(email.toLowerCase().trim());
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  async function handleRegister() {
+    const fname = document.getElementById('reg-fname').value;
+    const lname = document.getElementById('reg-lname').value;
+    const email = document.getElementById('reg-email').value;
+    const pw = document.getElementById('reg-pw').value;
+    if (!fname || !email || !pw) { showError('reg-error', 'Fyll i alla obligatoriska fält.'); return; }
+    if (pw.length < 8) { showError('reg-error', 'Lösenordet måste vara minst 8 tecken.'); return; }
+
+    const btn = document.querySelector('#panel-register .btn-submit');
+    btn.textContent = 'Skapar konto...';
+    btn.disabled = true;
+
+    // Raderade konton kontrolü
+    try {
+      const emailHash = await hashEmail(email);
+      const checkRes = await fetch('https://soktmgtrejrlfcmbbzae.supabase.co/rest/v1/deleted_accounts?email_hash=eq.' + emailHash, {
+        headers: {
+          'apikey': 'sb_publishable_8Pnblgu8y21ym9Pxsf9flA_A-OErMZX',
+          'Authorization': 'Bearer sb_publishable_8Pnblgu8y21ym9Pxsf9flA_A-OErMZX'
+        }
+      });
+      if (checkRes.ok) {
+        const rows = await checkRes.json();
+        if (rows.length > 0) {
+          showError('reg-error', 'Det går inte att skapa ett nytt konto med den här e-postadressen.');
+          btn.textContent = 'Skapa konto gratis →';
+          btn.disabled = false;
+          return;
+        }
+      }
+    } catch(e) { /* kontrol başarısız olursa devam et */ }
+
+    try {
+      const res = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password: pw, firstName: fname, lastName: lname })
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        const regErr = data.error || '';
+        let regMsg = 'Något gick fel vid registrering.';
+        if (regErr.includes('already registered') || regErr.includes('already exists')) regMsg = 'Det finns redan ett konto med den e-postadressen.';
+        else if (regErr.includes('Password should be')) regMsg = 'Lösenordet måste vara minst 8 tecken.';
+        else if (regErr.includes('valid email')) regMsg = 'Ange en giltig e-postadress.';
+        showError('reg-error', regMsg);
+        btn.textContent = 'Skapa konto gratis →';
+        btn.disabled = false;
+        return;
+      }
+
+      document.getElementById('form-area').style.display = 'none';
+      document.getElementById('success-name').textContent = fname + '!';
+      document.getElementById('success-area').style.display = 'flex';
+    } catch (e) {
+      showError('reg-error', 'Något gick fel. Försök igen.');
+      btn.textContent = 'Skapa konto gratis →';
+      btn.disabled = false;
+    }
+  }
+
+  var selectedLang = localStorage.getItem('cvita_language') || 'sv';
+
+  function selectLang(lang) {
+    selectedLang = lang;
+    localStorage.setItem('cvita_language', lang);
+    ['sv','en','tr'].forEach(l => {
+      const btn = document.getElementById('lang-' + l);
+      if (!btn) return;
+      if (l === lang) {
+        btn.style.border = '2px solid #4F46E5';
+        btn.style.background = '#EEF2FF';
+        btn.style.color = '#4F46E5';
+        btn.style.fontWeight = '600';
+      } else {
+        btn.style.border = '2px solid #E2E8F0';
+        btn.style.background = '#fff';
+        btn.style.color = '#64748B';
+        btn.style.fontWeight = '500';
+      }
+    });
+  }
+
+  // Init lang buttons on load
+  document.addEventListener('DOMContentLoaded', function() {
+    var saved = localStorage.getItem('cvita_language') || 'sv';
+    selectLang(saved);
+  });
+
+  function showError(id, msg) {
+    let el = document.getElementById(id);
+    if (!el) {
+      el = document.createElement('div');
+      el.id = id;
+      el.style.cssText = 'background:#FEF2F2;border:1px solid #FECACA;color:#DC2626;font-size:13px;padding:10px 14px;border-radius:8px;margin-top:-8px;';
+      const panel = id.startsWith('login') ? document.getElementById('panel-login') : document.getElementById('panel-register');
+      const form = panel.querySelector('.auth-form');
+      form.appendChild(el);
+    }
+    el.textContent = msg;
+    el.style.display = 'block';
+  }
+
+  function goToDashboard() {
+    window.location.href = '/dashboard.html';
+  }
+
+  // Supabase client for OAuth
+  const SUPABASE_URL = 'https://soktmgtrejrlfcmbbzae.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNva3RtZ3RyZWpybGZjbWJiemFlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI5MTI2OTEsImV4cCI6MjA1ODQ4ODY5MX0.VP8VbRxGYHAGnQFHMDV7cM-OUO5RvMI_M8VzqPOvSvg';
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  async function signInWithGoogle() {
+    const lang = localStorage.getItem('cvita_language') || 'sv';
+    const { error } = await supabaseClient.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: window.location.origin + '/auth-callback.html?lang=' + lang
+      }
+    });
+    if (error) {
+      showToast('Google girişi başarısız: ' + error.message, 'error');
+    }
+  }
+
+  async function signInWithGitHub() {
+    const lang = localStorage.getItem('cvita_language') || 'sv';
+    const { error } = await supabaseClient.auth.signInWithOAuth({
+      provider: 'github',
+      options: {
+        redirectTo: window.location.origin + '/auth-callback.html?lang=' + lang
+      }
+    });
+    if (error) {
+      showToast('GitHub girişi başarısız: ' + error.message, 'error');
+    }
+  }
+
+  // Handle OAuth callback on page load
+  async function handleOAuthCallback() {
+    const { data: { session }, error } = await supabaseClient.auth.getSession();
+    if (session) {
+      // User already logged in via OAuth - redirect
+      const lang = localStorage.getItem('cvita_language') || 'sv';
+      localStorage.setItem('cvita_token', session.access_token);
+      localStorage.setItem('cvita_refresh_token', session.refresh_token || '');
+      localStorage.setItem('cvita_token_expiry', session.expires_at ? session.expires_at * 1000 : Date.now() + 3600000);
+      const user = session.user;
+      localStorage.setItem('cvita_user', JSON.stringify({
+        id: user.id,
+        email: user.email,
+        first_name: user.user_metadata?.full_name?.split(' ')[0] || user.user_metadata?.name?.split(' ')[0] || '',
+        last_name: user.user_metadata?.full_name?.split(' ').slice(1).join(' ') || ''
+      }));
+      top.location.href = '/' + lang + '/dashboard';
+    }
+  }
+
+</script>
+</body>
+</html>

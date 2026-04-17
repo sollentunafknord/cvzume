@@ -1,0 +1,84 @@
+{
+  "nav": {
+    "logout": "Cerrar sesión",
+    "dashboard": "Panel",
+    "applications": "Mis solicitudes",
+    "cv": "Mi CV",
+    "letters": "Cartas de presentación",
+    "archive": "Archivo",
+    "settings": "Configuración",
+    "upgrade": "Mejorar plan",
+    "main_menu": "MENÚ PRINCIPAL",
+    "account": "CUENTA"
+  },
+  "dashboard": {
+    "new_application": "+ Nueva solicitud",
+    "upload_cv": "Subir CV",
+    "active_applications": "Solicitudes activas",
+    "cvs_generated": "CVs generados",
+    "avg_match": "Coincidencia media",
+    "pdfs_exported": "PDFs exportados",
+    "latest_applications": "Solicitudes recientes",
+    "see_all": "Ver todo →",
+    "shortcuts": "Acciones rápidas",
+    "analyze_new": "Analizar nueva oferta",
+    "analyze_sub": "Pega una oferta de trabajo",
+    "update_cv": "Actualizar mi CV",
+    "update_cv_sub": "Editar tu perfil",
+    "export_pdf": "Exportar PDF",
+    "export_pdf_sub": "Vista previa y descarga",
+    "recent_activity": "Actividad reciente",
+    "no_activity": "Sin actividad aún.",
+    "all": "Todos",
+    "draft": "Borrador",
+    "sent": "Enviados",
+    "upgrade_banner_title": "Mejorar a Pro",
+    "upgrade_banner_desc": "Has usado 2 de 2 generaciones gratuitas este mes.",
+    "upgrade_btn": "Mejorar — 109 SEK/mes →",
+    "free_plan": "Plan gratuito",
+    "pro_plan": "Plan Pro",
+    "pro_arsplan": "Pro Anual"
+  },
+  "modal": {
+    "new_title": "Nueva solicitud",
+    "role_label": "Título del puesto / Rol",
+    "role_placeholder": "Ej. Desarrollador Frontend",
+    "ad_label": "Oferta de trabajo",
+    "ad_placeholder": "Pega aquí la oferta completa...",
+    "analyze_btn": "Analizar & crear CV →",
+    "analyzing": "Analizando...",
+    "cancel": "Cancelar"
+  },
+  "auth": {
+    "login": "Iniciar sesión",
+    "register": "Crear cuenta",
+    "email": "Dirección de correo",
+    "password": "Contraseña",
+    "firstname": "Nombre",
+    "lastname": "Apellido",
+    "login_btn": "Iniciar sesión →",
+    "register_btn": "Crear cuenta →",
+    "no_account": "¿Sin cuenta?",
+    "has_account": "¿Ya tienes cuenta?",
+    "language": "Elegir idioma"
+  },
+  "settings": {
+    "title": "Configuración",
+    "subtitle": "Administra tu cuenta y preferencias",
+    "personal": "Información personal",
+    "password": "Contraseña",
+    "plan": "Plan",
+    "language": "Idioma",
+    "save": "Guardar cambios"
+  },
+  "upgrade": {
+    "title": "Consigue el trabajo que mereces",
+    "subtitle": "Mejora a Pro y obtén acceso ilimitado al análisis de CV y cartas de presentación con IA."
+  },
+  "limit": {
+    "title": "Has usado tus 2 análisis gratuitos",
+    "desc": "El plan gratuito incluye 2 análisis de CV al mes. El próximo mes tendrás 2 nuevos análisis gratuitos — o mejora a Pro para acceso ilimitado ahora.",
+    "close": "Cerrar",
+    "upgrade": "Mejorar a Pro →"
+  }
+}

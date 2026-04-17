@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arkiv — CVzume</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="/translations.js"></script>
+<style>
+  :root {
+    --navy: #0D1B2A;
+    --blue: #1A56DB;
+    --blue-hover: #1d4ed8;
+    --blue-light: #EFF6FF;
+    --border: #E2E8F0;
+    --muted: #64748B;
+    --off-white: #F8FAFC;
+    --sidebar-w: 240px;
+  }
+  body { font-family: 'DM Sans', sans-serif; color: var(--navy); background: var(--off-white); min-height: 100vh; display: flex; flex-direction: row; }
+
+  /* SIDEBAR */
+  .sidebar { width: var(--sidebar-w); background: var(--navy); min-height: 100vh; display: flex; flex-direction: column; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50; overflow: hidden; }
+  .sidebar::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 40% at 50% 100%, rgba(26,86,219,0.2), transparent); pointer-events: none; }
+  .sidebar-logo { padding: 28px 24px 20px; font-family: 'DM Serif Display', serif; font-size: 22px; color: white; text-decoration: none; display: block; }
+  .sidebar-logo span { color: #93C5FD; }
+  .sidebar-section { padding: 8px 12px 4px; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.3); margin-top: 8px; }
+  .sidebar-nav { flex: 1; padding: 0 12px; display: flex; flex-direction: column; gap: 2px; position: relative; z-index: 1; }
+  .nav-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 9px; font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.55); text-decoration: none; cursor: pointer; border: none; background: none; width: 100%; text-align: left; transition: all 0.18s; position: relative; }
+  .nav-item:hover { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.9); }
+  .nav-item.active { background: rgba(26,86,219,0.35); color: white; font-weight: 600; }
+  .nav-item.active::before { content: ''; position: absolute; left: 0; top: 20%; bottom: 20%; width: 3px; border-radius: 2px; background: #93C5FD; }
+  .nav-icon { font-size: 16px; width: 20px; text-align: center; flex-shrink: 0; }
+  .sidebar-footer { padding: 16px 12px; border-top: 1px solid rgba(255,255,255,0.07); position: relative; z-index: 1; }
+  .user-card { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 9px; }
+  .user-avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--blue); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: white; flex-shrink: 0; }
+  .user-name { font-size: 13px; font-weight: 600; color: white; }
+  .user-plan { font-size: 11px; color: rgba(255,255,255,0.4); }
+  .logout-btn { display: flex; align-items: center; gap: 8px; width: 100%; padding: 9px 12px; margin-top: 2px; border-radius: 9px; border: none; background: none; color: rgba(255,255,255,0.35); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.18s; }
+  .logout-btn:hover { background: rgba(220,38,38,0.15); color: #FCA5A5; }
+
+  /* MAIN */
+  .main { margin-left: var(--sidebar-w); flex: 1; padding: 40px; }
+  .page-header { margin-bottom: 28px; }
+  .page-title { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--navy); margin-bottom: 6px; }
+  .page-subtitle { font-size: 14px; color: var(--muted); }
+
+  /* APP LIST */
+  .app-list { display: flex; flex-direction: column; gap: 10px; }
+  .app-item {
+    background: white; border: 1.5px solid var(--border);
+    border-radius: 12px; padding: 16px 20px;
+    display: flex; align-items: center; gap: 14px;
+    transition: all 0.18s; opacity: 0.9;
+  }
+  .app-item:hover { border-color: #CBD5E1; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .app-logo { width: 40px; height: 40px; border-radius: 10px; background: #F1F5F9; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .app-info { flex: 1; min-width: 0; }
+  .app-role { font-size: 15px; font-weight: 600; color: var(--navy); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .app-company { font-size: 13px; color: var(--muted); margin-top: 2px; }
+  .app-meta { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+  .score-badge { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+  .score-high { background: #DCFCE7; color: #15803D; }
+  .score-mid { background: #FEF9C3; color: #854D0E; }
+  .score-low { background: #FEE2E2; color: #991B1B; }
+  .app-actions { display: flex; gap: 6px; }
+  .icon-btn { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 15px; border: 1.5px solid var(--border); background: white; transition: all 0.15s; }
+  .icon-btn:hover { background: #F1F5F9; border-color: #CBD5E1; }
+  .icon-btn.danger:hover { background: #FEE2E2; border-color: #FCA5A5; }
+
+  /* EMPTY */
+  .empty-state { text-align: center; padding: 80px 20px; color: var(--muted); }
+  .empty-icon { font-size: 48px; margin-bottom: 16px; }
+  .empty-title { font-size: 16px; font-weight: 600; color: #475569; margin-bottom: 6px; }
+  .empty-sub { font-size: 14px; }
+
+  /* TOAST */
+  .toast { position: fixed; bottom: 24px; right: 24px; padding: 13px 20px; border-radius: 11px; font-size: 14px; font-weight: 500; z-index: 999; box-shadow: 0 4px 20px rgba(0,0,0,0.15); transform: translateY(80px); opacity: 0; transition: all 0.3s; }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast.success { background: var(--success); color: white; }
+  .toast.error { background: var(--danger); color: white; }
+
+  /* ── SIDEBAR TOGGLE ── */
+  :root { --sidebar-w: 240px; }
+  body.sidebar-collapsed { --sidebar-w: 0px; }
+  body.sidebar-collapsed .sidebar { transform: translateX(-240px); }
+  body.sidebar-collapsed .main { margin-left: 0; }
+  
+  .sidebar {
+    transition: transform 0.25s ease;
+  }
+  .main {
+    transition: margin-left 0.25s ease;
+  }
+
+  /* Toggle button */
+  .sidebar-toggle {
+    position: fixed;
+    top: 50%;
+    left: 228px;
+    transform: translateY(-50%);
+    z-index: 200;
+    width: 24px; height: 52px;
+    border-radius: 0 10px 10px 0;
+    border: 1.5px solid rgba(255,255,255,0.15);
+    border-left: none;
+    background: #1e3a6e;
+    color: rgba(255,255,255,0.9);
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 3px 0 12px rgba(0,0,0,0.25);
+    transition: left 0.25s ease, background 0.2s;
+  }
+  .sidebar-toggle:hover {
+    background: #1A56DB;
+    color: white;
+    box-shadow: 3px 0 16px rgba(26,86,219,0.4);
+  }
+  body.sidebar-collapsed .sidebar-toggle {
+    left: 0;
+    border-radius: 0 10px 10px 0;
+  }
+
+  /* Overlay for mobile */
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 49;
+  }
+  body.sidebar-open .sidebar-overlay { display: block; }
+
+  /* Desktop: show toggle on hover near edge */
+  @media (min-width: 769px) {
+    .sidebar-toggle { display: flex; }
+  }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    :root { --sidebar-w: 240px; }
+    .sidebar { transform: translateX(-240px); }
+    body.sidebar-open .sidebar { transform: translateX(0); }
+    .main { margin-left: 0 !important; }
+    .sidebar-toggle { display: flex; left: 12px; }
+    body.sidebar-open .sidebar-toggle { left: 252px; }
+  }
+
+
+  /* ═══════════════════════════════════════
+     MOBILE RESPONSIVE — Archive
+  ═══════════════════════════════════════ */
+  @media (max-width: 768px) {
+
+    .page-header { padding: 16px; }
+    .page-title { font-size: 22px; }
+
+    .archive-list { padding: 0 12px 12px; }
+    .app-card { padding: 12px; flex-wrap: wrap; gap: 8px; }
+    .app-info { min-width: 0; }
+    .app-role { font-size: 14px; }
+    .app-meta { flex-wrap: wrap; gap: 6px; }
+    .score-badge { font-size: 11px; }
+    .app-actions { gap: 6px; }
+  }
+
+</style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E9M4LF3KLL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-E9M4LF3KLL');
+</script>
+</head>
+<body>
+<button class="sidebar-toggle" onclick="toggleSidebar()" id="sidebar-toggle-btn" title="Toggle menu">☰</button>
+<div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+
+<aside class="sidebar">
+  <a href="dashboard.html" class="sidebar-logo">CV<span>zume</span></a>
+  <div class="sidebar-section"><span data-i18n="nav_main_menu">HUVUDMENY</span></div>
+  <nav class="sidebar-nav">
+    <a href="dashboard.html" class="nav-item"><span class="nav-icon">🏠</span> <span data-i18n="nav_dashboard">Dashboard</span></a>
+    <a href="dashboard.html?page=applications" class="nav-item"><span class="nav-icon">📋</span> <span data-i18n="nav_applications">Mina ansökningar</span></a>
+    <a href="profile.html" class="nav-item"><span class="nav-icon">📄</span> <span data-i18n="nav_cv">Mitt CV</span></a>
+    <a href="letter.html" class="nav-item"><span class="nav-icon">✉️</span> <span data-i18n="nav_letters">Personliga brev</span></a>
+    <a href="arkiv.html" class="nav-item active"><span class="nav-icon">📁</span> <span data-i18n="nav_archive">Arkiv</span></a>
+    <div class="sidebar-section" style="margin-top:16px;"><span data-i18n="nav_account">KONTO</span></div>
+    <a href="installningar.html" class="nav-item"><span class="nav-icon">⚙️</span> <span data-i18n="nav_settings">Inställningar</span></a>
+    <a href="uppgradera.html" class="nav-item"><span class="nav-icon">⚡</span> <span data-i18n="nav_upgrade">Uppgradera</span></a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="user-card">
+      <div class="user-avatar" id="user-avatar">?</div>
+      <div>
+        <div class="user-name" id="user-name">Laddar...</div>
+        <div class="user-plan" id="user-plan-label">Gratis plan</div>
+      </div>
+    </div>
+    <button class="logout-btn" onclick="handleLogout()">
+      <span style="font-size:14px;">⏻</span> <span data-i18n="nav_logout">Logga ut</span>
+    </button>
+  </div>
+</aside>
+
+<main class="main">
+  <div class="page-header">
+    <div class="page-title" data-i18n="archive_title">📁 Arkiv</div>
+    <div class="page-subtitle" id="archive-subtitle">Laddar...</div>
+  </div>
+
+  <div id="archive-list" class="app-list"></div>
+  <div id="archive-empty" class="empty-state" style="display:none;">
+    <div class="empty-icon">📭</div>
+    <div class="empty-title" data-i18n="archive_empty">Inga arkiverade ansökningar ännu.</div>
+    <div class="empty-sub">Ansökningar du arkiverar visas här</div>
+  </div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const SUPABASE_URL = 'https://soktmgtrejrlfcmbbzae.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_8Pnblgu8y21ym9Pxsf9flA_A-OErMZX';
+
+  let appsData = [];
+
+  function handleLogout() {
+    const keysToRemove = [
+      'cvita_token', 'cvita_user', 'cvita_is_pro', 'cvita_plan_label',
+      'cvita_avatar', 'cvita_last_result', 'cvita_active_page',
+      'cvita_profile', 'cvita_pdf_count', 'cvita_open_app', 'cvita_language'
+    ];
+    keysToRemove.forEach(k => localStorage.removeItem(k));
+    top.location.href = 'auth.html';
+  }
+
+  function showToast(msg, type = 'success') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast ' + type + ' show';
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  function loadUser() {
+    const user = JSON.parse(localStorage.getItem('cvita_user') || '{}');
+    const isPro = localStorage.getItem('cvita_is_pro') === 'true';
+    const firstName = user.firstName || '';
+    const lastName = user.lastName || '';
+    const fullName = (firstName + ' ' + lastName).trim() || user.email || '';
+    const initials = ((firstName[0]||'') + (lastName[0]||'')).toUpperCase() || '?';
+    document.getElementById('user-name').textContent = fullName;
+    document.getElementById('user-avatar').textContent = initials;
+    const planLabel = isPro ? (localStorage.getItem('cvita_plan_label') || 'Pro plan') : 'Gratis plan';
+    document.getElementById('user-plan-label').textContent = planLabel;
+  }
+
+  async function loadArchive() {
+    const token = localStorage.getItem('cvita_token');
+    if (!token) { top.location.href = 'auth.html'; return; }
+
+    document.getElementById('archive-list').innerHTML = '<div style="color:#94A3B8;font-size:14px;padding:20px;">' + (localStorage.getItem('cvita_language')==='en'?'Loading archive...':localStorage.getItem('cvita_language')==='es'?'Cargando archivo...':localStorage.getItem('cvita_language')==='tr'?'Arşiv yükleniyor...':'Laddar arkiv...') + '</div>';
+
+    try {
+      const res = await fetch('/api/applications?token=' + token);
+      const data = await res.json();
+      appsData = (data.applications || []).filter(a => a.status === 'archived');
+      renderArchive();
+    } catch(e) {
+      showToast('Kunde inte ladda arkiv', 'error');
+    }
+  }
+
+  function renderArchive() {
+    const list = document.getElementById('archive-list');
+    const empty = document.getElementById('archive-empty');
+    const subtitle = document.getElementById('archive-subtitle');
+
+    var _la = localStorage.getItem('cvita_language') || 'sv';
+    subtitle.textContent = appsData.length + ' ' + (_la==='en'?'archived applications':_la==='es'?'solicitudes archivadas':_la==='tr'?'arşivlenmiş başvuru':'arkiverade ansökningar');
+
+    if (appsData.length === 0) {
+      list.innerHTML = '';
+      empty.style.display = 'block';
+      return;
+    }
+    empty.style.display = 'none';
+    list.innerHTML = appsData.map(app => {
+      const score = app.match_score || 0;
+      const scoreClass = score >= 80 ? 'score-high' : score >= 60 ? 'score-mid' : 'score-low';
+      const date = new Date(app.created_at).toLocaleDateString('sv-SE', {day:'numeric', month:'short', year:'numeric'});
+      return `
+        <div class="app-item" data-id="${app.id}">
+          <div class="app-logo">📁</div>
+          <div class="app-info">
+            <div class="app-role">${app.role || 'Okänd roll'}</div>
+            <div class="app-company">${_la==='en'?'Archived':_la==='es'?'Archivado':_la==='tr'?'Arşivlendi':'Arkiverad'} · ${date}</div>
+          </div>
+          <div class="app-meta">
+            <span class="score-badge ${scoreClass}">${score}% match</span>
+            <div class="app-actions">
+              <div class="icon-btn" onclick="restoreApp('${app.id}')" title="Återställ">↩️</div>
+              <div class="icon-btn danger" onclick="deleteApp('${app.id}', '${(app.role||'').replace(/'/g,"\\'")}') " title="Ta bort permanent" style="color:#EF4444;">🗑️</div>
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  async function restoreApp(appId) {
+    const token = localStorage.getItem('cvita_token');
+    try {
+      await fetch('/api/applications', {
+        method: 'PATCH',
+        headers: {'Content-Type':'application/json', 'Authorization': 'Bearer ' + token},
+        body: JSON.stringify({id: appId, status: 'draft'})
+      });
+      appsData = appsData.filter(a => a.id !== appId);
+      renderArchive();
+      showToast('✅ Ansökan återställd!');
+    } catch(e) {
+      showToast('Kunde inte återställa', 'error');
+    }
+  }
+
+  async function deleteApp(appId, role) {
+    if (!confirm('⚠️ Ta bort "' + role + '"?\n\nDenna åtgärd kan INTE ångras.')) return;
+    if (!confirm('Är du helt säker? Klicka OK för att ta bort permanent.')) return;
+    const token = localStorage.getItem('cvita_token');
+    try {
+      await fetch('/api/applications', {
+        method: 'DELETE',
+        headers: {'Content-Type':'application/json', 'Authorization': 'Bearer ' + token},
+        body: JSON.stringify({id: appId})
+      });
+      appsData = appsData.filter(a => a.id !== appId);
+      renderArchive();
+      showToast('🗑️ Ansökan borttagen');
+    } catch(e) {
+      showToast('Kunde inte ta bort', 'error');
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    loadUser();
+    loadArchive();
+  });
+</script>
+<script>
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  const urlLocale = params.get('locale');
+  const supportedLocales = ['sv', 'en', 'es', 'tr'];
+  if (urlLocale && supportedLocales.includes(urlLocale)) {
+    localStorage.setItem('cvita_language', urlLocale);
+  }
+})();
+</script>
+<script>document.addEventListener("DOMContentLoaded",function(){if(typeof applyTranslations==="function")applyTranslations();});</script>
+<script>
+// Token refresh — her sayfada çalışır
+(async function refreshTokenIfNeeded() {
+  const token = localStorage.getItem('cvita_token');
+  const refreshToken = localStorage.getItem('cvita_refresh_token');
+  const expiryRaw = localStorage.getItem('cvita_token_expiry');
+  if (!token || !refreshToken) return;
+  // Expiry kaydedilmemişse (eski oturum) — token JWT'den oku
+  let expiry = parseInt(expiryRaw || '0');
+  if (!expiryRaw || expiry === 0) {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      expiry = payload.exp * 1000;
+      localStorage.setItem('cvita_token_expiry', expiry);
+    } catch(e) { return; }
+  }
+  // 5 dakika kala yenile
+  if (Date.now() < expiry - 5 * 60 * 1000) return;
+  try {
+    const res = await fetch('https://soktmgtrejrlfcmbbzae.supabase.co/auth/v1/token?grant_type=refresh_token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'apikey': 'sb_publishable_8Pnblgu8y21ym9Pxsf9flA_A-OErMZX' },
+      body: JSON.stringify({ refresh_token: refreshToken })
+    });
+    if (!res.ok) {
+      // Refresh başarısız — logout
+      ['cvita_token','cvita_refresh_token','cvita_token_expiry','cvita_user','cvita_is_pro','cvita_plan_label','cvita_avatar','cvita_last_result','cvita_active_page','cvita_profile','cvita_pdf_count','cvita_open_app','cvita_language'].forEach(k => localStorage.removeItem(k));
+      top.location.href = '/auth.html';
+      return;
+    }
+    const data = await res.json();
+    localStorage.setItem('cvita_token', data.access_token);
+    localStorage.setItem('cvita_refresh_token', data.refresh_token);
+    localStorage.setItem('cvita_token_expiry', Date.now() + (data.expires_in * 1000));
+  } catch(e) { console.warn('Token refresh failed:', e); }
+})();
+
+  // Sidebar toggle
+  function toggleSidebar() {
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+      document.body.classList.toggle('sidebar-open');
+    } else {
+      document.body.classList.toggle('sidebar-collapsed');
+      localStorage.setItem('sidebar_collapsed', document.body.classList.contains('sidebar-collapsed') ? '1' : '0');
+    }
+    updateToggleIcon();
+  }
+
+  function updateToggleIcon() {
+    const btn = document.getElementById('sidebar-toggle-btn');
+    if (!btn) return;
+    const isMobile = window.innerWidth <= 768;
+    const isOpen = isMobile ? document.body.classList.contains('sidebar-open') : !document.body.classList.contains('sidebar-collapsed');
+    btn.textContent = isOpen ? '◀' : '▶';
+    if (isMobile) btn.textContent = document.body.classList.contains('sidebar-open') ? '✕' : '☰';
+  }
+
+  // Restore sidebar state on desktop
+  (function() {
+    if (window.innerWidth > 768 && localStorage.getItem('sidebar_collapsed') === '1') {
+      document.body.classList.add('sidebar-collapsed');
+    }
+    window.addEventListener('resize', updateToggleIcon);
+    document.addEventListener('DOMContentLoaded', updateToggleIcon);
+  })();
+
+</script>
+</body>
+</html>

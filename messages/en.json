@@ -1,0 +1,84 @@
+{
+  "nav": {
+    "logout": "Log out",
+    "dashboard": "Dashboard",
+    "applications": "My Applications",
+    "cv": "My CV",
+    "letters": "Cover Letters",
+    "archive": "Archive",
+    "settings": "Settings",
+    "upgrade": "Upgrade",
+    "main_menu": "MAIN MENU",
+    "account": "ACCOUNT"
+  },
+  "dashboard": {
+    "new_application": "+ New Application",
+    "upload_cv": "Upload CV",
+    "active_applications": "Active Applications",
+    "cvs_generated": "CVs Generated",
+    "avg_match": "Avg. Match",
+    "pdfs_exported": "PDFs Exported",
+    "latest_applications": "Recent Applications",
+    "see_all": "View all →",
+    "shortcuts": "Quick Actions",
+    "analyze_new": "Analyze new job ad",
+    "analyze_sub": "Paste a job listing",
+    "update_cv": "Update my CV",
+    "update_cv_sub": "Edit your profile",
+    "export_pdf": "Export PDF",
+    "export_pdf_sub": "Preview & download",
+    "recent_activity": "Recent Activity",
+    "no_activity": "No activity yet.",
+    "all": "All",
+    "draft": "Draft",
+    "sent": "Sent",
+    "upgrade_banner_title": "Upgrade to Pro",
+    "upgrade_banner_desc": "You have used 2 of 2 free generations this month.",
+    "upgrade_btn": "Upgrade — 109 SEK/mo →",
+    "free_plan": "Free plan",
+    "pro_plan": "Pro plan",
+    "pro_arsplan": "Pro Annual"
+  },
+  "modal": {
+    "new_title": "New Application",
+    "role_label": "Job Title / Role",
+    "role_placeholder": "E.g. Frontend Developer",
+    "ad_label": "Job Advertisement",
+    "ad_placeholder": "Paste the full job listing here...",
+    "analyze_btn": "Analyze & Create CV →",
+    "analyzing": "Analyzing...",
+    "cancel": "Cancel"
+  },
+  "auth": {
+    "login": "Log in",
+    "register": "Create account",
+    "email": "Email address",
+    "password": "Password",
+    "firstname": "First name",
+    "lastname": "Last name",
+    "login_btn": "Log in →",
+    "register_btn": "Create account →",
+    "no_account": "No account?",
+    "has_account": "Already have an account?",
+    "language": "Choose language"
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Manage your account and preferences",
+    "personal": "Personal information",
+    "password": "Password",
+    "plan": "Plan",
+    "language": "Language",
+    "save": "Save changes"
+  },
+  "upgrade": {
+    "title": "Get the job you deserve",
+    "subtitle": "Upgrade to Pro and get unlimited access to AI-powered CV analysis and cover letters."
+  },
+  "limit": {
+    "title": "You have used your 2 free analyses",
+    "desc": "The free plan includes 2 CV analyses per month. Next month you get 2 new free analyses — or upgrade to Pro for unlimited access now.",
+    "close": "Close",
+    "upgrade": "Upgrade to Pro →"
+  }
+}

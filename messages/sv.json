@@ -1,0 +1,84 @@
+{
+  "nav": {
+    "logout": "Logga ut",
+    "dashboard": "Dashboard",
+    "applications": "Mina ansökningar",
+    "cv": "Mitt CV",
+    "letters": "Personliga brev",
+    "archive": "Arkiv",
+    "settings": "Inställningar",
+    "upgrade": "Uppgradera",
+    "main_menu": "HUVUDMENY",
+    "account": "KONTO"
+  },
+  "dashboard": {
+    "new_application": "+ Ny ansökan",
+    "upload_cv": "Ladda upp CV",
+    "active_applications": "Aktiva ansökningar",
+    "cvs_generated": "CV:n genererade",
+    "avg_match": "Snitt matchning",
+    "pdfs_exported": "PDF:er exporterade",
+    "latest_applications": "Senaste ansökningar",
+    "see_all": "Visa alla →",
+    "shortcuts": "Snabbåtgärder",
+    "analyze_new": "Analysera ny annons",
+    "analyze_sub": "Klistra in en platsannons",
+    "update_cv": "Uppdatera mitt CV",
+    "update_cv_sub": "Redigera din profil",
+    "export_pdf": "Exportera PDF",
+    "export_pdf_sub": "Förhandsgranskning & nedladdning",
+    "recent_activity": "Senaste aktivitet",
+    "no_activity": "Ingen aktivitet ännu.",
+    "all": "Alla",
+    "draft": "Utkast",
+    "sent": "Skickade",
+    "upgrade_banner_title": "Uppgradera till Pro",
+    "upgrade_banner_desc": "Du har använt 2 av 2 gratis genereringar denna månad.",
+    "upgrade_btn": "Uppgradera — 109 kr/mån →",
+    "free_plan": "Gratis plan",
+    "pro_plan": "Pro plan",
+    "pro_arsplan": "Pro Årsplan"
+  },
+  "modal": {
+    "new_title": "Ny ansökan",
+    "role_label": "Jobbtitel / Roll",
+    "role_placeholder": "T.ex. Frontend-utvecklare",
+    "ad_label": "Platsannons",
+    "ad_placeholder": "Klistra in hela platsannonsen här...",
+    "analyze_btn": "Analysera & skapa CV →",
+    "analyzing": "Analyserar...",
+    "cancel": "Avbryt"
+  },
+  "auth": {
+    "login": "Logga in",
+    "register": "Skapa konto",
+    "email": "E-postadress",
+    "password": "Lösenord",
+    "firstname": "Förnamn",
+    "lastname": "Efternamn",
+    "login_btn": "Logga in →",
+    "register_btn": "Skapa konto →",
+    "no_account": "Inget konto?",
+    "has_account": "Har du redan ett konto?",
+    "language": "Välj språk"
+  },
+  "settings": {
+    "title": "Inställningar",
+    "subtitle": "Hantera ditt konto och dina preferenser",
+    "personal": "Personlig information",
+    "password": "Lösenord",
+    "plan": "Plan",
+    "language": "Språk",
+    "save": "Spara ändringar"
+  },
+  "upgrade": {
+    "title": "Få jobbet du förtjänar",
+    "subtitle": "Uppgradera till Pro och få obegränsad tillgång till AI-driven CV-analys och personliga brev."
+  },
+  "limit": {
+    "title": "Du har använt dina 2 gratis analyser",
+    "desc": "Gratiskontot inkluderar 2 CV-analyser per månad. Nästa månad får du 2 nya gratis analyser — eller uppgradera till Pro för obegränsad tillgång redan nu.",
+    "close": "Stäng",
+    "upgrade": "Uppgradera till Pro →"
+  }
+}

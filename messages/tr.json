@@ -1,0 +1,84 @@
+{
+  "nav": {
+    "logout": "Çıkış Yap",
+    "dashboard": "Panel",
+    "applications": "Başvurularım",
+    "cv": "CV'im",
+    "letters": "Ön Yazılar",
+    "archive": "Arşiv",
+    "settings": "Ayarlar",
+    "upgrade": "Yükselt",
+    "main_menu": "ANA MENÜ",
+    "account": "HESAP"
+  },
+  "dashboard": {
+    "new_application": "+ Yeni Başvuru",
+    "upload_cv": "CV Yükle",
+    "active_applications": "Aktif Başvurular",
+    "cvs_generated": "Oluşturulan CV",
+    "avg_match": "Ort. Eşleşme",
+    "pdfs_exported": "İndirilen PDF",
+    "latest_applications": "Son Başvurular",
+    "see_all": "Tümünü gör →",
+    "shortcuts": "Hızlı İşlemler",
+    "analyze_new": "Yeni ilan analiz et",
+    "analyze_sub": "İş ilanını yapıştır",
+    "update_cv": "CV'imi güncelle",
+    "update_cv_sub": "Profilini düzenle",
+    "export_pdf": "PDF İndir",
+    "export_pdf_sub": "Önizleme & indirme",
+    "recent_activity": "Son Aktivite",
+    "no_activity": "Henüz aktivite yok.",
+    "all": "Tümü",
+    "draft": "Taslak",
+    "sent": "Gönderildi",
+    "upgrade_banner_title": "Pro'ya Yükselt",
+    "upgrade_banner_desc": "Bu ay 2 ücretsiz analizin 2'sini de kullandın.",
+    "upgrade_btn": "Yükselt — 109 SEK/ay →",
+    "free_plan": "Ücretsiz plan",
+    "pro_plan": "Pro plan",
+    "pro_arsplan": "Pro Yıllık"
+  },
+  "modal": {
+    "new_title": "Yeni Başvuru",
+    "role_label": "İş Unvanı / Rol",
+    "role_placeholder": "Örn. Frontend Geliştirici",
+    "ad_label": "İş İlanı",
+    "ad_placeholder": "İş ilanının tamamını buraya yapıştır...",
+    "analyze_btn": "Analiz Et & CV Oluştur →",
+    "analyzing": "Analiz ediliyor...",
+    "cancel": "İptal"
+  },
+  "auth": {
+    "login": "Giriş Yap",
+    "register": "Hesap Oluştur",
+    "email": "E-posta adresi",
+    "password": "Şifre",
+    "firstname": "Ad",
+    "lastname": "Soyad",
+    "login_btn": "Giriş Yap →",
+    "register_btn": "Hesap Oluştur →",
+    "no_account": "Hesabın yok mu?",
+    "has_account": "Zaten hesabın var mı?",
+    "language": "Dil seçin"
+  },
+  "settings": {
+    "title": "Ayarlar",
+    "subtitle": "Hesabınızı ve tercihlerinizi yönetin",
+    "personal": "Kişisel bilgiler",
+    "password": "Şifre",
+    "plan": "Plan",
+    "language": "Dil",
+    "save": "Değişiklikleri kaydet"
+  },
+  "upgrade": {
+    "title": "Hak ettiğin işe kavuş",
+    "subtitle": "Pro'ya yükselterek sınırsız AI destekli CV analizi ve ön yazı oluşturma hakkı kazan."
+  },
+  "limit": {
+    "title": "2 ücretsiz analizini kullandın",
+    "desc": "Ücretsiz hesap ayda 2 CV analizi içerir. Hemen Pro'ya geçerek sınırsız erişim kazan.",
+    "close": "Kapat",
+    "upgrade": "Pro'ya Yükselt →"
+  }
+}

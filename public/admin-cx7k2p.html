@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CVzume Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root { --navy:#0D1B2A;--blue:#1A56DB;--green:#059669;--amber:#D97706;--red:#DC2626;--border:#E2E8F0;--muted:#94A3B8;--off-white:#F8FAFC; }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'DM Sans',sans-serif;background:var(--off-white);color:var(--navy);min-height:100vh;}
+
+    .header{background:var(--navy);padding:0 32px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;}
+    .header-logo{font-family:'DM Serif Display',serif;font-size:20px;color:white;}
+    .header-logo span{color:#60A5FA;}
+    .header-badge{background:#DC2626;color:white;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:8px;}
+    .header-right{display:flex;align-items:center;gap:12px;}
+    .header-user{font-size:13px;color:rgba(255,255,255,0.5);}
+    .btn-refresh{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);color:white;padding:6px 14px;border-radius:8px;font-size:13px;cursor:pointer;}
+    .btn-refresh:hover{background:rgba(255,255,255,0.2);}
+
+    .container{max-width:1400px;margin:0 auto;padding:32px 24px;}
+
+    /* Stats */
+    .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px;}
+    .stat-card{background:white;border:1px solid var(--border);border-radius:12px;padding:20px 24px;}
+    .mrr-card{background:linear-gradient(135deg,var(--navy),#1a3a5c);border-radius:12px;padding:20px 24px;color:white;}
+    .stat-label{font-size:12px;font-weight:500;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px;}
+    .mrr-label{font-size:12px;font-weight:500;color:rgba(255,255,255,.5);margin-bottom:8px;text-transform:uppercase;}
+    .stat-value{font-family:'DM Serif Display',serif;font-size:32px;color:var(--navy);line-height:1;margin-bottom:4px;}
+    .mrr-value{font-family:'DM Serif Display',serif;font-size:32px;line-height:1;margin-bottom:4px;}
+    .stat-sub{font-size:13px;color:var(--muted);}
+    .stat-sub.green{color:var(--green);}
+    .stat-sub.blue{color:var(--blue);}
+    .mrr-sub{font-size:13px;color:rgba(255,255,255,.5);}
+
+    /* Table */
+    .table-card{background:white;border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+    .table-header{padding:16px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:12px;}
+    .table-title{font-size:15px;font-weight:600;}
+    .table-search{border:1px solid var(--border);border-radius:8px;padding:7px 12px;font-size:14px;width:220px;outline:none;font-family:'DM Sans',sans-serif;}
+    .table-search:focus{border-color:var(--blue);}
+    .filters{display:flex;gap:6px;flex-wrap:wrap;}
+    .filter-btn{padding:5px 12px;border-radius:20px;font-size:13px;font-weight:500;border:1px solid var(--border);background:white;color:var(--muted);cursor:pointer;transition:all .15s;}
+    .filter-btn.active{background:var(--navy);color:white;border-color:var(--navy);}
+
+    table{width:100%;border-collapse:collapse;}
+    th{text-align:left;font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;padding:12px 16px;border-bottom:1px solid var(--border);background:var(--off-white);}
+    td{padding:12px 16px;border-bottom:1px solid #F1F5F9;font-size:14px;vertical-align:middle;}
+    tr:last-child td{border-bottom:none;}
+    tr:hover td{background:#FAFBFF;}
+
+    /* User cell */
+    .user-cell{display:flex;align-items:center;gap:10px;}
+    .avatar{width:36px;height:36px;border-radius:50%;object-fit:cover;flex-shrink:0;}
+    .avatar-initials{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#4F46E5,#7C3AED);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:white;flex-shrink:0;}
+    .user-name{font-weight:600;font-size:14px;}
+    .user-email{font-size:12px;color:var(--muted);}
+    .user-title{font-size:11px;color:var(--blue);margin-top:1px;}
+
+    /* Badges */
+    .badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:20px;font-size:12px;font-weight:600;}
+    .badge-pro{background:#EEF2FF;color:#4F46E5;}
+    .badge-free{background:var(--off-white);color:var(--muted);border:1px solid var(--border);}
+    .badge-yearly{background:#ECFDF5;color:var(--green);}
+    .badge-monthly{background:#FFF7ED;color:var(--amber);}
+    .badge-google{background:#FEE2E2;color:#991B1B;}
+    .badge-github{background:#F0FDF4;color:#166534;}
+    .badge-email{background:var(--off-white);color:var(--muted);border:1px solid var(--border);}
+
+    /* Action buttons */
+    .actions{display:flex;gap:6px;flex-wrap:wrap;}
+    .btn-action{padding:5px 10px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid;transition:all .15s;white-space:nowrap;}
+    .btn-give-pro{background:#EEF2FF;color:#4F46E5;border-color:#C7D2FE;}
+    .btn-give-pro:hover{background:#E0E7FF;}
+    .btn-remove-pro{background:#FEF2F2;color:var(--red);border-color:#FECACA;}
+    .btn-remove-pro:hover{background:#FEE2E2;}
+    .btn-delete{background:none;color:var(--red);border-color:#FECACA;}
+    .btn-delete:hover{background:#FEF2F2;}
+
+    /* Loading */
+    .loading{text-align:center;padding:60px;color:var(--muted);}
+    .spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px;}
+    @keyframes spin{to{transform:rotate(360deg);}}
+
+    /* Toast */
+    .toast{position:fixed;bottom:24px;right:24px;background:var(--navy);color:white;padding:12px 20px;border-radius:10px;font-size:14px;font-weight:500;box-shadow:0 8px 24px rgba(0,0,0,.15);opacity:0;transform:translateY(8px);transition:all .25s;z-index:999;pointer-events:none;}
+    .toast.show{opacity:1;transform:translateY(0);}
+    .toast.success{background:var(--green);}
+    .toast.error{background:var(--red);}
+
+    /* Modal */
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:none;align-items:center;justify-content:center;}
+    .modal-overlay.show{display:flex;}
+    .modal{background:white;border-radius:16px;padding:28px;width:380px;max-width:90vw;}
+    .modal-title{font-size:18px;font-weight:700;margin-bottom:8px;}
+    .modal-sub{font-size:14px;color:var(--muted);margin-bottom:20px;}
+    .modal-options{display:flex;gap:10px;margin-bottom:20px;}
+    .modal-option{flex:1;padding:14px;border:2px solid var(--border);border-radius:10px;cursor:pointer;text-align:center;transition:all .15s;}
+    .modal-option:hover,.modal-option.selected{border-color:var(--blue);background:#EEF2FF;}
+    .modal-option .opt-label{font-size:15px;font-weight:600;}
+    .modal-option .opt-price{font-size:12px;color:var(--muted);margin-top:2px;}
+    .modal-actions{display:flex;gap:8px;}
+    .btn-modal-confirm{flex:1;padding:10px;background:var(--blue);color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;}
+    .btn-modal-cancel{padding:10px 16px;background:none;border:1px solid var(--border);border-radius:8px;font-size:14px;cursor:pointer;}
+
+    @media(max-width:1024px){.stats-grid{grid-template-columns:repeat(2,1fr);}}
+    @media(max-width:640px){.stats-grid{grid-template-columns:1fr 1fr;}.container{padding:16px;}}
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div style="display:flex;align-items:center;gap:8px;">
+    <span class="header-logo">CV<span>zume</span></span>
+    <span class="header-badge">ADMIN</span>
+  </div>
+  <div class="header-right">
+    <span class="header-user" id="admin-email"></span>
+    <button class="btn-refresh" onclick="loadData()">↻ Refresh</button>
+  </div>
+</div>
+
+<div class="container">
+  <div class="stats-grid" id="stats-grid">
+    <div class="loading" style="grid-column:1/-1;"><div class="spinner"></div><p>Loading...</p></div>
+  </div>
+
+  <div class="table-card">
+    <div class="table-header">
+      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+        <span class="table-title">Users <span id="user-count" style="color:var(--muted);font-weight:400;font-size:14px;"></span></span>
+        <div class="filters">
+          <button class="filter-btn active" onclick="filterUsers('all',this)">All</button>
+          <button class="filter-btn" onclick="filterUsers('pro',this)">Pro</button>
+          <button class="filter-btn" onclick="filterUsers('free',this)">Free</button>
+          <button class="filter-btn" onclick="filterUsers('google',this)">Google</button>
+          <button class="filter-btn" onclick="filterUsers('github',this)">GitHub</button>
+          <button class="filter-btn" onclick="filterUsers('email',this)">Email</button>
+        </div>
+      </div>
+      <input class="table-search" type="text" placeholder="🔍 Search..." oninput="searchUsers(this.value)">
+    </div>
+    <div id="table-body">
+      <div class="loading"><div class="spinner"></div><p>Loading users...</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- Give Pro Modal -->
+<div class="modal-overlay" id="pro-modal">
+  <div class="modal">
+    <div class="modal-title">Give Pro Access</div>
+    <div class="modal-sub" id="pro-modal-email"></div>
+    <div class="modal-options">
+      <div class="modal-option selected" id="opt-month" onclick="selectInterval('month')">
+        <div class="opt-label">Monthly</div>
+        <div class="opt-price">109 SEK/mo</div>
+      </div>
+      <div class="modal-option" id="opt-year" onclick="selectInterval('year')">
+        <div class="opt-label">Yearly</div>
+        <div class="opt-price">999 SEK/yr</div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-modal-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-modal-confirm" onclick="confirmGivePro()">✓ Give Pro (Free)</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  let allUsers = [];
+  let currentFilter = 'all';
+  let currentSearch = '';
+  let proModalUser = null;
+  let selectedInterval = 'month';
+
+  function showToast(msg, type='success') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast show ' + type;
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  function formatDate(d) {
+    if (!d) return '—';
+    return new Date(d).toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'});
+  }
+
+  function formatRelative(d) {
+    if (!d) return '—';
+    const diff = Date.now() - new Date(d).getTime();
+    const days = Math.floor(diff/86400000);
+    if (days===0) return 'Today';
+    if (days===1) return 'Yesterday';
+    if (days<7) return days+'d ago';
+    if (days<30) return Math.floor(days/7)+'w ago';
+    return Math.floor(days/30)+'mo ago';
+  }
+
+  function getInitials(u) {
+    if (u.first_name || u.last_name) return ((u.first_name||'')[0]+(u.last_name||'')[0]).toUpperCase();
+    return (u.email||'?')[0].toUpperCase();
+  }
+
+  function renderStats(s) {
+    document.getElementById('stats-grid').innerHTML = `
+      <div class="stat-card">
+        <div class="stat-label">Total Users</div>
+        <div class="stat-value">${s.totalUsers}</div>
+        <div class="stat-sub green">+${s.newThisMonth} this month</div>
+      </div>
+      <div class="mrr-card">
+        <div class="mrr-label">Est. MRR</div>
+        <div class="mrr-value">${s.mrr.toLocaleString()} SEK</div>
+        <div class="mrr-sub">${s.monthlyPro} monthly · ${s.yearlyPro} yearly</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Pro Users</div>
+        <div class="stat-value" style="color:var(--blue);">${s.proUsers}</div>
+        <div class="stat-sub blue">${s.totalUsers>0?Math.round(s.proUsers/s.totalUsers*100):0}% conversion</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">New This Month</div>
+        <div class="stat-value">${s.newThisMonth}</div>
+        <div class="stat-sub ${s.newThisMonth>=s.newLastMonth?'green':''}">${s.newLastMonth} last month</div>
+      </div>
+    `;
+  }
+
+  function renderTable(users) {
+    document.getElementById('user-count').textContent = `(${users.length})`;
+    if (!users.length) {
+      document.getElementById('table-body').innerHTML = '<div class="loading"><p>No users found</p></div>';
+      return;
+    }
+    document.getElementById('table-body').innerHTML = `
+      <div style="overflow-x:auto;">
+      <table>
+        <thead><tr>
+          <th>User</th>
+          <th>Plan</th>
+          <th>Provider</th>
+          <th>Joined</th>
+          <th>Last seen</th>
+          <th>Actions</th>
+        </tr></thead>
+        <tbody>
+          ${users.map(u => `
+          <tr>
+            <td>
+              <div class="user-cell">
+                ${u.avatar_url
+                  ? `<img class="avatar" src="${u.avatar_url}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="avatar-initials" style="display:none;">${getInitials(u)}</div>`
+                  : `<div class="avatar-initials">${getInitials(u)}</div>`
+                }
+                <div>
+                  <div class="user-name">${u.first_name||''} ${u.last_name||''}${(!u.first_name&&!u.last_name)?'<span style="color:var(--muted);font-weight:400;">No name</span>':''}</div>
+                  <div class="user-email">${u.email||'—'}</div>
+                  ${u.title?`<div class="user-title">${u.title}</div>`:''}
+                </div>
+              </div>
+            </td>
+            <td>
+              ${u.isPro
+                ? `<span class="badge badge-pro">Pro</span> <span class="badge ${u.plan_interval==='year'?'badge-yearly':'badge-monthly'}">${u.plan_interval==='year'?'Yearly':'Monthly'}</span>`
+                : `<span class="badge badge-free">Free</span>`}
+            </td>
+            <td>
+              <span class="badge ${u.provider==='google'?'badge-google':u.provider==='github'?'badge-github':'badge-email'}">
+                ${u.provider==='google'?'🔵 Google':u.provider==='github'?'⚫ GitHub':'✉️ Email'}
+              </span>
+            </td>
+            <td style="color:var(--muted);font-size:13px;">${formatDate(u.created_at)}</td>
+            <td style="color:var(--muted);font-size:13px;">${formatRelative(u.last_sign_in)}</td>
+            <td>
+              <div class="actions">
+                ${u.isPro
+                  ? `<button class="btn-action btn-remove-pro" onclick="removePro('${u.id}','${u.email}','${u.stripe_sub_id||''}')">Remove Pro</button>`
+                  : `<button class="btn-action btn-give-pro" onclick="openGiveProModal('${u.id}','${u.email}')">Give Pro</button>`
+                }
+                <button class="btn-action btn-delete" onclick="deleteUser('${u.id}','${u.email}')">Delete</button>
+              </div>
+            </td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+      </div>
+    `;
+  }
+
+  function filterUsers(filter, btn) {
+    currentFilter = filter;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    applyFilters();
+  }
+
+  function searchUsers(q) {
+    currentSearch = q.toLowerCase();
+    applyFilters();
+  }
+
+  function applyFilters() {
+    let f = allUsers;
+    if (currentFilter==='pro') f=f.filter(u=>u.isPro);
+    if (currentFilter==='free') f=f.filter(u=>!u.isPro);
+    if (currentFilter==='google') f=f.filter(u=>u.provider==='google');
+    if (currentFilter==='github') f=f.filter(u=>u.provider==='github');
+    if (currentFilter==='email') f=f.filter(u=>u.provider==='email');
+    if (currentSearch) f=f.filter(u=>(u.email||'').toLowerCase().includes(currentSearch)||(u.first_name||'').toLowerCase().includes(currentSearch)||(u.last_name||'').toLowerCase().includes(currentSearch));
+    renderTable(f);
+  }
+
+  // Give Pro Modal
+  function openGiveProModal(userId, email) {
+    proModalUser = { userId, email };
+    document.getElementById('pro-modal-email').textContent = email;
+    selectInterval('month');
+    document.getElementById('pro-modal').classList.add('show');
+  }
+
+  function closeModal() {
+    document.getElementById('pro-modal').classList.remove('show');
+    proModalUser = null;
+  }
+
+  function selectInterval(interval) {
+    selectedInterval = interval;
+    document.getElementById('opt-month').classList.toggle('selected', interval==='month');
+    document.getElementById('opt-year').classList.toggle('selected', interval==='year');
+  }
+
+  async function confirmGivePro() {
+    if (!proModalUser) return;
+    closeModal();
+    showToast('Giving Pro access...', 'success');
+    
+    const token = localStorage.getItem('cvita_token');
+    const res = await fetch('/api/admin', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','Authorization':'Bearer '+token},
+      body: JSON.stringify({ action:'give_pro', userId:proModalUser.userId, email:proModalUser.email, interval:selectedInterval })
+    });
+    const d = await res.json();
+    if (res.ok) {
+      showToast('✓ Pro access granted!', 'success');
+      loadData();
+    } else {
+      showToast(d.error||'Error', 'error');
+    }
+  }
+
+  async function removePro(userId, email, subId) {
+    if (!confirm(`Remove Pro from ${email}?`)) return;
+    const token = localStorage.getItem('cvita_token');
+    const res = await fetch('/api/admin', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','Authorization':'Bearer '+token},
+      body: JSON.stringify({ action:'remove_pro', userId, email, subId })
+    });
+    const d = await res.json();
+    if (res.ok) { showToast('Pro removed', 'success'); loadData(); }
+    else showToast(d.error||'Error', 'error');
+  }
+
+  async function deleteUser(userId, email) {
+    if (!confirm(`Delete ${email}?\n\nThis cannot be undone.`)) return;
+    const token = localStorage.getItem('cvita_token');
+    const res = await fetch('/api/admin', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','Authorization':'Bearer '+token},
+      body: JSON.stringify({ action:'delete_user', userId })
+    });
+    if (res.ok) { allUsers=allUsers.filter(u=>u.id!==userId); applyFilters(); showToast('User deleted'); }
+    else { const d=await res.json(); showToast(d.error||'Error','error'); }
+  }
+
+  async function loadData() {
+    const token = localStorage.getItem('cvita_token');
+    if (!token) { window.location.href='/auth.html'; return; }
+    
+    const userStr = localStorage.getItem('cvita_user');
+    if (!userStr) { window.location.href='/auth.html'; return; }
+    const user = JSON.parse(userStr);
+    document.getElementById('admin-email').textContent = user.email;
+
+    document.getElementById('stats-grid').innerHTML='<div class="loading" style="grid-column:1/-1;"><div class="spinner"></div><p>Loading...</p></div>';
+    document.getElementById('table-body').innerHTML='<div class="loading"><div class="spinner"></div><p>Loading users...</p></div>';
+
+    try {
+      const res = await fetch('/api/admin', { headers:{'Authorization':'Bearer '+token} });
+      if (res.status===403) { document.body.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-size:18px;color:#DC2626;">⛔ Access denied</div>'; return; }
+      const data = await res.json();
+      renderStats(data.stats);
+      allUsers = data.users;
+      applyFilters();
+    } catch(e) {
+      showToast('Failed to load data', 'error');
+      document.getElementById('table-body').innerHTML='<div class="loading"><p style="color:var(--red);">Error loading data</p></div>';
+    }
+  }
+
+  loadData();
+</script>
+</body>
+</html>

@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cvita — Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0D1B2A;
+    --blue: #1A56DB;
+    --blue-hover: #1d4ed8;
+    --blue-light: #EFF6FF;
+    --blue-pale: #DBEAFE;
+    --slate: #475569;
+    --muted: #94A3B8;
+    --border: #E2E8F0;
+    --white: #FFFFFF;
+    --off-white: #F8FAFC;
+    --green: #059669;
+    --green-light: #ECFDF5;
+    --amber: #D97706;
+    --amber-light: #FFFBEB;
+    --sidebar-w: 240px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    color: var(--navy);
+    background: var(--off-white);
+    min-height: 100vh;
+    display: flex;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: var(--sidebar-w);
+    background: var(--navy);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    z-index: 50;
+    overflow: hidden;
+  }
+  .sidebar::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 40% at 50% 100%, rgba(26,86,219,0.2), transparent);
+    pointer-events: none;
+  }
+
+  .sidebar-logo {
+    padding: 28px 24px 20px;
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: white;
+    text-decoration: none;
+    display: block;
+    letter-spacing: -0.3px;
+    position: relative; z-index: 1;
+  }
+  .sidebar-logo span { color: #93C5FD; }
+
+  .sidebar-section {
+    padding: 8px 12px 4px;
+    font-size: 10px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 1px;
+    color: rgba(255,255,255,0.3);
+    margin-top: 8px;
+  }
+
+  .sidebar-nav {
+    flex: 1;
+    padding: 0 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    position: relative; z-index: 1;
+  }
+
+  .nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 12px;
+    border-radius: 9px;
+    font-size: 14px; font-weight: 500;
+    color: rgba(255,255,255,0.55);
+    text-decoration: none;
+    cursor: pointer;
+    border: none; background: none;
+    width: 100%; text-align: left;
+    transition: all 0.18s;
+    position: relative;
+  }
+  .nav-item:hover { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.9); }
+  .nav-item.active {
+    background: rgba(26,86,219,0.35);
+    color: white;
+    font-weight: 600;
+  }
+  .nav-item.active::before {
+    content: '';
+    position: absolute; left: 0; top: 20%; bottom: 20%;
+    width: 3px; border-radius: 2px;
+    background: #93C5FD;
+  }
+  .nav-icon { font-size: 16px; width: 20px; text-align: center; flex-shrink: 0; }
+  .nav-badge {
+    margin-left: auto;
+    background: var(--blue);
+    color: white;
+    font-size: 10px; font-weight: 700;
+    padding: 2px 7px; border-radius: 100px;
+  }
+
+  .sidebar-footer {
+    padding: 16px 12px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    position: relative; z-index: 1;
+  }
+  .user-card {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 12px; border-radius: 9px;
+    cursor: pointer;
+    transition: background 0.18s;
+  }
+  .user-card:hover { background: rgba(255,255,255,0.07); }
+  .user-avatar {
+    width: 34px; height: 34px; border-radius: 50%;
+    background: var(--blue);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700; color: white;
+    flex-shrink: 0;
+  }
+  .user-name { font-size: 13px; font-weight: 600; color: white; }
+  .user-plan { font-size: 11px; color: rgba(255,255,255,0.4); }
+  .user-more { margin-left: auto; color: rgba(255,255,255,0.3); font-size: 16px; }
+
+  /* ── MAIN ── */
+  .main {
+    margin-left: var(--sidebar-w);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  /* ── TOPBAR ── */
+  .topbar {
+    background: white;
+    border-bottom: 1px solid var(--border);
+    padding: 0 36px;
+    height: 60px;
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 40;
+  }
+  .topbar-left { display: flex; align-items: center; gap: 8px; }
+  .topbar-title {
+    font-size: 16px; font-weight: 600; color: var(--navy);
+  }
+  .topbar-right { display: flex; align-items: center; gap: 12px; }
+  .topbar-btn {
+    display: flex; align-items: center; gap: 7px;
+    padding: 8px 16px; border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px; font-weight: 600;
+    cursor: pointer; border: none;
+    transition: all 0.18s;
+  }
+  .topbar-btn-primary { background: var(--blue); color: white; }
+  .topbar-btn-primary:hover { background: var(--blue-hover); }
+  .topbar-btn-ghost {
+    background: none; color: var(--slate);
+    border: 1.5px solid var(--border);
+  }
+  .topbar-btn-ghost:hover { border-color: var(--blue); color: var(--blue); }
+
+  /* ── CONTENT ── */
+  .content { padding: 32px 36px; flex: 1; }
+
+  /* ── WELCOME BANNER ── */
+  .welcome-banner {
+    background: linear-gradient(135deg, var(--navy) 0%, #1a3a5c 100%);
+    border-radius: 16px;
+    padding: 28px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .welcome-banner::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 100% 50%, rgba(26,86,219,0.3), transparent);
+  }
+  .welcome-banner::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+  .welcome-text { position: relative; z-index: 1; }
+  .welcome-greeting {
+    font-size: 13px; color: rgba(255,255,255,0.55);
+    margin-bottom: 4px;
+  }
+  .welcome-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px; color: white;
+    letter-spacing: -0.4px; margin-bottom: 6px;
+  }
+  .welcome-sub { font-size: 14px; color: rgba(255,255,255,0.6); }
+  .welcome-action { position: relative; z-index: 1; }
+  .btn-new-app {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--blue); color: white;
+    border: none; padding: 12px 22px; border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(26,86,219,0.4);
+    transition: all 0.2s;
+  }
+  .btn-new-app:hover { background: var(--blue-hover); transform: translateY(-1px); }
+
+  /* ── STATS ROW ── */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .stat-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 22px;
+    display: flex; align-items: flex-start; justify-content: space-between;
+    transition: box-shadow 0.2s;
+  }
+  .stat-card:hover { box-shadow: 0 4px 16px rgba(13,27,42,0.07); }
+  .stat-label { font-size: 12px; font-weight: 500; color: var(--muted); margin-bottom: 6px; }
+  .stat-value {
+    font-family: 'DM Serif Display', serif;
+    font-size: 30px; color: var(--navy);
+    line-height: 1; margin-bottom: 4px;
+  }
+  .stat-sub { font-size: 12px; color: var(--green); font-weight: 500; }
+  .stat-sub.neutral { color: var(--muted); }
+  .stat-icon {
+    width: 38px; height: 38px; border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .si-blue { background: var(--blue-light); }
+  .si-green { background: var(--green-light); }
+  .si-amber { background: var(--amber-light); }
+  .si-purple { background: #F5F3FF; }
+
+  /* ── GRID ── */
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 20px;
+  }
+
+  /* ── SECTION HEADER ── */
+  .section-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .section-title-sm {
+    font-size: 15px; font-weight: 600; color: var(--navy);
+  }
+  .section-link {
+    font-size: 13px; font-weight: 500; color: var(--blue);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .section-link:hover { color: var(--blue-hover); }
+
+  /* ── APPLICATIONS LIST ── */
+  .applications-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .app-card-header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+
+  /* Tabs inside card */
+  .card-tabs {
+    display: flex; gap: 4px;
+    background: var(--off-white);
+    border-radius: 8px; padding: 3px;
+    border: 1px solid var(--border);
+  }
+  .card-tab {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px; font-weight: 500;
+    color: var(--muted); background: none;
+    border: none; padding: 5px 12px; border-radius: 6px;
+    cursor: pointer; transition: all 0.18s;
+  }
+  .card-tab.active { background: white; color: var(--navy); font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+
+  .app-list { display: flex; flex-direction: column; }
+  .app-item {
+    display: grid;
+    grid-template-columns: 44px 1fr auto;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+    cursor: pointer;
+  }
+  .app-item:last-child { border-bottom: none; }
+  .app-item:hover { background: var(--off-white); }
+
+  .app-logo {
+    width: 44px; height: 44px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    border: 1px solid var(--border);
+    background: white;
+    flex-shrink: 0;
+  }
+  .app-info { min-width: 0; }
+  .app-role {
+    font-size: 14px; font-weight: 600; color: var(--navy);
+    margin-bottom: 2px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .app-company { font-size: 13px; color: var(--slate); }
+  .app-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+
+  .score-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 12px; font-weight: 700;
+    padding: 4px 10px; border-radius: 6px;
+  }
+  .score-high { background: var(--green-light); color: var(--green); }
+  .score-mid  { background: var(--blue-light);  color: var(--blue); }
+  .score-low  { background: var(--amber-light); color: var(--amber); }
+
+  .status-dot {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 12px; font-weight: 500; color: var(--muted);
+  }
+  .status-dot::before {
+    content: '';
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--muted);
+  }
+  .status-dot.sent::before { background: var(--blue); }
+  .status-dot.done::before { background: var(--green); }
+  .status-dot.draft::before { background: var(--amber); }
+
+  .app-actions {
+    display: flex; gap: 6px; margin-left: 8px;
+  }
+  .icon-btn {
+    width: 30px; height: 30px; border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--off-white); border: 1px solid var(--border);
+    cursor: pointer; color: var(--slate); font-size: 13px;
+    transition: all 0.15s;
+  }
+  .icon-btn:hover { background: var(--blue-light); border-color: var(--blue); color: var(--blue); }
+
+  /* ── RIGHT COLUMN ── */
+  .right-col { display: flex; flex-direction: column; gap: 20px; }
+
+  /* Quick action card */
+  .quick-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px;
+  }
+  .quick-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+  .quick-action {
+    display: flex; align-items: center; gap: 12px;
+    padding: 13px 14px; border-radius: 10px;
+    border: 1.5px solid var(--border);
+    cursor: pointer; background: white;
+    transition: all 0.18s;
+    text-align: left; width: 100%;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .quick-action:hover { border-color: var(--blue); background: var(--blue-light); }
+  .qa-icon {
+    width: 36px; height: 36px; border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 17px; flex-shrink: 0;
+  }
+  .qa-blue { background: var(--blue-light); }
+  .qa-green { background: var(--green-light); }
+  .qa-amber { background: var(--amber-light); }
+  .qa-text { flex: 1; }
+  .qa-title { font-size: 13px; font-weight: 600; color: var(--navy); margin-bottom: 1px; }
+  .qa-sub { font-size: 12px; color: var(--muted); }
+  .qa-arrow { color: var(--muted); font-size: 14px; }
+
+  /* Activity feed */
+  .activity-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px;
+  }
+  .activity-list { display: flex; flex-direction: column; gap: 0; margin-top: 14px; }
+  .activity-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .activity-item:last-child { border-bottom: none; }
+  .activity-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    margin-top: 5px; flex-shrink: 0;
+  }
+  .ad-blue { background: var(--blue); }
+  .ad-green { background: var(--green); }
+  .ad-amber { background: var(--amber); }
+  .activity-text { font-size: 13px; color: var(--slate); line-height: 1.5; }
+  .activity-text b { color: var(--navy); font-weight: 600; }
+  .activity-time { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  /* Upgrade banner */
+  .upgrade-card {
+    background: linear-gradient(135deg, #1E3A5F 0%, var(--navy) 100%);
+    border-radius: 14px;
+    padding: 22px;
+    position: relative; overflow: hidden;
+  }
+  .upgrade-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 100% 100%, rgba(26,86,219,0.4), transparent);
+  }
+  .upgrade-card > * { position: relative; z-index: 1; }
+  .upgrade-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px; color: white;
+    margin-bottom: 6px; letter-spacing: -0.3px;
+  }
+  .upgrade-sub { font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.5; margin-bottom: 16px; }
+  .upgrade-perks { display: flex; flex-direction: column; gap: 7px; margin-bottom: 18px; }
+  .upgrade-perk {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; color: rgba(255,255,255,0.8);
+  }
+  .upgrade-perk::before { content: "✓"; color: #93C5FD; font-weight: 700; }
+  .btn-upgrade {
+    width: 100%; padding: 11px;
+    background: var(--blue); color: white;
+    border: none; border-radius: 9px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 12px rgba(26,86,219,0.5);
+    transition: all 0.2s;
+  }
+  .btn-upgrade:hover { background: var(--blue-hover); transform: translateY(-1px); }
+
+  /* ── EMPTY STATE ── */
+  .empty-state {
+    padding: 48px 24px;
+    text-align: center;
+    display: none;
+  }
+  .empty-icon { font-size: 40px; margin-bottom: 14px; }
+  .empty-title { font-size: 16px; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
+  .empty-sub { font-size: 14px; color: var(--muted); }
+
+  /* ── NEW APPLICATION MODAL ── */
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(13,27,42,0.5);
+    backdrop-filter: blur(4px);
+    z-index: 200;
+    align-items: center; justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: white;
+    border-radius: 18px;
+    width: 100%; max-width: 520px;
+    padding: 36px;
+    box-shadow: 0 24px 80px rgba(13,27,42,0.25);
+    animation: modalIn 0.3s ease both;
+  }
+  @keyframes modalIn {
+    from { opacity: 0; transform: translateY(20px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .modal-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  .modal-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px; color: var(--navy); letter-spacing: -0.3px;
+  }
+  .modal-close {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: var(--off-white); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 16px; color: var(--slate);
+    transition: all 0.15s;
+  }
+  .modal-close:hover { background: var(--border); }
+  .modal-form { display: flex; flex-direction: column; gap: 16px; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-label { font-size: 13px; font-weight: 600; color: var(--navy); }
+  .form-input {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px; color: var(--navy);
+    background: var(--off-white);
+    border: 1.5px solid var(--border);
+    border-radius: 9px; padding: 11px 14px;
+    outline: none; transition: all 0.2s; width: 100%;
+  }
+  .form-input:focus { border-color: var(--blue); background: white; box-shadow: 0 0 0 3px rgba(26,86,219,0.08); }
+  .form-textarea {
+    resize: vertical; min-height: 120px; line-height: 1.5;
+  }
+  .form-hint { font-size: 12px; color: var(--muted); }
+  .modal-actions { display: flex; gap: 10px; margin-top: 8px; }
+  .btn-modal-cancel {
+    flex: 1; padding: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 500;
+    background: white; color: var(--slate);
+    border: 1.5px solid var(--border);
+    border-radius: 9px; cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-modal-cancel:hover { border-color: var(--slate); }
+  .btn-modal-submit {
+    flex: 2; padding: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 600;
+    background: var(--blue); color: white;
+    border: none; border-radius: 9px; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-modal-submit:hover { background: var(--blue-hover); }
+
+  /* ── ANALYZING STATE ── */
+  .analyzing {
+    display: none;
+    flex-direction: column; align-items: center;
+    text-align: center; padding: 16px 0; gap: 14px;
+  }
+  .analyzing.show { display: flex; }
+  .spinner {
+    width: 44px; height: 44px;
+    border: 3px solid var(--blue-pale);
+    border-top-color: var(--blue);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .analyzing-text { font-size: 14px; color: var(--slate); }
+  .analyzing-steps { display: flex; flex-direction: column; gap: 6px; width: 100%; }
+  .analyzing-step {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 13px; color: var(--muted);
+    padding: 8px 14px; border-radius: 8px;
+    background: var(--off-white);
+  }
+  .analyzing-step.done { color: var(--green); }
+  .analyzing-step.active { color: var(--blue); font-weight: 500; background: var(--blue-light); }
+</style>
+</head>
+<body>
+
+<!-- ── SIDEBAR ── -->
+<aside class="sidebar">
+  <a href="landing_page.html" class="sidebar-logo">CV<span>ita</span></a>
+
+  <div class="sidebar-section">Huvudmeny</div>
+  <nav class="sidebar-nav">
+    <button class="nav-item active" onclick="setPage('dashboard', this)">
+      <span class="nav-icon">🏠</span> Dashboard
+    </button>
+    <button class="nav-item" onclick="setPage('applications', this)">
+      <span class="nav-icon">📋</span> Mina ansökningar
+      <span class="nav-badge">3</span>
+    </button>
+    <button class="nav-item" onclick="setPage('cv', this)">
+      <span class="nav-icon">📄</span> Mitt CV
+    </button>
+    <button class="nav-item" onclick="setPage('letters', this)">
+      <span class="nav-icon">✉️</span> Personliga brev
+    </button>
+    <button class="nav-item" onclick="setPage('archive', this)">
+      <span class="nav-icon">📁</span> Arkiv
+    </button>
+
+    <div class="sidebar-section" style="margin-top:16px;">Konto</div>
+    <button class="nav-item" onclick="setPage('settings', this)">
+      <span class="nav-icon">⚙️</span> Inställningar
+    </button>
+    <button class="nav-item" onclick="setPage('upgrade', this)">
+      <span class="nav-icon">⚡</span> Uppgradera
+    </button>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="user-card">
+      <div class="user-avatar">AL</div>
+      <div>
+        <div class="user-name">Anna Lindström</div>
+        <div class="user-plan">Gratis plan</div>
+      </div>
+      <div class="user-more">···</div>
+    </div>
+  </div>
+</aside>
+
+<!-- ── MAIN ── -->
+<main class="main">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <span class="topbar-title" id="page-title">Dashboard</span>
+    </div>
+    <div class="topbar-right">
+      <button class="topbar-btn topbar-btn-ghost">📤 Ladda upp CV</button>
+      <button class="topbar-btn topbar-btn-primary" onclick="openModal()">＋ Ny ansökan</button>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- WELCOME BANNER -->
+    <div class="welcome-banner">
+      <div class="welcome-text">
+        <div class="welcome-greeting">Måndag, 10 mars 2026</div>
+        <div class="welcome-name">Hej, Anna! 👋</div>
+        <div class="welcome-sub">Du har 3 aktiva ansökningar. Fortsätt så!</div>
+      </div>
+      <div class="welcome-action">
+        <button class="btn-new-app" onclick="openModal()">
+          ＋ Ny ansökan
+        </button>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div>
+          <div class="stat-label">Ansökningar totalt</div>
+          <div class="stat-value">3</div>
+          <div class="stat-sub">↑ 2 den här månaden</div>
+        </div>
+        <div class="stat-icon si-blue">📋</div>
+      </div>
+      <div class="stat-card">
+        <div>
+          <div class="stat-label">CV:n genererade</div>
+          <div class="stat-value">3</div>
+          <div class="stat-sub neutral">av 2 inkl. i gratis</div>
+        </div>
+        <div class="stat-icon si-green">📄</div>
+      </div>
+      <div class="stat-card">
+        <div>
+          <div class="stat-label">Snitt matchning</div>
+          <div class="stat-value">87<span style="font-size:18px;font-family:'DM Sans'">%</span></div>
+          <div class="stat-sub">↑ Bra matchning!</div>
+        </div>
+        <div class="stat-icon si-amber">🎯</div>
+      </div>
+      <div class="stat-card">
+        <div>
+          <div class="stat-label">PDF:er exporterade</div>
+          <div class="stat-value">0</div>
+          <div class="stat-sub neutral">Kräver Pro-plan</div>
+        </div>
+        <div class="stat-icon si-purple">📤</div>
+      </div>
+    </div>
+
+    <!-- MAIN GRID -->
+    <div class="dashboard-grid">
+
+      <!-- LEFT: Applications -->
+      <div>
+        <div class="section-header">
+          <span class="section-title-sm">Senaste ansökningar</span>
+          <a href="#" class="section-link">Visa alla →</a>
+        </div>
+        <div class="applications-card">
+          <div class="app-card-header">
+            <div class="card-tabs">
+              <button class="card-tab active" onclick="filterApps('alla', this)">Alla (3)</button>
+              <button class="card-tab" onclick="filterApps('utkast', this)">Utkast</button>
+              <button class="card-tab" onclick="filterApps('skickade', this)">Skickade</button>
+            </div>
+          </div>
+
+          <div class="app-list" id="app-list">
+            <div class="app-item" data-status="sent">
+              <div class="app-logo">🎵</div>
+              <div class="app-info">
+                <div class="app-role">Frontend-utvecklare</div>
+                <div class="app-company">Spotify · Stockholm · 5 mar</div>
+              </div>
+              <div class="app-meta">
+                <span class="score-badge score-high">94% match</span>
+                <span class="status-dot sent">Skickat</span>
+                <div class="app-actions">
+                  <div class="icon-btn" title="Redigera">✏️</div>
+                  <div class="icon-btn" title="Ladda ner PDF">📤</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="app-item" data-status="sent">
+              <div class="app-logo">🛋️</div>
+              <div class="app-info">
+                <div class="app-role">UX Designer</div>
+                <div class="app-company">IKEA · Malmö · 3 mar</div>
+              </div>
+              <div class="app-meta">
+                <span class="score-badge score-mid">87% match</span>
+                <span class="status-dot sent">Skickat</span>
+                <div class="app-actions">
+                  <div class="icon-btn" title="Redigera">✏️</div>
+                  <div class="icon-btn" title="Ladda ner PDF">📤</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="app-item" data-status="draft">
+              <div class="app-logo">💳</div>
+              <div class="app-info">
+                <div class="app-role">Product Manager</div>
+                <div class="app-company">Klarna · Stockholm · Idag</div>
+              </div>
+              <div class="app-meta">
+                <span class="score-badge score-mid">81% match</span>
+                <span class="status-dot draft">Utkast</span>
+                <div class="app-actions">
+                  <div class="icon-btn" title="Redigera">✏️</div>
+                  <div class="icon-btn" title="Ladda ner PDF">📤</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="empty-state" id="empty-state">
+            <div class="empty-icon">📭</div>
+            <div class="empty-title">Inga ansökningar här</div>
+            <div class="empty-sub">Skapa din första ansökan ovan.</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div class="right-col">
+
+        <!-- Quick actions -->
+        <div class="quick-card">
+          <div class="section-title-sm">Snabbåtgärder</div>
+          <div class="quick-actions">
+            <button class="quick-action" onclick="openModal()">
+              <div class="qa-icon qa-blue">🔍</div>
+              <div class="qa-text">
+                <div class="qa-title">Analysera ny annons</div>
+                <div class="qa-sub">Klistra in en platsannons</div>
+              </div>
+              <span class="qa-arrow">→</span>
+            </button>
+            <button class="quick-action">
+              <div class="qa-icon qa-green">📄</div>
+              <div class="qa-text">
+                <div class="qa-title">Uppdatera mitt CV</div>
+                <div class="qa-sub">Redigera din profil</div>
+              </div>
+              <span class="qa-arrow">→</span>
+            </button>
+            <button class="quick-action">
+              <div class="qa-icon qa-amber">📤</div>
+              <div class="qa-text">
+                <div class="qa-title">Exportera PDF</div>
+                <div class="qa-sub">Kräver Pro-plan</div>
+              </div>
+              <span class="qa-arrow">🔒</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Activity -->
+        <div class="activity-card">
+          <div class="section-title-sm">Senaste aktivitet</div>
+          <div class="activity-list">
+            <div class="activity-item">
+              <div class="activity-dot ad-green"></div>
+              <div>
+                <div class="activity-text">CV för <b>Spotify</b> genererades och skickades</div>
+                <div class="activity-time">5 mars · 14:32</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot ad-blue"></div>
+              <div>
+                <div class="activity-text">Annons från <b>IKEA</b> analyserades — 87% match</div>
+                <div class="activity-time">3 mars · 09:15</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot ad-amber"></div>
+              <div>
+                <div class="activity-text">Utkast för <b>Klarna</b> skapades</div>
+                <div class="activity-time">Idag · 10:04</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Upgrade -->
+        <div class="upgrade-card">
+          <div class="upgrade-title">Uppgradera till Pro</div>
+          <div class="upgrade-sub">Du har använt 2 av 2 gratis genereringar denna månad.</div>
+          <div class="upgrade-perks">
+            <div class="upgrade-perk">Obegränsade CV-genereringar</div>
+            <div class="upgrade-perk">PDF-export i HD</div>
+            <div class="upgrade-perk">Fullständigt arkiv</div>
+          </div>
+          <button class="btn-upgrade">Uppgradera — 109 kr/mån →</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- ── NEW APPLICATION MODAL ── -->
+<div class="modal-overlay" id="modal" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title">Ny ansökan</div>
+      <div class="modal-close" onclick="closeModal()">✕</div>
+    </div>
+
+    <!-- Step 1: Form -->
+    <div id="modal-form">
+      <div class="modal-form">
+        <div class="form-group">
+          <label class="form-label">Företag & roll</label>
+          <input class="form-input" type="text" id="m-role" placeholder="t.ex. Frontend-utvecklare på Spotify">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Platsannons</label>
+          <textarea class="form-input form-textarea" id="m-ad" placeholder="Klistra in hela platsannonsen här..."></textarea>
+          <span class="form-hint">AI:n analyserar annonsen och anpassar ditt CV automatiskt.</span>
+        </div>
+        <div class="modal-actions">
+          <button class="btn-modal-cancel" onclick="closeModal()">Avbryt</button>
+          <button class="btn-modal-submit" onclick="startAnalysis()">Analysera & skapa CV →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2: Analyzing -->
+    <div class="analyzing" id="modal-analyzing">
+      <div class="spinner"></div>
+      <div class="analyzing-text">AI:n analyserar annonsen...</div>
+      <div class="analyzing-steps">
+        <div class="analyzing-step done" id="step1">✓ Annons inläst</div>
+        <div class="analyzing-step active" id="step2">⟳ Extraherar nyckelkrav...</div>
+        <div class="analyzing-step" id="step3">○ Anpassar ditt CV</div>
+        <div class="analyzing-step" id="step4">○ Genererar personligt brev</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function setPage(page, el) {
+    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('page-title').textContent = el.textContent.trim().replace(/\d+/g, '').trim();
+  }
+
+  function openModal() {
+    document.getElementById('modal').classList.add('open');
+    document.getElementById('modal-form').style.display = 'block';
+    document.getElementById('modal-analyzing').classList.remove('show');
+    document.getElementById('modal-title').textContent = 'Ny ansökan';
+  }
+
+  function closeModal() {
+    document.getElementById('modal').classList.remove('open');
+  }
+
+  function closeModalOutside(e) {
+    if (e.target === document.getElementById('modal')) closeModal();
+  }
+
+  function startAnalysis() {
+    const role = document.getElementById('m-role').value;
+    const ad = document.getElementById('m-ad').value;
+    if (!role || !ad) { alert('Fyll i roll och annonstext.'); return; }
+
+    document.getElementById('modal-form').style.display = 'none';
+    document.getElementById('modal-analyzing').classList.add('show');
+    document.getElementById('modal-title').textContent = 'Analyserar...';
+
+    // Simulate steps
+    setTimeout(() => {
+      document.getElementById('step2').className = 'analyzing-step done';
+      document.getElementById('step2').textContent = '✓ Nyckelkrav extraherade';
+      document.getElementById('step3').className = 'analyzing-step active';
+      document.getElementById('step3').textContent = '⟳ Anpassar ditt CV...';
+    }, 1200);
+    setTimeout(() => {
+      document.getElementById('step3').className = 'analyzing-step done';
+      document.getElementById('step3').textContent = '✓ CV anpassat';
+      document.getElementById('step4').className = 'analyzing-step active';
+      document.getElementById('step4').textContent = '⟳ Genererar personligt brev...';
+    }, 2600);
+    setTimeout(() => {
+      document.getElementById('step4').className = 'analyzing-step done';
+      document.getElementById('step4').textContent = '✓ Personligt brev klart';
+      document.querySelector('.analyzing-text').textContent = '🎉 Klart! CV och brev är redo.';
+      document.querySelector('.spinner').style.display = 'none';
+
+      // Add to list
+      setTimeout(() => {
+        addNewApp(role);
+        closeModal();
+      }, 900);
+    }, 4000);
+  }
+
+  function addNewApp(role) {
+    const list = document.getElementById('app-list');
+    const item = document.createElement('div');
+    item.className = 'app-item';
+    item.dataset.status = 'draft';
+    item.innerHTML = `
+      <div class="app-logo">⭐</div>
+      <div class="app-info">
+        <div class="app-role">${role}</div>
+        <div class="app-company">Ny ansökan · Idag</div>
+      </div>
+      <div class="app-meta">
+        <span class="score-badge score-high">Ny</span>
+        <span class="status-dot draft">Utkast</span>
+        <div class="app-actions">
+          <div class="icon-btn">✏️</div>
+          <div class="icon-btn">📤</div>
+        </div>
+      </div>`;
+    list.prepend(item);
+  }
+
+  function filterApps(filter, btn) {
+    document.querySelectorAll('.card-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    const items = document.querySelectorAll('.app-item');
+    let visible = 0;
+    items.forEach(item => {
+      const show = filter === 'alla'
+        || (filter === 'utkast' && item.dataset.status === 'draft')
+        || (filter === 'skickade' && item.dataset.status === 'sent');
+      item.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+    document.getElementById('empty-state').style.display = visible === 0 ? 'block' : 'none';
+  }
+</script>
+</body>
+</html>

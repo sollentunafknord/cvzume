@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+Allow: /landing_page.html
+Allow: /auth.html
+Disallow: /dashboard.html
+Disallow: /profile.html
+Disallow: /cv-template.html
+Disallow: /letter.html
+Disallow: /installningar.html
+Disallow: /arkiv.html
+Disallow: /uppgradera.html
+Disallow: /api/
+
+Sitemap: https://www.cvzume.com/sitemap.xml
