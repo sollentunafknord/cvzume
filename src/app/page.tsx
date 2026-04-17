@@ -23,7 +23,7 @@ export default function Home() {
     if (token && user) {
       window.location.replace(`/${locale}/dashboard`);
     } else {
-      window.location.replace(`/${locale}/auth`);
+      window.location.replace(`/${locale}`);
     }
   }, []);
 
