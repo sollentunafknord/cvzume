@@ -53,14 +53,15 @@
             }
           }
           document.getElementById('status').textContent = 'Giriş başarısız. Yönlendiriliyor...';
-          setTimeout(() => { window.location.href = '/auth.html'; }, 2000);
+          setTimeout(() => { window.location.href = '/' + lang + '/auth'; }, 2000);
           return;
         }
 
         saveSession(session, lang);
       } catch (e) {
         console.error(e);
-        window.location.href = '/auth.html';
+        const lang = localStorage.getItem('cvita_language') || 'sv';
+        window.location.href = '/' + lang + '/auth';
       }
     }
 
