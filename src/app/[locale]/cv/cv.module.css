@@ -1,0 +1,95 @@
+/* ── LAYOUT ── */
+.page { font-family: 'DM Sans', sans-serif; background: #F1F5F9; min-height: 100vh; color: #1a1a2e; }
+
+/* ── TOOLBAR ── */
+.toolbar { background: white; border-bottom: 1px solid #E2E8F0; padding: 12px 32px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+.toolbarLeft { display: flex; align-items: center; gap: 12px; }
+.backBtn { display: flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 8px; background: white; border: 1.5px solid #E2E8F0; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; color: #475569; cursor: pointer; text-decoration: none; transition: all 0.15s; }
+.backBtn:hover { border-color: #1A56DB; color: #1A56DB; }
+.toolbarTitle { font-size: 15px; font-weight: 600; color: #0D1B2A; }
+.toolbarRight { display: flex; gap: 10px; }
+.btn { display: flex; align-items: center; gap: 7px; padding: 9px 18px; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; border: none; transition: all 0.18s; }
+.btnPrimary { background: #1A56DB; color: white; box-shadow: 0 2px 8px rgba(26,86,219,0.3); }
+.btnPrimary:hover { background: #1d4ed8; transform: translateY(-1px); }
+.btnGhost { background: white; color: #475569; border: 1.5px solid #E2E8F0; }
+.btnGhost:hover { border-color: #1A56DB; color: #1A56DB; }
+
+/* ── PAGE WRAPPER ── */
+.pageWrapper { max-width: 860px; margin: 32px auto; padding: 0 20px 60px; }
+
+/* ── CV PAPER ── */
+.cvPaper { background: white; border-radius: 4px; box-shadow: 0 4px 24px rgba(0,0,0,0.10); padding: 52px 60px; }
+
+/* ── CV HEADER ── */
+.cvHeader { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 36px; padding-bottom: 28px; border-bottom: 2px solid #E2E8F0; }
+.cvHeaderLeft { flex: 1; }
+.cvName { font-family: 'DM Serif Display', serif; font-size: 36px; color: #0D1B2A; letter-spacing: -0.5px; margin-bottom: 10px; }
+.cvJobTitle { font-size: 16px; color: #1A56DB; font-weight: 600; margin-bottom: 14px; }
+.cvContacts { display: flex; flex-direction: column; gap: 5px; }
+.cvContact { font-size: 13px; color: #475569; display: flex; align-items: center; gap: 8px; }
+.cvAvatar { width: 110px; height: 110px; border-radius: 8px; background: #1A56DB; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 700; color: white; margin-left: 32px; overflow: hidden; }
+.cvAvatar img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ── SECTIONS ── */
+.cvSection { margin-bottom: 32px; }
+.cvSection:last-child { margin-bottom: 0; }
+.cvSectionTitle { font-size: 16px; font-weight: 700; color: #1A56DB; margin-bottom: 12px; padding-bottom: 6px; border-bottom: 2px solid #DBEAFE; }
+.cvSummary { font-size: 14px; color: #374151; line-height: 1.8; }
+
+/* ── AI BOX ── */
+.cvAiBox { background: #EFF6FF; border-left: 4px solid #1A56DB; padding: 14px 18px; border-radius: 0 8px 8px 0; margin-bottom: 32px; }
+.cvAiLabel { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #1A56DB; margin-bottom: 6px; }
+.cvAiText { font-size: 13px; color: #374151; line-height: 1.7; }
+
+/* ── EXPERIENCE ── */
+.expItem { margin-bottom: 22px; }
+.expItem:last-child { margin-bottom: 0; }
+.expHeader { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2px; }
+.expRole { font-size: 15px; font-weight: 700; color: #0D1B2A; }
+.expDates { font-size: 12px; color: #94A3B8; white-space: nowrap; margin-left: 12px; }
+.expCompany { font-size: 13px; color: #1A56DB; font-weight: 500; margin-bottom: 6px; }
+.expDesc { font-size: 13px; color: #475569; line-height: 1.7; }
+
+/* ── EDUCATION ── */
+.eduItem { margin-bottom: 14px; }
+.eduItem:last-child { margin-bottom: 0; }
+.eduDegree { font-size: 14px; font-weight: 600; color: #0D1B2A; }
+.eduSchool { font-size: 13px; color: #1A56DB; font-weight: 500; margin-top: 2px; }
+.eduYears { font-size: 12px; color: #94A3B8; margin-top: 2px; }
+
+/* ── SKILLS ── */
+.cvSkills { display: flex; flex-wrap: wrap; gap: 8px; }
+.cvSkill { background: #EFF6FF; color: #1A56DB; font-size: 13px; font-weight: 500; padding: 5px 14px; border-radius: 20px; border: 1px solid #BFDBFE; }
+
+/* ── LANGUAGES ── */
+.cvLangItem { display: flex; align-items: center; gap: 10px; font-size: 13px; color: #374151; padding: 5px 0; }
+.cvLangItem::before { content: '•'; color: #1A56DB; font-size: 16px; }
+
+/* ── TWO COLUMN ── */
+.cvTwoCol { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+
+/* ── MODAL ── */
+.modalOverlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 999; display: flex; align-items: center; justify-content: center; padding: 20px; }
+.modalContent { background: white; border-radius: 12px; width: 100%; max-width: 860px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+.modalHeader { padding: 16px 24px; border-bottom: 1px solid #E2E8F0; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; background: white; z-index: 1; }
+.modalTitle { font-size: 16px; font-weight: 600; color: #0D1B2A; }
+.modalClose { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; background: #F1F5F9; font-size: 16px; color: #475569; }
+.modalClose:hover { background: #E2E8F0; }
+.modalBody { padding: 32px; }
+.modalFooter { padding: 16px 24px; border-top: 1px solid #E2E8F0; display: flex; justify-content: flex-end; gap: 10px; position: sticky; bottom: 0; background: white; }
+
+/* ── PRINT ── */
+@media print {
+  .toolbar { display: none !important; }
+  .pageWrapper { margin: 0; padding: 0; max-width: 100%; }
+  .cvPaper { box-shadow: none; border-radius: 0; padding: 20mm 20mm; }
+}
+
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+  .toolbar { padding: 10px 16px; flex-wrap: wrap; gap: 8px; }
+  .cvTwoCol { grid-template-columns: 1fr; gap: 0; }
+  .cvPaper { padding: 28px 20px; }
+  .cvAvatar { width: 70px; height: 70px; font-size: 24px; margin-left: 16px; }
+  .cvName { font-size: 26px; }
+}
