@@ -44,6 +44,19 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
     setPlanLabel(isPro ? t('dashboard.pro_plan') : t('dashboard.free_plan'));
   }, [t]);
 
+  const LANGS: { code: string; flag: string; label: string }[] = [
+    { code: 'sv', flag: '🇸🇪', label: 'Svenska' },
+    { code: 'en', flag: '🇬🇧', label: 'English' },
+    { code: 'es', flag: '🇪🇸', label: 'Español' },
+    { code: 'tr', flag: '🇹🇷', label: 'Türkçe' },
+  ];
+
+  function switchLocale(newLocale: string) {
+    if (newLocale === locale) return;
+    document.cookie = `NEXT_LOCALE=${newLocale};path=/;max-age=31536000`;
+    window.location.href = `/${newLocale}/${activePage}`;
+  }
+
   function handleLogout() {
     localStorage.removeItem('cvita_token');
     localStorage.removeItem('cvita_user');
@@ -96,6 +109,18 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
               <div className={styles.userName}>{userName}</div>
               <div className={styles.userPlan}>{planLabel}</div>
             </div>
+          </div>
+          <div className={styles.langSwitcher}>
+            {LANGS.map(l => (
+              <button
+                key={l.code}
+                className={`${styles.langBtn} ${locale === l.code ? styles.langActive : ''}`}
+                title={l.label}
+                onClick={() => switchLocale(l.code)}
+              >
+                {l.flag}
+              </button>
+            ))}
           </div>
           <button className={styles.logoutBtn} onClick={handleLogout}>
             <span style={{ fontSize: 14 }}>⏻</span> {t('nav.logout')}
