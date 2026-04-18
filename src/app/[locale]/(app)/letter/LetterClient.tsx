@@ -166,6 +166,9 @@ export default function LetterClient() {
 
         {/* LETTER PAPER */}
         <div className={styles.letterPaper}>
+          {/* Print-only title */}
+          <div className={styles.printTitle}>Personligt brev</div>
+
           {/* Header */}
           <div className={styles.letterHeader}>
             <div className={styles.letterHeaderContent}>

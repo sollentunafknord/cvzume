@@ -122,7 +122,7 @@ export async function POST(request: Request) {
     profileText = userProfile || 'Experienced professional with 5 years of experience.';
   }
 
-  const prompt = `You are a professional CV writer. Analyze the job ad and the candidate's real profile below. Create a tailored CV summary and cover letter.
+  const prompt = `You are a professional CV and cover letter writer. Analyze the job ad and the candidate's real profile below.
 
 CRITICAL LANGUAGE RULE: Detect the language of the job ad and respond ONLY in that same language. If Swedish → Swedish. If English → English. Never mix languages.
 
@@ -135,16 +135,26 @@ ${profileText}
 Instructions:
 - Match the candidate's REAL experience and skills to the job requirements
 - Highlight relevant experience from their actual background
-- Write the cover letter in first person, mentioning specific experiences
 - Be specific, not generic
 - matchScore should reflect how well the profile matches the job (0-100)
+
+COVER LETTER INSTRUCTIONS (very important):
+- Write a FULL, PROFESSIONAL cover letter with exactly 4-5 paragraphs
+- Paragraph 1: Opening — express genuine interest in the specific role and company, mention why this company
+- Paragraph 2: Your most relevant experience — be specific, mention company names, results, years
+- Paragraph 3: Key skills match — connect your skills directly to the job requirements listed in the ad
+- Paragraph 4: What you bring / motivation — what unique value you add and why you're the right person
+- Paragraph 5 (optional): Closing — polite call to action, looking forward to interview
+- Minimum 250 words, aim for 350-400 words
+- Write in first person, warm but professional tone
+- DO NOT use generic phrases like "I am writing to apply" — start with something engaging
 
 Respond ONLY with this exact JSON format (no other text, no markdown):
 {
   "matchScore": 85,
   "keyRequirements": ["requirement1", "requirement2", "requirement3"],
   "cvSummary": "Tailored CV summary using real candidate info...",
-  "coverLetter": "Personal cover letter mentioning specific experiences...",
+  "coverLetter": "Full 4-5 paragraph cover letter here...",
   "tips": ["specific tip based on profile gap", "another tip"]
 }`
 

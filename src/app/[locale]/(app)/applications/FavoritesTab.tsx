@@ -20,7 +20,7 @@ export default function FavoritesTab({ favorites, onToggleFavorite, t }: {
     matchScore: number; cvSummary: string; coverLetter: string;
     keyRequirements: string[]; tips: string[];
   } | null>(null);
-  const [step, setStep] = useState<'list' | 'nocv' | 'analyze' | 'result'>('list');
+  const [step, setStep] = useState<'list' | 'nocv' | 'analyze' | 'result' | 'sent'>('list');
 
   function checkCVAndStart(job: Job) {
     const profile = JSON.parse(localStorage.getItem('cvita_profile') || '{}');
@@ -58,6 +58,22 @@ export default function FavoritesTab({ favorites, onToggleFavorite, t }: {
     } finally {
       setAnalyzing(false);
     }
+  }
+
+  if (step === 'sent') {
+    return (
+      <div className={styles.stepCard}>
+        <div className={styles.stepIcon}>🎉</div>
+        <div className={styles.stepTitle}>Ansökan skickad!</div>
+        <p className={styles.stepDesc}>
+          <strong>{selectedJob?.headline}</strong> har lagts till under <strong>Skickade ansökningar</strong>. Du hittar den i menyn under Ansökningar.
+        </p>
+        <div className={styles.stepActions}>
+          <button className={styles.stepBtnSecondary} onClick={() => setStep('list')}>← Tillbaka till favoriter</button>
+          <button className={styles.stepBtnPrimary} onClick={() => router.push(`/${locale}/archive`)}>Se mina ansökningar →</button>
+        </div>
+      </div>
+    );
   }
 
   if (favorites.length === 0) {
@@ -151,6 +167,22 @@ export default function FavoritesTab({ favorites, onToggleFavorite, t }: {
             router.push(`/${locale}/profile`);
           }}>Uppdatera CV →</button>
           <button className={styles.stepBtnPrimary} onClick={() => router.push(`/${locale}/letter`)}>Skriv personligt brev →</button>
+          <button className={styles.stepBtnSend} onClick={() => {
+            const apps: object[] = JSON.parse(localStorage.getItem('cvita_my_applications') || '[]');
+            const already = apps.some((a: any) => a.role === selectedJob?.headline && a.employer === (selectedJob?.employer?.name || ''));
+            if (!already) {
+              apps.unshift({
+                id: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+                role: selectedJob?.headline || '',
+                employer: selectedJob?.employer?.name || '',
+                matchScore: analysisResult.matchScore,
+                appliedAt: new Date().toISOString(),
+                status: 'applied',
+              });
+              localStorage.setItem('cvita_my_applications', JSON.stringify(apps));
+            }
+            setStep('sent');
+          }}>✅ Skicka ansökan</button>
         </div>
       </div>
     );
