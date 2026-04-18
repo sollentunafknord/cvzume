@@ -540,7 +540,16 @@ function FavoritesTab({ favorites, onToggleFavorite, t }: {
 
         <div className={styles.stepActions}>
           <button className={styles.stepBtnSecondary} onClick={() => setStep('list')}>← Andra jobb</button>
-          <button className={styles.stepBtnPrimary} onClick={() => router.push(`/${locale}/profile`)}>Uppdatera CV →</button>
+          <button className={styles.stepBtnPrimary} onClick={() => {
+            localStorage.setItem('cvita_cv_suggestions', JSON.stringify({
+              role: selectedJob?.headline || '',
+              employer: selectedJob?.employer?.name || '',
+              keyRequirements: analysisResult.keyRequirements,
+              cvSummary: analysisResult.cvSummary,
+              tips: analysisResult.tips,
+            }));
+            router.push(`/${locale}/profile`);
+          }}>Uppdatera CV →</button>
           <button className={styles.stepBtnPrimary} onClick={() => router.push(`/${locale}/letter`)}>Skriv personligt brev →</button>
         </div>
       </div>

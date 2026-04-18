@@ -29,6 +29,8 @@
     "export_pdf_sub": "Förhandsgranskning & nedladdning",
     "recent_activity": "Senaste aktivitet",
     "no_activity": "Ingen aktivitet ännu.",
+    "no_applications": "Inga ansökningar",
+    "no_applications_sub": "Skapa din första ansökan ovan.",
     "all": "Alla",
     "draft": "Utkast",
     "sent": "Skickade",
@@ -130,6 +132,7 @@
     "password": "Lösenord",
     "plan": "Plan",
     "language": "Språk",
+    "account": "Konto",
     "save": "Spara ändringar"
   },
   "upgrade": {

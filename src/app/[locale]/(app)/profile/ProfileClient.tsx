@@ -43,6 +43,11 @@ export default function ProfileClient() {
   const [avatarUploading, setAvatarUploading] = useState(false);
   const [toast, setToast] = useState('');
 
+  const [suggestions, setSuggestions] = useState<{
+    role: string; employer: string; keyRequirements: string[]; cvSummary: string; tips: string[];
+  } | null>(null);
+  const [suggOpen, setSuggOpen] = useState(true);
+
   // profile fields
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -82,10 +87,18 @@ export default function ProfileClient() {
     return s;
   })();
 
+  function dismissSuggestions() {
+    localStorage.removeItem('cvita_cv_suggestions');
+    setSuggestions(null);
+  }
+
+  const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const showToast = useCallback((msg: string) => {
     setToast(msg);
-    setTimeout(() => setToast(''), 3000);
+    if (toastTimer.current) clearTimeout(toastTimer.current);
+    toastTimer.current = setTimeout(() => setToast(''), 3000);
   }, []);
+  useEffect(() => () => { if (toastTimer.current) clearTimeout(toastTimer.current); }, []);
 
   const loadUser = useCallback(async () => {
     const saved = localStorage.getItem('cvita_user');
@@ -136,7 +149,11 @@ export default function ProfileClient() {
     }
   }, [locale, router]);
 
-  useEffect(() => { loadUser(); }, [loadUser]);
+  useEffect(() => {
+    loadUser();
+    const sugg = localStorage.getItem('cvita_cv_suggestions');
+    if (sugg) { try { setSuggestions(JSON.parse(sugg)); } catch { /* ignore */ } }
+  }, [loadUser]);
 
   function toggleSection(key: string) {
     setOpenSections(prev => ({ ...prev, [key]: !prev[key] }));
@@ -178,7 +195,7 @@ export default function ProfileClient() {
     const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
     if (token && user.id) {
       try {
-        await fetch(`${supabaseUrl}/rest/v1/profiles`, {
+        const res = await fetch(`${supabaseUrl}/rest/v1/profiles`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json', apikey: supabaseKey,
@@ -186,7 +203,8 @@ export default function ProfileClient() {
           },
           body: JSON.stringify({ id: user.id, phone, location, title, summary, experiences, educations, skills, languages, updated_at: new Date().toISOString() }),
         });
-      } catch { /* silent */ }
+        if (!res.ok) { showToast('❌ Kunde inte spara till servern'); return; }
+      } catch { showToast('❌ Nätverksfel — profilen sparad lokalt'); return; }
     }
     showToast('✅ Profilen sparad!');
   }
@@ -239,6 +257,46 @@ export default function ProfileClient() {
         </div>
 
         <div className={styles.content}>
+          {/* CV Suggestions Banner */}
+          {suggestions && (
+            <div className={styles.suggBanner}>
+              <div className={styles.suggBannerHeader}>
+                <div className={styles.suggBannerTitle}>
+                  🎯 AI-förslag för <strong>{suggestions.role}</strong>
+                  {suggestions.employer && <span className={styles.suggEmployer}> · {suggestions.employer}</span>}
+                </div>
+                <div className={styles.suggBannerActions}>
+                  <button className={styles.suggToggle} onClick={() => setSuggOpen(o => !o)}>
+                    {suggOpen ? '▲ Dölj' : '▼ Visa'}
+                  </button>
+                  <button className={styles.suggDismiss} onClick={dismissSuggestions}>✕</button>
+                </div>
+              </div>
+              {suggOpen && (
+                <div className={styles.suggBody}>
+                  <div className={styles.suggSection}>
+                    <div className={styles.suggSectionTitle}>Nyckelord att lägga till</div>
+                    <div className={styles.suggTags}>
+                      {suggestions.keyRequirements?.map((r, i) => <span key={i} className={styles.suggTag}>{r}</span>)}
+                    </div>
+                  </div>
+                  {suggestions.cvSummary && (
+                    <div className={styles.suggSection}>
+                      <div className={styles.suggSectionTitle}>Föreslaget CV-sammandrag</div>
+                      <div className={styles.suggText}>{suggestions.cvSummary}</div>
+                    </div>
+                  )}
+                  {suggestions.tips?.length > 0 && (
+                    <div className={styles.suggSection}>
+                      <div className={styles.suggSectionTitle}>Tips</div>
+                      {suggestions.tips.map((tip, i) => <div key={i} className={styles.suggTip}>→ {tip}</div>)}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+
           {/* Progress */}
           <div className={styles.progressCard}>
             <div className={styles.progressText}>

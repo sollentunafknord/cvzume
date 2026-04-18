@@ -5,7 +5,7 @@ import { NextResponse } from 'next/server'
 
 async function callGemini(prompt: string): Promise<string> {
   const apiKey = process.env.GEMINI_API_KEY
-  if (!apiKey) throw new Error('Gemini key yok')
+  if (!apiKey) throw new Error('Gemini key missing')
 
   const res = await fetch(
     `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
@@ -17,14 +17,14 @@ async function callGemini(prompt: string): Promise<string> {
       })
     }
   )
-  if (!res.ok) throw new Error(`Gemini hata: ${res.status}`)
+  if (!res.ok) throw new Error(`Gemini error: ${res.status}`)
   const data = await res.json()
   return data.candidates[0].content.parts[0].text
 }
 
 async function callGroq(prompt: string): Promise<string> {
   const apiKey = process.env.GROQ_API_KEY
-  if (!apiKey) throw new Error('Groq key yok')
+  if (!apiKey) throw new Error('Groq key missing')
 
   const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST',
@@ -38,14 +38,14 @@ async function callGroq(prompt: string): Promise<string> {
       max_tokens: 2000
     })
   })
-  if (!res.ok) throw new Error(`Groq hata: ${res.status}`)
+  if (!res.ok) throw new Error(`Groq error: ${res.status}`)
   const data = await res.json()
   return data.choices[0].message.content
 }
 
 async function callOpenRouter(prompt: string): Promise<string> {
   const apiKey = process.env.OPENROUTER_API_KEY
-  if (!apiKey) throw new Error('OpenRouter key yok')
+  if (!apiKey) throw new Error('OpenRouter key missing')
 
   const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
     method: 'POST',
@@ -61,7 +61,7 @@ async function callOpenRouter(prompt: string): Promise<string> {
       max_tokens: 2000
     })
   })
-  if (!res.ok) throw new Error(`OpenRouter hata: ${res.status}`)
+  if (!res.ok) throw new Error(`OpenRouter error: ${res.status}`)
   const data = await res.json()
   return data.choices[0].message.content
 }
@@ -83,14 +83,14 @@ async function callAI(prompt: string): Promise<{ text: string; provider: string 
     }
   }
 
-  throw new Error('Tüm AI sağlayıcıları başarısız oldu.')
+  throw new Error('All AI providers failed.')
 }
 
 export async function POST(request: Request) {
   const { jobAd, userProfile } = await request.json()
 
   if (!jobAd) {
-    return NextResponse.json({ error: 'İş ilanı gerekli' }, { status: 400 })
+    return NextResponse.json({ error: 'Job ad is required' }, { status: 400 })
   }
 
   // Profil bilgilerini düzenli formata çevir

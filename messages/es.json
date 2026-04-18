@@ -2,7 +2,7 @@
   "nav": {
     "logout": "Cerrar sesión",
     "dashboard": "Panel",
-    "applications": "Mis solicitudes",
+    "applications": "Buscar empleo",
     "cv": "Mi CV",
     "letters": "Cartas de presentación",
     "archive": "Archivo",
@@ -29,6 +29,8 @@
     "export_pdf_sub": "Vista previa y descarga",
     "recent_activity": "Actividad reciente",
     "no_activity": "Sin actividad aún.",
+    "no_applications": "Sin solicitudes",
+    "no_applications_sub": "Crea tu primera solicitud arriba.",
     "all": "Todos",
     "draft": "Borrador",
     "sent": "Enviados",
@@ -130,6 +132,7 @@
     "password": "Contraseña",
     "plan": "Plan",
     "language": "Idioma",
+    "account": "Cuenta",
     "save": "Guardar cambios"
   },
   "upgrade": {

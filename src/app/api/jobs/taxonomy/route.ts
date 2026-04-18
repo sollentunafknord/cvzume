@@ -3,11 +3,16 @@ import { NextRequest } from 'next/server';
 const GQL = 'https://taxonomy.api.jobtechdev.se/v1/taxonomy/graphql';
 
 async function gql(query: string) {
-  const res = await fetch(`${GQL}?query=${encodeURIComponent(query)}`, {
-    next: { revalidate: 3600 },
-  });
-  const json = await res.json();
-  return json.data?.concepts || [];
+  try {
+    const res = await fetch(`${GQL}?query=${encodeURIComponent(query)}`, {
+      next: { revalidate: 3600 },
+    });
+    if (!res.ok) return [];
+    const json = await res.json();
+    return json.data?.concepts || [];
+  } catch {
+    return [];
+  }
 }
 
 export async function GET(req: NextRequest) {

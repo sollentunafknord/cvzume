@@ -25,10 +25,13 @@ export default function LetterClient() {
   const [toast, setToast] = useState('');
   const [toastType, setToastType] = useState<'success' | 'error' | 'copy'>('copy');
 
+  const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   function showToast(msg: string, type: 'success' | 'error' | 'copy' = 'copy') {
     setToast(msg); setToastType(type);
-    setTimeout(() => setToast(''), 3000);
+    if (toastTimer.current) clearTimeout(toastTimer.current);
+    toastTimer.current = setTimeout(() => setToast(''), 3000);
   }
+  useEffect(() => () => { if (toastTimer.current) clearTimeout(toastTimer.current); }, []);
 
   const loadLetter = useCallback(async () => {
     const saved = localStorage.getItem('cvita_user');

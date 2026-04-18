@@ -16,11 +16,11 @@ export async function POST(request: Request) {
   if (!supabaseUrl || !supabaseKey) return NextResponse.json({ error: 'Config error' }, { status: 500 })
 
   const { access_token, role, jobAd, matchScore, cvSummary, coverLetter, keyRequirements, tips, provider } = await request.json()
-  if (!access_token) return NextResponse.json({ error: 'Token gerekli' }, { status: 401 })
+  if (!access_token) return NextResponse.json({ error: 'Token required' }, { status: 401 })
 
   const supabase = getSupabaseWithToken(supabaseUrl, supabaseKey, access_token)
   const { data: { user }, error: authError } = await supabase.auth.getUser(access_token)
-  if (authError || !user) return NextResponse.json({ error: 'Geçersiz token' }, { status: 401 })
+  if (authError || !user) return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
 
   const { data, error } = await supabase.from('applications').insert({
     user_id: user.id,
@@ -46,11 +46,11 @@ export async function GET(request: Request) {
 
   const { searchParams } = new URL(request.url)
   const access_token = searchParams.get('token')
-  if (!access_token) return NextResponse.json({ error: 'Token gerekli' }, { status: 401 })
+  if (!access_token) return NextResponse.json({ error: 'Token required' }, { status: 401 })
 
   const supabase = getSupabaseWithToken(supabaseUrl, supabaseKey, access_token)
   const { data: { user }, error: authError } = await supabase.auth.getUser(access_token)
-  if (authError || !user) return NextResponse.json({ error: 'Geçersiz token' }, { status: 401 })
+  if (authError || !user) return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
 
   const { data, error } = await supabase.from('applications')
     .select('*')
@@ -67,14 +67,14 @@ export async function PATCH(request: Request) {
   if (!supabaseUrl || !supabaseKey) return NextResponse.json({ error: 'Config error' }, { status: 500 })
 
   const token = request.headers.get('Authorization')?.replace('Bearer ', '')
-  if (!token) return NextResponse.json({ error: 'Token gerekli' }, { status: 401 })
+  if (!token) return NextResponse.json({ error: 'Token required' }, { status: 401 })
 
   const { id, status } = await request.json()
-  if (!id || !status) return NextResponse.json({ error: 'id ve status gerekli' }, { status: 400 })
+  if (!id || !status) return NextResponse.json({ error: 'id and status required' }, { status: 400 })
 
   const supabase = getSupabaseWithToken(supabaseUrl, supabaseKey, token)
   const { data: { user }, error: authError } = await supabase.auth.getUser(token)
-  if (authError || !user) return NextResponse.json({ error: 'Geçersiz token' }, { status: 401 })
+  if (authError || !user) return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
 
   const { error } = await supabase.from('applications')
     .update({ status })
@@ -91,14 +91,14 @@ export async function DELETE(request: Request) {
   if (!supabaseUrl || !supabaseKey) return NextResponse.json({ error: 'Config error' }, { status: 500 })
 
   const token = request.headers.get('Authorization')?.replace('Bearer ', '')
-  if (!token) return NextResponse.json({ error: 'Token gerekli' }, { status: 401 })
+  if (!token) return NextResponse.json({ error: 'Token required' }, { status: 401 })
 
   const { id } = await request.json()
-  if (!id) return NextResponse.json({ error: 'id gerekli' }, { status: 400 })
+  if (!id) return NextResponse.json({ error: 'id required' }, { status: 400 })
 
   const supabase = getSupabaseWithToken(supabaseUrl, supabaseKey, token)
   const { data: { user }, error: authError } = await supabase.auth.getUser(token)
-  if (authError || !user) return NextResponse.json({ error: 'Geçersiz token' }, { status: 401 })
+  if (authError || !user) return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
 
   const { error } = await supabase.from('applications')
     .delete()

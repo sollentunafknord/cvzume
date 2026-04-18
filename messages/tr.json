@@ -2,7 +2,7 @@
   "nav": {
     "logout": "Çıkış Yap",
     "dashboard": "Panel",
-    "applications": "Başvurularım",
+    "applications": "İş Ara",
     "cv": "CV'im",
     "letters": "Ön Yazılar",
     "archive": "Arşiv",
@@ -29,6 +29,8 @@
     "export_pdf_sub": "Önizleme & indirme",
     "recent_activity": "Son Aktivite",
     "no_activity": "Henüz aktivite yok.",
+    "no_applications": "Başvuru yok",
+    "no_applications_sub": "Yukarıdan ilk başvurunu oluştur.",
     "all": "Tümü",
     "draft": "Taslak",
     "sent": "Gönderildi",
@@ -130,6 +132,7 @@
     "password": "Şifre",
     "plan": "Plan",
     "language": "Dil",
+    "account": "Hesap",
     "save": "Değişiklikleri kaydet"
   },
   "upgrade": {

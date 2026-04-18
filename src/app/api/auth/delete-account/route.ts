@@ -12,23 +12,21 @@ export async function POST(req: NextRequest) {
     const { userId, emailHash } = await req.json();
 
     if (!userId || !emailHash) {
-      return NextResponse.json({ error: 'userId ve emailHash gerekli' }, { status: 400 });
+      return NextResponse.json({ error: 'userId and emailHash are required' }, { status: 400 });
     }
 
-    // Bearer token al
     const authHeader = req.headers.get('authorization');
     if (!authHeader?.startsWith('Bearer ')) {
-      return NextResponse.json({ error: 'Yetkisiz' }, { status: 401 });
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     const userToken = authHeader.replace('Bearer ', '');
 
-    // 1. Kullanıcı token'ını doğrula (anon client ile)
     const userClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
       global: { headers: { Authorization: `Bearer ${userToken}` } }
     });
     const { data: { user }, error: userError } = await userClient.auth.getUser();
     if (userError || !user || user.id !== userId) {
-      return NextResponse.json({ error: 'Geçersiz token' }, { status: 401 });
+      return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
     }
 
     // 2. Admin client oluştur (service role key ile)
@@ -45,7 +43,7 @@ export async function POST(req: NextRequest) {
     // 5. Supabase Auth'dan kullanıcıyı sil
     const { error: deleteError } = await adminClient.auth.admin.deleteUser(userId);
     if (deleteError) {
-      throw new Error('Auth silme hatası: ' + deleteError.message);
+      throw new Error('Auth deletion error: ' + deleteError.message);
     }
 
     return NextResponse.json({ success: true });

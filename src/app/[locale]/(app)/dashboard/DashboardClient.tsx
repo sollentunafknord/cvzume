@@ -121,8 +121,7 @@ export default function DashboardClient({ onNavigate }: { onNavigate?: (seg: str
   }
 
   async function deleteApp(id: string, role: string) {
-    if (!confirm(`Ta bort "${role}"? Denna åtgärd kan inte ångras.`)) return;
-    if (!confirm('Är du helt säker?')) return;
+    if (!confirm(`Delete "${role}"? This cannot be undone.`)) return;
     const token = localStorage.getItem('cvita_token');
     await fetch('/api/applications', {
       method: 'DELETE',
@@ -137,8 +136,8 @@ export default function DashboardClient({ onNavigate }: { onNavigate?: (seg: str
       return (
         <div className={styles.emptyState}>
           <div className={styles.emptyIcon}>📭</div>
-          <div className={styles.emptyTitle}>Inga ansökningar</div>
-          <div className={styles.emptySub}>Skapa din första ansökan ovan.</div>
+          <div className={styles.emptyTitle}>{t('dashboard.no_applications')}</div>
+          <div className={styles.emptySub}>{t('dashboard.no_applications_sub')}</div>
         </div>
       );
     }

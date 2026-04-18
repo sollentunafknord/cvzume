@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import styles from './settings.module.css';
@@ -49,10 +49,13 @@ export default function SettingsClient() {
   const [deletePassword, setDeletePassword] = useState('');
   const [deleting, setDeleting] = useState(false);
 
+  const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   function showToastMsg(msg: string, type: 'success' | 'error' = 'success') {
     setToast(msg); setToastType(type);
-    setTimeout(() => setToast(''), 3500);
+    if (toastTimer.current) clearTimeout(toastTimer.current);
+    toastTimer.current = setTimeout(() => setToast(''), 3500);
   }
+  useEffect(() => () => { if (toastTimer.current) clearTimeout(toastTimer.current); }, []);
 
   const loadUser = useCallback(() => {
     const saved = localStorage.getItem('cvita_user');
@@ -188,7 +191,7 @@ export default function SettingsClient() {
     { key: 'password', label: t('settings.password') },
     { key: 'plan', label: t('settings.plan') },
     { key: 'language', label: t('settings.language') },
-    { key: 'account', label: 'Konto' },
+    { key: 'account', label: t('settings.account') },
   ];
 
   return (

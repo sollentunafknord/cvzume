@@ -2,7 +2,7 @@
   "nav": {
     "logout": "Log out",
     "dashboard": "Dashboard",
-    "applications": "My Applications",
+    "applications": "Search Jobs",
     "cv": "My CV",
     "letters": "Cover Letters",
     "archive": "Archive",
@@ -29,6 +29,8 @@
     "export_pdf_sub": "Preview & download",
     "recent_activity": "Recent Activity",
     "no_activity": "No activity yet.",
+    "no_applications": "No applications",
+    "no_applications_sub": "Create your first application above.",
     "all": "All",
     "draft": "Draft",
     "sent": "Sent",
@@ -130,6 +132,7 @@
     "password": "Password",
     "plan": "Plan",
     "language": "Language",
+    "account": "Account",
     "save": "Save changes"
   },
   "upgrade": {
