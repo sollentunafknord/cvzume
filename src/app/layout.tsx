@@ -1,5 +1,12 @@
-import type { ReactNode } from "react";
-import "./globals.css";
+import type { Metadata } from 'next';
+import type { ReactNode } from 'react';
+import './globals.css';
+
+export const metadata: Metadata = {
+  metadataBase: new URL('https://www.cvzume.com'),
+  title: { default: 'CVzume', template: '%s | CVzume' },
+  description: 'AI-powered CV and cover letter builder for the Swedish job market.',
+};
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return children;
