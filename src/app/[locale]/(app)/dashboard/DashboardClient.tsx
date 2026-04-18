@@ -68,7 +68,22 @@ export default function DashboardClient({ onNavigate }: { onNavigate?: (seg: str
   const [showResult, setShowResult] = useState(false);
 
   const [showUpgrade, setShowUpgrade] = useState(false);
-  const [jobSearchOpen, setJobSearchOpen] = useState(false);
+
+  // Job search state (inline in modal)
+  const [modalTab, setModalTab] = useState<'search' | 'paste'>('search');
+  const [jobRegions, setJobRegions] = useState<{id:string;label:string}[]>([]);
+  const [jobMunis, setJobMunis] = useState<{id:string;label:string;parentId:string}[]>([]);
+  const [jobFields, setJobFields] = useState<{id:string;label:string}[]>([]);
+  const [jobGroups, setJobGroups] = useState<{id:string;label:string;parentId:string}[]>([]);
+  const [jobSelRegion, setJobSelRegion] = useState('');
+  const [jobSelMuni, setJobSelMuni] = useState('');
+  const [jobSelField, setJobSelField] = useState('');
+  const [jobSelGroup, setJobSelGroup] = useState('');
+  const [jobQuery, setJobQuery] = useState('');
+  const [jobResults, setJobResults] = useState<{id:string;headline:string;employer?:{name?:string};workplace_address?:{municipality?:string};description?:{text?:string};application_deadline?:string;webpage_url?:string}[]>([]);
+  const [jobTotal, setJobTotal] = useState(0);
+  const [jobLoading, setJobLoading] = useState(false);
+  const [jobSearched, setJobSearched] = useState(false);
 
   const loadUser = useCallback(() => {
     const saved = localStorage.getItem('cvita_user');
@@ -113,6 +128,46 @@ export default function DashboardClient({ onNavigate }: { onNavigate?: (seg: str
       } catch { /* ignore */ }
     }
   }, [locale, loadUser, loadApplications]);
+
+  // Load taxonomy when modal opens for the first time
+  useEffect(() => {
+    if (!modalOpen || jobRegions.length > 0) return;
+    Promise.all([
+      fetch('/api/jobs/taxonomy?type=region&limit=30').then(r => r.json()),
+      fetch('/api/jobs/taxonomy?type=municipality&limit=400').then(r => r.json()),
+      fetch('/api/jobs/taxonomy?type=occupation-field&limit=50').then(r => r.json()),
+      fetch('/api/jobs/taxonomy?type=occupation-group&limit=500').then(r => r.json()),
+    ]).then(([reg, mun, field, group]) => {
+      setJobRegions((reg.data || []).map((x: {id:string;preferred_label:string}) => ({id: x.id, label: x.preferred_label})));
+      setJobMunis((mun.data || []).map((x: {id:string;preferred_label:string;broader?:{id:string}[]}) => ({id: x.id, label: x.preferred_label, parentId: x.broader?.[0]?.id || ''})));
+      setJobFields((field.data || []).map((x: {id:string;preferred_label:string}) => ({id: x.id, label: x.preferred_label})));
+      setJobGroups((group.data || []).map((x: {id:string;preferred_label:string;broader?:{id:string}[]}) => ({id: x.id, label: x.preferred_label, parentId: x.broader?.[0]?.id || ''})));
+    }).catch(() => {});
+  }, [modalOpen, jobRegions.length]);
+
+  async function searchJobs() {
+    setJobLoading(true);
+    setJobSearched(true);
+    const params = new URLSearchParams({ limit: '8', offset: '0' });
+    if (jobQuery.trim()) params.set('q', jobQuery.trim());
+    if (jobSelMuni) params.set('municipality', jobSelMuni);
+    else if (jobSelRegion) params.set('region', jobSelRegion);
+    if (jobSelGroup) params.set('occupation-group', jobSelGroup);
+    else if (jobSelField) params.set('occupation-field', jobSelField);
+    try {
+      const res = await fetch(`/api/jobs/search?${params}`);
+      const data = await res.json();
+      setJobResults(data.hits || []);
+      setJobTotal(data.total?.value || 0);
+    } catch { setJobResults([]); }
+    setJobLoading(false);
+  }
+
+  function pickJob(job: {headline:string;description?:{text?:string}}) {
+    setModalRole(job.headline);
+    setModalAd(job.description?.text?.replace(/<[^>]+>/g, '') || '');
+    setModalTab('paste');
+  }
 
   const activeApps = apps.filter(a => a.status !== 'archived');
   const archivedApps = apps.filter(a => a.status === 'archived');
@@ -308,7 +363,7 @@ export default function DashboardClient({ onNavigate }: { onNavigate?: (seg: str
             <button className={`${styles.topbarBtn} ${styles.topbarBtnGhost}`} onClick={() => setModalOpen(true)}>
               📤 {t('dashboard.upload_cv')}
             </button>
-            <button className={`${styles.topbarBtn} ${styles.topbarBtnPrimary}`} onClick={() => setJobSearchOpen(true)}>
+            <button className={`${styles.topbarBtn} ${styles.topbarBtnPrimary}`} onClick={() => { setModalTab('search'); setModalOpen(true); }}>
               ＋ {t('dashboard.new_application')}
             </button>
           </div>
@@ -329,7 +384,7 @@ export default function DashboardClient({ onNavigate }: { onNavigate?: (seg: str
                   </div>
                 </div>
                 <div className={styles.welcomeAction}>
-                  <button className={styles.btnNewApp} onClick={() => setJobSearchOpen(true)}>
+                  <button className={styles.btnNewApp} onClick={() => { setModalTab('search'); setModalOpen(true); }}>
                     ＋ {t('dashboard.new_application')}
                   </button>
                 </div>
@@ -400,7 +455,7 @@ export default function DashboardClient({ onNavigate }: { onNavigate?: (seg: str
                   <div className={styles.quickCard}>
                     <div className={styles.sectionTitleSm}>{t('dashboard.shortcuts')}</div>
                     <div className={styles.quickActions}>
-                      <button className={styles.quickAction} onClick={() => setJobSearchOpen(true)}>
+                      <button className={styles.quickAction} onClick={() => { setModalTab('search'); setModalOpen(true); }}>
                         <div className={`${styles.qaIcon} ${styles.qaBlue}`}>🔍</div>
                         <div className={styles.qaText}>
                           <div className={styles.qaTitle}>{t('dashboard.analyze_new')}</div>
@@ -535,39 +590,87 @@ export default function DashboardClient({ onNavigate }: { onNavigate?: (seg: str
       {/* ── NEW APPLICATION MODAL ── */}
       {modalOpen && (
         <div className={styles.modalOverlay} onClick={e => { if (e.target === e.currentTarget) { setModalOpen(false); setAnalyzing(false); } }}>
-          <div className={styles.modal}>
+          <div className={styles.modal} style={{ maxWidth: modalTab === 'search' && !analyzing ? 700 : 540 }}>
             <div className={styles.modalHeader}>
               <div className={styles.modalTitle}>{t('modal.new_title')}</div>
               <div className={styles.modalClose} onClick={() => { setModalOpen(false); setAnalyzing(false); }}>✕</div>
             </div>
 
             {!analyzing ? (
-              <div className={styles.modalForm}>
-                <div className={styles.formGroup}>
-                  <label className={styles.formLabel}>{t('modal.role_label')}</label>
-                  <input
-                    className={styles.formInput}
-                    type="text"
-                    placeholder={t('modal.role_placeholder')}
-                    value={modalRole}
-                    onChange={e => setModalRole(e.target.value)}
-                  />
+              <>
+                {/* Tabs */}
+                <div className={styles.modalTabs}>
+                  <button className={`${styles.modalTab} ${modalTab === 'search' ? styles.modalTabActive : ''}`} onClick={() => setModalTab('search')}>
+                    🔍 Sök via Arbetsförmedlingen
+                  </button>
+                  <button className={`${styles.modalTab} ${modalTab === 'paste' ? styles.modalTabActive : ''}`} onClick={() => setModalTab('paste')}>
+                    📋 Klistra in annons
+                  </button>
                 </div>
-                <div className={styles.formGroup}>
-                  <label className={styles.formLabel}>{t('modal.ad_label')}</label>
-                  <textarea
-                    className={`${styles.formInput} ${styles.formTextarea}`}
-                    placeholder={t('modal.ad_placeholder')}
-                    value={modalAd}
-                    onChange={e => setModalAd(e.target.value)}
-                  />
-                  <span className={styles.formHint}>AI:n analyserar annonsen och anpassar ditt CV automatiskt.</span>
-                </div>
-                <div className={styles.modalActions}>
-                  <button className={styles.btnModalCancel} onClick={() => setModalOpen(false)}>{t('modal.cancel')}</button>
-                  <button className={styles.btnModalSubmit} onClick={startAnalysis}>{t('modal.analyze_btn')}</button>
-                </div>
-              </div>
+
+                {/* Tab: AMS Search */}
+                {modalTab === 'search' && (
+                  <div className={styles.jobSearchTab}>
+                    <div className={styles.jobFilters}>
+                      <select className={styles.jobSelect} value={jobSelRegion} onChange={e => { setJobSelRegion(e.target.value); setJobSelMuni(''); }}>
+                        <option value="">🗺 Hela Sverige</option>
+                        {jobRegions.map(r => <option key={r.id} value={r.id}>{r.label}</option>)}
+                      </select>
+                      <select className={styles.jobSelect} value={jobSelMuni} onChange={e => setJobSelMuni(e.target.value)} disabled={!jobSelRegion}>
+                        <option value="">Alla kommuner</option>
+                        {jobMunis.filter(m => m.parentId === jobSelRegion).map(m => <option key={m.id} value={m.id}>{m.label}</option>)}
+                      </select>
+                      <select className={styles.jobSelect} value={jobSelField} onChange={e => { setJobSelField(e.target.value); setJobSelGroup(''); }}>
+                        <option value="">💼 Alla yrken</option>
+                        {jobFields.map(f => <option key={f.id} value={f.id}>{f.label}</option>)}
+                      </select>
+                      <select className={styles.jobSelect} value={jobSelGroup} onChange={e => setJobSelGroup(e.target.value)} disabled={!jobSelField}>
+                        <option value="">Alla grupper</option>
+                        {jobGroups.filter(g => g.parentId === jobSelField).map(g => <option key={g.id} value={g.id}>{g.label}</option>)}
+                      </select>
+                    </div>
+                    <div className={styles.jobSearchRow}>
+                      <input className={styles.jobSearchInput} placeholder="Fritext, t.ex. Java-utvecklare..." value={jobQuery} onChange={e => setJobQuery(e.target.value)} onKeyDown={e => e.key === 'Enter' && searchJobs()} />
+                      <button className={styles.jobSearchBtn} onClick={searchJobs} disabled={jobLoading}>{jobLoading ? '...' : 'Sök'}</button>
+                    </div>
+                    {jobSearched && <div className={styles.jobResultsCount}>{jobTotal.toLocaleString('sv-SE')} jobb hittades</div>}
+                    <div className={styles.jobResultsList}>
+                      {jobResults.map(job => (
+                        <div key={job.id} className={styles.jobResultItem}>
+                          <div className={styles.jobResultInfo}>
+                            <div className={styles.jobResultTitle}>{job.headline}</div>
+                            <div className={styles.jobResultMeta}>
+                              {job.employer?.name && <span>{job.employer.name}</span>}
+                              {job.workplace_address?.municipality && <span>📍 {job.workplace_address.municipality}</span>}
+                            </div>
+                          </div>
+                          <button className={styles.jobPickBtn} onClick={() => pickJob(job)}>Välj →</button>
+                        </div>
+                      ))}
+                      {jobSearched && !jobLoading && jobResults.length === 0 && <div className={styles.jobNoResults}>Inga jobb hittades.</div>}
+                    </div>
+                  </div>
+                )}
+
+                {/* Tab: Paste manually */}
+                {modalTab === 'paste' && (
+                  <div className={styles.modalForm}>
+                    <div className={styles.formGroup}>
+                      <label className={styles.formLabel}>{t('modal.role_label')}</label>
+                      <input className={styles.formInput} type="text" placeholder={t('modal.role_placeholder')} value={modalRole} onChange={e => setModalRole(e.target.value)} />
+                    </div>
+                    <div className={styles.formGroup}>
+                      <label className={styles.formLabel}>{t('modal.ad_label')}</label>
+                      <textarea className={`${styles.formInput} ${styles.formTextarea}`} placeholder={t('modal.ad_placeholder')} value={modalAd} onChange={e => setModalAd(e.target.value)} />
+                      <span className={styles.formHint}>AI:n analyserar annonsen och anpassar ditt CV automatiskt.</span>
+                    </div>
+                    <div className={styles.modalActions}>
+                      <button className={styles.btnModalCancel} onClick={() => setModalOpen(false)}>{t('modal.cancel')}</button>
+                      <button className={styles.btnModalSubmit} onClick={startAnalysis}>{t('modal.analyze_btn')}</button>
+                    </div>
+                  </div>
+                )}
+              </>
             ) : (
               <div className={`${styles.analyzing} ${styles.show}`}>
                 <div className={styles.spinner} />
