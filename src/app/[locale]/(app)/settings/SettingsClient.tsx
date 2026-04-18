@@ -27,6 +27,8 @@ export default function SettingsClient() {
   // personal tab
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const userName = `${firstName} ${lastName}`.trim();
+  const initials = `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase() || '?';
   const [savingPersonal, setSavingPersonal] = useState(false);
 
   // password tab
