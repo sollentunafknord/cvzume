@@ -445,7 +445,12 @@ function FavoritesTab({ favorites, onToggleFavorite, t }: {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Fel');
-      localStorage.setItem('cvita_last_result', JSON.stringify({ role: selectedJob.headline, ...data }));
+      localStorage.setItem('cvita_last_result', JSON.stringify({
+        role: selectedJob.headline,
+        employer: selectedJob.employer?.name || '',
+        jobAd: selectedJob.description?.text || '',
+        ...data,
+      }));
       setAnalysisResult(data);
       setStep('result');
     } catch {

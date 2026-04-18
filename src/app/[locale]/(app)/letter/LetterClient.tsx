@@ -21,6 +21,7 @@ export default function LetterClient() {
   const [letterText, setLetterText] = useState('');
 
   const [isEditing, setIsEditing] = useState(false);
+  const [generating, setGenerating] = useState(false);
   const [toast, setToast] = useState('');
   const [toastType, setToastType] = useState<'success' | 'error' | 'copy'>('copy');
 
@@ -43,11 +44,8 @@ export default function LetterClient() {
     setDateStr(new Date().toLocaleDateString(localeMap[locale] || 'sv-SE', { day: 'numeric', month: 'long', year: 'numeric' }));
 
     const result = JSON.parse(localStorage.getItem('cvita_last_result') || '{}');
-    if (result.role) {
-      setSubject('Ansökan — ' + result.role);
-      const parts = result.role.split(' på ');
-      if (parts.length > 1) setCompany(parts[1]);
-    }
+    if (result.role) setSubject('Ansökan — ' + result.role);
+    if (result.employer) setCompany(result.employer);
 
     let profile = JSON.parse(localStorage.getItem('cvita_profile') || '{}');
     const token = localStorage.getItem('cvita_token');
@@ -70,9 +68,9 @@ export default function LetterClient() {
     if (profile.phone) setPhone(profile.phone);
     if (profile.location) setLocation(profile.location);
 
-    if (profile.cover_letter) setLetterText(profile.cover_letter);
-    else if (result.coverLetter) setLetterText(result.coverLetter);
-    else setLetterText('Inget personligt brev hittades. Gör en ny analys i dashboarden.');
+    if (result.coverLetter) setLetterText(result.coverLetter);
+    else if (profile.cover_letter) setLetterText(profile.cover_letter);
+    else setLetterText('');
   }, [locale, router]);
 
   useEffect(() => { loadLetter(); }, [loadLetter]);
@@ -112,6 +110,33 @@ export default function LetterClient() {
     navigator.clipboard.writeText(text).then(() => showToast('✅ Kopierat till urklipp!'));
   }
 
+  async function generateLetter() {
+    const result = JSON.parse(localStorage.getItem('cvita_last_result') || '{}');
+    const profile = JSON.parse(localStorage.getItem('cvita_profile') || '{}');
+    if (!result.jobAd && !result.role) {
+      showToast('❌ Inget jobb hittades. Gå till Favoriter och analysera ett jobb först.', 'error');
+      return;
+    }
+    setGenerating(true);
+    try {
+      const res = await fetch('/api/ai/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ jobAd: result.jobAd || result.role, userProfile: profile }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Fel');
+      setLetterText(data.coverLetter || '');
+      result.coverLetter = data.coverLetter;
+      localStorage.setItem('cvita_last_result', JSON.stringify(result));
+      showToast('✅ Nytt brev genererat!', 'success');
+    } catch {
+      showToast('❌ Kunde inte generera brev. Försök igen.', 'error');
+    } finally {
+      setGenerating(false);
+    }
+  }
+
   function downloadPDF() {
     document.title = subject || 'Personligt Brev';
     window.print();
@@ -125,6 +150,9 @@ export default function LetterClient() {
             <span className={styles.toolbarTitle}>{subject}</span>
           </div>
           <div className={styles.toolbarRight}>
+            <button className={`${styles.btn} ${styles.btnGhost}`} onClick={generateLetter} disabled={generating}>
+              {generating ? '⏳ Genererar...' : '✨ Generera nytt brev'}
+            </button>
             <button className={`${styles.btn} ${isEditing ? styles.btnActive : styles.btnGhost}`} onClick={toggleEdit}>
               ✏️ {isEditing ? 'Spara' : 'Redigera'}
             </button>
@@ -159,14 +187,22 @@ export default function LetterClient() {
 
             <div className={styles.letterSubject}>{subject}</div>
 
-            <div
-              ref={contentRef}
-              className={styles.letterContent}
-              contentEditable={isEditing}
-              suppressContentEditableWarning
-            >
-              {letterText}
-            </div>
+            {letterText ? (
+              <div
+                ref={contentRef}
+                className={styles.letterContent}
+                contentEditable={isEditing}
+                suppressContentEditableWarning
+              >
+                {letterText}
+              </div>
+            ) : (
+              <div className={styles.letterEmpty}>
+                <div className={styles.letterEmptyIcon}>✉️</div>
+                <div className={styles.letterEmptyTitle}>Inget personligt brev ännu</div>
+                <p className={styles.letterEmptyDesc}>Gå till <strong>Sök jobb → Favoriter</strong> och analysera ett jobb — eller klicka på knappen ovan för att generera ett brev baserat på ditt senaste jobb.</p>
+              </div>
+            )}
 
             {isEditing && (
               <div className={styles.editHint}>Klicka i texten för att redigera</div>

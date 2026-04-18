@@ -60,6 +60,10 @@
 .letterContent { font-size: 15px; color: #374151; line-height: 1.85; white-space: pre-wrap; outline: none; min-height: 200px; border-radius: 6px; padding: 4px; }
 .letterContent[contenteditable="true"] { background: var(--blue-light); padding: 12px; border: 1.5px dashed var(--blue); }
 .editHint { font-size: 12px; color: var(--blue); margin-top: 8px; font-style: italic; }
+.letterEmpty { text-align: center; padding: 48px 20px; }
+.letterEmptyIcon { font-size: 40px; margin-bottom: 12px; }
+.letterEmptyTitle { font-size: 16px; font-weight: 600; color: var(--navy); margin-bottom: 8px; }
+.letterEmptyDesc { font-size: 13px; color: var(--slate); line-height: 1.6; max-width: 380px; margin: 0 auto; }
 .letterSignature { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
 .letterSigLine { font-size: 14px; color: var(--muted); margin-bottom: 12px; }
 .letterSigName { font-family: 'DM Serif Display', serif; font-size: 18px; color: var(--navy); }
