@@ -128,8 +128,8 @@ export default function ProfileClient() {
       const p: Profile = JSON.parse(stored);
       setPhone(p.phone || ''); setLocation(p.location || '');
       setTitle(p.title || ''); setSummary(p.summary || '');
-      setExperiences((p.experiences || []).map((e, i) => ({ id: e.id || Date.now() + i, ...e })));
-      setEducations((p.educations || []).map((e, i) => ({ id: e.id || Date.now() + i + 1000, ...e })));
+      setExperiences((p.experiences || []).map((e, i) => ({ ...e, id: e.id || Date.now() + i })));
+      setEducations((p.educations || []).map((e, i) => ({ ...e, id: e.id || Date.now() + i + 1000 })));
       setSkills(p.skills || []);
       setLanguages(p.languages || []);
     }
