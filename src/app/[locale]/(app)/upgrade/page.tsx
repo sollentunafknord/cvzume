@@ -1,5 +1,1 @@
-import UpgradeClient from './UpgradeClient';
-
-export default function UpgradePage() {
-  return <UpgradeClient />;
-}
+export default function Page() { return null; }

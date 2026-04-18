@@ -1,5 +1,1 @@
-import LetterClient from './LetterClient';
-
-export default function LetterPage() {
-  return <LetterClient />;
-}
+export default function Page() { return null; }

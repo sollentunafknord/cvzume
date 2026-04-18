@@ -1,5 +1,1 @@
-import SettingsClient from './SettingsClient';
-
-export default function SettingsPage() {
-  return <SettingsClient />;
-}
+export default function Page() { return null; }

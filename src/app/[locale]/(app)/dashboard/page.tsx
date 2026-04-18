@@ -1,5 +1,1 @@
-import DashboardClient from './DashboardClient';
-
-export default function DashboardPage() {
-  return <DashboardClient />;
-}
+export default function Page() { return null; }

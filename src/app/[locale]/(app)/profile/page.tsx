@@ -1,5 +1,1 @@
-import ProfileClient from './ProfileClient';
-
-export default function ProfilePage() {
-  return <ProfileClient />;
-}
+export default function Page() { return null; }
