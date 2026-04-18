@@ -87,7 +87,10 @@ export default function ProfileClient() {
               summary: db.summary || '', experiences: db.experiences || [],
               educations: db.educations || [], skills: db.skills || [], languages: db.languages || [],
             }));
-            if (db.avatar_url && !av) setAvatarUrl(db.avatar_url);
+            if (db.avatar_url && !av) {
+              setAvatarUrl(db.avatar_url);
+              localStorage.setItem('cvita_avatar', db.avatar_url);
+            }
           }
         }
       } catch { /* silent */ }

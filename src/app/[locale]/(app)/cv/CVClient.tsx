@@ -31,6 +31,7 @@ export default function CVClient() {
   const [jobRole, setJobRole] = useState('');
   const [toolbarTitle, setToolbarTitle] = useState('CV Förhandsvisning');
   const [showModal, setShowModal] = useState(false);
+  const [printAvatar, setPrintAvatar] = useState('');
 
   const load = useCallback(async () => {
     const saved = localStorage.getItem('cvita_user');
@@ -81,9 +82,27 @@ export default function CVClient() {
 
   useEffect(() => { load(); }, [load]);
 
-  function downloadPDF() {
+  async function toDataUrl(url: string): Promise<string> {
+    try {
+      const res = await fetch(url);
+      const blob = await res.blob();
+      return await new Promise(resolve => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.readAsDataURL(blob);
+      });
+    } catch { return url; }
+  }
+
+  async function downloadPDF() {
     document.title = fullName + ' — CV';
+    if (avatarUrl && !avatarUrl.startsWith('data:')) {
+      const dataUrl = await toDataUrl(avatarUrl);
+      setPrintAvatar(dataUrl);
+      await new Promise(r => setTimeout(r, 150));
+    }
     window.print();
+    setPrintAvatar('');
   }
 
   function openPreview() { setShowModal(true); }
@@ -106,7 +125,9 @@ export default function CVClient() {
           </div>
         </div>
         <div className={styles.cvAvatar}>
-          {avatarUrl ? <img src={avatarUrl} alt={fullName} /> : initials}
+          {(printAvatar || avatarUrl)
+            ? <img src={printAvatar || avatarUrl} alt={fullName} onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+            : initials}
         </div>
       </div>
 
