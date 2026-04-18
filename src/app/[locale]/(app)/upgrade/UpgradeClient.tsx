@@ -18,11 +18,6 @@ export default function UpgradeClient() {
   const locale = useLocale();
   const router = useRouter();
 
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [initials, setInitials] = useState('?');
-  const [userName, setUserName] = useState('');
-  const [planLabel, setPlanLabel] = useState('');
-
   const [checkoutLoadingMonthly, setCheckoutLoadingMonthly] = useState(false);
   const [checkoutLoadingYearly, setCheckoutLoadingYearly] = useState(false);
   const [monthlyDisabled, setMonthlyDisabled] = useState(false);
@@ -43,12 +38,7 @@ export default function UpgradeClient() {
     const saved = localStorage.getItem('cvita_user');
     if (!saved) { router.push(`/${locale}/auth`); return; }
     const user = JSON.parse(saved);
-    const fn = user.firstName || user.email?.split('@')[0] || '';
-    const ln = user.lastName || '';
-    setUserName((fn + ' ' + ln).trim() || user.email);
-    setInitials(((fn[0] || '') + (ln[0] || '')).toUpperCase() || '?');
     const isPro = localStorage.getItem('cvita_is_pro') === 'true';
-    setPlanLabel(isPro ? t('dashboard.pro_plan') : t('dashboard.free_plan'));
 
     if (isPro && user.email) {
       try {
@@ -66,12 +56,6 @@ export default function UpgradeClient() {
   }, [locale, router, t]);
 
   useEffect(() => { loadUser(); }, [loadUser]);
-
-  function handleLogout() {
-    localStorage.removeItem('cvita_token');
-    localStorage.removeItem('cvita_user');
-    router.push(`/${locale}/auth`);
-  }
 
   async function startCheckout(yearly: boolean) {
     if (yearly) setCheckoutLoadingYearly(true);
@@ -101,40 +85,7 @@ export default function UpgradeClient() {
   }
 
   return (
-    <div className={styles.layout}>
-      {sidebarOpen && <div className={styles.sidebarOverlay} onClick={() => setSidebarOpen(false)} />}
-
-      {/* SIDEBAR */}
-      <aside className={`${styles.sidebar} ${sidebarOpen ? styles.sidebarOpen : ''}`}>
-        <a href={`/${locale}/dashboard`} className={styles.sidebarLogo}>CV<span>zume</span></a>
-        <nav className={styles.sidebarNav}>
-          <div className={styles.sidebarSection}>{t('nav.main_menu')}</div>
-          <button className={styles.navItem} onClick={() => router.push(`/${locale}/dashboard`)}><span className={styles.navIcon}>🏠</span> {t('nav.dashboard')}</button>
-          <button className={styles.navItem} onClick={() => router.push(`/${locale}/dashboard`)}><span className={styles.navIcon}>📋</span> {t('nav.applications')}</button>
-          <button className={styles.navItem} onClick={() => router.push(`/${locale}/profile`)}><span className={styles.navIcon}>📄</span> {t('nav.cv')}</button>
-          <button className={styles.navItem} onClick={() => router.push(`/${locale}/letter`)}><span className={styles.navIcon}>✉️</span> {t('nav.letters')}</button>
-          <button className={styles.navItem} onClick={() => router.push(`/${locale}/archive`)}><span className={styles.navIcon}>📁</span> {t('nav.archive')}</button>
-          <div className={styles.sidebarSection}>{t('nav.account')}</div>
-          <button className={styles.navItem} onClick={() => router.push(`/${locale}/settings`)}><span className={styles.navIcon}>⚙️</span> {t('nav.settings')}</button>
-          <button className={`${styles.navItem} ${styles.active}`}><span className={styles.navIcon}>⚡</span> {t('nav.upgrade')}</button>
-        </nav>
-        <div className={styles.sidebarFooter}>
-          <div className={styles.userCard}>
-            <div className={styles.userAvatar}>{initials}</div>
-            <div>
-              <div className={styles.userName}>{userName}</div>
-              <div className={styles.userPlan}>{planLabel}</div>
-            </div>
-          </div>
-          <button className={styles.logoutBtn} onClick={handleLogout}>
-            <span style={{ fontSize: 14 }}>⏻</span> {t('nav.logout')}
-          </button>
-        </div>
-      </aside>
-
-      {/* MAIN */}
-      <main className={styles.main}>
-        <button className={styles.menuToggle} onClick={() => setSidebarOpen(o => !o)}>☰</button>
+    <main className={styles.main}>
 
         {/* HERO */}
         <div className={styles.hero}>
@@ -241,6 +192,6 @@ export default function UpgradeClient() {
       <div className={`${styles.toast} ${toast ? styles.toastShow : ''} ${toastError ? styles.toastError : ''}`}>
         {toast}
       </div>
-    </div>
+    </main>
   );
 }

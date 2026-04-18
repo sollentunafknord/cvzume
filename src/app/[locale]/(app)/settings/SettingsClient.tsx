@@ -14,56 +14,13 @@ interface PlanInfo {
   cancelAtPeriodEnd?: boolean;
 }
 
-function Sidebar({ locale, initials, userName, planLabel, onLogout, open, onClose }: {
-  locale: string; initials: string; userName: string; planLabel: string;
-  onLogout: () => void; open: boolean; onClose: () => void;
-}) {
-  const t = useTranslations();
-  const router = useRouter();
-  return (
-    <>
-      {open && <div className={styles.sidebarOverlay} onClick={onClose} />}
-      <aside className={`${styles.sidebar} ${open ? styles.sidebarOpen : ''}`}>
-        <a href={`/${locale}/dashboard`} className={styles.sidebarLogo}>CV<span>zume</span></a>
-        <nav className={styles.sidebarNav}>
-          <div className={styles.sidebarSection}>{t('nav.main_menu')}</div>
-          <button className={styles.navItem} onClick={() => router.push(`/${locale}/dashboard`)}><span className={styles.navIcon}>🏠</span> {t('nav.dashboard')}</button>
-          <button className={styles.navItem} onClick={() => router.push(`/${locale}/dashboard`)}><span className={styles.navIcon}>📋</span> {t('nav.applications')}</button>
-          <button className={styles.navItem} onClick={() => router.push(`/${locale}/profile`)}><span className={styles.navIcon}>📄</span> {t('nav.cv')}</button>
-          <button className={styles.navItem} onClick={() => router.push(`/${locale}/letter`)}><span className={styles.navIcon}>✉️</span> {t('nav.letters')}</button>
-          <button className={styles.navItem} onClick={() => router.push(`/${locale}/archive`)}><span className={styles.navIcon}>📁</span> {t('nav.archive')}</button>
-          <div className={styles.sidebarSection}>{t('nav.account')}</div>
-          <button className={`${styles.navItem} ${styles.active}`}><span className={styles.navIcon}>⚙️</span> {t('nav.settings')}</button>
-          <button className={styles.navItem} onClick={() => router.push(`/${locale}/upgrade`)}><span className={styles.navIcon}>⚡</span> {t('nav.upgrade')}</button>
-        </nav>
-        <div className={styles.sidebarFooter}>
-          <div className={styles.userCard}>
-            <div className={styles.userAvatar}>{initials}</div>
-            <div>
-              <div className={styles.userName}>{userName}</div>
-              <div className={styles.userPlan}>{planLabel}</div>
-            </div>
-          </div>
-          <button className={styles.logoutBtn} onClick={onLogout}>
-            <span style={{ fontSize: 14 }}>⏻</span> {t('nav.logout')}
-          </button>
-        </div>
-      </aside>
-    </>
-  );
-}
-
 export default function SettingsClient() {
   const t = useTranslations();
   const locale = useLocale();
   const router = useRouter();
 
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<Tab>('personal');
-  const [initials, setInitials] = useState('?');
-  const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
-  const [planLabel, setPlanLabel] = useState('');
   const [toast, setToast] = useState('');
   const [toastType, setToastType] = useState<'success' | 'error'>('success');
 
@@ -102,11 +59,7 @@ export default function SettingsClient() {
     const fn = user.firstName || user.email?.split('@')[0] || '';
     const ln = user.lastName || '';
     setFirstName(fn); setLastName(ln); setUserEmail(user.email || '');
-    setUserName((fn + ' ' + ln).trim() || user.email);
-    setInitials(((fn[0] || '') + (ln[0] || '')).toUpperCase() || '?');
-    const pro = localStorage.getItem('cvita_is_pro') === 'true';
-    setPlanLabel(pro ? t('dashboard.pro_plan') : t('dashboard.free_plan'));
-  }, [locale, router, t]);
+  }, [locale, router]);
 
   useEffect(() => { loadUser(); }, [loadUser]);
 
@@ -126,12 +79,6 @@ export default function SettingsClient() {
     if (activeTab === 'plan') loadPlan();
   }, [activeTab]); // eslint-disable-line
 
-  function handleLogout() {
-    localStorage.removeItem('cvita_token');
-    localStorage.removeItem('cvita_user');
-    router.push(`/${locale}/auth`);
-  }
-
   async function savePersonalInfo() {
     if (!firstName && !lastName) { showToastMsg('Ange minst ett namn', 'error'); return; }
     setSavingPersonal(true);
@@ -148,9 +95,6 @@ export default function SettingsClient() {
       const user = JSON.parse(localStorage.getItem('cvita_user') || '{}');
       user.firstName = firstName; user.lastName = lastName;
       localStorage.setItem('cvita_user', JSON.stringify(user));
-      const full = (firstName + ' ' + lastName).trim();
-      setUserName(full);
-      setInitials(((firstName[0] || '') + (lastName[0] || '')).toUpperCase() || '?');
       showToastMsg('✅ ' + t('settings.save'));
     } catch (e: unknown) {
       showToastMsg('❌ ' + (e instanceof Error ? e.message : 'Fel'), 'error');
@@ -246,12 +190,7 @@ export default function SettingsClient() {
   ];
 
   return (
-    <div className={styles.layout}>
-      <Sidebar locale={locale} initials={initials} userName={userName} planLabel={planLabel}
-        onLogout={handleLogout} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-
-      <main className={styles.main}>
-        <button className={styles.menuToggle} onClick={() => setSidebarOpen(o => !o)} style={{ marginBottom: 16 }}>☰</button>
+    <main className={styles.main}>
         <div className={styles.pageHeader}>
           <div className={styles.pageTitle}>{t('settings.title')}</div>
           <div className={styles.pageSubtitle}>{t('settings.subtitle')}</div>
@@ -498,6 +437,6 @@ export default function SettingsClient() {
       <div className={`${styles.toast} ${toast ? styles.toastShow : ''} ${toastType === 'error' ? styles.toastError : styles.toastSuccess}`}>
         {toast}
       </div>
-    </div>
+    </main>
   );
 }

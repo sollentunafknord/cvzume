@@ -3,7 +3,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
-import styles from '../profile/profile.module.css'; // reuse sidebar CSS
 
 interface Application {
   id: string;
@@ -24,11 +23,6 @@ export default function ArchiveClient() {
   const locale = useLocale();
   const router = useRouter();
 
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [initials, setInitials] = useState('?');
-  const [userName, setUserName] = useState('');
-  const [planLabel, setPlanLabel] = useState('');
-
   const [apps, setApps] = useState<Application[]>([]);
   const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState('');
@@ -42,12 +36,6 @@ export default function ArchiveClient() {
     const saved = localStorage.getItem('cvita_user');
     if (!saved) { router.push(`/${locale}/auth`); return; }
     const user = JSON.parse(saved);
-    const fn = user.firstName || user.email?.split('@')[0] || '';
-    const ln = user.lastName || '';
-    setUserName((fn + ' ' + ln).trim() || user.email);
-    setInitials(((fn[0] || '') + (ln[0] || '')).toUpperCase() || '?');
-    setPlanLabel(localStorage.getItem('cvita_is_pro') === 'true' ? t('dashboard.pro_plan') : t('dashboard.free_plan'));
-
     const token = localStorage.getItem('cvita_token');
     if (!token) { router.push(`/${locale}/auth`); return; }
     try {
@@ -56,15 +44,9 @@ export default function ArchiveClient() {
       setApps((data.applications || []).filter((a: Application) => a.status === 'archived'));
     } catch { /* silent */ }
     finally { setLoading(false); }
-  }, [locale, router, t]);
+  }, [locale, router]);
 
   useEffect(() => { load(); }, [load]);
-
-  function handleLogout() {
-    localStorage.removeItem('cvita_token');
-    localStorage.removeItem('cvita_user');
-    router.push(`/${locale}/auth`);
-  }
 
   async function restoreApp(id: string) {
     const token = localStorage.getItem('cvita_token');
@@ -99,38 +81,7 @@ export default function ArchiveClient() {
   }
 
   return (
-    <div className={styles.layout}>
-      {sidebarOpen && <div className={styles.sidebarOverlay} onClick={() => setSidebarOpen(false)} />}
-
-      <aside className={`${styles.sidebar} ${sidebarOpen ? styles.sidebarOpen : ''}`}>
-        <a href={`/${locale}/dashboard`} className={styles.sidebarLogo}>CV<span>zume</span></a>
-        <nav className={styles.sidebarNav}>
-          <div className={styles.sidebarSection}>{t('nav.main_menu')}</div>
-          <button className={styles.navItem} onClick={() => router.push(`/${locale}/dashboard`)}><span className={styles.navIcon}>🏠</span> {t('nav.dashboard')}</button>
-          <button className={styles.navItem} onClick={() => router.push(`/${locale}/dashboard`)}><span className={styles.navIcon}>📋</span> {t('nav.applications')}</button>
-          <button className={styles.navItem} onClick={() => router.push(`/${locale}/profile`)}><span className={styles.navIcon}>📄</span> {t('nav.cv')}</button>
-          <button className={styles.navItem} onClick={() => router.push(`/${locale}/letter`)}><span className={styles.navIcon}>✉️</span> {t('nav.letters')}</button>
-          <button className={`${styles.navItem} ${styles.active}`}><span className={styles.navIcon}>📁</span> {t('nav.archive')}</button>
-          <div className={styles.sidebarSection}>{t('nav.account')}</div>
-          <button className={styles.navItem} onClick={() => router.push(`/${locale}/settings`)}><span className={styles.navIcon}>⚙️</span> {t('nav.settings')}</button>
-          <button className={styles.navItem} onClick={() => router.push(`/${locale}/upgrade`)}><span className={styles.navIcon}>⚡</span> {t('nav.upgrade')}</button>
-        </nav>
-        <div className={styles.sidebarFooter}>
-          <div className={styles.userCard}>
-            <div className={styles.userAvatar}>{initials}</div>
-            <div>
-              <div className={styles.userName}>{userName}</div>
-              <div className={styles.userPlan}>{planLabel}</div>
-            </div>
-          </div>
-          <button className={styles.logoutBtn} onClick={handleLogout}>
-            <span style={{ fontSize: 14 }}>⏻</span> {t('nav.logout')}
-          </button>
-        </div>
-      </aside>
-
-      <main className={styles.main} style={{ padding: '40px' }}>
-        <button className={styles.menuToggle} onClick={() => setSidebarOpen(o => !o)} style={{ marginBottom: 16 }}>☰</button>
+    <main style={{ flex: 1, padding: '40px', display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
 
         <div style={{ marginBottom: 28 }}>
           <div style={{ fontFamily: "'DM Serif Display', serif", fontSize: 28, color: 'var(--navy)', marginBottom: 6 }}>
@@ -177,13 +128,11 @@ export default function ArchiveClient() {
             })}
           </div>
         )}
-      </main>
-
       {toast && (
         <div style={{ position: 'fixed', bottom: 24, right: 24, background: 'var(--navy)', color: 'white', padding: '14px 20px', borderRadius: 10, fontSize: 14, fontWeight: 500, zIndex: 999, boxShadow: '0 4px 16px rgba(0,0,0,0.2)' }}>
           {toast}
         </div>
       )}
-    </div>
+    </main>
   );
 }

@@ -25,7 +25,7 @@
 .menuToggle { display: none; background: none; border: none; font-size: 20px; cursor: pointer; color: var(--navy); padding: 4px 8px; line-height: 1; }
 
 /* ── MAIN ── */
-.main { margin-left: var(--sidebar-w); flex: 1; padding: 48px 40px; }
+.main { flex: 1; padding: 48px 40px; }
 .pageHeader { margin-bottom: 36px; }
 .pageTitle { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--navy); margin-bottom: 6px; }
 .pageSubtitle { font-size: 14px; color: var(--muted); }

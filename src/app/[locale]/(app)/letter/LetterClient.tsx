@@ -5,55 +5,11 @@ import { useTranslations, useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import styles from './letter.module.css';
 
-function Sidebar({ locale, initials, userName, planLabel, onLogout, open, onClose }: {
-  locale: string; initials: string; userName: string; planLabel: string;
-  onLogout: () => void; open: boolean; onClose: () => void;
-}) {
-  const t = useTranslations();
-  const router = useRouter();
-  return (
-    <>
-      {open && <div className={styles.sidebarOverlay} onClick={onClose} />}
-      <aside className={`${styles.sidebar} ${open ? styles.sidebarOpen : ''}`}>
-        <a href={`/${locale}/dashboard`} className={styles.sidebarLogo}>CV<span>zume</span></a>
-        <nav className={styles.sidebarNav}>
-          <div className={styles.sidebarSection}>{t('nav.main_menu')}</div>
-          <button className={styles.navItem} onClick={() => router.push(`/${locale}/dashboard`)}><span className={styles.navIcon}>🏠</span> {t('nav.dashboard')}</button>
-          <button className={styles.navItem} onClick={() => router.push(`/${locale}/dashboard`)}><span className={styles.navIcon}>📋</span> {t('nav.applications')}</button>
-          <button className={styles.navItem} onClick={() => router.push(`/${locale}/profile`)}><span className={styles.navIcon}>📄</span> {t('nav.cv')}</button>
-          <button className={`${styles.navItem} ${styles.active}`}><span className={styles.navIcon}>✉️</span> {t('nav.letters')}</button>
-          <button className={styles.navItem} onClick={() => router.push(`/${locale}/archive`)}><span className={styles.navIcon}>📁</span> {t('nav.archive')}</button>
-          <div className={styles.sidebarSection}>{t('nav.account')}</div>
-          <button className={styles.navItem} onClick={() => router.push(`/${locale}/settings`)}><span className={styles.navIcon}>⚙️</span> {t('nav.settings')}</button>
-          <button className={styles.navItem} onClick={() => router.push(`/${locale}/upgrade`)}><span className={styles.navIcon}>⚡</span> {t('nav.upgrade')}</button>
-        </nav>
-        <div className={styles.sidebarFooter}>
-          <div className={styles.userCard}>
-            <div className={styles.userAvatar}>{initials}</div>
-            <div>
-              <div className={styles.userName}>{userName}</div>
-              <div className={styles.userPlan}>{planLabel}</div>
-            </div>
-          </div>
-          <button className={styles.logoutBtn} onClick={onLogout}>
-            <span style={{ fontSize: 14 }}>⏻</span> {t('nav.logout')}
-          </button>
-        </div>
-      </aside>
-    </>
-  );
-}
-
 export default function LetterClient() {
   const t = useTranslations();
   const locale = useLocale();
   const router = useRouter();
   const contentRef = useRef<HTMLDivElement>(null);
-
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [initials, setInitials] = useState('?');
-  const [userName, setUserName] = useState('');
-  const [planLabel, setPlanLabel] = useState('');
 
   const [fullName, setFullName] = useState('Namn Efternamn');
   const [email, setEmail] = useState('');
@@ -82,10 +38,6 @@ export default function LetterClient() {
     const name = (fn + ' ' + ln).trim() || 'Namn Efternamn';
     setFullName(name);
     setEmail(user.email || '');
-    setUserName(name);
-    setInitials(((fn[0] || '') + (ln[0] || '')).toUpperCase() || '?');
-    const isPro = localStorage.getItem('cvita_is_pro') === 'true';
-    setPlanLabel(isPro ? t('dashboard.pro_plan') : t('dashboard.free_plan'));
 
     const localeMap: Record<string, string> = { en: 'en-GB', es: 'es-ES', tr: 'tr-TR', sv: 'sv-SE' };
     setDateStr(new Date().toLocaleDateString(localeMap[locale] || 'sv-SE', { day: 'numeric', month: 'long', year: 'numeric' }));
@@ -121,15 +73,9 @@ export default function LetterClient() {
     if (profile.cover_letter) setLetterText(profile.cover_letter);
     else if (result.coverLetter) setLetterText(result.coverLetter);
     else setLetterText('Inget personligt brev hittades. Gör en ny analys i dashboarden.');
-  }, [locale, router, t]);
+  }, [locale, router]);
 
   useEffect(() => { loadLetter(); }, [loadLetter]);
-
-  function handleLogout() {
-    localStorage.removeItem('cvita_token');
-    localStorage.removeItem('cvita_user');
-    router.push(`/${locale}/auth`);
-  }
 
   async function toggleEdit() {
     if (!isEditing) {
@@ -172,15 +118,10 @@ export default function LetterClient() {
   }
 
   return (
-    <div className={styles.layout}>
-      <Sidebar locale={locale} initials={initials} userName={userName} planLabel={planLabel}
-        onLogout={handleLogout} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-
-      <main className={styles.main}>
+    <main className={styles.main}>
         {/* TOOLBAR */}
         <div className={styles.toolbar}>
           <div className={styles.toolbarLeft}>
-            <button className={styles.menuToggle} onClick={() => setSidebarOpen(o => !o)}>☰</button>
             <span className={styles.toolbarTitle}>{subject}</span>
           </div>
           <div className={styles.toolbarRight}>
@@ -243,6 +184,6 @@ export default function LetterClient() {
       <div className={`${styles.toast} ${toast ? styles.toastShow : ''} ${toastType === 'success' ? styles.toastSuccess : toastType === 'error' ? styles.toastError : styles.toastCopy}`}>
         {toast}
       </div>
-    </div>
+    </main>
   );
 }

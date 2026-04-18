@@ -33,55 +33,12 @@ interface Profile {
   languages: string[];
 }
 
-function Sidebar({ locale, initials, userName, planLabel, onLogout, open, onClose }: {
-  locale: string; initials: string; userName: string; planLabel: string;
-  onLogout: () => void; open: boolean; onClose: () => void;
-}) {
-  const t = useTranslations();
-  const router = useRouter();
-  return (
-    <>
-      {open && <div className={styles.sidebarOverlay} onClick={onClose} />}
-      <aside className={`${styles.sidebar} ${open ? styles.sidebarOpen : ''}`}>
-        <a href={`/${locale}/dashboard`} className={styles.sidebarLogo}>CV<span>zume</span></a>
-        <nav className={styles.sidebarNav}>
-          <div className={styles.sidebarSection}>{t('nav.main_menu')}</div>
-          <button className={styles.navItem} onClick={() => router.push(`/${locale}/dashboard`)}><span className={styles.navIcon}>🏠</span> {t('nav.dashboard')}</button>
-          <button className={styles.navItem} onClick={() => router.push(`/${locale}/dashboard`)}><span className={styles.navIcon}>📋</span> {t('nav.applications')}</button>
-          <button className={`${styles.navItem} ${styles.active}`}><span className={styles.navIcon}>📄</span> {t('nav.cv')}</button>
-          <button className={styles.navItem} onClick={() => router.push(`/${locale}/letter`)}><span className={styles.navIcon}>✉️</span> {t('nav.letters')}</button>
-          <button className={styles.navItem} onClick={() => router.push(`/${locale}/archive`)}><span className={styles.navIcon}>📁</span> {t('nav.archive')}</button>
-          <div className={styles.sidebarSection}>{t('nav.account')}</div>
-          <button className={styles.navItem} onClick={() => router.push(`/${locale}/settings`)}><span className={styles.navIcon}>⚙️</span> {t('nav.settings')}</button>
-          <button className={styles.navItem} onClick={() => router.push(`/${locale}/upgrade`)}><span className={styles.navIcon}>⚡</span> {t('nav.upgrade')}</button>
-        </nav>
-        <div className={styles.sidebarFooter}>
-          <div className={styles.userCard}>
-            <div className={styles.userAvatar}>{initials}</div>
-            <div>
-              <div className={styles.userName}>{userName}</div>
-              <div className={styles.userPlan}>{planLabel}</div>
-            </div>
-          </div>
-          <button className={styles.logoutBtn} onClick={onLogout}>
-            <span style={{ fontSize: 14 }}>⏻</span> {t('nav.logout')}
-          </button>
-        </div>
-      </aside>
-    </>
-  );
-}
-
 export default function ProfileClient() {
   const t = useTranslations();
   const locale = useLocale();
   const router = useRouter();
   const avatarInputRef = useRef<HTMLInputElement>(null);
 
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [initials, setInitials] = useState('?');
-  const [userName, setUserName] = useState('');
-  const [planLabel, setPlanLabel] = useState('');
   const [avatarUrl, setAvatarUrl] = useState('');
   const [avatarUploading, setAvatarUploading] = useState(false);
   const [toast, setToast] = useState('');
@@ -136,10 +93,6 @@ export default function ProfileClient() {
     const fn = user.firstName || user.email?.split('@')[0] || '';
     const ln = user.lastName || '';
     setFirstName(fn); setLastName(ln); setEmail(user.email || '');
-    setUserName((fn + ' ' + ln).trim() || user.email);
-    setInitials(((fn[0] || '') + (ln[0] || '')).toUpperCase() || '?');
-    const pro = localStorage.getItem('cvita_is_pro') === 'true';
-    setPlanLabel(pro ? t('dashboard.pro_plan') : t('dashboard.free_plan'));
 
     const av = localStorage.getItem('cvita_avatar');
     if (av) setAvatarUrl(av);
@@ -180,15 +133,9 @@ export default function ProfileClient() {
       setSkills(p.skills || []);
       setLanguages(p.languages || []);
     }
-  }, [locale, router, t]);
+  }, [locale, router]);
 
   useEffect(() => { loadUser(); }, [loadUser]);
-
-  function handleLogout() {
-    localStorage.removeItem('cvita_token');
-    localStorage.removeItem('cvita_user');
-    router.push(`/${locale}/auth`);
-  }
 
   function toggleSection(key: string) {
     setOpenSections(prev => ({ ...prev, [key]: !prev[key] }));
@@ -278,14 +225,9 @@ export default function ProfileClient() {
   }
 
   return (
-    <div className={styles.layout}>
-      <Sidebar locale={locale} initials={initials} userName={userName} planLabel={planLabel}
-        onLogout={handleLogout} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-
-      <main className={styles.main}>
+    <main className={styles.main}>
         <div className={styles.topbar}>
           <div className={styles.topbarLeft}>
-            <button className={styles.menuToggle} onClick={() => setSidebarOpen(o => !o)}>☰</button>
             <span className={styles.topbarTitle}>Mitt CV</span>
           </div>
           <div className={styles.topbarRight}>
@@ -578,6 +520,6 @@ export default function ProfileClient() {
 
       {/* Toast */}
       <div className={`${styles.toast} ${toast ? styles.toastShow : ''}`}>{toast}</div>
-    </div>
+    </main>
   );
 }

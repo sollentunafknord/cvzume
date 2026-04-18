@@ -47,9 +47,7 @@ export default function DashboardClient() {
   const [searchQuery, setSearchQuery] = useState('');
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
-  const [userInitials, setUserInitials] = useState('?');
   const [isPro, setIsPro] = useState(false);
-  const [planLabel, setPlanLabel] = useState('');
   const [todayStr, setTodayStr] = useState('');
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -64,7 +62,6 @@ export default function DashboardClient() {
   const [showResult, setShowResult] = useState(false);
 
   const [showUpgrade, setShowUpgrade] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const loadUser = useCallback(() => {
     const saved = localStorage.getItem('cvita_user');
@@ -74,13 +71,10 @@ export default function DashboardClient() {
     const lastName = user.lastName || '';
     setUserName((firstName + ' ' + lastName).trim() || user.email);
     setUserEmail(user.email || '');
-    setUserInitials(((firstName[0] || '') + (lastName[0] || '')).toUpperCase() || '?');
 
     const pro = localStorage.getItem('cvita_is_pro') === 'true';
     setIsPro(pro);
-    const plan = pro ? t('dashboard.pro_plan') : t('dashboard.free_plan');
-    setPlanLabel(plan);
-  }, [locale, router, t]);
+  }, [locale, router]);
 
   const loadApplications = useCallback(async () => {
     const token = localStorage.getItem('cvita_token');
@@ -101,13 +95,6 @@ export default function DashboardClient() {
     loadUser();
     loadApplications();
   }, [locale, loadUser, loadApplications]);
-
-  function handleLogout() {
-    localStorage.removeItem('cvita_token');
-    localStorage.removeItem('cvita_user');
-    localStorage.removeItem('cvita_is_pro');
-    router.push(`/${locale}/auth`);
-  }
 
   const activeApps = apps.filter(a => a.status !== 'archived');
   const archivedApps = apps.filter(a => a.status === 'archived');
@@ -290,74 +277,11 @@ export default function DashboardClient() {
   }
 
   return (
-    <div className={styles.layout}>
-      {/* Sidebar mobile overlay */}
-      {sidebarOpen && <div className={styles.sidebarOverlay} onClick={() => setSidebarOpen(false)} />}
-
-      {/* SIDEBAR */}
-      <aside className={`${styles.sidebar} ${sidebarOpen ? styles.sidebarOpen : ''}`}>
-        <a href={`/${locale}/dashboard`} className={styles.sidebarLogo}>
-          CV<span>zume</span>
-        </a>
-
-        <nav className={styles.sidebarNav}>
-          <div className={styles.sidebarSection}>{t('nav.main_menu')}</div>
-          <button
-            className={`${styles.navItem} ${view === 'dashboard' ? styles.active : ''}`}
-            onClick={() => { setView('dashboard'); setSidebarOpen(false); }}
-          >
-            <span className={styles.navIcon}>🏠</span> {t('nav.dashboard')}
-          </button>
-          <button
-            className={`${styles.navItem} ${view === 'applications' ? styles.active : ''}`}
-            onClick={() => { setView('applications'); setSidebarOpen(false); }}
-          >
-            <span className={styles.navIcon}>📋</span> {t('nav.applications')}
-            {activeApps.length > 0 && <span className={styles.navBadge}>{activeApps.length}</span>}
-          </button>
-          <button className={styles.navItem} onClick={() => router.push(`/${locale}/cv`)}>
-            <span className={styles.navIcon}>📄</span> {t('nav.cv')}
-          </button>
-          <button className={styles.navItem} onClick={() => router.push(`/${locale}/letters`)}>
-            <span className={styles.navIcon}>✉️</span> {t('nav.letters')}
-          </button>
-          <button
-            className={`${styles.navItem} ${view === 'archive' ? styles.active : ''}`}
-            onClick={() => { setView('archive'); setSidebarOpen(false); }}
-          >
-            <span className={styles.navIcon}>📁</span> {t('nav.archive')}
-          </button>
-
-          <div className={styles.sidebarSection}>{t('nav.account')}</div>
-          <button className={styles.navItem} onClick={() => router.push(`/${locale}/settings`)}>
-            <span className={styles.navIcon}>⚙️</span> {t('nav.settings')}
-          </button>
-          <button className={styles.navItem} onClick={() => router.push(`/${locale}/upgrade`)}>
-            <span className={styles.navIcon}>⚡</span> {t('nav.upgrade')}
-          </button>
-        </nav>
-
-        <div className={styles.sidebarFooter}>
-          <div className={styles.userCard}>
-            <div className={styles.userAvatar}>{userInitials}</div>
-            <div>
-              <div className={styles.userName}>{userName}</div>
-              <div className={styles.userPlan}>{planLabel}</div>
-            </div>
-            <div className={styles.userMore}>···</div>
-          </div>
-          <button className={styles.logoutBtn} onClick={handleLogout}>
-            <span style={{ fontSize: 14 }}>⏻</span> {t('nav.logout')}
-          </button>
-        </div>
-      </aside>
-
-      {/* MAIN */}
-      <main className={styles.main}>
+    <>
+    <main className={styles.main}>
         {/* TOPBAR */}
         <div className={styles.topbar}>
           <div className={styles.topbarLeft}>
-            <button className={styles.menuToggle} onClick={() => setSidebarOpen(o => !o)}>☰</button>
             <span className={styles.topbarTitle}>
               {view === 'dashboard' ? t('nav.dashboard') : view === 'applications' ? t('nav.applications') : t('nav.archive')}
             </span>
@@ -709,6 +633,6 @@ export default function DashboardClient() {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }

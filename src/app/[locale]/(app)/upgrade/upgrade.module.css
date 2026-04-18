@@ -25,7 +25,7 @@
 .menuToggle { display: none; background: none; border: none; font-size: 20px; cursor: pointer; color: var(--navy); padding: 4px 8px; line-height: 1; margin-bottom: 16px; }
 
 /* ── MAIN ── */
-.main { margin-left: var(--sidebar-w); flex: 1; padding: 48px 40px 80px; }
+.main { flex: 1; padding: 48px 40px 80px; }
 
 /* ── HERO ── */
 .hero { text-align: center; margin-bottom: 52px; }

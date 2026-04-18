@@ -32,7 +32,7 @@
 .sidebarOpen { transform: translateX(0) !important; }
 
 /* ── MAIN ── */
-.main { margin-left: var(--sidebar-w); flex: 1; display: flex; flex-direction: column; }
+.main { flex: 1; display: flex; flex-direction: column; }
 .topbar { background: white; border-bottom: 1px solid var(--border); padding: 0 36px; height: 60px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 40; gap: 12px; }
 .topbarLeft { display: flex; align-items: center; gap: 12px; }
 .topbarTitle { font-size: 16px; font-weight: 600; color: var(--navy); }
