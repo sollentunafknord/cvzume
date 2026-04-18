@@ -1,41 +1,25 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styles from './applications.module.css';
 
-// Star pulses 5× → morphs to heart → heart pulses once → back to star → loops
+// Always-on animation: star pulses 5× → becomes heart → heart pulses once → back to star → loops
 export default function FavButton({ favorited, onClick }: {
   favorited: boolean;
   onClick: () => void;
 }) {
   const [showHeart, setShowHeart] = useState(false);
-  const [phase, setPhase] = useState<'star' | 'heart' | null>(null);
-
-  useEffect(() => {
-    if (favorited) {
-      setShowHeart(false);
-      setPhase('star');
-    } else {
-      setShowHeart(false);
-      setPhase(null);
-    }
-  }, [favorited]);
+  const [phase, setPhase] = useState<'star' | 'heart'>('star');
 
   function handleAnimEnd() {
     if (phase === 'star') {
-      // star done → switch to heart
       setShowHeart(true);
       setPhase('heart');
-    } else if (phase === 'heart') {
-      // heart done → back to star
+    } else {
       setShowHeart(false);
       setPhase('star');
     }
   }
-
-  const cls =
-    phase === 'star' ? styles.starPulse :
-    phase === 'heart' ? styles.heartPulse : '';
 
   return (
     <button
@@ -43,7 +27,10 @@ export default function FavButton({ favorited, onClick }: {
       onClick={onClick}
       aria-label={favorited ? 'Remove from favorites' : 'Add to favorites'}
     >
-      <span className={`${styles.favIcon} ${cls}`} onAnimationEnd={handleAnimEnd}>
+      <span
+        className={`${styles.favIcon} ${phase === 'star' ? styles.starPulse : styles.heartPulse}`}
+        onAnimationEnd={handleAnimEnd}
+      >
         {showHeart ? '♥' : favorited ? '★' : '☆'}
       </span>
     </button>
