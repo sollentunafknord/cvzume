@@ -46,6 +46,7 @@ export default function ProfileClient() {
   // profile fields
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const initials = `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase() || '?';
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [location, setLocation] = useState('');
