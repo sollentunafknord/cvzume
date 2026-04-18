@@ -2,14 +2,18 @@
 
 import { useState, useEffect } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import styles from './sidebar.module.css';
 
-export default function Sidebar() {
+interface SidebarProps {
+  activePage: string;
+  onNavigate: (seg: string) => void;
+}
+
+export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
   const t = useTranslations();
   const locale = useLocale();
   const router = useRouter();
-  const pathname = usePathname();
 
   const [open, setOpen] = useState(false);
 
@@ -17,8 +21,8 @@ export default function Sidebar() {
     if (typeof window === 'undefined') return '?';
     try {
       const user = JSON.parse(localStorage.getItem('cvita_user') || '{}');
-      const fn = user.firstName || user.email?.split('@')[0] || '';
-      const ln = user.lastName || '';
+      const fn = user.firstName || user.first_name || user.email?.split('@')[0] || '';
+      const ln = user.lastName || user.last_name || '';
       return ((fn[0] || '') + (ln[0] || '')).toUpperCase() || '?';
     } catch { return '?'; }
   });
@@ -27,8 +31,8 @@ export default function Sidebar() {
     if (typeof window === 'undefined') return '';
     try {
       const user = JSON.parse(localStorage.getItem('cvita_user') || '{}');
-      const fn = user.firstName || user.email?.split('@')[0] || '';
-      const ln = user.lastName || '';
+      const fn = user.firstName || user.first_name || user.email?.split('@')[0] || '';
+      const ln = user.lastName || user.last_name || '';
       return (fn + ' ' + ln).trim() || user.email || '';
     } catch { return ''; }
   });
@@ -46,12 +50,12 @@ export default function Sidebar() {
     router.push(`/${locale}/auth`);
   }
 
-  function nav(path: string) {
+  function nav(seg: string) {
     setOpen(false);
-    router.push(path);
+    onNavigate(seg);
   }
 
-  const seg = pathname?.split('/')[2] ?? '';
+  const seg = activePage;
 
   return (
     <>
@@ -59,29 +63,29 @@ export default function Sidebar() {
       <button className={styles.menuToggle} onClick={() => setOpen(o => !o)}>☰</button>
 
       <aside className={`${styles.sidebar} ${open ? styles.sidebarOpen : ''}`}>
-        <a href={`/${locale}/dashboard`} className={styles.sidebarLogo}>CV<span>zume</span></a>
+        <button className={styles.sidebarLogo} onClick={() => nav('dashboard')}>CV<span>zume</span></button>
         <nav className={styles.sidebarNav}>
           <div className={styles.sidebarSection}>{t('nav.main_menu')}</div>
-          <button className={`${styles.navItem} ${seg === 'dashboard' ? styles.active : ''}`} onClick={() => nav(`/${locale}/dashboard`)}>
+          <button className={`${styles.navItem} ${seg === 'dashboard' ? styles.active : ''}`} onClick={() => nav('dashboard')}>
             <span className={styles.navIcon}>🏠</span> {t('nav.dashboard')}
           </button>
-          <button className={`${styles.navItem} ${seg === 'dashboard' ? styles.active : ''}`} onClick={() => nav(`/${locale}/dashboard`)}>
+          <button className={`${styles.navItem} ${seg === 'applications' ? styles.active : ''}`} onClick={() => nav('dashboard')}>
             <span className={styles.navIcon}>📋</span> {t('nav.applications')}
           </button>
-          <button className={`${styles.navItem} ${seg === 'profile' || seg === 'cv' ? styles.active : ''}`} onClick={() => nav(`/${locale}/profile`)}>
+          <button className={`${styles.navItem} ${seg === 'profile' ? styles.active : ''}`} onClick={() => nav('profile')}>
             <span className={styles.navIcon}>📄</span> {t('nav.cv')}
           </button>
-          <button className={`${styles.navItem} ${seg === 'letter' ? styles.active : ''}`} onClick={() => nav(`/${locale}/letter`)}>
+          <button className={`${styles.navItem} ${seg === 'letter' ? styles.active : ''}`} onClick={() => nav('letter')}>
             <span className={styles.navIcon}>✉️</span> {t('nav.letters')}
           </button>
-          <button className={`${styles.navItem} ${seg === 'archive' ? styles.active : ''}`} onClick={() => nav(`/${locale}/archive`)}>
+          <button className={`${styles.navItem} ${seg === 'archive' ? styles.active : ''}`} onClick={() => nav('archive')}>
             <span className={styles.navIcon}>📁</span> {t('nav.archive')}
           </button>
           <div className={styles.sidebarSection}>{t('nav.account')}</div>
-          <button className={`${styles.navItem} ${seg === 'settings' ? styles.active : ''}`} onClick={() => nav(`/${locale}/settings`)}>
+          <button className={`${styles.navItem} ${seg === 'settings' ? styles.active : ''}`} onClick={() => nav('settings')}>
             <span className={styles.navIcon}>⚙️</span> {t('nav.settings')}
           </button>
-          <button className={`${styles.navItem} ${seg === 'upgrade' ? styles.active : ''}`} onClick={() => nav(`/${locale}/upgrade`)}>
+          <button className={`${styles.navItem} ${seg === 'upgrade' ? styles.active : ''}`} onClick={() => nav('upgrade')}>
             <span className={styles.navIcon}>⚡</span> {t('nav.upgrade')}
           </button>
         </nav>

@@ -1,6 +1,8 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { useLocale } from 'next-intl';
 import Sidebar from './Sidebar';
 import styles from './sidebar.module.css';
 import DashboardClient from './dashboard/DashboardClient';
@@ -13,19 +15,33 @@ import CVClient from './cv/CVClient';
 
 export default function AppShell() {
   const pathname = usePathname();
-  const seg = pathname?.split('/')[2] ?? 'dashboard';
+  const router = useRouter();
+  const locale = useLocale();
+
+  const [page, setPage] = useState(() => pathname?.split('/')[2] || 'dashboard');
+
+  // Keep in sync with browser back/forward
+  useEffect(() => {
+    const seg = pathname?.split('/')[2] || 'dashboard';
+    setPage(seg);
+  }, [pathname]);
+
+  function navigate(seg: string) {
+    setPage(seg);                              // instant — React state, no waiting
+    router.push(`/${locale}/${seg}`);          // async — updates URL in background
+  }
 
   return (
     <div className={styles.layout}>
-      <Sidebar />
+      <Sidebar activePage={page} onNavigate={navigate} />
       <div className={styles.content}>
-        {seg === 'dashboard' && <DashboardClient />}
-        {seg === 'profile'   && <ProfileClient />}
-        {seg === 'settings'  && <SettingsClient />}
-        {seg === 'upgrade'   && <UpgradeClient />}
-        {seg === 'letter'    && <LetterClient />}
-        {seg === 'archive'   && <ArchiveClient />}
-        {seg === 'cv'        && <CVClient />}
+        {page === 'dashboard' && <DashboardClient />}
+        {page === 'profile'   && <ProfileClient />}
+        {page === 'settings'  && <SettingsClient />}
+        {page === 'upgrade'   && <UpgradeClient />}
+        {page === 'letter'    && <LetterClient />}
+        {page === 'archive'   && <ArchiveClient />}
+        {page === 'cv'        && <CVClient />}
       </div>
     </div>
   );
