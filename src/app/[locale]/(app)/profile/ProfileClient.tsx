@@ -516,8 +516,6 @@ export default function ProfileClient() {
 
           </div>
         </div>
-      </main>
-
       {/* Toast */}
       <div className={`${styles.toast} ${toast ? styles.toastShow : ''}`}>{toast}</div>
     </main>

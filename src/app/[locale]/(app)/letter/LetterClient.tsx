@@ -178,8 +178,6 @@ export default function LetterClient() {
             </div>
           </div>
         </div>
-      </main>
-
       {/* Toast */}
       <div className={`${styles.toast} ${toast ? styles.toastShow : ''} ${toastType === 'success' ? styles.toastSuccess : toastType === 'error' ? styles.toastError : styles.toastCopy}`}>
         {toast}

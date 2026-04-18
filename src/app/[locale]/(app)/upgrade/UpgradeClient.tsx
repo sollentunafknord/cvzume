@@ -186,8 +186,6 @@ export default function UpgradeClient() {
             </div>
           ))}
         </div>
-      </main>
-
       {/* Toast */}
       <div className={`${styles.toast} ${toast ? styles.toastShow : ''} ${toastError ? styles.toastError : ''}`}>
         {toast}

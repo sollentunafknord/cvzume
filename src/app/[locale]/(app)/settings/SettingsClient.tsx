@@ -431,8 +431,6 @@ export default function SettingsClient() {
             </div>
           </div>
         )}
-      </main>
-
       {/* Toast */}
       <div className={`${styles.toast} ${toast ? styles.toastShow : ''} ${toastType === 'error' ? styles.toastError : styles.toastSuccess}`}>
         {toast}
