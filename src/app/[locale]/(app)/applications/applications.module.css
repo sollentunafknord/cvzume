@@ -80,9 +80,30 @@
 .analyzeBtn:hover { background: var(--blue-pale); border-color: var(--blue); }
 .applyLink { padding: 8px 16px; background: none; color: var(--slate); border: 1.5px solid var(--border); border-radius: 8px; font-size: 13px; font-weight: 500; text-decoration: none; transition: all 0.15s; }
 .applyLink:hover { border-color: var(--slate); color: var(--navy); }
-.favBtn { background: none; border: none; font-size: 22px; cursor: pointer; color: var(--muted); transition: all 0.15s; padding: 0 4px; line-height: 1; flex-shrink: 0; }
-.favBtn:hover { color: var(--amber); transform: scale(1.15); }
+.favBtn { background: none; border: none; font-size: 22px; cursor: pointer; color: var(--muted); padding: 0 4px; line-height: 1; flex-shrink: 0; }
+.favBtn:hover .favIcon { transform: scale(1.2); }
 .favActive { color: var(--amber) !important; }
+.favIcon { display: inline-block; transition: transform 0.15s; }
+
+@keyframes favPulse {
+  0%   { transform: scale(1); }
+  30%  { transform: scale(1.6); }
+  60%  { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+
+@keyframes heartAppear {
+  0%   { transform: scale(0.4); opacity: 0.5; }
+  60%  { transform: scale(1.7); }
+  80%  { transform: scale(0.9); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* 5 heartbeat-style pulses */
+.starPulse { animation: favPulse 320ms cubic-bezier(0.36,0.07,0.19,0.97) 5 both; }
+
+/* heart pops in then settles */
+.heartPulse { animation: heartAppear 700ms cubic-bezier(0.36,0.07,0.19,0.97) 1 both; }
 
 /* ── LOAD MORE ── */
 .loadMoreWrap { display: flex; justify-content: center; margin-top: 24px; }

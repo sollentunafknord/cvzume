@@ -1,5 +1,6 @@
 import styles from './applications.module.css';
 import { Job, formatDeadline } from './types';
+import FavButton from './FavButton';
 
 export default function JobCard({ job, favorited, onToggleFavorite, t }: {
   job: Job;
@@ -21,12 +22,7 @@ export default function JobCard({ job, favorited, onToggleFavorite, t }: {
             {deadline && <span className={styles.deadline}>⏰ {t('deadline')}: {deadline}</span>}
           </div>
         </div>
-        <button
-          className={`${styles.favBtn} ${favorited ? styles.favActive : ''}`}
-          onClick={() => onToggleFavorite(job)}
-        >
-          {favorited ? '★' : '☆'}
-        </button>
+        <FavButton favorited={favorited} onClick={() => onToggleFavorite(job)} />
       </div>
       {job.description?.text && (
         <p className={styles.jobDesc}>{job.description.text.replace(/<[^>]+>/g, '').slice(0, 200)}…</p>
