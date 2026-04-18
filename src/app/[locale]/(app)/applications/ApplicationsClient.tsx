@@ -1,8 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { useTranslations, useLocale } from 'next-intl';
-import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import styles from './applications.module.css';
 
 interface Region { id: string; preferred_label: string; }
@@ -35,14 +34,8 @@ function formatDeadline(dateStr?: string) {
   catch { return null; }
 }
 
-interface Props {
-  onAnalyze?: (role: string, description: string) => void;
-}
-
-export default function ApplicationsClient({ onAnalyze }: Props = {}) {
+export default function ApplicationsClient() {
   const t = useTranslations('jobs');
-  const locale = useLocale();
-  const router = useRouter();
 
   const [tab, setTab] = useState<'search' | 'favorites'>('search');
 
@@ -171,16 +164,6 @@ export default function ApplicationsClient({ onAnalyze }: Props = {}) {
     });
   }
 
-  function analyzeJob(job: Job) {
-    const role = job.headline;
-    const description = job.description?.text || '';
-    if (onAnalyze) {
-      onAnalyze(role, description);
-    } else {
-      localStorage.setItem('cvita_prefill_job', JSON.stringify({ role, description }));
-      router.push(`/${locale}/dashboard`);
-    }
-  }
 
   const ortLabel = selMunicipalities.length > 0
     ? `${selMunicipalities.length} kommuner`
@@ -330,11 +313,18 @@ export default function ApplicationsClient({ onAnalyze }: Props = {}) {
             </div>
           </form>
 
-          {searched && (
+          {searched && results.length > 0 && (
             <div className={styles.resultsHeader}>
               <span className={styles.resultCount}>
                 {t('results_count', { count: total.toLocaleString('sv-SE') })}
               </span>
+            </div>
+          )}
+
+          {searched && results.length > 0 && (
+            <div className={styles.searchHint}>
+              <span className={styles.searchHintIcon}>💡</span>
+              <span>Bläddra bland jobben och klicka på <strong>★</strong> bredvid en annons för att spara den till dina Favoriter — där förbereder du ditt CV och personliga brev.</span>
             </div>
           )}
 
@@ -345,7 +335,6 @@ export default function ApplicationsClient({ onAnalyze }: Props = {}) {
                 job={job}
                 favorited={favorites.some(f => f.id === job.id)}
                 onToggleFavorite={toggleFavorite}
-                onAnalyze={analyzeJob}
                 t={t}
               />
             ))}
@@ -377,7 +366,6 @@ export default function ApplicationsClient({ onAnalyze }: Props = {}) {
               job={job}
               favorited
               onToggleFavorite={toggleFavorite}
-              onAnalyze={analyzeJob}
               t={t}
             />
           ))}
@@ -387,10 +375,9 @@ export default function ApplicationsClient({ onAnalyze }: Props = {}) {
   );
 }
 
-function JobCard({ job, favorited, onToggleFavorite, onAnalyze, t }: {
+function JobCard({ job, favorited, onToggleFavorite, t }: {
   job: Job; favorited: boolean;
   onToggleFavorite: (job: Job) => void;
-  onAnalyze: (job: Job) => void;
   t: (key: string) => string;
 }) {
   const deadline = formatDeadline(job.application_deadline);
@@ -418,7 +405,6 @@ function JobCard({ job, favorited, onToggleFavorite, onAnalyze, t }: {
         <p className={styles.jobDesc}>{job.description.text.replace(/<[^>]+>/g, '').slice(0, 200)}…</p>
       )}
       <div className={styles.jobActions}>
-        <button className={styles.analyzeBtn} onClick={() => onAnalyze(job)}>✨ {t('analyze_btn')}</button>
         {job.webpage_url && (
           <a href={job.webpage_url} target="_blank" rel="noopener noreferrer" className={styles.applyLink}>
             {t('apply_btn')}
