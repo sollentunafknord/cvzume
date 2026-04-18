@@ -1,14 +1,13 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import styles from './applications.module.css';
 
-interface TaxItem {
-  id: string;
-  preferred_label: string;
-}
+interface Region { id: string; preferred_label: string; }
+interface Municipality { id: string; preferred_label: string; broader_id: string; }
+interface OccField { id: string; preferred_label: string; }
 
 interface Job {
   id: string;
@@ -18,122 +17,145 @@ interface Job {
   description?: { text?: string };
   application_deadline?: string;
   webpage_url?: string;
-  employment_type?: { label?: string };
 }
 
 const FAVORITES_KEY = 'cvita_job_favorites';
 const PAGE_SIZE = 10;
 
 function loadFavorites(): Job[] {
-  try {
-    return JSON.parse(localStorage.getItem(FAVORITES_KEY) || '[]');
-  } catch { return []; }
+  try { return JSON.parse(localStorage.getItem(FAVORITES_KEY) || '[]'); }
+  catch { return []; }
 }
-
 function saveFavorites(favs: Job[]) {
   localStorage.setItem(FAVORITES_KEY, JSON.stringify(favs));
 }
-
 function formatDeadline(dateStr?: string) {
   if (!dateStr) return null;
-  try {
-    return new Date(dateStr).toLocaleDateString('sv-SE', {
-      day: 'numeric', month: 'short', year: 'numeric',
-    });
-  } catch { return null; }
+  try { return new Date(dateStr).toLocaleDateString('sv-SE', { day: 'numeric', month: 'short', year: 'numeric' }); }
+  catch { return null; }
 }
 
 interface Props {
   onAnalyze?: (role: string, description: string) => void;
-  isModal?: boolean;
 }
 
-export default function ApplicationsClient({ onAnalyze, isModal }: Props = {}) {
+export default function ApplicationsClient({ onAnalyze }: Props = {}) {
   const t = useTranslations('jobs');
   const locale = useLocale();
   const router = useRouter();
 
   const [tab, setTab] = useState<'search' | 'favorites'>('search');
 
-  // Taxonomy data
-  const [regions, setRegions] = useState<TaxItem[]>([]);
-  const [municipalities, setMunicipalities] = useState<TaxItem[]>([]);
-  const [occFields, setOccFields] = useState<TaxItem[]>([]);
-  const [occGroups, setOccGroups] = useState<TaxItem[]>([]);
+  // Taxonomy
+  const [regions, setRegions] = useState<Region[]>([]);
+  const [municipalities, setMunicipalities] = useState<Municipality[]>([]);
+  const [occFields, setOccFields] = useState<OccField[]>([]);
+  const [taxLoaded, setTaxLoaded] = useState(false);
 
-  // Filters
+  // Filter panel state
+  const [ortOpen, setOrtOpen] = useState(false);
+  const [yrkeOpen, setYrkeOpen] = useState(false);
+  const [hoverRegion, setHoverRegion] = useState('');
+  const [selMunicipalities, setSelMunicipalities] = useState<string[]>([]);
   const [selRegion, setSelRegion] = useState('');
-  const [selMunicipality, setSelMunicipality] = useState('');
-  const [selField, setSelField] = useState('');
-  const [selGroup, setSelGroup] = useState('');
-  const [query, setQuery] = useState('');
+  const [selFields, setSelFields] = useState<string[]>([]);
+  const ortRef = useRef<HTMLDivElement>(null);
+  const yrkeRef = useRef<HTMLDivElement>(null);
 
-  // Results
+  // Search
+  const [query, setQuery] = useState('');
   const [results, setResults] = useState<Job[]>([]);
   const [total, setTotal] = useState(0);
   const [offset, setOffset] = useState(0);
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
-
-  // Favorites
   const [favorites, setFavorites] = useState<Job[]>([]);
 
-  // Load taxonomy on mount
+  // Close panels on outside click
   useEffect(() => {
-    setFavorites(loadFavorites());
-
-    async function loadTaxonomy() {
-      const [regRes, munRes, fieldRes, groupRes] = await Promise.all([
-        fetch('/api/jobs/taxonomy?type=region&limit=30'),
-        fetch('/api/jobs/taxonomy?type=municipality&limit=400'),
-        fetch('/api/jobs/taxonomy?type=occupation-field&limit=50'),
-        fetch('/api/jobs/taxonomy?type=occupation-group&limit=500'),
-      ]);
-      const [regData, munData, fieldData, groupData] = await Promise.all([
-        regRes.json(), munRes.json(), fieldRes.json(), groupRes.json(),
-      ]);
-      setRegions(regData.data || []);
-      setMunicipalities(munData.data || []);
-      setOccFields(fieldData.data || []);
-      setOccGroups(groupData.data || []);
+    function handler(e: MouseEvent) {
+      if (ortRef.current && !ortRef.current.contains(e.target as Node)) setOrtOpen(false);
+      if (yrkeRef.current && !yrkeRef.current.contains(e.target as Node)) setYrkeOpen(false);
     }
-
-    loadTaxonomy().catch(console.error);
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
   }, []);
 
-  const filteredMunicipalities = municipalities;
-  const filteredGroups = occGroups;
+  // Load taxonomy once
+  useEffect(() => {
+    setFavorites(loadFavorites());
+    if (taxLoaded) return;
+    Promise.all([
+      fetch('/api/jobs/taxonomy?type=region').then(r => r.json()),
+      fetch('/api/jobs/taxonomy?type=municipality').then(r => r.json()),
+      fetch('/api/jobs/taxonomy?type=occupation-field').then(r => r.json()),
+    ]).then(([reg, mun, field]) => {
+      const regs: Region[] = (reg.data || []).sort((a: Region, b: Region) => a.preferred_label.localeCompare(b.preferred_label, 'sv'));
+      const muns: Municipality[] = (mun.data || []).sort((a: Municipality, b: Municipality) => a.preferred_label.localeCompare(b.preferred_label, 'sv'));
+      const fields: OccField[] = (field.data || []).sort((a: OccField, b: OccField) => a.preferred_label.localeCompare(b.preferred_label, 'sv'));
+      setRegions(regs);
+      setMunicipalities(muns);
+      setOccFields(fields);
+      setTaxLoaded(true);
+      // default hover to first region
+      if (regs.length > 0) setHoverRegion(regs[0].id);
+    }).catch(console.error);
+  }, [taxLoaded]);
+
+  const kommunerInRegion = hoverRegion
+    ? municipalities.filter(m => m.broader_id === hoverRegion)
+    : [];
 
   const search = useCallback(async (newOffset = 0) => {
     setLoading(true);
     setSearched(true);
     const params = new URLSearchParams({ limit: String(PAGE_SIZE), offset: String(newOffset) });
     if (query.trim()) params.set('q', query.trim());
-    if (selMunicipality) params.set('municipality', selMunicipality);
-    else if (selRegion) params.set('region', selRegion);
-    if (selGroup) params.set('occupation-group', selGroup);
-    else if (selField) params.set('occupation-field', selField);
-
+    if (selMunicipalities.length > 0) {
+      selMunicipalities.forEach(id => params.append('municipality', id));
+    } else if (selRegion) {
+      params.set('region', selRegion);
+    }
+    if (selFields.length > 0) {
+      selFields.forEach(id => params.append('occupation-field', id));
+    }
     try {
       const res = await fetch(`/api/jobs/search?${params}`);
       const data = await res.json();
       const hits: Job[] = data.hits || [];
-      if (newOffset === 0) {
-        setResults(hits);
-      } else {
-        setResults(prev => [...prev, ...hits]);
-      }
+      setResults(newOffset === 0 ? hits : prev => [...prev, ...hits]);
       setTotal(data.total?.value || 0);
       setOffset(newOffset);
     } finally {
       setLoading(false);
     }
-  }, [query, selRegion, selMunicipality, selField, selGroup]);
+  }, [query, selRegion, selMunicipalities, selFields]);
 
   function handleSearch(e: React.FormEvent) {
     e.preventDefault();
     search(0);
   }
+
+  function toggleMunicipality(id: string) {
+    setSelMunicipalities(prev =>
+      prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]
+    );
+  }
+
+  function toggleField(id: string) {
+    setSelFields(prev =>
+      prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]
+    );
+  }
+
+  function selectRegion(id: string) {
+    setSelRegion(id);
+    setSelMunicipalities([]);
+    setHoverRegion(id);
+  }
+
+  function clearOrt() { setSelRegion(''); setSelMunicipalities([]); }
+  function clearYrke() { setSelFields([]); }
 
   function toggleFavorite(job: Job) {
     setFavorites(prev => {
@@ -142,10 +164,6 @@ export default function ApplicationsClient({ onAnalyze, isModal }: Props = {}) {
       saveFavorites(next);
       return next;
     });
-  }
-
-  function isFavorite(id: string) {
-    return favorites.some(f => f.id === id);
   }
 
   function analyzeJob(job: Job) {
@@ -159,6 +177,18 @@ export default function ApplicationsClient({ onAnalyze, isModal }: Props = {}) {
     }
   }
 
+  const ortLabel = selMunicipalities.length > 0
+    ? `${selMunicipalities.length} kommuner`
+    : selRegion
+      ? regions.find(r => r.id === selRegion)?.preferred_label || 'Ort'
+      : 'Ort';
+
+  const yrkeLabel = selFields.length > 0
+    ? selFields.length === 1
+      ? occFields.find(f => f.id === selFields[0])?.preferred_label || 'Yrke'
+      : `${selFields.length} yrkesområden`
+    : 'Yrke';
+
   return (
     <div className={styles.page}>
       <div className={styles.header}>
@@ -167,16 +197,10 @@ export default function ApplicationsClient({ onAnalyze, isModal }: Props = {}) {
       </div>
 
       <div className={styles.tabs}>
-        <button
-          className={`${styles.tab} ${tab === 'search' ? styles.tabActive : ''}`}
-          onClick={() => setTab('search')}
-        >
+        <button className={`${styles.tab} ${tab === 'search' ? styles.tabActive : ''}`} onClick={() => setTab('search')}>
           🔍 {t('tab_search')}
         </button>
-        <button
-          className={`${styles.tab} ${tab === 'favorites' ? styles.tabActive : ''}`}
-          onClick={() => setTab('favorites')}
-        >
+        <button className={`${styles.tab} ${tab === 'favorites' ? styles.tabActive : ''}`} onClick={() => setTab('favorites')}>
           ★ {t('tab_favorites')}
           {favorites.length > 0 && <span className={styles.badge}>{favorites.length}</span>}
         </button>
@@ -185,63 +209,106 @@ export default function ApplicationsClient({ onAnalyze, isModal }: Props = {}) {
       {tab === 'search' && (
         <>
           <form className={styles.filters} onSubmit={handleSearch}>
-            <div className={styles.filterRow}>
-              <div className={styles.filterGroup}>
-                <label className={styles.filterLabel}>{t('filter_lan')}</label>
-                <select
-                  className={styles.select}
-                  value={selRegion}
-                  onChange={e => { setSelRegion(e.target.value); setSelMunicipality(''); }}
+            <div className={styles.filterBtnRow}>
+              {/* ORT PANEL */}
+              <div className={styles.filterPanelWrap} ref={ortRef}>
+                <button
+                  type="button"
+                  className={`${styles.filterPillBtn} ${(selRegion || selMunicipalities.length > 0) ? styles.filterPillActive : ''}`}
+                  onClick={() => { setOrtOpen(o => !o); setYrkeOpen(false); }}
                 >
-                  <option value="">{t('anywhere')}</option>
-                  {regions.map(r => (
-                    <option key={r.id} value={r.id}>{r.preferred_label}</option>
-                  ))}
-                </select>
+                  {ortLabel} {ortOpen ? '▲' : '▼'}
+                </button>
+                {ortOpen && (
+                  <div className={styles.filterPanel}>
+                    <div className={styles.filterPanelHeader}>
+                      <span className={styles.filterPanelTitle}>Välj ort</span>
+                      {(selRegion || selMunicipalities.length > 0) && (
+                        <button type="button" className={styles.clearBtn} onClick={clearOrt}>Rensa</button>
+                      )}
+                    </div>
+                    <div className={styles.filterPanelBody}>
+                      <div className={styles.regionList}>
+                        {regions.map(r => (
+                          <div
+                            key={r.id}
+                            className={`${styles.regionItem} ${hoverRegion === r.id ? styles.regionItemActive : ''} ${selRegion === r.id ? styles.regionItemSelected : ''}`}
+                            onClick={() => selectRegion(r.id)}
+                            onMouseEnter={() => setHoverRegion(r.id)}
+                          >
+                            {r.preferred_label}
+                            <span className={styles.regionArrow}>›</span>
+                          </div>
+                        ))}
+                      </div>
+                      <div className={styles.kommunList}>
+                        <label className={styles.kommunItem}>
+                          <input
+                            type="checkbox"
+                            checked={selRegion === hoverRegion && selMunicipalities.length === 0}
+                            onChange={() => {
+                              if (selRegion === hoverRegion && selMunicipalities.length === 0) {
+                                setSelRegion('');
+                              } else {
+                                selectRegion(hoverRegion);
+                              }
+                            }}
+                          />
+                          <span>Alla kommuner i länet</span>
+                        </label>
+                        {kommunerInRegion.map(m => (
+                          <label key={m.id} className={styles.kommunItem}>
+                            <input
+                              type="checkbox"
+                              checked={selMunicipalities.includes(m.id)}
+                              onChange={() => {
+                                setSelRegion('');
+                                toggleMunicipality(m.id);
+                              }}
+                            />
+                            <span>{m.preferred_label}</span>
+                          </label>
+                        ))}
+                        {kommunerInRegion.length === 0 && hoverRegion && (
+                          <div className={styles.kommunEmpty}>Laddar kommuner...</div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
 
-              <div className={styles.filterGroup}>
-                <label className={styles.filterLabel}>{t('filter_kommun')}</label>
-                <select
-                  className={styles.select}
-                  value={selMunicipality}
-                  onChange={e => setSelMunicipality(e.target.value)}
-                  disabled={!selRegion}
+              {/* YRKE PANEL */}
+              <div className={styles.filterPanelWrap} ref={yrkeRef}>
+                <button
+                  type="button"
+                  className={`${styles.filterPillBtn} ${selFields.length > 0 ? styles.filterPillActive : ''}`}
+                  onClick={() => { setYrkeOpen(o => !o); setOrtOpen(false); }}
                 >
-                  <option value="">{t('all_kommuner')}</option>
-                  {filteredMunicipalities.map(m => (
-                    <option key={m.id} value={m.id}>{m.preferred_label}</option>
-                  ))}
-                </select>
-              </div>
-
-              <div className={styles.filterGroup}>
-                <label className={styles.filterLabel}>{t('filter_field')}</label>
-                <select
-                  className={styles.select}
-                  value={selField}
-                  onChange={e => { setSelField(e.target.value); setSelGroup(''); }}
-                >
-                  <option value="">{t('all_fields')}</option>
-                  {occFields.map(f => (
-                    <option key={f.id} value={f.id}>{f.preferred_label}</option>
-                  ))}
-                </select>
-              </div>
-
-              <div className={styles.filterGroup}>
-                <label className={styles.filterLabel}>{t('filter_group')}</label>
-                <select
-                  className={styles.select}
-                  value={selGroup}
-                  onChange={e => setSelGroup(e.target.value)}
-                  disabled={!selField}
-                >
-                  <option value="">{t('all_groups')}</option>
-                  {filteredGroups.map(g => (
-                    <option key={g.id} value={g.id}>{g.preferred_label}</option>
-                  ))}
-                </select>
+                  {yrkeLabel} {yrkeOpen ? '▲' : '▼'}
+                </button>
+                {yrkeOpen && (
+                  <div className={styles.filterPanel} style={{ minWidth: 280 }}>
+                    <div className={styles.filterPanelHeader}>
+                      <span className={styles.filterPanelTitle}>Välj yrkesområde</span>
+                      {selFields.length > 0 && (
+                        <button type="button" className={styles.clearBtn} onClick={clearYrke}>Rensa</button>
+                      )}
+                    </div>
+                    <div className={styles.yrkeList}>
+                      {occFields.map(f => (
+                        <label key={f.id} className={styles.kommunItem}>
+                          <input
+                            type="checkbox"
+                            checked={selFields.includes(f.id)}
+                            onChange={() => toggleField(f.id)}
+                          />
+                          <span>{f.preferred_label}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -271,7 +338,7 @@ export default function ApplicationsClient({ onAnalyze, isModal }: Props = {}) {
               <JobCard
                 key={job.id}
                 job={job}
-                favorited={isFavorite(job.id)}
+                favorited={favorites.some(f => f.id === job.id)}
                 onToggleFavorite={toggleFavorite}
                 onAnalyze={analyzeJob}
                 t={t}
@@ -298,9 +365,7 @@ export default function ApplicationsClient({ onAnalyze, isModal }: Props = {}) {
 
       {tab === 'favorites' && (
         <div className={styles.jobList}>
-          {favorites.length === 0 && (
-            <div className={styles.empty}>{t('no_favorites')}</div>
-          )}
+          {favorites.length === 0 && <div className={styles.empty}>{t('no_favorites')}</div>}
           {favorites.map(job => (
             <JobCard
               key={job.id}
@@ -317,66 +382,40 @@ export default function ApplicationsClient({ onAnalyze, isModal }: Props = {}) {
   );
 }
 
-function JobCard({
-  job,
-  favorited,
-  onToggleFavorite,
-  onAnalyze,
-  t,
-}: {
-  job: Job;
-  favorited: boolean;
+function JobCard({ job, favorited, onToggleFavorite, onAnalyze, t }: {
+  job: Job; favorited: boolean;
   onToggleFavorite: (job: Job) => void;
   onAnalyze: (job: Job) => void;
   t: (key: string) => string;
 }) {
   const deadline = formatDeadline(job.application_deadline);
-
   return (
     <div className={styles.jobCard}>
       <div className={styles.jobCardHeader}>
         <div className={styles.jobInfo}>
           <h3 className={styles.jobTitle}>{job.headline}</h3>
           <div className={styles.jobMeta}>
-            {job.employer?.name && (
-              <span className={styles.employer}>{job.employer.name}</span>
-            )}
+            {job.employer?.name && <span className={styles.employer}>{job.employer.name}</span>}
             {(job.workplace_address?.municipality || job.workplace_address?.region) && (
-              <span className={styles.location}>
-                📍 {job.workplace_address.municipality || job.workplace_address.region}
-              </span>
+              <span className={styles.location}>📍 {job.workplace_address.municipality || job.workplace_address.region}</span>
             )}
-            {deadline && (
-              <span className={styles.deadline}>⏰ {t('deadline')}: {deadline}</span>
-            )}
+            {deadline && <span className={styles.deadline}>⏰ {t('deadline')}: {deadline}</span>}
           </div>
         </div>
         <button
           className={`${styles.favBtn} ${favorited ? styles.favActive : ''}`}
           onClick={() => onToggleFavorite(job)}
-          title={favorited ? t('favorite_remove') : t('favorite_add')}
         >
           {favorited ? '★' : '☆'}
         </button>
       </div>
-
       {job.description?.text && (
-        <p className={styles.jobDesc}>
-          {job.description.text.replace(/<[^>]+>/g, '').slice(0, 200)}…
-        </p>
+        <p className={styles.jobDesc}>{job.description.text.replace(/<[^>]+>/g, '').slice(0, 200)}…</p>
       )}
-
       <div className={styles.jobActions}>
-        <button className={styles.analyzeBtn} onClick={() => onAnalyze(job)}>
-          ✨ {t('analyze_btn')}
-        </button>
+        <button className={styles.analyzeBtn} onClick={() => onAnalyze(job)}>✨ {t('analyze_btn')}</button>
         {job.webpage_url && (
-          <a
-            href={job.webpage_url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.applyLink}
-          >
+          <a href={job.webpage_url} target="_blank" rel="noopener noreferrer" className={styles.applyLink}>
             {t('apply_btn')}
           </a>
         )}
