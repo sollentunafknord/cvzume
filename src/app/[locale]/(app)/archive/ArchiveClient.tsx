@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, CSSProperties } from 'react';
 import { useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
 
@@ -31,9 +31,9 @@ function formatDate(dateStr: string) {
   return new Date(dateStr).toLocaleDateString('sv-SE', { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
-const card: React.CSSProperties = { background: 'white', border: '1.5px solid var(--border)', borderRadius: 12, padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 14 };
-const iconBox: React.CSSProperties = { width: 40, height: 40, borderRadius: 10, background: '#F1F5F9', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 };
-const actionBtn: React.CSSProperties = { width: 32, height: 32, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: 15, border: '1.5px solid var(--border)', background: 'white' };
+const card: CSSProperties = { background: 'white', border: '1.5px solid var(--border)', borderRadius: 12, padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 14 };
+const iconBox: CSSProperties = { width: 40, height: 40, borderRadius: 10, background: '#F1F5F9', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 };
+const actionBtn: CSSProperties = { width: 32, height: 32, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: 15, border: '1.5px solid var(--border)', background: 'white' };
 
 export default function ArchiveClient() {
   const locale = useLocale();
@@ -118,8 +118,8 @@ export default function ArchiveClient() {
   const sentApps = localApps.filter(a => a.status === 'applied');
   const doneApps = localApps.filter(a => a.status === 'done');
 
-  const sectionTitle: React.CSSProperties = { fontFamily: "'DM Serif Display', serif", fontSize: 20, color: 'var(--navy)', marginBottom: 6 };
-  const sectionSub: React.CSSProperties = { fontSize: 13, color: 'var(--muted)', marginBottom: 16 };
+  const sectionTitle: CSSProperties = { fontFamily: "'DM Serif Display', serif", fontSize: 20, color: 'var(--navy)', marginBottom: 6 };
+  const sectionSub: CSSProperties = { fontSize: 13, color: 'var(--muted)', marginBottom: 16 };
 
   return (
     <main style={{ flex: 1, padding: '40px', display: 'flex', flexDirection: 'column', minHeight: '100vh', gap: 40 }}>

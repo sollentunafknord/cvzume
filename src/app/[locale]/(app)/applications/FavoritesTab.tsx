@@ -168,8 +168,8 @@ export default function FavoritesTab({ favorites, onToggleFavorite, t }: {
           }}>Uppdatera CV →</button>
           <button className={styles.stepBtnPrimary} onClick={() => router.push(`/${locale}/letter`)}>Skriv personligt brev →</button>
           <button className={styles.stepBtnSend} onClick={() => {
-            const apps: object[] = JSON.parse(localStorage.getItem('cvita_my_applications') || '[]');
-            const already = apps.some((a: any) => a.role === selectedJob?.headline && a.employer === (selectedJob?.employer?.name || ''));
+            const apps: { role: string; employer: string; [k: string]: unknown }[] = JSON.parse(localStorage.getItem('cvita_my_applications') || '[]');
+            const already = apps.some(a => a.role === selectedJob?.headline && a.employer === (selectedJob?.employer?.name || ''));
             if (!already) {
               apps.unshift({
                 id: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
