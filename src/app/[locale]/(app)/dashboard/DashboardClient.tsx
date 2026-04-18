@@ -736,30 +736,8 @@ export default function DashboardClient({ onNavigate }: { onNavigate?: (seg: str
         </div>
       )}
 
-      {/* ── JOB SEARCH MODAL ── */}
-      {jobSearchOpen && (
-        <div className={styles.jobSearchOverlay}>
-          <div className={styles.jobSearchPanel}>
-            <div className={styles.jobSearchHeader}>
-              <span className={styles.jobSearchTitle}>🔍 Sök jobb via Arbetsförmedlingen</span>
-              <button className={styles.modalClose} onClick={() => setJobSearchOpen(false)}>✕</button>
-            </div>
-            <div className={styles.jobSearchBody}>
-              <ApplicationsClient
-                isModal
-                onAnalyze={(role, description) => {
-                  setJobSearchOpen(false);
-                  setModalRole(role);
-                  setModalAd(description);
-                  setModalOpen(true);
-                }}
-              />
-            </div>
-          </div>
-        </div>
-      )}
 
-      {/* ── UPGRADE MODAL ── */}
+{/* ── UPGRADE MODAL ── */}
       {showUpgrade && (
         <div className={styles.modalOverlay} onClick={e => { if (e.target === e.currentTarget) setShowUpgrade(false); }}>
           <div className={styles.modal}>
