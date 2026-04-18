@@ -90,7 +90,9 @@ export default function ApplicationsClient({ onAnalyze }: Props = {}) {
       fetch('/api/jobs/taxonomy?type=municipality').then(r => r.json()),
       fetch('/api/jobs/taxonomy?type=occupation-field').then(r => r.json()),
     ]).then(([reg, mun, field]) => {
-      const regs: Region[] = (reg.data || []).sort((a: Region, b: Region) => a.preferred_label.localeCompare(b.preferred_label, 'sv'));
+      const regs: Region[] = (reg.data || [])
+        .filter((r: Region) => r.preferred_label.toLowerCase().endsWith('län'))
+        .sort((a: Region, b: Region) => a.preferred_label.localeCompare(b.preferred_label, 'sv'));
       const regionIds = new Set(regs.map((r: Region) => r.id));
       const muns: Municipality[] = (mun.data || [])
         .filter((m: Municipality) => regionIds.has(m.broader_id))
