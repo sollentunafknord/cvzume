@@ -8,7 +8,6 @@ import styles from './applications.module.css';
 interface TaxItem {
   id: string;
   preferred_label: string;
-  broader?: { id: string }[];
 }
 
 interface Job {
@@ -102,13 +101,8 @@ export default function ApplicationsClient({ onAnalyze, isModal }: Props = {}) {
     loadTaxonomy().catch(console.error);
   }, []);
 
-  const filteredMunicipalities = selRegion
-    ? municipalities.filter(m => m.broader?.some(b => b.id === selRegion))
-    : municipalities;
-
-  const filteredGroups = selField
-    ? occGroups.filter(g => g.broader?.some(b => b.id === selField))
-    : occGroups;
+  const filteredMunicipalities = municipalities;
+  const filteredGroups = occGroups;
 
   const search = useCallback(async (newOffset = 0) => {
     setLoading(true);

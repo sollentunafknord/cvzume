@@ -77,12 +77,11 @@ export default function NewApplicationModal({ open, onClose, isPro, onUsageLimit
       fetch('/api/jobs/taxonomy?type=region&limit=30').then(r => r.json()),
       fetch('/api/jobs/taxonomy?type=municipality&limit=400').then(r => r.json()),
       fetch('/api/jobs/taxonomy?type=occupation-field&limit=50').then(r => r.json()),
-      fetch('/api/jobs/taxonomy?type=occupation-group&limit=500').then(r => r.json()),
-    ]).then(([reg, mun, field, group]) => {
+    ]).then(([reg, mun, field]) => {
       setJobRegions((reg.data || []).map((x: {id:string;preferred_label:string}) => ({ id: x.id, label: x.preferred_label })));
-      setJobMunis((mun.data || []).map((x: {id:string;preferred_label:string;broader?:{id:string}[]}) => ({ id: x.id, label: x.preferred_label, parentId: x.broader?.[0]?.id || '' })));
+      setJobMunis((mun.data || []).map((x: {id:string;preferred_label:string}) => ({ id: x.id, label: x.preferred_label, parentId: '' })));
       setJobFields((field.data || []).map((x: {id:string;preferred_label:string}) => ({ id: x.id, label: x.preferred_label })));
-      setJobGroups((group.data || []).map((x: {id:string;preferred_label:string;broader?:{id:string}[]}) => ({ id: x.id, label: x.preferred_label, parentId: x.broader?.[0]?.id || '' })));
+      setJobGroups([]);
     }).catch(() => {});
   }, [open, jobRegions.length]);
 
