@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import styles from './dashboard.module.css';
+import ApplicationsClient from '../applications/ApplicationsClient';
 
 interface Application {
   id: string;
@@ -36,10 +37,15 @@ function formatDate(dateStr: string, locale: string) {
   });
 }
 
-export default function DashboardClient() {
+export default function DashboardClient({ onNavigate }: { onNavigate?: (seg: string) => void }) {
   const t = useTranslations();
   const locale = useLocale();
   const router = useRouter();
+
+  function goTo(seg: string) {
+    if (onNavigate) onNavigate(seg);
+    else router.push(`/${locale}/${seg}`);
+  }
 
   const [view, setView] = useState<View>('dashboard');
   const [apps, setApps] = useState<Application[]>([]);
@@ -62,6 +68,7 @@ export default function DashboardClient() {
   const [showResult, setShowResult] = useState(false);
 
   const [showUpgrade, setShowUpgrade] = useState(false);
+  const [jobSearchOpen, setJobSearchOpen] = useState(false);
 
   const loadUser = useCallback(() => {
     const saved = localStorage.getItem('cvita_user');
@@ -94,6 +101,17 @@ export default function DashboardClient() {
     setTodayStr(str.charAt(0).toUpperCase() + str.slice(1));
     loadUser();
     loadApplications();
+
+    const prefill = localStorage.getItem('cvita_prefill_job');
+    if (prefill) {
+      try {
+        const { role, description } = JSON.parse(prefill);
+        setModalRole(role || '');
+        setModalAd(description || '');
+        setModalOpen(true);
+        localStorage.removeItem('cvita_prefill_job');
+      } catch { /* ignore */ }
+    }
   }, [locale, loadUser, loadApplications]);
 
   const activeApps = apps.filter(a => a.status !== 'archived');
@@ -290,7 +308,7 @@ export default function DashboardClient() {
             <button className={`${styles.topbarBtn} ${styles.topbarBtnGhost}`} onClick={() => setModalOpen(true)}>
               📤 {t('dashboard.upload_cv')}
             </button>
-            <button className={`${styles.topbarBtn} ${styles.topbarBtnPrimary}`} onClick={() => setModalOpen(true)}>
+            <button className={`${styles.topbarBtn} ${styles.topbarBtnPrimary}`} onClick={() => setJobSearchOpen(true)}>
               ＋ {t('dashboard.new_application')}
             </button>
           </div>
@@ -311,7 +329,7 @@ export default function DashboardClient() {
                   </div>
                 </div>
                 <div className={styles.welcomeAction}>
-                  <button className={styles.btnNewApp} onClick={() => setModalOpen(true)}>
+                  <button className={styles.btnNewApp} onClick={() => setJobSearchOpen(true)}>
                     ＋ {t('dashboard.new_application')}
                   </button>
                 </div>
@@ -382,7 +400,7 @@ export default function DashboardClient() {
                   <div className={styles.quickCard}>
                     <div className={styles.sectionTitleSm}>{t('dashboard.shortcuts')}</div>
                     <div className={styles.quickActions}>
-                      <button className={styles.quickAction} onClick={() => setModalOpen(true)}>
+                      <button className={styles.quickAction} onClick={() => setJobSearchOpen(true)}>
                         <div className={`${styles.qaIcon} ${styles.qaBlue}`}>🔍</div>
                         <div className={styles.qaText}>
                           <div className={styles.qaTitle}>{t('dashboard.analyze_new')}</div>
@@ -390,7 +408,7 @@ export default function DashboardClient() {
                         </div>
                         <span className={styles.qaArrow}>→</span>
                       </button>
-                      <button className={styles.quickAction} onClick={() => router.push(`/${locale}/cv`)}>
+                      <button className={styles.quickAction} onClick={() => goTo('cv')}>
                         <div className={`${styles.qaIcon} ${styles.qaGreen}`}>📄</div>
                         <div className={styles.qaText}>
                           <div className={styles.qaTitle}>{t('dashboard.update_cv')}</div>
@@ -398,7 +416,7 @@ export default function DashboardClient() {
                         </div>
                         <span className={styles.qaArrow}>→</span>
                       </button>
-                      <button className={styles.quickAction} onClick={() => router.push(`/${locale}/cv`)}>
+                      <button className={styles.quickAction} onClick={() => goTo('cv')}>
                         <div className={`${styles.qaIcon} ${styles.qaAmber}`}>📤</div>
                         <div className={styles.qaText}>
                           <div className={styles.qaTitle}>{t('dashboard.export_pdf')}</div>
@@ -429,7 +447,7 @@ export default function DashboardClient() {
                     <div className={styles.upgradeCard}>
                       <div className={styles.upgradeTitle}>{t('dashboard.upgrade_banner_title')}</div>
                       <div className={styles.upgradeSub}>{t('dashboard.upgrade_banner_desc')}</div>
-                      <button className={styles.btnUpgrade} onClick={() => router.push(`/${locale}/upgrade`)}>
+                      <button className={styles.btnUpgrade} onClick={() => goTo('upgrade')}>
                         {t('dashboard.upgrade_btn')}
                       </button>
                     </div>
@@ -606,10 +624,33 @@ export default function DashboardClient() {
                 </div>
               )}
               <div className={styles.resultActions}>
-                <button className={styles.resultActionBtn} onClick={() => router.push(`/${locale}/letters`)}>✉️ Personligt Brev</button>
-                <button className={styles.resultActionBtn} onClick={() => router.push(`/${locale}/cv`)}>📄 Ladda ner CV</button>
+                <button className={styles.resultActionBtn} onClick={() => goTo('letter')}>✉️ Personligt Brev</button>
+                <button className={styles.resultActionBtn} onClick={() => goTo('cv')}>📄 Ladda ner CV</button>
                 <button className={`${styles.resultActionBtn} ${styles.resultActionBtnPrimary}`} onClick={() => setShowResult(false)}>Stäng</button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── JOB SEARCH MODAL ── */}
+      {jobSearchOpen && (
+        <div className={styles.jobSearchOverlay}>
+          <div className={styles.jobSearchPanel}>
+            <div className={styles.jobSearchHeader}>
+              <span className={styles.jobSearchTitle}>🔍 Sök jobb via Arbetsförmedlingen</span>
+              <button className={styles.modalClose} onClick={() => setJobSearchOpen(false)}>✕</button>
+            </div>
+            <div className={styles.jobSearchBody}>
+              <ApplicationsClient
+                isModal
+                onAnalyze={(role, description) => {
+                  setJobSearchOpen(false);
+                  setModalRole(role);
+                  setModalAd(description);
+                  setModalOpen(true);
+                }}
+              />
             </div>
           </div>
         </div>
@@ -627,7 +668,7 @@ export default function DashboardClient() {
               <p style={{ fontSize: 14, color: '#475569', marginBottom: 20, lineHeight: 1.6 }}>{t('limit.desc')}</p>
               <div style={{ display: 'flex', gap: 10 }}>
                 <button className={styles.btnModalCancel} onClick={() => setShowUpgrade(false)}>{t('limit.close')}</button>
-                <button className={styles.btnModalSubmit} onClick={() => { setShowUpgrade(false); router.push(`/${locale}/upgrade`); }}>{t('limit.upgrade')}</button>
+                <button className={styles.btnModalSubmit} onClick={() => { setShowUpgrade(false); goTo('upgrade'); }}>{t('limit.upgrade')}</button>
               </div>
             </div>
           </div>

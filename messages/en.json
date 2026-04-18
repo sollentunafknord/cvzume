@@ -141,5 +141,31 @@
     "desc": "The free plan includes 2 CV analyses per month. Next month you get 2 new free analyses — or upgrade to Pro for unlimited access now.",
     "close": "Close",
     "upgrade": "Upgrade to Pro →"
+  },
+  "jobs": {
+    "title": "Job Search",
+    "subtitle": "Find open positions directly from Arbetsförmedlingen",
+    "tab_search": "Search jobs",
+    "tab_favorites": "Favorites",
+    "filter_lan": "County (Län)",
+    "filter_kommun": "Municipality",
+    "filter_field": "Occupation area",
+    "filter_group": "Occupation group",
+    "filter_query": "Keywords, e.g. Java developer...",
+    "search_btn": "Search",
+    "results_count": "{count} jobs found",
+    "load_more": "Load more",
+    "deadline": "Apply by",
+    "apply_btn": "View listing →",
+    "favorite_add": "Save",
+    "favorite_remove": "Saved",
+    "analyze_btn": "Analyze with CVzume AI →",
+    "no_results": "No jobs found. Try adjusting your filters.",
+    "no_favorites": "You have no saved jobs yet. Search and save jobs you're interested in.",
+    "loading": "Searching...",
+    "anywhere": "All of Sweden",
+    "all_kommuner": "All municipalities",
+    "all_fields": "All occupation areas",
+    "all_groups": "All occupation groups"
   }
 }

@@ -12,6 +12,7 @@ import UpgradeClient from './upgrade/UpgradeClient';
 import LetterClient from './letter/LetterClient';
 import ArchiveClient from './archive/ArchiveClient';
 import CVClient from './cv/CVClient';
+import ApplicationsClient from './applications/ApplicationsClient';
 
 export default function AppShell() {
   const pathname = usePathname();
@@ -35,13 +36,14 @@ export default function AppShell() {
     <div className={styles.layout}>
       <Sidebar activePage={page} onNavigate={navigate} />
       <div className={styles.content}>
-        {page === 'dashboard' && <DashboardClient />}
+        {page === 'dashboard' && <DashboardClient onNavigate={navigate} />}
         {page === 'profile'   && <ProfileClient />}
         {page === 'settings'  && <SettingsClient />}
         {page === 'upgrade'   && <UpgradeClient />}
         {page === 'letter'    && <LetterClient />}
         {page === 'archive'   && <ArchiveClient />}
-        {page === 'cv'        && <CVClient />}
+        {page === 'cv'           && <CVClient />}
+        {page === 'applications' && <ApplicationsClient />}
       </div>
     </div>
   );

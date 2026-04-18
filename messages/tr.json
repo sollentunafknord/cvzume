@@ -141,5 +141,31 @@
     "desc": "Ücretsiz hesap ayda 2 CV analizi içerir. Hemen Pro'ya geçerek sınırsız erişim kazan.",
     "close": "Kapat",
     "upgrade": "Pro'ya Yükselt →"
+  },
+  "jobs": {
+    "title": "İş Ara",
+    "subtitle": "Arbetsförmedlingen'dan doğrudan açık pozisyonları bul",
+    "tab_search": "İş ara",
+    "tab_favorites": "Favoriler",
+    "filter_lan": "İl (Län)",
+    "filter_kommun": "İlçe (Kommun)",
+    "filter_field": "Meslek alanı",
+    "filter_group": "Meslek grubu",
+    "filter_query": "Anahtar kelime, örn. Java geliştirici...",
+    "search_btn": "Ara",
+    "results_count": "{count} iş bulundu",
+    "load_more": "Daha fazla göster",
+    "deadline": "Son başvuru",
+    "apply_btn": "İlana git →",
+    "favorite_add": "Kaydet",
+    "favorite_remove": "Kaydedildi",
+    "analyze_btn": "CVzume AI ile analiz et →",
+    "no_results": "İş bulunamadı. Filtreleri değiştirmeyi dene.",
+    "no_favorites": "Henüz kaydedilmiş işin yok. İlgilendiğin işleri ara ve kaydet.",
+    "loading": "Aranıyor...",
+    "anywhere": "Tüm İsveç",
+    "all_kommuner": "Tüm ilçeler",
+    "all_fields": "Tüm meslek alanları",
+    "all_groups": "Tüm meslek grupları"
   }
 }

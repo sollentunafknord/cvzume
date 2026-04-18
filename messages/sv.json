@@ -141,5 +141,31 @@
     "desc": "Gratiskontot inkluderar 2 CV-analyser per månad. Nästa månad får du 2 nya gratis analyser — eller uppgradera till Pro för obegränsad tillgång redan nu.",
     "close": "Stäng",
     "upgrade": "Uppgradera till Pro →"
+  },
+  "jobs": {
+    "title": "Sök jobb",
+    "subtitle": "Hitta lediga jobb direkt från Arbetsförmedlingen",
+    "tab_search": "Sök jobb",
+    "tab_favorites": "Favoriter",
+    "filter_lan": "Välj län",
+    "filter_kommun": "Välj kommun",
+    "filter_field": "Yrkesområde",
+    "filter_group": "Yrkesgrupp",
+    "filter_query": "Sökord, t.ex. Java-utvecklare...",
+    "search_btn": "Sök",
+    "results_count": "{count} jobb hittades",
+    "load_more": "Visa fler jobb",
+    "deadline": "Sista ansökningsdag",
+    "apply_btn": "Gå till annons →",
+    "favorite_add": "Spara",
+    "favorite_remove": "Sparad",
+    "analyze_btn": "Analysera med CVzume AI →",
+    "no_results": "Inga jobb hittades. Prova att ändra dina filter.",
+    "no_favorites": "Du har inga sparade jobb ännu. Sök och spara jobb du är intresserad av.",
+    "loading": "Söker...",
+    "anywhere": "Hela Sverige",
+    "all_kommuner": "Alla kommuner",
+    "all_fields": "Alla yrkesområden",
+    "all_groups": "Alla yrkesgrupper"
   }
 }

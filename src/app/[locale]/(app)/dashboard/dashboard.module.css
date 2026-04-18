@@ -421,14 +421,13 @@
 
 /* ── MODAL ── */
 .modalOverlay {
-  display: none;
+  display: flex;
   position: fixed; inset: 0;
   background: rgba(13,27,42,0.5);
   backdrop-filter: blur(4px);
   z-index: 200;
   align-items: center; justify-content: center;
 }
-.modalOverlay.open { display: flex; }
 .modal {
   background: white; border-radius: 18px;
   width: 100%; max-width: 520px; padding: 36px;
@@ -702,3 +701,11 @@
 
 /* .show toggles visibility of the analyzing state */
 .show { display: flex !important; }
+
+/* ── JOB SEARCH MODAL ── */
+.jobSearchOverlay { position: fixed; inset: 0; background: rgba(13,27,42,0.55); backdrop-filter: blur(4px); z-index: 250; display: flex; align-items: stretch; justify-content: flex-end; }
+.jobSearchPanel { width: 100%; max-width: 760px; background: var(--off-white); display: flex; flex-direction: column; overflow: hidden; animation: slideInRight 0.25s ease both; }
+@keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
+.jobSearchHeader { display: flex; align-items: center; justify-content: space-between; padding: 18px 24px; background: white; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+.jobSearchTitle { font-size: 16px; font-weight: 700; color: var(--navy); }
+.jobSearchBody { flex: 1; overflow-y: auto; }

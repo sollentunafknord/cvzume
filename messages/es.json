@@ -141,5 +141,31 @@
     "desc": "El plan gratuito incluye 2 análisis de CV al mes. El próximo mes tendrás 2 nuevos análisis gratuitos — o mejora a Pro para acceso ilimitado ahora.",
     "close": "Cerrar",
     "upgrade": "Mejorar a Pro →"
+  },
+  "jobs": {
+    "title": "Buscar empleo",
+    "subtitle": "Encuentra vacantes directamente de Arbetsförmedlingen",
+    "tab_search": "Buscar empleo",
+    "tab_favorites": "Favoritos",
+    "filter_lan": "Provincia (Län)",
+    "filter_kommun": "Municipio",
+    "filter_field": "Área profesional",
+    "filter_group": "Grupo profesional",
+    "filter_query": "Palabras clave, ej. desarrollador Java...",
+    "search_btn": "Buscar",
+    "results_count": "{count} empleos encontrados",
+    "load_more": "Cargar más",
+    "deadline": "Fecha límite",
+    "apply_btn": "Ver oferta →",
+    "favorite_add": "Guardar",
+    "favorite_remove": "Guardado",
+    "analyze_btn": "Analizar con CVzume AI →",
+    "no_results": "No se encontraron empleos. Prueba con otros filtros.",
+    "no_favorites": "Aún no tienes empleos guardados. Busca y guarda los que te interesen.",
+    "loading": "Buscando...",
+    "anywhere": "Toda Suecia",
+    "all_kommuner": "Todos los municipios",
+    "all_fields": "Todas las áreas",
+    "all_groups": "Todos los grupos"
   }
 }

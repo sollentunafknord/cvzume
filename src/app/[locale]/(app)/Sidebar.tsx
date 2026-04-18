@@ -82,7 +82,7 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
           <button className={`${styles.navItem} ${seg === 'dashboard' ? styles.active : ''}`} onClick={() => nav('dashboard')}>
             <span className={styles.navIcon}>🏠</span> {t('nav.dashboard')}
           </button>
-          <button className={`${styles.navItem} ${seg === 'applications' ? styles.active : ''}`} onClick={() => nav('dashboard')}>
+          <button className={`${styles.navItem} ${seg === 'applications' ? styles.active : ''}`} onClick={() => nav('applications')}>
             <span className={styles.navIcon}>📋</span> {t('nav.applications')}
           </button>
           <button className={`${styles.navItem} ${seg === 'profile' ? styles.active : ''}`} onClick={() => nav('profile')}>
