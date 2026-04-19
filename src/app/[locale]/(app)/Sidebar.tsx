@@ -89,8 +89,11 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
           <button className={`${styles.navItem} ${seg === 'dashboard' ? styles.active : ''}`} onClick={() => nav('dashboard')}>
             <span className={styles.navIcon}>🏠</span> {t('nav.dashboard')}
           </button>
-          <button className={`${styles.navItem} ${seg === 'applications' ? styles.active : ''}`} onClick={() => nav('applications')}>
-            <span className={styles.navIcon}>🔍</span> {t('nav.applications')}
+          <button className={`${styles.navItem} ${seg === 'profile' ? styles.active : ''}`} onClick={() => nav('profile')}>
+            <span className={styles.navIcon}>🪪</span> {t('nav.cv')}
+          </button>
+          <button className={`${styles.navItem} ${seg === 'letter' ? styles.active : ''}`} onClick={() => nav('letter')}>
+            <span className={styles.navIcon}>✍️</span> {t('nav.letters')}
           </button>
           <button className={`${styles.navItem} ${seg === 'skickade' ? styles.active : ''}`} onClick={() => nav('skickade')}>
             <span className={styles.navIcon}>📤</span> Skickade ansökningar
@@ -99,13 +102,10 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
             <span className={styles.navIcon}>🎯</span> Intervju förberedelse
           </button>
           <button className={`${styles.navItem} ${seg === 'archive' ? styles.active : ''}`} onClick={() => nav('archive')}>
-            <span className={styles.navIcon}>📁</span> Arkiv
+            <span className={styles.navIcon}>🗄️</span> Arkiv
           </button>
-          <button className={`${styles.navItem} ${seg === 'profile' ? styles.active : ''}`} onClick={() => nav('profile')}>
-            <span className={styles.navIcon}>📄</span> {t('nav.cv')}
-          </button>
-          <button className={`${styles.navItem} ${seg === 'letter' ? styles.active : ''}`} onClick={() => nav('letter')}>
-            <span className={styles.navIcon}>✉️</span> {t('nav.letters')}
+          <button className={`${styles.navItem} ${seg === 'applications' ? styles.active : ''}`} onClick={() => nav('applications')}>
+            <span className={styles.navIcon}>🔍</span> {t('nav.applications')}
           </button>
           <div className={styles.sidebarSection}>{t('nav.account')}</div>
           <button className={`${styles.navItem} ${seg === 'settings' ? styles.active : ''}`} onClick={() => nav('settings')}>
