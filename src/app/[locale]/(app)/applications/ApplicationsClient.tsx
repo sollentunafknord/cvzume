@@ -1,11 +1,12 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import styles from './applications.module.css';
 import { Job, formatDeadline } from './types';
 import JobCard from './JobCard';
 import FavoritesTab from './FavoritesTab';
+import TurkishJobSearch from './TurkishJobSearch';
 
 interface Region { id: string; preferred_label: string; }
 interface Municipality { id: string; preferred_label: string; broader_id: string; }
@@ -59,6 +60,9 @@ async function apiFavorites(token: string): Promise<Job[]> {
 
 export default function ApplicationsClient() {
   const t = useTranslations('jobs');
+  const locale = useLocale();
+
+  if (locale === 'tr') return <TurkishJobSearch />;
 
   const [tab, setTab] = useState<'search' | 'favorites'>('search');
 
