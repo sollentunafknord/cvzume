@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef, CSSProperties } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
 
@@ -12,214 +12,120 @@ interface Application {
   created_at: string;
 }
 
-interface LocalApp {
-  id: string;
-  role: string;
-  employer: string;
-  matchScore: number;
-  appliedAt: string;
-  status: 'applied' | 'done';
+function formatDate(dateStr: string) {
+  return new Date(dateStr).toLocaleDateString('sv-SE', { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
 function ScoreBadge({ score }: { score: number }) {
   const bg = score >= 80 ? '#DCFCE7' : score >= 60 ? '#FEF9C3' : '#FEE2E2';
   const color = score >= 80 ? '#15803D' : score >= 60 ? '#854D0E' : '#991B1B';
-  return <span style={{ padding: '4px 10px', borderRadius: 20, fontSize: 12, fontWeight: 600, background: bg, color }}>{score}% match</span>;
+  return (
+    <span style={{ padding: '3px 10px', borderRadius: 20, fontSize: 12, fontWeight: 600, background: bg, color, flexShrink: 0 }}>
+      {score}%
+    </span>
+  );
 }
 
-function formatDate(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString('sv-SE', { day: 'numeric', month: 'short', year: 'numeric' });
-}
-
-const card: CSSProperties = { background: 'white', border: '1.5px solid var(--border)', borderRadius: 12, padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 14 };
-const iconBox: CSSProperties = { width: 40, height: 40, borderRadius: 10, background: '#F1F5F9', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 };
-const actionBtn: CSSProperties = { width: 32, height: 32, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: 15, border: '1.5px solid var(--border)', background: 'white' };
-
-export default function ArchiveClient() {
+export default function ArchiveClient({ onNavigate }: { onNavigate?: (seg: string) => void }) {
   const locale = useLocale();
   const router = useRouter();
 
-  const [localApps, setLocalApps] = useState<LocalApp[]>([]);
-  const [archivedApps, setArchivedApps] = useState<Application[]>([]);
+  const [apps, setApps] = useState<Application[]>([]);
   const [loading, setLoading] = useState(true);
-  const [toast, setToast] = useState('');
 
-  const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  function showToast(msg: string) {
-    setToast(msg);
-    if (toastTimer.current) clearTimeout(toastTimer.current);
-    toastTimer.current = setTimeout(() => setToast(''), 3000);
+  function goTo(seg: string) {
+    if (onNavigate) onNavigate(seg);
+    else router.push(`/${locale}/${seg}`);
   }
-  useEffect(() => () => { if (toastTimer.current) clearTimeout(toastTimer.current); }, []);
 
   const load = useCallback(async () => {
-    const saved = localStorage.getItem('cvita_user');
-    if (!saved) { router.push(`/${locale}/auth`); return; }
-    const user = JSON.parse(saved);
     const token = localStorage.getItem('cvita_token');
     if (!token) { router.push(`/${locale}/auth`); return; }
-
-    // Load local tracked applications
-    const raw: LocalApp[] = JSON.parse(localStorage.getItem('cvita_my_applications') || '[]');
-    setLocalApps(raw);
-
-    // Load archived from API
     try {
       const res = await fetch(`/api/applications?token=${token}`);
       const data = await res.json();
-      setArchivedApps((data.applications || []).filter((a: Application) => a.status === 'archived'));
+      const rejected = (data.applications || []).filter((a: Application) => a.status === 'rejected');
+      setApps(rejected);
     } catch { /* silent */ }
     finally { setLoading(false); }
   }, [locale, router]);
 
   useEffect(() => { load(); }, [load]);
 
-  function markDone(id: string) {
-    const updated = localApps.map(a => a.id === id ? { ...a, status: 'done' as const } : a);
-    setLocalApps(updated);
-    localStorage.setItem('cvita_my_applications', JSON.stringify(updated));
-    showToast('✅ Markerad som avslutad!');
-  }
-
-  function removeLocal(id: string) {
-    const updated = localApps.filter(a => a.id !== id);
-    setLocalApps(updated);
-    localStorage.setItem('cvita_my_applications', JSON.stringify(updated));
-    showToast('🗑️ Borttagen');
-  }
-
   async function restoreApp(id: string) {
     const token = localStorage.getItem('cvita_token');
-    try {
-      await fetch('/api/applications', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ id, status: 'draft' }),
-      });
-      setArchivedApps(prev => prev.filter(a => a.id !== id));
-      showToast('✅ Ansökan återställd!');
-    } catch { showToast('Kunde inte återställa'); }
+    await fetch('/api/applications', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ id, status: 'sent' }),
+    });
+    setApps(prev => prev.filter(a => a.id !== id));
   }
 
   async function deleteApp(id: string, role: string) {
-    if (!confirm(`Delete "${role}"? This cannot be undone.`)) return;
+    if (!confirm(`Ta bort "${role}" permanent?`)) return;
     const token = localStorage.getItem('cvita_token');
-    try {
-      await fetch('/api/applications', {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ id }),
-      });
-      setArchivedApps(prev => prev.filter(a => a.id !== id));
-      showToast('🗑️ Ansökan borttagen');
-    } catch { showToast('Kunde inte ta bort'); }
+    await fetch('/api/applications', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ id }),
+    });
+    setApps(prev => prev.filter(a => a.id !== id));
   }
 
-  const sentApps = localApps.filter(a => a.status === 'applied');
-  const doneApps = localApps.filter(a => a.status === 'done');
-
-  const sectionTitle: CSSProperties = { fontFamily: "'DM Serif Display', serif", fontSize: 20, color: 'var(--navy)', marginBottom: 6 };
-  const sectionSub: CSSProperties = { fontSize: 13, color: 'var(--muted)', marginBottom: 16 };
+  const card: React.CSSProperties = { background: 'white', border: '1px solid var(--border)', borderRadius: 12, padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 14, transition: 'box-shadow 0.15s' };
+  const actionBtn: React.CSSProperties = { width: 32, height: 32, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: 15, border: '1.5px solid var(--border)', background: 'white' };
 
   return (
-    <main style={{ flex: 1, padding: '40px', display: 'flex', flexDirection: 'column', minHeight: '100vh', gap: 40 }}>
-
+    <main style={{ flex: 1, padding: '32px', display: 'flex', flexDirection: 'column', gap: 24 }}>
       <div>
-        <div style={{ fontFamily: "'DM Serif Display', serif", fontSize: 28, color: 'var(--navy)', marginBottom: 6 }}>Ansökningar</div>
-        <div style={{ fontSize: 14, color: 'var(--muted)' }}>Dina skickade och avslutade ansökningar</div>
+        <div style={{ fontSize: 24, fontWeight: 700, color: 'var(--navy)', marginBottom: 4 }}>Arkiv</div>
+        <div style={{ fontSize: 14, color: 'var(--slate)' }}>
+          {apps.length} avslagna ansökningar · Återställ till Skickade om du vill prova igen
+        </div>
       </div>
 
       {loading && <div style={{ color: 'var(--muted)', fontSize: 14 }}>Laddar...</div>}
 
-      {/* ── SKICKADE ANSÖKNINGAR ── */}
-      {!loading && (
-        <div>
-          <div style={sectionTitle}>📤 Skickade ansökningar</div>
-          <div style={sectionSub}>{sentApps.length} pågående · Markera som avslutad när du fått svar</div>
-
-          {sentApps.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: '40px 20px', background: 'white', borderRadius: 12, border: '1.5px solid var(--border)', color: 'var(--muted)' }}>
-              <div style={{ fontSize: 32, marginBottom: 12 }}>📬</div>
-              <div style={{ fontSize: 14, fontWeight: 600 }}>Inga skickade ansökningar ännu</div>
-              <div style={{ fontSize: 13, marginTop: 4 }}>Gå till Sök jobb → Favoriter → Skicka ansökan</div>
-            </div>
-          ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {sentApps.map(app => (
-                <div key={app.id} style={card}>
-                  <div style={iconBox}>📤</div>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: 15, fontWeight: 600, color: 'var(--navy)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{app.role}</div>
-                    <div style={{ fontSize: 13, color: 'var(--muted)', marginTop: 2 }}>
-                      {app.employer && <span>{app.employer} · </span>}Skickad {formatDate(app.appliedAt)}
-                    </div>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
-                    <ScoreBadge score={app.matchScore} />
-                    <button onClick={() => markDone(app.id)} title="Fick svar — markera som avslutad" style={{ ...actionBtn, background: '#F0FDF4', borderColor: '#86EFAC', color: '#15803D', fontSize: 13, padding: '0 12px', width: 'auto', whiteSpace: 'nowrap' }}>
-                      ✓ Fick svar
-                    </button>
-                    <button onClick={() => removeLocal(app.id)} title="Ta bort" style={{ ...actionBtn, color: '#EF4444' }}>🗑️</button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
+      {!loading && apps.length === 0 && (
+        <div style={{ textAlign: 'center', padding: '60px 20px', background: 'white', border: '1px solid var(--border)', borderRadius: 16 }}>
+          <div style={{ fontSize: 40, marginBottom: 12 }}>📭</div>
+          <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--navy)', marginBottom: 6 }}>Inga avslagna ansökningar</div>
+          <div style={{ fontSize: 13, color: 'var(--slate)' }}>
+            När du markerar "Negativ svar" på en ansökan i{' '}
+            <button
+              onClick={() => goTo('skickade')}
+              style={{ background: 'none', border: 'none', color: 'var(--blue)', fontSize: 13, cursor: 'pointer', textDecoration: 'underline', fontFamily: 'DM Sans, sans-serif', padding: 0 }}
+            >
+              Skickade ansökningar
+            </button>{' '}
+            hamnar den här.
+          </div>
         </div>
       )}
 
-      {/* ── AVSLUTADE ── */}
-      {!loading && (
-        <div>
-          <div style={sectionTitle}>📁 Avslutade ansökningar</div>
-          <div style={sectionSub}>{doneApps.length + archivedApps.length} avslutade</div>
-
-          {doneApps.length === 0 && archivedApps.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: '40px 20px', background: 'white', borderRadius: 12, border: '1.5px solid var(--border)', color: 'var(--muted)' }}>
-              <div style={{ fontSize: 32, marginBottom: 12 }}>📭</div>
-              <div style={{ fontSize: 14 }}>Inga avslutade ansökningar ännu</div>
+      {!loading && apps.length > 0 && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {apps.map(app => (
+            <div key={app.id} style={{ ...card, opacity: 0.9 }}>
+              <div style={{ width: 40, height: 40, borderRadius: 10, background: '#FEE2E2', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>✗</div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontSize: 15, fontWeight: 600, color: 'var(--navy)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{app.role}</div>
+                <div style={{ fontSize: 13, color: 'var(--muted)', marginTop: 2 }}>Avslaget · {formatDate(app.created_at)}</div>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+                <ScoreBadge score={app.match_score || 0} />
+                <button
+                  onClick={() => restoreApp(app.id)}
+                  title="Återställ till Skickade"
+                  style={{ ...actionBtn, background: '#EFF6FF', borderColor: '#BFDBFE', color: '#1A56DB', padding: '0 10px', width: 'auto', fontSize: 12, fontWeight: 600, fontFamily: 'DM Sans, sans-serif', whiteSpace: 'nowrap' }}
+                >
+                  ↩ Återställ
+                </button>
+                <button onClick={() => deleteApp(app.id, app.role)} title="Ta bort permanent" style={{ ...actionBtn, color: '#EF4444' }}>🗑️</button>
+              </div>
             </div>
-          ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {doneApps.map(app => (
-                <div key={app.id} style={card}>
-                  <div style={iconBox}>✅</div>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: 15, fontWeight: 600, color: 'var(--navy)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{app.role}</div>
-                    <div style={{ fontSize: 13, color: 'var(--muted)', marginTop: 2 }}>
-                      {app.employer && <span>{app.employer} · </span>}Avslutad
-                    </div>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
-                    <ScoreBadge score={app.matchScore} />
-                    <button onClick={() => removeLocal(app.id)} title="Ta bort" style={{ ...actionBtn, color: '#EF4444' }}>🗑️</button>
-                  </div>
-                </div>
-              ))}
-              {archivedApps.map(app => (
-                <div key={app.id} style={card}>
-                  <div style={iconBox}>📁</div>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: 15, fontWeight: 600, color: 'var(--navy)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{app.role || 'Okänd roll'}</div>
-                    <div style={{ fontSize: 13, color: 'var(--muted)', marginTop: 2 }}>Arkiverad · {formatDate(app.created_at)}</div>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
-                    <ScoreBadge score={app.match_score || 0} />
-                    <div style={{ display: 'flex', gap: 6 }}>
-                      <button onClick={() => restoreApp(app.id)} title="Återställ" style={actionBtn}>↩️</button>
-                      <button onClick={() => deleteApp(app.id, app.role)} title="Ta bort permanent" style={{ ...actionBtn, color: '#EF4444' }}>🗑️</button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
-
-      {toast && (
-        <div style={{ position: 'fixed', bottom: 24, right: 24, background: 'var(--navy)', color: 'white', padding: '14px 20px', borderRadius: 10, fontSize: 14, fontWeight: 500, zIndex: 999, boxShadow: '0 4px 16px rgba(0,0,0,0.2)' }}>
-          {toast}
+          ))}
         </div>
       )}
     </main>

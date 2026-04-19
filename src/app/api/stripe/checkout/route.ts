@@ -2,7 +2,7 @@
 import Stripe from 'stripe'
 import { NextResponse } from 'next/server'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
+const getStripe = () => new Stripe(process.env.STRIPE_SECRET_KEY!)
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.cvzume.com'
 
 export async function POST(request: Request) {
@@ -15,7 +15,7 @@ export async function POST(request: Request) {
       ? process.env.STRIPE_YEARLY_PRICE_ID
       : process.env.STRIPE_PRICE_ID!
 
-    const session = await stripe.checkout.sessions.create({
+    const session = await getStripe().checkout.sessions.create({
       payment_method_types: ['card'],
       mode: 'subscription',
       customer_email: email,

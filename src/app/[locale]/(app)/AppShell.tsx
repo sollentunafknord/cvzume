@@ -13,6 +13,8 @@ import LetterClient from './letter/LetterClient';
 import ArchiveClient from './archive/ArchiveClient';
 import CVClient from './cv/CVClient';
 import ApplicationsClient from './applications/ApplicationsClient';
+import SkickadeClient from './skickade/SkickadeClient';
+import IntervjuClient from './intervju/IntervjuClient';
 
 export default function AppShell() {
   const pathname = usePathname();
@@ -55,7 +57,9 @@ export default function AppShell() {
         {page === 'settings'  && <SettingsClient />}
         {page === 'upgrade'   && <UpgradeClient />}
         {page === 'letter'    && <LetterClient />}
-        {page === 'archive'   && <ArchiveClient />}
+        {page === 'archive'   && <ArchiveClient onNavigate={navigate} />}
+        {page === 'skickade'  && <SkickadeClient onNavigate={navigate} />}
+        {page === 'intervju'  && <IntervjuClient onNavigate={navigate} />}
         {page === 'cv'           && <CVClient />}
         {page === 'applications' && <ApplicationsClient />}
       </div>

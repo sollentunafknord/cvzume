@@ -1,7 +1,7 @@
 import Stripe from 'stripe'
 import { NextResponse } from 'next/server'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
+const getStripe = () => new Stripe(process.env.STRIPE_SECRET_KEY!)
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
@@ -12,7 +12,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    const customers = await stripe.customers.list({ email, limit: 1 })
+    const customers = await getStripe().customers.list({ email, limit: 1 })
 
     if (customers.data.length === 0) {
       return NextResponse.json({ plan: 'free' })
@@ -20,7 +20,7 @@ export async function GET(request: Request) {
 
     const customer = customers.data[0]
 
-    const subscriptions = await stripe.subscriptions.list({
+    const subscriptions = await getStripe().subscriptions.list({
       customer: customer.id,
       status: 'active',
       limit: 1,

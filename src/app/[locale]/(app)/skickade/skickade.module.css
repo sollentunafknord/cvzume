@@ -1,0 +1,40 @@
+.page { padding: 32px 32px 48px; max-width: 820px; }
+.header { margin-bottom: 28px; }
+.title { font-size: 24px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+.subtitle { font-size: 14px; color: var(--slate); }
+
+.loading { color: var(--muted); font-size: 14px; }
+
+.empty { text-align: center; padding: 60px 20px; background: white; border: 1px solid var(--border); border-radius: 16px; }
+.emptyIcon { font-size: 40px; margin-bottom: 12px; }
+.emptyTitle { font-size: 16px; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
+.emptySub { font-size: 13px; color: var(--slate); }
+.emptyLink { background: none; border: none; color: var(--blue); font-size: 13px; cursor: pointer; text-decoration: underline; font-family: 'DM Sans', sans-serif; padding: 0; }
+
+.list { display: flex; flex-direction: column; gap: 12px; }
+
+.card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; transition: box-shadow 0.15s; }
+.card:hover { box-shadow: 0 4px 16px rgba(13,27,42,0.08); }
+
+.cardInfo { flex: 1; min-width: 200px; }
+.cardRole { font-size: 15px; font-weight: 600; color: var(--navy); margin-bottom: 4px; }
+.cardMeta { font-size: 13px; color: var(--slate); }
+
+.cardActions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; flex-shrink: 0; }
+
+.btnPositiv { padding: 8px 14px; background: #DCFCE7; color: #16A34A; border: 1.5px solid #86EFAC; border-radius: 8px; font-size: 13px; font-weight: 600; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+.btnPositiv:hover:not(:disabled) { background: #BBF7D0; border-color: #4ADE80; }
+
+.btnNegativ { padding: 8px 14px; background: #FEE2E2; color: #DC2626; border: 1.5px solid #FCA5A5; border-radius: 8px; font-size: 13px; font-weight: 600; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+.btnNegativ:hover:not(:disabled) { background: #FECACA; border-color: #F87171; }
+
+.btnDelete { background: none; border: 1.5px solid var(--border); border-radius: 8px; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 15px; transition: all 0.15s; }
+.btnDelete:hover { border-color: #EF4444; }
+
+.btnDisabled { opacity: 0.5; cursor: not-allowed; }
+
+@media (max-width: 640px) {
+  .page { padding: 20px 16px 40px; }
+  .card { flex-direction: column; align-items: flex-start; }
+  .cardActions { width: 100%; }
+}

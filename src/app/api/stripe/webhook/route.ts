@@ -2,7 +2,7 @@
 import Stripe from 'stripe'
 import { NextResponse } from 'next/server'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
+const getStripe = () => new Stripe(process.env.STRIPE_SECRET_KEY!)
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.cvzume.com'
 
@@ -13,7 +13,7 @@ export async function POST(request: Request) {
   let event: Stripe.Event
 
   try {
-    event = stripe.webhooks.constructEvent(body, signature, webhookSecret)
+    event = getStripe().webhooks.constructEvent(body, signature, webhookSecret)
   } catch (err: any) {
     console.error('Webhook signature error:', err.message)
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 })
@@ -30,14 +30,14 @@ export async function POST(request: Request) {
 
         // Abonelik detaylarını al
         const subscriptionId = session.subscription as string
-        const subscription = await stripe.subscriptions.retrieve(subscriptionId) as Stripe.Subscription
+        const subscription = await getStripe().subscriptions.retrieve(subscriptionId) as Stripe.Subscription
         const interval = subscription.items.data[0]?.plan?.interval
         const plan = interval === 'year' ? 'yearly' : 'monthly'
         const periodEnd = (subscription as any).current_period_end ?? subscription.items.data[0]?.current_period_end
         const nextBillingDate = periodEnd ? new Date(periodEnd * 1000).toLocaleDateString('sv-SE', { day: 'numeric', month: 'long', year: 'numeric' }) : '-'
 
         // Müşterinin ismini al
-        const customer = await stripe.customers.retrieve(session.customer as string) as Stripe.Customer
+        const customer = await getStripe().customers.retrieve(session.customer as string) as Stripe.Customer
         const firstName = customer.name?.split(' ')[0] || ''
 
         // Pro onay emaili gönder
@@ -52,7 +52,7 @@ export async function POST(request: Request) {
       // Abonelik iptal edildi
       case 'customer.subscription.deleted': {
         const subscription = event.data.object as Stripe.Subscription
-        const customer = await stripe.customers.retrieve(subscription.customer as string) as Stripe.Customer
+        const customer = await getStripe().customers.retrieve(subscription.customer as string) as Stripe.Customer
         const email = customer.email
         if (!email) break
 

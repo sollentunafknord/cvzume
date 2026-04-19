@@ -6,7 +6,7 @@ import Stripe from 'stripe';
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+const getStripe = () => new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 const ADMIN_EMAILS = ['cyesil@gmail.com'];
 
@@ -43,10 +43,10 @@ export async function GET(req: NextRequest) {
     const profileMap = new Map((profiles || []).map((p: any) => [p.id, p]));
 
     // 3. Get Stripe subscriptions
-    const allSubs = await stripe.subscriptions.list({ status: 'active', limit: 100 });
+    const allSubs = await getStripe().subscriptions.list({ status: 'active', limit: 100 });
     const stripeMap = new Map<string, { isPro: boolean; interval: string | null; subId: string }>();
     for (const sub of allSubs.data) {
-      const customer = await stripe.customers.retrieve(sub.customer as string);
+      const customer = await getStripe().customers.retrieve(sub.customer as string);
       if ('email' in customer && customer.email) {
         stripeMap.set(customer.email, {
           isPro: true,
@@ -138,23 +138,23 @@ export async function POST(req: NextRequest) {
       
       // Find or create Stripe customer
       let customerId: string;
-      const existing = await stripe.customers.list({ email, limit: 1 });
+      const existing = await getStripe().customers.list({ email, limit: 1 });
       if (existing.data.length > 0) {
         customerId = existing.data[0].id;
       } else {
-        const customer = await stripe.customers.create({ email });
+        const customer = await getStripe().customers.create({ email });
         customerId = customer.id;
       }
 
       // Create free subscription (100% off coupon)
-      const coupon = await stripe.coupons.create({
+      const coupon = await getStripe().coupons.create({
         percent_off: 100,
         duration: 'forever',
         name: 'Admin Grant'
       });
 
       const priceId = process.env.STRIPE_PRICE_ID!;
-      const subscription = await stripe.subscriptions.create({
+      const subscription = await getStripe().subscriptions.create({
         customer: customerId,
         items: [{ price: priceId }],
         discounts: [{ coupon: coupon.id }],
@@ -166,7 +166,7 @@ export async function POST(req: NextRequest) {
     // Remove Pro (cancel subscription)
     if (action === 'remove_pro') {
       if (!subId) return NextResponse.json({ error: 'subId required' }, { status: 400 });
-      await stripe.subscriptions.cancel(subId);
+      await getStripe().subscriptions.cancel(subId);
       return NextResponse.json({ success: true });
     }
 
