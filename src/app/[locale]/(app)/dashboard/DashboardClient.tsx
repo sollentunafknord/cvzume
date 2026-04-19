@@ -24,7 +24,6 @@ interface AnalysisResult {
 }
 
 type View = 'dashboard' | 'applications' | 'archive';
-type AppFilter = 'all' | 'draft' | 'sent';
 
 function scoreClass(score: number, s: Record<string, string>) {
   return score >= 80 ? s.scoreHigh : score >= 60 ? s.scoreMid : s.scoreLow;
@@ -49,8 +48,6 @@ export default function DashboardClient({ onNavigate }: { onNavigate?: (seg: str
 
   const [view, setView] = useState<View>('dashboard');
   const [apps, setApps] = useState<Application[]>([]);
-  const [appFilter, setAppFilter] = useState<AppFilter>('all');
-  const [searchQuery, setSearchQuery] = useState('');
   const [userName, setUserName] = useState('');
   const [isPro, setIsPro] = useState(false);
   const [todayStr, setTodayStr] = useState('');
@@ -121,14 +118,6 @@ export default function DashboardClient({ onNavigate }: { onNavigate?: (seg: str
     ? Math.round(activeApps.reduce((s, a) => s + (a.match_score || 0), 0) / activeApps.length)
     : 0;
 
-  function filterApps(list: Application[]) {
-    let filtered = list.filter(a => a.status !== 'archived');
-    if (appFilter === 'draft') filtered = filtered.filter(a => (a.status || 'draft') === 'draft');
-    if (appFilter === 'sent') filtered = filtered.filter(a => a.status === 'sent');
-    if (searchQuery) filtered = filtered.filter(a => a.role?.toLowerCase().includes(searchQuery.toLowerCase()));
-    return filtered;
-  }
-
   async function patchApp(id: string, status: string) {
     const token = localStorage.getItem('cvita_token');
     await fetch('/api/applications', {
@@ -150,48 +139,6 @@ export default function DashboardClient({ onNavigate }: { onNavigate?: (seg: str
     setApps(prev => prev.filter(a => a.id !== id));
   }
 
-  function AppList({ list }: { list: Application[] }) {
-    if (list.length === 0) {
-      return (
-        <div className={styles.emptyState}>
-          <div className={styles.emptyIcon}>📭</div>
-          <div className={styles.emptyTitle}>{t('dashboard.no_applications')}</div>
-          <div className={styles.emptySub}>{t('dashboard.no_applications_sub')}</div>
-        </div>
-      );
-    }
-    return (
-      <div className={styles.appList}>
-        {list.map(app => {
-          const isSent = app.status === 'sent';
-          return (
-            <div key={app.id} className={styles.appItem}>
-              <div className={styles.appLogo}>⭐</div>
-              <div className={styles.appInfo}>
-                <div className={styles.appRole}>{app.role || 'Okänd roll'}</div>
-                <div className={styles.appCompany}>{formatDate(app.created_at, locale)}</div>
-              </div>
-              <div className={styles.appMeta}>
-                <span className={`${styles.scoreBadge} ${scoreClass(app.match_score || 0, styles)}`}>
-                  {app.match_score || 0}% match
-                </span>
-                <span
-                  className={`${styles.statusDot} ${isSent ? styles.sent : styles.draft}`}
-                  onClick={() => patchApp(app.id, isSent ? 'draft' : 'sent')}
-                >
-                  {isSent ? t('dashboard.sent') : t('dashboard.draft')}
-                </span>
-                <div className={styles.appActions}>
-                  <div className={styles.iconBtn} title="Ta bort" onClick={() => deleteApp(app.id, app.role)}>🗑️</div>
-                  <div className={styles.iconBtn} title="Arkivera" onClick={() => patchApp(app.id, 'archived')}>📁</div>
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    );
-  }
 
   return (
     <>
@@ -338,33 +285,101 @@ export default function DashboardClient({ onNavigate }: { onNavigate?: (seg: str
             <div>
               <div style={{ marginBottom: 28 }}>
                 <div className={styles.pageTitle}>Mina ansökningar</div>
-                <div className={styles.pageSub}>
-                  {activeApps.length} ansökningar totalt · {sentCount} skickade
-                </div>
+                <div className={styles.pageSub}>{activeApps.length} aktiva · {sentCount} skickade</div>
               </div>
-              <div className={styles.filterRow}>
-                <div className={styles.cardTabs}>
-                  {(['all', 'draft', 'sent'] as AppFilter[]).map(f => (
-                    <button
-                      key={f}
-                      className={`${styles.cardTab} ${appFilter === f ? styles.active : ''}`}
-                      onClick={() => setAppFilter(f)}
-                    >
-                      {f === 'all' ? t('dashboard.all') : f === 'draft' ? t('dashboard.draft') : t('dashboard.sent')}
-                    </button>
+
+              {/* Väntar på svar */}
+              <div className={styles.appSection}>
+                <div className={styles.appSectionHeader}>
+                  <span className={styles.appSectionDot} style={{ background: '#1A56DB' }} />
+                  <span className={styles.appSectionTitle}>Väntar på svar</span>
+                  <span className={styles.appSectionCount}>{apps.filter(a => a.status === 'sent' || a.status === 'draft').length}</span>
+                </div>
+                {apps.filter(a => a.status === 'sent' || a.status === 'draft').length === 0
+                  ? <div className={styles.appSectionEmpty}>Inga aktiva ansökningar</div>
+                  : apps.filter(a => a.status === 'sent' || a.status === 'draft').map(app => (
+                    <div key={app.id} className={styles.appItem}>
+                      <div className={styles.appInfo}>
+                        <div className={styles.appRole}>{app.role}</div>
+                        <div className={styles.appCompany}>{formatDate(app.created_at, locale)} · {app.status === 'sent' ? 'Skickad' : 'Utkast'}</div>
+                      </div>
+                      <div className={styles.appMeta}>
+                        <span className={`${styles.scoreBadge} ${scoreClass(app.match_score || 0, styles)}`}>{app.match_score || 0}%</span>
+                        <button className={styles.appActionBtn} style={{ background: '#DCFCE7', color: '#16A34A' }} onClick={() => patchApp(app.id, 'interview')}>✓ Kallad till intervju</button>
+                        <button className={styles.appActionBtn} style={{ background: '#FEE2E2', color: '#DC2626' }} onClick={() => patchApp(app.id, 'rejected')}>✗ Fått avslag</button>
+                        <div className={styles.iconBtn} onClick={() => deleteApp(app.id, app.role)}>🗑️</div>
+                      </div>
+                    </div>
+                  ))
+                }
+              </div>
+
+              {/* Kallad till intervju */}
+              <div className={styles.appSection}>
+                <div className={styles.appSectionHeader}>
+                  <span className={styles.appSectionDot} style={{ background: '#16A34A' }} />
+                  <span className={styles.appSectionTitle}>Kallad till intervju</span>
+                  <span className={styles.appSectionCount}>{apps.filter(a => a.status === 'interview').length}</span>
+                </div>
+                {apps.filter(a => a.status === 'interview').length === 0
+                  ? <div className={styles.appSectionEmpty}>Inga intervjuer än — lycka till!</div>
+                  : apps.filter(a => a.status === 'interview').map(app => (
+                    <div key={app.id} className={styles.appItem} style={{ flexDirection: 'column', alignItems: 'stretch', gap: 12 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+                        <div className={styles.appInfo} style={{ flex: 1 }}>
+                          <div className={styles.appRole}>{app.role}</div>
+                          <div className={styles.appCompany}>{formatDate(app.created_at, locale)}</div>
+                        </div>
+                        <span className={`${styles.scoreBadge} ${scoreClass(app.match_score || 0, styles)}`}>{app.match_score || 0}%</span>
+                        <button className={styles.appActionBtn} style={{ background: '#F1F5F9', color: '#475569' }} onClick={() => patchApp(app.id, 'sent')}>↩ Tillbaka</button>
+                        <div className={styles.iconBtn} onClick={() => deleteApp(app.id, app.role)}>🗑️</div>
+                      </div>
+                      <div className={styles.interviewTips}>
+                        <div className={styles.interviewTipsTitle}>Intervjuförberedelse för {app.role}</div>
+                        <div className={styles.interviewTipsList}>
+                          {[
+                            'Researcha företaget — läs om deras mission, produkter och senaste nyheter',
+                            'Förbered 3–5 konkreta exempel på dina prestationer (STAR-metoden: Situation, Task, Action, Result)',
+                            'Öva på vanliga frågor: "Berätta om dig själv", "Varför vill du jobba här?", "Vad är din svaghet?"',
+                            'Förbered egna frågor att ställa till intervjuaren',
+                            'Kolla upp lön för liknande roller — var redo att diskutera',
+                            'Testa din teknik om det är en videointervju (ljud, kamera, bakgrund)',
+                          ].map((tip, i) => (
+                            <div key={i} className={styles.interviewTip}>
+                              <span className={styles.interviewTipNum}>{i + 1}</span>
+                              <span>{tip}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                }
+              </div>
+
+              {/* Fått avslag */}
+              {apps.filter(a => a.status === 'rejected').length > 0 && (
+                <div className={styles.appSection}>
+                  <div className={styles.appSectionHeader}>
+                    <span className={styles.appSectionDot} style={{ background: '#DC2626' }} />
+                    <span className={styles.appSectionTitle}>Fått avslag</span>
+                    <span className={styles.appSectionCount}>{apps.filter(a => a.status === 'rejected').length}</span>
+                  </div>
+                  {apps.filter(a => a.status === 'rejected').map(app => (
+                    <div key={app.id} className={styles.appItem} style={{ opacity: 0.85 }}>
+                      <div className={styles.appInfo}>
+                        <div className={styles.appRole}>{app.role}</div>
+                        <div className={styles.appCompany}>{formatDate(app.created_at, locale)}</div>
+                      </div>
+                      <div className={styles.appMeta}>
+                        <span className={`${styles.scoreBadge} ${scoreClass(app.match_score || 0, styles)}`}>{app.match_score || 0}%</span>
+                        <button className={styles.appActionBtn} style={{ background: '#F1F5F9', color: '#475569' }} onClick={() => patchApp(app.id, 'archived')}>📁 Arkivera</button>
+                        <div className={styles.iconBtn} onClick={() => deleteApp(app.id, app.role)}>🗑️</div>
+                      </div>
+                    </div>
                   ))}
                 </div>
-                <input
-                  className={styles.searchInput}
-                  type="text"
-                  placeholder="🔍 Sök roll..."
-                  value={searchQuery}
-                  onChange={e => setSearchQuery(e.target.value)}
-                />
-              </div>
-              <div className={styles.appsPageList}>
-                <AppList list={filterApps(apps)} />
-              </div>
+              )}
             </div>
           )}
 

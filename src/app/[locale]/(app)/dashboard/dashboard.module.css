@@ -328,6 +328,23 @@
 .statusDot.draft::before { background: var(--amber); }
 .statusDot.draft { color: var(--amber); }
 
+/* ── APPLICATION SECTIONS ── */
+.appSection { background: white; border: 1px solid var(--border); border-radius: 14px; margin-bottom: 20px; overflow: hidden; }
+.appSectionHeader { display: flex; align-items: center; gap: 10px; padding: 14px 20px; border-bottom: 1px solid var(--border); background: #FAFBFC; }
+.appSectionDot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.appSectionTitle { font-size: 14px; font-weight: 700; color: var(--navy); flex: 1; }
+.appSectionCount { font-size: 12px; font-weight: 600; color: white; background: var(--slate); padding: 1px 8px; border-radius: 20px; }
+.appSectionEmpty { padding: 20px; font-size: 13px; color: var(--muted); text-align: center; }
+.appActionBtn { padding: 5px 12px; border-radius: 7px; border: none; font-size: 12px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; white-space: nowrap; transition: opacity 0.15s; }
+.appActionBtn:hover { opacity: 0.8; }
+
+/* ── INTERVIEW TIPS ── */
+.interviewTips { background: #EFF6FF; border-radius: 10px; padding: 16px 18px; margin: 0 12px 12px; }
+.interviewTipsTitle { font-size: 13px; font-weight: 700; color: #1A56DB; margin-bottom: 12px; }
+.interviewTipsList { display: flex; flex-direction: column; gap: 8px; }
+.interviewTip { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; color: #374151; line-height: 1.5; }
+.interviewTipNum { width: 20px; height: 20px; border-radius: 50%; background: #1A56DB; color: white; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+
 .iconBtn {
   width: 30px; height: 30px; border-radius: 7px;
   display: flex; align-items: center; justify-content: center;
