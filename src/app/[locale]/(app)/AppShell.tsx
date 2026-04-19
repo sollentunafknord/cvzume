@@ -27,6 +27,20 @@ export default function AppShell() {
     setPage(seg);
   }, [pathname]);
 
+  // Check pro status on app load and notify components
+  useEffect(() => {
+    const email = (() => { try { return JSON.parse(localStorage.getItem('cvita_user') || '{}').email || ''; } catch { return ''; } })();
+    if (!email) return;
+    fetch(`/api/stripe/subscription?email=${encodeURIComponent(email)}`)
+      .then(r => r.json())
+      .then(data => {
+        const isPro = data.plan === 'pro';
+        localStorage.setItem('cvita_is_pro', isPro ? 'true' : 'false');
+        window.dispatchEvent(new CustomEvent('cvita_pro_updated', { detail: { isPro } }));
+      })
+      .catch(() => {});
+  }, []);
+
   function navigate(seg: string) {
     setPage(seg);                              // instant — React state, no waiting
     router.push(`/${locale}/${seg}`);          // async — updates URL in background

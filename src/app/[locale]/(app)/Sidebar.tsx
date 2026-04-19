@@ -42,6 +42,13 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
   useEffect(() => {
     const isPro = localStorage.getItem('cvita_is_pro') === 'true';
     setPlanLabel(isPro ? t('dashboard.pro_plan') : t('dashboard.free_plan'));
+
+    const handler = (e: Event) => {
+      const pro = (e as CustomEvent).detail.isPro;
+      setPlanLabel(pro ? t('dashboard.pro_plan') : t('dashboard.free_plan'));
+    };
+    window.addEventListener('cvita_pro_updated', handler);
+    return () => window.removeEventListener('cvita_pro_updated', handler);
   }, [t]);
 
   const LANGS: { code: string; flagImg: string; label: string }[] = [

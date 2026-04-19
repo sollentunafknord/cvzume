@@ -108,6 +108,12 @@ export default function DashboardClient({ onNavigate }: { onNavigate?: (seg: str
     }
   }, [locale, loadUser, loadApplications, loadEvents]);
 
+  useEffect(() => {
+    const handler = (e: Event) => setIsPro((e as CustomEvent).detail.isPro);
+    window.addEventListener('cvita_pro_updated', handler);
+    return () => window.removeEventListener('cvita_pro_updated', handler);
+  }, []);
+
   const activeApps = apps.filter(a => a.status !== 'archived');
   const archivedApps = apps.filter(a => a.status === 'archived');
   const sentCount = activeApps.filter(a => a.status === 'sent').length;
