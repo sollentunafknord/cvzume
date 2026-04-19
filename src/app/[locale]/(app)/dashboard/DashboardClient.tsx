@@ -197,9 +197,6 @@ export default function DashboardClient({ onNavigate }: { onNavigate?: (seg: str
             </span>
           </div>
           <div className={styles.topbarRight}>
-            <button className={`${styles.topbarBtn} ${styles.topbarBtnGhost}`} onClick={() => setModalOpen(true)}>
-              📤 {t('dashboard.upload_cv')}
-            </button>
             <button className={`${styles.topbarBtn} ${styles.topbarBtnPrimary}`} onClick={() => setModalOpen(true)}>
               ＋ {t('dashboard.new_application')}
             </button>

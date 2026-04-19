@@ -208,6 +208,7 @@ export default function CVClient() {
           <span className={styles.toolbarTitle}>{toolbarTitle}</span>
         </div>
         <div className={styles.toolbarRight}>
+          <button className={`${styles.btn} ${styles.btnGhost}`} onClick={() => router.push(`/${locale}/profile`)}>📤 Ladda upp CV</button>
           <button className={`${styles.btn} ${styles.btnGhost}`} onClick={openPreview}>👁 Förhandsgranska</button>
           <button className={`${styles.btn} ${styles.btnPrimary}`} onClick={downloadPDF}>📥 Ladda ner PDF</button>
         </div>

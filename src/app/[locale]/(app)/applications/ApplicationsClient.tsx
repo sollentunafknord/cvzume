@@ -11,15 +11,14 @@ interface Region { id: string; preferred_label: string; }
 interface Municipality { id: string; preferred_label: string; broader_id: string; }
 interface OccField { id: string; preferred_label: string; }
 
-const FAVORITES_KEY = 'cvita_job_favorites';
 const PAGE_SIZE = 10;
 
-function loadFavorites(): Job[] {
-  try { return JSON.parse(localStorage.getItem(FAVORITES_KEY) || '[]'); }
-  catch { return []; }
-}
-function saveFavorites(favs: Job[]) {
-  localStorage.setItem(FAVORITES_KEY, JSON.stringify(favs));
+async function apiFavorites(token: string): Promise<Job[]> {
+  try {
+    const res = await fetch(`/api/favorites?token=${token}`);
+    const data = await res.json();
+    return data.favorites || [];
+  } catch { return []; }
 }
 
 export default function ApplicationsClient() {
@@ -64,7 +63,8 @@ export default function ApplicationsClient() {
 
   // Load taxonomy once
   useEffect(() => {
-    setFavorites(loadFavorites());
+    const token = localStorage.getItem('cvita_token');
+    if (token) apiFavorites(token).then(setFavorites);
     if (taxLoaded) return;
     Promise.all([
       fetch('/api/jobs/taxonomy?type=region').then(r => r.json()),
@@ -143,27 +143,32 @@ export default function ApplicationsClient() {
   function clearYrke() { setSelFields([]); }
 
   function toggleFavorite(job: Job) {
-    setFavorites(prev => {
-      const exists = prev.some(f => f.id === job.id);
-      const next = exists ? prev.filter(f => f.id !== job.id) : [...prev, job];
-      saveFavorites(next);
-      if (!exists) {
-        const token = localStorage.getItem('cvita_token');
-        if (token) {
-          fetch('/api/events', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              token,
-              type: 'favorite',
-              title: job.headline,
-              subtitle: job.employer?.name || null,
-            }),
-          }).catch(() => {});
-        }
+    const token = localStorage.getItem('cvita_token');
+    const exists = favorites.some(f => f.id === job.id);
+    if (exists) {
+      setFavorites(prev => prev.filter(f => f.id !== job.id));
+      if (token) {
+        fetch('/api/favorites', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token, jobId: job.id }),
+        }).catch(() => {});
       }
-      return next;
-    });
+    } else {
+      setFavorites(prev => [job, ...prev]);
+      if (token) {
+        fetch('/api/favorites', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token, job }),
+        }).catch(() => {});
+        fetch('/api/events', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token, type: 'favorite', title: job.headline, subtitle: job.employer?.name || null }),
+        }).catch(() => {});
+      }
+    }
   }
 
   const ortLabel = selMunicipalities.length > 0

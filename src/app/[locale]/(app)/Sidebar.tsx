@@ -45,10 +45,10 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
   }, [t]);
 
   const LANGS: { code: string; flag: string; label: string }[] = [
-    { code: 'sv', flag: '🇸🇪', label: 'Svenska' },
-    { code: 'en', flag: '🇬🇧', label: 'English' },
-    { code: 'es', flag: '🇪🇸', label: 'Español' },
-    { code: 'tr', flag: '🇹🇷', label: 'Türkçe' },
+    { code: 'sv', flag: 'SE', label: 'Svenska' },
+    { code: 'en', flag: 'EN', label: 'English' },
+    { code: 'es', flag: 'ES', label: 'Español' },
+    { code: 'tr', flag: 'TR', label: 'Türkçe' },
   ];
 
   function switchLocale(newLocale: string) {
@@ -118,7 +118,7 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
                 title={l.label}
                 onClick={() => switchLocale(l.code)}
               >
-                {l.flag}
+                <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: 0.5 }}>{l.flag}</span>
               </button>
             ))}
           </div>
