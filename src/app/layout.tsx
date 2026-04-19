@@ -7,12 +7,9 @@ export const metadata: Metadata = {
   title: { default: 'CVzume', template: '%s | CVzume' },
   description: 'AI-powered CV and cover letter builder for the Swedish job market.',
   icons: {
-    icon: [
-      { url: '/icon', type: 'image/png', sizes: '32x32' },
-      { url: '/favicon.ico', sizes: 'any' },
-    ],
-    apple: [{ url: '/apple-icon', type: 'image/png', sizes: '180x180' }],
-    shortcut: '/favicon.ico',
+    icon: [{ url: '/favicon.png', type: 'image/png' }],
+    shortcut: '/favicon.png',
+    apple: [{ url: '/favicon.png', type: 'image/png' }],
   },
 };
 
