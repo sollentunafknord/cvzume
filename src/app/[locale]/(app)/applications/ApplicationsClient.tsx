@@ -7,6 +7,7 @@ import { Job, formatDeadline } from './types';
 import JobCard from './JobCard';
 import FavoritesTab from './FavoritesTab';
 import TurkishJobSearch from './TurkishJobSearch';
+import IndeedJobSearch from './IndeedJobSearch';
 
 interface Region { id: string; preferred_label: string; }
 interface Municipality { id: string; preferred_label: string; broader_id: string; }
@@ -63,6 +64,7 @@ export default function ApplicationsClient() {
   const locale = useLocale();
 
   if (locale === 'tr') return <TurkishJobSearch />;
+  if (locale === 'en' || locale === 'es') return <IndeedJobSearch />;
 
   const [tab, setTab] = useState<'search' | 'favorites'>('search');
 
