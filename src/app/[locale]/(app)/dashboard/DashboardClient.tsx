@@ -223,35 +223,41 @@ export default function DashboardClient({ onNavigate }: { onNavigate?: (seg: str
               <div className={styles.statsRow}>
                 <div className={styles.statCard}>
                   <div>
-                    <div className={styles.statLabel}>{t('dashboard.active_applications')}</div>
+                    <div className={styles.statLabel}>Aktiva ansökningar</div>
                     <div className={styles.statValue}>{activeApps.length}</div>
-                    <div className={styles.statSub}>{sentCount} skickade</div>
+                    <div className={styles.statSub}>{activeApps.length - sentCount} utkast</div>
                   </div>
-                  <div className={`${styles.statIcon} ${styles.siBlue}`}>📋</div>
+                  <div className={`${styles.statIcon} ${styles.siBlue}`} style={{ fontSize: 22 }}>📋</div>
                 </div>
                 <div className={styles.statCard}>
                   <div>
-                    <div className={styles.statLabel}>{t('dashboard.cvs_generated')}</div>
-                    <div className={styles.statValue}>{activeApps.length}</div>
-                    <div className={`${styles.statSub} ${styles.neutral}`}>totalt</div>
+                    <div className={styles.statLabel}>Skickade ansökningar</div>
+                    <div className={styles.statValue}>{sentCount}</div>
+                    <div className={`${styles.statSub} ${sentCount > 0 ? '' : styles.neutral}`}>
+                      {sentCount > 0 ? 'skickade' : 'Inga skickade än'}
+                    </div>
                   </div>
-                  <div className={`${styles.statIcon} ${styles.siGreen}`}>📄</div>
+                  <div className={`${styles.statIcon} ${styles.siGreen}`} style={{ fontSize: 22 }}>✅</div>
                 </div>
                 <div className={styles.statCard}>
                   <div>
-                    <div className={styles.statLabel}>{t('dashboard.avg_match')}</div>
+                    <div className={styles.statLabel}>Snitt matchning</div>
                     <div className={styles.statValue}>{activeApps.length ? `${avgMatch}%` : '–'}</div>
                     <div className={styles.statSub}>genomsnitt</div>
                   </div>
-                  <div className={`${styles.statIcon} ${styles.siAmber}`}>🎯</div>
+                  <div className={`${styles.statIcon} ${styles.siAmber}`} style={{ fontSize: 22 }}>🎯</div>
                 </div>
                 <div className={styles.statCard}>
                   <div>
-                    <div className={styles.statLabel}>{t('dashboard.pdfs_exported')}</div>
-                    <div className={styles.statValue}>0</div>
-                    <div className={`${styles.statSub} ${styles.neutral}`}>Inga PDF:er än</div>
+                    <div className={styles.statLabel}>Senaste aktivitet</div>
+                    <div className={styles.statValue} style={{ fontSize: 16, fontWeight: 600 }}>
+                      {events.length > 0 ? events[0].title.slice(0, 18) + (events[0].title.length > 18 ? '…' : '') : '–'}
+                    </div>
+                    <div className={`${styles.statSub} ${styles.neutral}`}>
+                      {events.length > 0 ? (events[0].type === 'favorite' ? '★ Favorit' : '📋 Ansökan') : 'Inga händelser'}
+                    </div>
                   </div>
-                  <div className={`${styles.statIcon} ${styles.siPurple}`}>📤</div>
+                  <div className={`${styles.statIcon} ${styles.siPurple}`} style={{ fontSize: 22 }}>⚡</div>
                 </div>
               </div>
 
