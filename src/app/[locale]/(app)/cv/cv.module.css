@@ -85,6 +85,14 @@
   .cvPaper { box-shadow: none; border-radius: 0; padding: 20mm 20mm; }
   .cvAvatar { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .cvAvatar img { display: block !important; width: 100% !important; height: 100% !important; }
+
+  .cvHeader { page-break-inside: avoid; break-inside: avoid; }
+  .cvAiBox { page-break-inside: avoid; break-inside: avoid; }
+  .cvSection { page-break-inside: avoid; break-inside: avoid; }
+  .expItem { page-break-inside: avoid; break-inside: avoid; }
+  .eduItem { page-break-inside: avoid; break-inside: avoid; }
+  .cvTwoCol { page-break-inside: avoid; break-inside: avoid; }
+  .cvSectionTitle { page-break-after: avoid; break-after: avoid; }
 }
 
 /* ── MOBILE ── */
