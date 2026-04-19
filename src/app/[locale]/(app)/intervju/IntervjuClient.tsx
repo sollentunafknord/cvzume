@@ -41,6 +41,7 @@ export default function IntervjuClient({ onNavigate }: { onNavigate?: (seg: stri
   const [questions, setQuestions] = useState<InterviewQuestion[]>([]);
   const [generating, setGenerating] = useState(false);
   const [expanded, setExpanded] = useState<number | null>(null);
+  const [printMode, setPrintMode] = useState(false);
 
   function goTo(seg: string) {
     if (onNavigate) onNavigate(seg);
@@ -175,7 +176,14 @@ export default function IntervjuClient({ onNavigate }: { onNavigate?: (seg: stri
               <>
                 <div className={styles.questionsHeader}>
                   <div className={styles.questionsTitle}>Intervjufrågor — {selectedApp.role}</div>
-                  <div className={styles.questionsCount}>{questions.length} frågor</div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                    <div className={styles.questionsCount}>{questions.length} frågor</div>
+                    <button
+                      className={styles.pdfBtn}
+                      onClick={() => { setPrintMode(true); setTimeout(() => { window.print(); setPrintMode(false); }, 100); }}
+                      title="Ladda ner som PDF"
+                    >📥 PDF</button>
+                  </div>
                 </div>
                 <div className={styles.questionsList}>
                   {questions.map((q, i) => {
@@ -198,7 +206,7 @@ export default function IntervjuClient({ onNavigate }: { onNavigate?: (seg: stri
                           </div>
                           <span className={styles.expandIcon}>{expanded === i ? '▲' : '▼'}</span>
                         </div>
-                        {expanded === i && q.tip && (
+                        {(expanded === i || printMode) && q.tip && (
                           <div className={styles.questionTip}>
                             <span className={styles.tipIcon}>💡</span>
                             {q.tip}

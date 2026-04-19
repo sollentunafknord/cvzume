@@ -60,6 +60,19 @@
 .regenerateBtn { padding: 10px 20px; background: none; border: 1.5px solid var(--border); border-radius: 9px; font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif; color: var(--navy); cursor: pointer; transition: all 0.15s; }
 .regenerateBtn:hover { border-color: var(--blue); color: var(--blue); }
 
+.pdfBtn { padding: 6px 12px; background: var(--blue); color: white; border: none; border-radius: 7px; font-size: 12px; font-weight: 600; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: background 0.15s; }
+.pdfBtn:hover { background: var(--blue-hover); }
+
+@media print {
+  body * { visibility: hidden; }
+  .questionsPanel, .questionsPanel * { visibility: visible; }
+  .questionsPanel { position: absolute; left: 0; top: 0; width: 100%; padding: 32px; }
+  .pdfBtn, .regenerateBtn { display: none; }
+  .questionHeader { cursor: default; }
+  .questionTip { display: block !important; }
+  .expandIcon { display: none; }
+}
+
 @media (max-width: 768px) {
   .page { padding: 20px 16px 40px; }
   .layout { grid-template-columns: 1fr; }
