@@ -121,6 +121,5 @@
   .letterContent { font-size: 13px; line-height: 1.9; }
   .letterSignature { border-top: 1px solid #E2E8F0; }
   .letterSigName { color: #0D1B2A !important; }
-  -webkit-print-color-adjust: exact;
-  print-color-adjust: exact;
+  .letterPaper { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }
