@@ -259,12 +259,26 @@ export default function DashboardClient({ onNavigate }: { onNavigate?: (seg: str
                 <div>
                   <div className={styles.sectionHeader}>
                     <span className={styles.sectionTitleSm}>Senaste 5 händelser</span>
-                    <button className={styles.sectionLink} onClick={() => setView('applications')}>
-                      {t('dashboard.see_all')}
-                    </button>
                   </div>
-                  <div className={styles.applicationsCard}>
-                    <AppList list={apps.slice(0, 5)} />
+                  <div className={styles.activityCard}>
+                    <div className={styles.activityList}>
+                      {events.length === 0
+                        ? <div className={styles.noActivity}>Inga händelser än — lägg till favoriter eller skicka ansökningar</div>
+                        : events.map(e => (
+                          <div key={e.id} className={styles.activityItem}>
+                            <span className={styles.activityDot} style={{ background: e.type === 'favorite' ? '#F59E0B' : '#1A56DB' }} />
+                            <span style={{ flex: 1 }}>
+                              <span style={{ fontSize: 12, color: '#94A3B8', marginRight: 6 }}>
+                                {e.type === 'favorite' ? '★' : '📋'}
+                              </span>
+                              {e.title}
+                              {e.subtitle && <span style={{ color: '#94A3B8', fontSize: 12, marginLeft: 6 }}>{e.subtitle}</span>}
+                            </span>
+                            <span className={styles.activityDate}>{formatDate(e.created_at, locale)}</span>
+                          </div>
+                        ))
+                      }
+                    </div>
                   </div>
                 </div>
 
@@ -296,28 +310,6 @@ export default function DashboardClient({ onNavigate }: { onNavigate?: (seg: str
                         </div>
                         <span className={styles.qaArrow}>→</span>
                       </button>
-                    </div>
-                  </div>
-
-                  <div className={styles.activityCard}>
-                    <div className={styles.sectionTitleSm}>Senaste händelser</div>
-                    <div className={styles.activityList}>
-                      {events.length === 0
-                        ? <div className={styles.noActivity}>Inga händelser än</div>
-                        : events.map(e => (
-                          <div key={e.id} className={styles.activityItem}>
-                            <span className={styles.activityDot} style={{ background: e.type === 'favorite' ? '#F59E0B' : '#1A56DB' }} />
-                            <span style={{ flex: 1 }}>
-                              <span style={{ fontSize: 12, color: '#94A3B8', marginRight: 6 }}>
-                                {e.type === 'favorite' ? '★' : '📋'}
-                              </span>
-                              {e.title}
-                              {e.subtitle && <span style={{ color: '#94A3B8', fontSize: 12, marginLeft: 6 }}>{e.subtitle}</span>}
-                            </span>
-                            <span className={styles.activityDate}>{formatDate(e.created_at, locale)}</span>
-                          </div>
-                        ))
-                      }
                     </div>
                   </div>
 
