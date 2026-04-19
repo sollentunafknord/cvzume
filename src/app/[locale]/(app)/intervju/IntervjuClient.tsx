@@ -83,7 +83,7 @@ export default function IntervjuClient({ onNavigate }: { onNavigate?: (seg: stri
       const res = await fetch('/api/ai/interview', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ role: app.role }),
+        body: JSON.stringify({ role: app.role, locale }),
       });
       const data = await res.json();
       setQuestions(data.questions || []);

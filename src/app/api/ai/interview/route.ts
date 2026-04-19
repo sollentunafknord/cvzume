@@ -33,38 +33,53 @@ async function callGroq(prompt: string): Promise<string> {
   return data.choices[0].message.content;
 }
 
-export async function POST(req: Request) {
-  try {
-    const { role, jobAd } = await req.json();
-    if (!role) return NextResponse.json({ error: 'role required' }, { status: 400 });
-
-    const prompt = `Du är en expert karriärcoach som hjälper jobbsökare att förbereda sig för anställningsintervjuer i Sverige.
-
-Roll: ${role}
-${jobAd ? `Platsannons:\n${jobAd.slice(0, 2000)}\n` : ''}
-
-Generera 10 troliga intervjufrågor för denna roll, anpassade till det svenska arbetsmarknaden.
-Inkludera en blandning av:
-- Tekniska/yrkesspecifika frågor
-- Beteendefrågor (STAR-metoden)
-- Situationsfrågor
-- Personliga frågor
-
-Svara ENDAST med ett JSON-objekt i detta exakta format:
-{
-  "questions": [
-    { "category": "Teknisk", "question": "...", "tip": "Tänk på att..." },
-    ...
-  ]
+const LANG_NAMES: Record<string, string> = {
+  sv: 'Swedish', en: 'English', es: 'Spanish', tr: 'Turkish',
 }
 
-Kategorier att använda: "Teknisk", "Beteende", "Situation", "Personlig", "Företag"`;
+const CATEGORIES: Record<string, { technical: string; behavioral: string; situational: string; personal: string; company: string }> = {
+  sv: { technical: 'Teknisk', behavioral: 'Beteende', situational: 'Situation', personal: 'Personlig', company: 'Företag' },
+  en: { technical: 'Technical', behavioral: 'Behavioral', situational: 'Situational', personal: 'Personal', company: 'Company' },
+  es: { technical: 'Técnica', behavioral: 'Conducta', situational: 'Situación', personal: 'Personal', company: 'Empresa' },
+  tr: { technical: 'Teknik', behavioral: 'Davranış', situational: 'Durum', personal: 'Kişisel', company: 'Şirket' },
+}
+
+export async function POST(req: Request) {
+  try {
+    const { role, jobAd, locale } = await req.json();
+    if (!role) return NextResponse.json({ error: 'role required' }, { status: 400 });
+
+    const lang = LANG_NAMES[locale] || 'Swedish';
+    const cats = CATEGORIES[locale] || CATEGORIES.sv;
+
+    const prompt = `You are an expert career coach helping job seekers prepare for job interviews.
+
+Role: ${role}
+${jobAd ? `Job ad:\n${jobAd.slice(0, 2000)}\n` : ''}
+
+CRITICAL LANGUAGE RULE: Write ALL output in ${lang}. Every question and tip must be in ${lang}.
+
+Generate 10 likely interview questions for this role.
+Include a mix of:
+- Technical/job-specific questions
+- Behavioral questions (STAR method)
+- Situational questions
+- Personal questions
+
+Use ONLY these exact category names: "${cats.technical}", "${cats.behavioral}", "${cats.situational}", "${cats.personal}", "${cats.company}"
+
+Respond ONLY with a JSON object in this exact format:
+{
+  "questions": [
+    { "category": "${cats.technical}", "question": "...", "tip": "..." },
+    ...
+  ]
+}`;
 
     let text: string;
     try { text = await callGemini(prompt); }
     catch { text = await callGroq(prompt); }
 
-    // Extract JSON from response
     const match = text.match(/\{[\s\S]*\}/);
     if (!match) throw new Error('No JSON in response');
     const parsed = JSON.parse(match[0]);

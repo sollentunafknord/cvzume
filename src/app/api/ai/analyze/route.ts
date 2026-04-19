@@ -86,12 +86,18 @@ async function callAI(prompt: string): Promise<{ text: string; provider: string 
   throw new Error('All AI providers failed.')
 }
 
+const LANG_NAMES: Record<string, string> = {
+  sv: 'Swedish', en: 'English', es: 'Spanish', tr: 'Turkish',
+}
+
 export async function POST(request: Request) {
-  const { jobAd, userProfile } = await request.json()
+  const { jobAd, userProfile, locale } = await request.json()
 
   if (!jobAd) {
     return NextResponse.json({ error: 'Job ad is required' }, { status: 400 })
   }
+
+  const outputLang = LANG_NAMES[locale] || 'Swedish'
 
   // Profil bilgilerini düzenli formata çevir
   let profileText = '';
@@ -124,7 +130,7 @@ export async function POST(request: Request) {
 
   const prompt = `You are a professional CV and cover letter writer. Analyze the job ad and the candidate's real profile below.
 
-CRITICAL LANGUAGE RULE: Detect the language of the job ad and respond ONLY in that same language. If Swedish → Swedish. If English → English. Never mix languages.
+CRITICAL LANGUAGE RULE: You MUST write ALL output (cvSummary, coverLetter, keyRequirements, tips) in ${outputLang}. This is non-negotiable — the user's interface language is ${outputLang}. Never mix languages.
 
 JOB AD:
 ${jobAd}

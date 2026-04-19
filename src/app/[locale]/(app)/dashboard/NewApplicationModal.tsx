@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import styles from './dashboard.module.css';
 
 interface AnalysisResult {
@@ -33,6 +33,7 @@ interface JobHit {
 
 export default function NewApplicationModal({ open, onClose, isPro, onUsageLimitHit, onAnalysisComplete, onApplicationSaved }: Props) {
   const t = useTranslations();
+  const locale = useLocale();
 
   const [modalTab, setModalTab] = useState<'search' | 'paste'>('search');
   const [modalRole, setModalRole] = useState('');
@@ -159,7 +160,7 @@ export default function NewApplicationModal({ open, onClose, isPro, onUsageLimit
       const res = await fetch('/api/ai/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ jobAd: modalAd, userProfile: profile }),
+        body: JSON.stringify({ jobAd: modalAd, userProfile: profile, locale }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'AI fel');

@@ -125,7 +125,7 @@ export default function LetterClient() {
       const res = await fetch('/api/ai/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ jobAd: result.jobAd || result.role, userProfile: profile }),
+        body: JSON.stringify({ jobAd: result.jobAd || result.role, userProfile: profile, locale }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || t('generate_error'));
