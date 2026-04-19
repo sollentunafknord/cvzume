@@ -147,6 +147,21 @@ export default function ApplicationsClient() {
       const exists = prev.some(f => f.id === job.id);
       const next = exists ? prev.filter(f => f.id !== job.id) : [...prev, job];
       saveFavorites(next);
+      if (!exists) {
+        const token = localStorage.getItem('cvita_token');
+        if (token) {
+          fetch('/api/events', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              token,
+              type: 'favorite',
+              title: job.headline,
+              subtitle: job.employer?.name || null,
+            }),
+          }).catch(() => {});
+        }
+      }
       return next;
     });
   }

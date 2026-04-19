@@ -55,6 +55,8 @@ export default function DashboardClient({ onNavigate }: { onNavigate?: (seg: str
   const [isPro, setIsPro] = useState(false);
   const [todayStr, setTodayStr] = useState('');
 
+  const [events, setEvents] = useState<{ id: string; type: string; title: string; subtitle: string | null; created_at: string }[]>([]);
+
   const [modalOpen, setModalOpen] = useState(false);
   const [showUpgrade, setShowUpgrade] = useState(false);
   const [result, setResult] = useState<AnalysisResult | null>(null);
@@ -81,6 +83,16 @@ export default function DashboardClient({ onNavigate }: { onNavigate?: (seg: str
     } catch { /* silent */ }
   }, []);
 
+  const loadEvents = useCallback(async () => {
+    const token = localStorage.getItem('cvita_token');
+    if (!token) return;
+    try {
+      const res = await fetch(`/api/events?token=${token}`);
+      const data = await res.json();
+      if (data.events) setEvents(data.events);
+    } catch { /* silent */ }
+  }, []);
+
   useEffect(() => {
     const localeMap: Record<string, string> = { en: 'en-GB', es: 'es-ES', tr: 'tr-TR', sv: 'sv-SE' };
     const str = new Date().toLocaleDateString(localeMap[locale] || 'sv-SE', {
@@ -89,11 +101,12 @@ export default function DashboardClient({ onNavigate }: { onNavigate?: (seg: str
     setTodayStr(str.charAt(0).toUpperCase() + str.slice(1));
     loadUser();
     loadApplications();
+    loadEvents();
 
     if (localStorage.getItem('cvita_prefill_job')) {
       setModalOpen(true);
     }
-  }, [locale, loadUser, loadApplications]);
+  }, [locale, loadUser, loadApplications, loadEvents]);
 
   const activeApps = apps.filter(a => a.status !== 'archived');
   const archivedApps = apps.filter(a => a.status === 'archived');
@@ -306,15 +319,21 @@ export default function DashboardClient({ onNavigate }: { onNavigate?: (seg: str
                   </div>
 
                   <div className={styles.activityCard}>
-                    <div className={styles.sectionTitleSm}>{t('dashboard.recent_activity')}</div>
+                    <div className={styles.sectionTitleSm}>Senaste händelser</div>
                     <div className={styles.activityList}>
-                      {apps.length === 0
-                        ? <div className={styles.noActivity}>{t('dashboard.no_activity')}</div>
-                        : apps.slice(0, 5).map(a => (
-                          <div key={a.id} className={styles.activityItem}>
-                            <span className={styles.activityDot} />
-                            <span>{a.role}</span>
-                            <span className={styles.activityDate}>{formatDate(a.created_at, locale)}</span>
+                      {events.length === 0
+                        ? <div className={styles.noActivity}>Inga händelser än</div>
+                        : events.map(e => (
+                          <div key={e.id} className={styles.activityItem}>
+                            <span className={styles.activityDot} style={{ background: e.type === 'favorite' ? '#F59E0B' : '#1A56DB' }} />
+                            <span style={{ flex: 1 }}>
+                              <span style={{ fontSize: 12, color: '#94A3B8', marginRight: 6 }}>
+                                {e.type === 'favorite' ? '★' : '📋'}
+                              </span>
+                              {e.title}
+                              {e.subtitle && <span style={{ color: '#94A3B8', fontSize: 12, marginLeft: 6 }}>{e.subtitle}</span>}
+                            </span>
+                            <span className={styles.activityDate}>{formatDate(e.created_at, locale)}</span>
                           </div>
                         ))
                       }

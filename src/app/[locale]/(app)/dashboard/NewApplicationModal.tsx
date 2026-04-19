@@ -184,7 +184,19 @@ export default function NewApplicationModal({ open, onClose, isPro, onUsageLimit
             coverLetter: data.coverLetter, keyRequirements: data.keyRequirements,
             tips: data.tips, provider: data.provider,
           }),
-        }).then(() => onApplicationSaved()).catch(() => {});
+        }).then(() => {
+          onApplicationSaved();
+          fetch('/api/events', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              token,
+              type: 'application',
+              title: modalRole,
+              subtitle: `${data.matchScore}% match`,
+            }),
+          }).catch(() => {});
+        }).catch(() => {});
       }
 
       await new Promise(r => setTimeout(r, 800));
