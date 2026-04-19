@@ -96,13 +96,13 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
             <span className={styles.navIcon}>✍️</span> {t('nav.letters')}
           </button>
           <button className={`${styles.navItem} ${seg === 'skickade' ? styles.active : ''}`} onClick={() => nav('skickade')}>
-            <span className={styles.navIcon}>📤</span> Skickade ansökningar
+            <span className={styles.navIcon}>📤</span> {t('nav.skickade')}
           </button>
           <button className={`${styles.navItem} ${seg === 'intervju' ? styles.active : ''}`} onClick={() => nav('intervju')}>
-            <span className={styles.navIcon}>🎯</span> Intervju förberedelse
+            <span className={styles.navIcon}>🎯</span> {t('nav.intervju')}
           </button>
           <button className={`${styles.navItem} ${seg === 'archive' ? styles.active : ''}`} onClick={() => nav('archive')}>
-            <span className={styles.navIcon}>🗄️</span> Arkiv
+            <span className={styles.navIcon}>🗄️</span> {t('nav.arkiv')}
           </button>
           <button className={`${styles.navItem} ${seg === 'applications' ? styles.active : ''}`} onClick={() => nav('applications')}>
             <span className={styles.navIcon}>🔍</span> {t('nav.applications')}

@@ -120,9 +120,9 @@ export default function DashboardClient({ onNavigate }: { onNavigate?: (seg: str
           <div className={styles.welcomeBanner}>
             <div className={styles.welcomeText}>
               <div className={styles.welcomeGreeting}>{todayStr}</div>
-              <div className={styles.welcomeName}>Hej, {userName.split(' ')[0]}! 👋</div>
+              <div className={styles.welcomeName}>{t('dashboard.greeting', { name: userName.split(' ')[0] })}</div>
               <div className={styles.welcomeSub}>
-                {sentCount} skickade ansökningar · {interviewCount} intervjuer
+                {sentCount} {t('dashboard.sent_apps').toLowerCase()} · {interviewCount} {t('dashboard.interviews').toLowerCase()}
               </div>
             </div>
           </div>
@@ -130,40 +130,40 @@ export default function DashboardClient({ onNavigate }: { onNavigate?: (seg: str
           <div className={styles.statsRow}>
             <div className={styles.statCard}>
               <div>
-                <div className={styles.statLabel}>Skickade ansökningar</div>
+                <div className={styles.statLabel}>{t('dashboard.sent_apps')}</div>
                 <div className={styles.statValue}>{sentCount}</div>
                 <div className={`${styles.statSub} ${sentCount > 0 ? '' : styles.neutral}`}>
-                  {sentCount > 0 ? 'väntar på svar' : 'Inga skickade än'}
+                  {sentCount > 0 ? t('dashboard.waiting_answer') : t('dashboard.no_sent_yet')}
                 </div>
               </div>
               <div className={`${styles.statIcon} ${styles.siBlue}`} style={{ fontSize: 22 }}>📤</div>
             </div>
             <div className={styles.statCard}>
               <div>
-                <div className={styles.statLabel}>Intervjuer</div>
+                <div className={styles.statLabel}>{t('dashboard.interviews')}</div>
                 <div className={styles.statValue}>{interviewCount}</div>
                 <div className={`${styles.statSub} ${interviewCount > 0 ? '' : styles.neutral}`}>
-                  {interviewCount > 0 ? 'kallad till intervju' : 'Inga intervjuer än'}
+                  {interviewCount > 0 ? t('dashboard.called_interview') : t('dashboard.no_interviews_yet')}
                 </div>
               </div>
               <div className={`${styles.statIcon} ${styles.siGreen}`} style={{ fontSize: 22 }}>🎯</div>
             </div>
             <div className={styles.statCard}>
               <div>
-                <div className={styles.statLabel}>Snitt matchning</div>
+                <div className={styles.statLabel}>{t('dashboard.avg_match_label')}</div>
                 <div className={styles.statValue}>{activeApps.length ? `${avgMatch}%` : '–'}</div>
-                <div className={styles.statSub}>genomsnitt</div>
+                <div className={styles.statSub}>{t('dashboard.avg_match_sub')}</div>
               </div>
               <div className={`${styles.statIcon} ${styles.siAmber}`} style={{ fontSize: 22 }}>📊</div>
             </div>
             <div className={styles.statCard}>
               <div>
-                <div className={styles.statLabel}>Senaste aktivitet</div>
+                <div className={styles.statLabel}>{t('dashboard.recent_activity_label')}</div>
                 <div className={styles.statValue} style={{ fontSize: 16, fontWeight: 600 }}>
                   {events.length > 0 ? events[0].title.slice(0, 18) + (events[0].title.length > 18 ? '…' : '') : '–'}
                 </div>
                 <div className={`${styles.statSub} ${styles.neutral}`}>
-                  {events.length > 0 ? (events[0].type === 'favorite' ? '★ Favorit' : '📋 Ansökan') : 'Inga händelser'}
+                  {events.length > 0 ? (events[0].type === 'favorite' ? t('dashboard.event_favorite') : t('dashboard.event_application')) : t('dashboard.no_events_label')}
                 </div>
               </div>
               <div className={`${styles.statIcon} ${styles.siPurple}`} style={{ fontSize: 22 }}>⚡</div>
@@ -173,12 +173,12 @@ export default function DashboardClient({ onNavigate }: { onNavigate?: (seg: str
           <div className={styles.dashboardGrid}>
             <div>
               <div className={styles.sectionHeader}>
-                <span className={styles.sectionTitleSm}>Senaste 5 händelser</span>
+                <span className={styles.sectionTitleSm}>{t('dashboard.recent_events')}</span>
               </div>
               <div className={styles.activityCard}>
                 <div className={styles.activityList}>
                   {events.length === 0
-                    ? <div className={styles.noActivity}>Inga händelser än — lägg till favoriter eller skicka ansökningar</div>
+                    ? <div className={styles.noActivity}>{t('dashboard.no_events_hint')}</div>
                     : events.map(e => (
                       <div key={e.id} className={styles.activityItem}>
                         <span className={styles.activityDot} style={{ background: e.type === 'favorite' ? '#F59E0B' : '#1A56DB' }} />
@@ -212,16 +212,16 @@ export default function DashboardClient({ onNavigate }: { onNavigate?: (seg: str
                   <button className={styles.quickAction} onClick={() => goTo('skickade')}>
                     <div className={`${styles.qaIcon} ${styles.qaGreen}`}>📤</div>
                     <div className={styles.qaText}>
-                      <div className={styles.qaTitle}>Skickade ansökningar</div>
-                      <div className={styles.qaSub}>Markera svar på dina ansökningar</div>
+                      <div className={styles.qaTitle}>{t('dashboard.shortcut_sent_title')}</div>
+                      <div className={styles.qaSub}>{t('dashboard.shortcut_sent_sub')}</div>
                     </div>
                     <span className={styles.qaArrow}>→</span>
                   </button>
                   <button className={styles.quickAction} onClick={() => goTo('intervju')}>
                     <div className={`${styles.qaIcon} ${styles.qaAmber}`}>🎯</div>
                     <div className={styles.qaText}>
-                      <div className={styles.qaTitle}>Intervju förberedelse</div>
-                      <div className={styles.qaSub}>AI-genererade intervjufrågor</div>
+                      <div className={styles.qaTitle}>{t('dashboard.shortcut_intervju_title')}</div>
+                      <div className={styles.qaSub}>{t('dashboard.shortcut_intervju_sub')}</div>
                     </div>
                     <span className={styles.qaArrow}>→</span>
                   </button>
@@ -261,7 +261,7 @@ export default function DashboardClient({ onNavigate }: { onNavigate?: (seg: str
             <div className={styles.resultHeader}>
               <div>
                 <div className={styles.resultTitle}>{resultRole}</div>
-                <div className={styles.resultSub}>AI analys klar · {result.provider || 'AI'}</div>
+                <div className={styles.resultSub}>{t('dashboard.ai_analysis_done')} · {result.provider || 'AI'}</div>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                 <span className={styles.matchBadge}>{result.matchScore}% match</span>
@@ -271,32 +271,32 @@ export default function DashboardClient({ onNavigate }: { onNavigate?: (seg: str
             <div className={styles.resultBody}>
               {result.keyRequirements?.length > 0 && (
                 <div>
-                  <div className={styles.resultSectionTitle}>🎯 Nyckelkrav</div>
+                  <div className={styles.resultSectionTitle}>{t('dashboard.result_key_req')}</div>
                   <div className={styles.requirementTags}>
                     {result.keyRequirements.map((r, i) => <span key={i} className={styles.requirementTag}>{r}</span>)}
                   </div>
                 </div>
               )}
               <div>
-                <div className={styles.resultSectionTitle}>📄 CV Sammanfattning</div>
+                <div className={styles.resultSectionTitle}>{t('dashboard.result_cv_summary')}</div>
                 <div className={styles.resultTextBlock}>{result.cvSummary}</div>
               </div>
               <div>
-                <div className={styles.resultSectionTitle}>✉️ Personligt Brev</div>
+                <div className={styles.resultSectionTitle}>{t('dashboard.result_cover_letter')}</div>
                 <div className={styles.resultTextBlock} style={{ whiteSpace: 'pre-line' }}>{result.coverLetter}</div>
               </div>
               {result.tips?.length > 0 && (
                 <div>
-                  <div className={styles.resultSectionTitle}>💡 Tips</div>
+                  <div className={styles.resultSectionTitle}>{t('dashboard.result_tips')}</div>
                   {result.tips.map((tip, i) => (
                     <div key={i} className={styles.tipItem}><span className={styles.tipArrow}>→</span>{tip}</div>
                   ))}
                 </div>
               )}
               <div className={styles.resultActions}>
-                <button className={styles.resultActionBtn} onClick={() => goTo('letter')}>✉️ Personligt Brev</button>
-                <button className={styles.resultActionBtn} onClick={() => goTo('cv')}>📄 Ladda ner CV</button>
-                <button className={`${styles.resultActionBtn} ${styles.resultActionBtnPrimary}`} onClick={() => setShowResult(false)}>Stäng</button>
+                <button className={styles.resultActionBtn} onClick={() => goTo('letter')}>{t('dashboard.result_btn_letter')}</button>
+                <button className={styles.resultActionBtn} onClick={() => goTo('cv')}>{t('dashboard.result_btn_cv')}</button>
+                <button className={`${styles.resultActionBtn} ${styles.resultActionBtnPrimary}`} onClick={() => setShowResult(false)}>{t('dashboard.result_btn_close')}</button>
               </div>
             </div>
           </div>

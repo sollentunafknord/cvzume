@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import styles from './skickade.module.css';
 
@@ -13,23 +13,21 @@ interface Application {
   created_at: string;
 }
 
-function formatDate(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString('sv-SE', { day: 'numeric', month: 'short', year: 'numeric' });
+function formatDate(dateStr: string, locale: string) {
+  const localeMap: Record<string, string> = { en: 'en-GB', es: 'es-ES', tr: 'tr-TR', sv: 'sv-SE' };
+  return new Date(dateStr).toLocaleDateString(localeMap[locale] || 'sv-SE', { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
 function ScoreBadge({ score }: { score: number }) {
   const bg = score >= 80 ? '#DCFCE7' : score >= 60 ? '#FEF9C3' : '#FEE2E2';
   const color = score >= 80 ? '#15803D' : score >= 60 ? '#854D0E' : '#991B1B';
-  return (
-    <span style={{ padding: '3px 10px', borderRadius: 20, fontSize: 12, fontWeight: 600, background: bg, color, flexShrink: 0 }}>
-      {score}%
-    </span>
-  );
+  return <span style={{ padding: '3px 10px', borderRadius: 20, fontSize: 12, fontWeight: 600, background: bg, color, flexShrink: 0 }}>{score}%</span>;
 }
 
 export default function SkickadeClient({ onNavigate }: { onNavigate?: (seg: string) => void }) {
   const locale = useLocale();
   const router = useRouter();
+  const t = useTranslations('skickade');
 
   const [apps, setApps] = useState<Application[]>([]);
   const [loading, setLoading] = useState(true);
@@ -46,8 +44,7 @@ export default function SkickadeClient({ onNavigate }: { onNavigate?: (seg: stri
     try {
       const res = await fetch(`/api/applications?token=${token}`);
       const data = await res.json();
-      const sent = (data.applications || []).filter((a: Application) => a.status === 'sent');
-      setApps(sent);
+      setApps((data.applications || []).filter((a: Application) => a.status === 'sent'));
     } catch { /* silent */ }
     finally { setLoading(false); }
   }, [locale, router]);
@@ -65,13 +62,11 @@ export default function SkickadeClient({ onNavigate }: { onNavigate?: (seg: stri
       });
       setApps(prev => prev.filter(a => a.id !== id));
       if (status === 'interview') goTo('intervju');
-    } finally {
-      setPatching(null);
-    }
+    } finally { setPatching(null); }
   }
 
   async function deleteApp(id: string, role: string) {
-    if (!confirm(`Ta bort "${role}"? Det går inte att ångra.`)) return;
+    if (!confirm(t('delete_confirm', { role }))) return;
     const token = localStorage.getItem('cvita_token');
     await fetch('/api/applications', {
       method: 'DELETE',
@@ -84,18 +79,20 @@ export default function SkickadeClient({ onNavigate }: { onNavigate?: (seg: stri
   return (
     <main className={styles.page}>
       <div className={styles.header}>
-        <h1 className={styles.title}>Skickade ansökningar</h1>
-        <p className={styles.subtitle}>{apps.length} skickade · Markera status när du fått svar</p>
+        <h1 className={styles.title}>{t('title')}</h1>
+        <p className={styles.subtitle}>{t('subtitle', { count: apps.length })}</p>
       </div>
 
-      {loading && <div className={styles.loading}>Laddar...</div>}
+      {loading && <div className={styles.loading}>{t('loading')}</div>}
 
       {!loading && apps.length === 0 && (
         <div className={styles.empty}>
           <div className={styles.emptyIcon}>📬</div>
-          <div className={styles.emptyTitle}>Inga skickade ansökningar</div>
+          <div className={styles.emptyTitle}>{t('empty_title')}</div>
           <div className={styles.emptySub}>
-            Gå till <button className={styles.emptyLink} onClick={() => goTo('applications')}>Sök jobb</button> → Favoriter → Skicka ansökan
+            {t('empty_sub_pre')}{' '}
+            <button className={styles.emptyLink} onClick={() => goTo('applications')}>{t('empty_sub_link')}</button>
+            {' '}{t('empty_sub_post')}
           </div>
         </div>
       )}
@@ -106,35 +103,17 @@ export default function SkickadeClient({ onNavigate }: { onNavigate?: (seg: stri
             <div key={app.id} className={styles.card}>
               <div className={styles.cardInfo}>
                 <div className={styles.cardRole}>{app.role}</div>
-                <div className={styles.cardMeta}>
-                  Skickad {formatDate(app.created_at)}
-                </div>
+                <div className={styles.cardMeta}>{t('sent_date', { date: formatDate(app.created_at, locale) })}</div>
               </div>
               <div className={styles.cardActions}>
                 <ScoreBadge score={app.match_score || 0} />
-                <button
-                  className={`${styles.btnPositiv} ${patching === app.id ? styles.btnDisabled : ''}`}
-                  disabled={patching === app.id}
-                  onClick={() => patchApp(app.id, 'interview')}
-                  title="Positiv svar — gå till intervjuförberedelse"
-                >
-                  ✓ Positiv svar
+                <button className={`${styles.btnPositiv} ${patching === app.id ? styles.btnDisabled : ''}`} disabled={patching === app.id} onClick={() => patchApp(app.id, 'interview')}>
+                  {t('positive_btn')}
                 </button>
-                <button
-                  className={`${styles.btnNegativ} ${patching === app.id ? styles.btnDisabled : ''}`}
-                  disabled={patching === app.id}
-                  onClick={() => patchApp(app.id, 'rejected')}
-                  title="Negativ svar — arkiveras"
-                >
-                  ✗ Negativ svar
+                <button className={`${styles.btnNegativ} ${patching === app.id ? styles.btnDisabled : ''}`} disabled={patching === app.id} onClick={() => patchApp(app.id, 'rejected')}>
+                  {t('negative_btn')}
                 </button>
-                <button
-                  className={styles.btnDelete}
-                  onClick={() => deleteApp(app.id, app.role)}
-                  title="Ta bort"
-                >
-                  🗑️
-                </button>
+                <button className={styles.btnDelete} onClick={() => deleteApp(app.id, app.role)}>🗑️</button>
               </div>
             </div>
           ))}

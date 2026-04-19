@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import styles from './intervju.module.css';
 
@@ -19,21 +19,34 @@ interface InterviewQuestion {
   tip: string;
 }
 
-function formatDate(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString('sv-SE', { day: 'numeric', month: 'short', year: 'numeric' });
+function formatDate(dateStr: string, locale: string) {
+  const localeMap: Record<string, string> = { en: 'en-GB', es: 'es-ES', tr: 'tr-TR', sv: 'sv-SE' };
+  return new Date(dateStr).toLocaleDateString(localeMap[locale] || 'sv-SE', { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
 const CATEGORY_COLORS: Record<string, { bg: string; color: string }> = {
-  Teknisk:  { bg: '#EFF6FF', color: '#1A56DB' },
-  Beteende: { bg: '#F0FDF4', color: '#16A34A' },
-  Situation:{ bg: '#FFF7ED', color: '#C2410C' },
-  Personlig:{ bg: '#FDF4FF', color: '#9333EA' },
-  Företag:  { bg: '#FFFBEB', color: '#D97706' },
+  Teknisk:    { bg: '#EFF6FF', color: '#1A56DB' },
+  Beteende:   { bg: '#F0FDF4', color: '#16A34A' },
+  Situation:  { bg: '#FFF7ED', color: '#C2410C' },
+  Personlig:  { bg: '#FDF4FF', color: '#9333EA' },
+  Företag:    { bg: '#FFFBEB', color: '#D97706' },
+  Technical:  { bg: '#EFF6FF', color: '#1A56DB' },
+  Behavioral: { bg: '#F0FDF4', color: '#16A34A' },
+  Situational:{ bg: '#FFF7ED', color: '#C2410C' },
+  Personal:   { bg: '#FDF4FF', color: '#9333EA' },
+  Company:    { bg: '#FFFBEB', color: '#D97706' },
+  Técnica:    { bg: '#EFF6FF', color: '#1A56DB' },
+  Conducta:   { bg: '#F0FDF4', color: '#16A34A' },
+  Empresa:    { bg: '#FFFBEB', color: '#D97706' },
+  Teknik:     { bg: '#EFF6FF', color: '#1A56DB' },
+  Davranış:   { bg: '#F0FDF4', color: '#16A34A' },
+  Şirket:     { bg: '#FFFBEB', color: '#D97706' },
 };
 
 export default function IntervjuClient({ onNavigate }: { onNavigate?: (seg: string) => void }) {
   const locale = useLocale();
   const router = useRouter();
+  const t = useTranslations('intervju');
 
   const [apps, setApps] = useState<Application[]>([]);
   const [loading, setLoading] = useState(true);
@@ -54,8 +67,7 @@ export default function IntervjuClient({ onNavigate }: { onNavigate?: (seg: stri
     try {
       const res = await fetch(`/api/applications?token=${token}`);
       const data = await res.json();
-      const interview = (data.applications || []).filter((a: Application) => a.status === 'interview');
-      setApps(interview);
+      setApps((data.applications || []).filter((a: Application) => a.status === 'interview'));
     } catch { /* silent */ }
     finally { setLoading(false); }
   }, [locale, router]);
@@ -75,11 +87,8 @@ export default function IntervjuClient({ onNavigate }: { onNavigate?: (seg: stri
       });
       const data = await res.json();
       setQuestions(data.questions || []);
-    } catch {
-      setQuestions([]);
-    } finally {
-      setGenerating(false);
-    }
+    } catch { setQuestions([]); }
+    finally { setGenerating(false); }
   }
 
   async function patchApp(id: string, status: string) {
@@ -94,7 +103,7 @@ export default function IntervjuClient({ onNavigate }: { onNavigate?: (seg: stri
   }
 
   async function deleteApp(id: string, role: string) {
-    if (!confirm(`Ta bort "${role}"? Det går inte att ångra.`)) return;
+    if (!confirm(role)) return;
     const token = localStorage.getItem('cvita_token');
     await fetch('/api/applications', {
       method: 'DELETE',
@@ -108,22 +117,20 @@ export default function IntervjuClient({ onNavigate }: { onNavigate?: (seg: stri
   return (
     <main className={styles.page}>
       <div className={styles.header}>
-        <h1 className={styles.title}>Intervju förberedelse</h1>
-        <p className={styles.subtitle}>
-          {apps.length} {apps.length === 1 ? 'jobb' : 'jobb'} · Klicka på ett jobb för att generera AI-intervjufrågor
-        </p>
+        <h1 className={styles.title}>{t('title')}</h1>
+        <p className={styles.subtitle}>{apps.length} · {t('subtitle_hint')}</p>
       </div>
 
-      {loading && <div className={styles.loading}>Laddar...</div>}
+      {loading && <div className={styles.loading}>{t('loading')}</div>}
 
       {!loading && apps.length === 0 && (
         <div className={styles.empty}>
           <div className={styles.emptyIcon}>🎯</div>
-          <div className={styles.emptyTitle}>Inga intervjuer än</div>
+          <div className={styles.emptyTitle}>{t('empty_title')}</div>
           <div className={styles.emptySub}>
-            När du markerar "Positiv svar" på en ansökan i{' '}
-            <button className={styles.emptyLink} onClick={() => goTo('skickade')}>Skickade ansökningar</button>{' '}
-            hamnar den här.
+            {t('empty_sub_pre')}{' '}
+            <button className={styles.emptyLink} onClick={() => goTo('skickade')}>{t('empty_sub_link')}</button>
+            {' '}{t('empty_sub_post')}
           </div>
         </div>
       )}
@@ -132,26 +139,14 @@ export default function IntervjuClient({ onNavigate }: { onNavigate?: (seg: stri
         <div className={styles.layout}>
           <div className={styles.appList}>
             {apps.map(app => (
-              <div
-                key={app.id}
-                className={`${styles.appCard} ${selectedApp?.id === app.id ? styles.appCardActive : ''}`}
-                onClick={() => generateQuestions(app)}
-              >
+              <div key={app.id} className={`${styles.appCard} ${selectedApp?.id === app.id ? styles.appCardActive : ''}`} onClick={() => generateQuestions(app)}>
                 <div className={styles.appInfo}>
                   <div className={styles.appRole}>{app.role}</div>
-                  <div className={styles.appMeta}>Kallad {formatDate(app.created_at)}</div>
+                  <div className={styles.appMeta}>{t('called_date', { date: formatDate(app.created_at, locale) })}</div>
                 </div>
                 <div className={styles.appCardActions}>
-                  <button
-                    className={styles.backBtn}
-                    title="Tillbaka till skickade"
-                    onClick={e => { e.stopPropagation(); patchApp(app.id, 'sent'); }}
-                  >↩</button>
-                  <button
-                    className={styles.deleteBtn}
-                    title="Ta bort"
-                    onClick={e => { e.stopPropagation(); deleteApp(app.id, app.role); }}
-                  >🗑️</button>
+                  <button className={styles.backBtn} title={t('back_title')} onClick={e => { e.stopPropagation(); patchApp(app.id, 'sent'); }}>↩</button>
+                  <button className={styles.deleteBtn} onClick={e => { e.stopPropagation(); deleteApp(app.id, app.role); }}>🗑️</button>
                 </div>
               </div>
             ))}
@@ -161,28 +156,24 @@ export default function IntervjuClient({ onNavigate }: { onNavigate?: (seg: stri
             {!selectedApp && (
               <div className={styles.panelPlaceholder}>
                 <div className={styles.placeholderIcon}>💬</div>
-                <div className={styles.placeholderText}>Välj ett jobb för att generera intervjufrågor</div>
+                <div className={styles.placeholderText}>{t('panel_placeholder')}</div>
               </div>
             )}
 
             {selectedApp && generating && (
               <div className={styles.generating}>
                 <div className={styles.generatingSpinner} />
-                <div className={styles.generatingText}>Genererar intervjufrågor för {selectedApp.role}...</div>
+                <div className={styles.generatingText}>{t('generating', { role: selectedApp.role })}</div>
               </div>
             )}
 
             {selectedApp && !generating && questions.length > 0 && (
               <>
                 <div className={styles.questionsHeader}>
-                  <div className={styles.questionsTitle}>Intervjufrågor — {selectedApp.role}</div>
+                  <div className={styles.questionsTitle}>{t('questions_title', { role: selectedApp.role })}</div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                    <div className={styles.questionsCount}>{questions.length} frågor</div>
-                    <button
-                      className={styles.pdfBtn}
-                      onClick={() => { setPrintMode(true); setTimeout(() => { window.print(); setPrintMode(false); }, 100); }}
-                      title="Ladda ner som PDF"
-                    >📥 PDF</button>
+                    <div className={styles.questionsCount}>{t('questions_count', { count: questions.length })}</div>
+                    <button className={styles.pdfBtn} onClick={() => { setPrintMode(true); setTimeout(() => { window.print(); setPrintMode(false); }, 100); }}>{t('pdf_btn')}</button>
                   </div>
                 </div>
                 <div className={styles.questionsList}>
@@ -190,47 +181,29 @@ export default function IntervjuClient({ onNavigate }: { onNavigate?: (seg: stri
                     const colors = CATEGORY_COLORS[q.category] || { bg: '#F1F5F9', color: '#475569' };
                     return (
                       <div key={i} className={styles.questionItem}>
-                        <div
-                          className={styles.questionHeader}
-                          onClick={() => setExpanded(expanded === i ? null : i)}
-                        >
+                        <div className={styles.questionHeader} onClick={() => setExpanded(expanded === i ? null : i)}>
                           <div className={styles.questionLeft}>
                             <span className={styles.questionNum}>{i + 1}</span>
-                            <span
-                              className={styles.categoryBadge}
-                              style={{ background: colors.bg, color: colors.color }}
-                            >
-                              {q.category}
-                            </span>
+                            <span className={styles.categoryBadge} style={{ background: colors.bg, color: colors.color }}>{q.category}</span>
                             <span className={styles.questionText}>{q.question}</span>
                           </div>
                           <span className={styles.expandIcon}>{expanded === i ? '▲' : '▼'}</span>
                         </div>
                         {(expanded === i || printMode) && q.tip && (
-                          <div className={styles.questionTip}>
-                            <span className={styles.tipIcon}>💡</span>
-                            {q.tip}
-                          </div>
+                          <div className={styles.questionTip}><span className={styles.tipIcon}>💡</span>{q.tip}</div>
                         )}
                       </div>
                     );
                   })}
                 </div>
-                <button
-                  className={styles.regenerateBtn}
-                  onClick={() => generateQuestions(selectedApp)}
-                >
-                  ↻ Generera nya frågor
-                </button>
+                <button className={styles.regenerateBtn} onClick={() => generateQuestions(selectedApp)}>{t('regenerate')}</button>
               </>
             )}
 
             {selectedApp && !generating && questions.length === 0 && (
               <div className={styles.panelPlaceholder}>
-                <div className={styles.placeholderText}>Kunde inte generera frågor. Försök igen.</div>
-                <button className={styles.regenerateBtn} onClick={() => generateQuestions(selectedApp)}>
-                  Försök igen
-                </button>
+                <div className={styles.placeholderText}>{t('error')}</div>
+                <button className={styles.regenerateBtn} onClick={() => generateQuestions(selectedApp)}>{t('retry')}</button>
               </div>
             )}
           </div>
