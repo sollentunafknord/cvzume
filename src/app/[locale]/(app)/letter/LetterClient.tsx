@@ -50,7 +50,7 @@ export default function LetterClient() {
     else setSubject(t('default_subject'));
     if (result.employer) setCompany(result.employer);
 
-    let profile = JSON.parse(localStorage.getItem('cvita_profile') || '{}');
+    let profile = JSON.parse(localStorage.getItem(`cvita_profile_${locale}`) || localStorage.getItem('cvita_profile') || '{}');
     const token = localStorage.getItem('cvita_token');
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
     const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;

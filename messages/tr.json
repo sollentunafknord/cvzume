@@ -249,6 +249,17 @@
     "restore_btn": "↩ Geri Yükle",
     "delete_confirm": "\"{role}\" kalıcı olarak silinsin mi?"
   },
+  "onboarding": {
+    "title": "CVzume'ye hoş geldiniz!",
+    "subtitle": "Son bir adım — hangi dilde iş arıyorsunuz?",
+    "hint": "Bu sizin birincil CV diliniz olacak. Pro kullanıcılar daha sonra dil ekleyebilir.",
+    "confirm": "Başlayalım →",
+    "lang_locked": "Birincil CV diliniz",
+    "upgrade_title": "Birden fazla CV dili Pro gerektirir",
+    "upgrade_desc": "Pro kullanıcı olarak tüm dillerde CV oluşturabilir ve kaydedebilirsiniz — İsveççe, İngilizce, İspanyolca ve Türkçe.",
+    "upgrade_btn": "Pro'ya yükselt →",
+    "upgrade_cancel": "{lang} dilinde kal"
+  },
   "profile": {
     "title": "CV'im",
     "download_pdf": "📥 PDF İndir",

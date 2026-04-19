@@ -5,6 +5,7 @@ import { useTranslations, useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import styles from './dashboard.module.css';
 import NewApplicationModal from './NewApplicationModal';
+import OnboardingModal from './OnboardingModal';
 
 interface Application {
   id: string;
@@ -50,6 +51,7 @@ export default function DashboardClient({ onNavigate }: { onNavigate?: (seg: str
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [resultRole, setResultRole] = useState('');
   const [showResult, setShowResult] = useState(false);
+  const [showOnboarding, setShowOnboarding] = useState(false);
 
   const loadUser = useCallback(() => {
     const saved = localStorage.getItem('cvita_user');
@@ -59,6 +61,7 @@ export default function DashboardClient({ onNavigate }: { onNavigate?: (seg: str
     const lastName = user.lastName || '';
     setUserName((firstName + ' ' + lastName).trim() || user.email);
     setIsPro(localStorage.getItem('cvita_is_pro') === 'true');
+    if (!localStorage.getItem('cvita_default_locale')) setShowOnboarding(true);
   }, [locale, router]);
 
   const loadApplications = useCallback(async () => {
@@ -241,6 +244,8 @@ export default function DashboardClient({ onNavigate }: { onNavigate?: (seg: str
           </div>
         </div>
       </main>
+
+      {showOnboarding && <OnboardingModal onComplete={() => setShowOnboarding(false)} />}
 
       <NewApplicationModal
         open={modalOpen}

@@ -38,10 +38,19 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
   });
 
   const [planLabel, setPlanLabel] = useState('');
+  const [isPro, setIsPro] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return false;
+    return localStorage.getItem('cvita_is_pro') === 'true';
+  });
+  const [defaultLocale, setDefaultLocale] = useState<string>(() => {
+    if (typeof window === 'undefined') return locale;
+    return localStorage.getItem('cvita_default_locale') || locale;
+  });
   const [avatarUrl, setAvatarUrl] = useState<string>(() => {
     if (typeof window === 'undefined') return '';
     return localStorage.getItem('cvita_avatar') || '';
   });
+  const [langGateTarget, setLangGateTarget] = useState<string | null>(null);
 
   useEffect(() => {
     const isPro = localStorage.getItem('cvita_is_pro') === 'true';
@@ -49,6 +58,7 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
 
     const proHandler = (e: Event) => {
       const pro = (e as CustomEvent).detail.isPro;
+      setIsPro(pro);
       setPlanLabel(pro ? t('dashboard.pro_plan') : t('dashboard.free_plan'));
     };
     window.addEventListener('cvita_pro_updated', proHandler);
@@ -56,6 +66,8 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
     const storageHandler = () => {
       const av = localStorage.getItem('cvita_avatar') || '';
       setAvatarUrl(av);
+      setDefaultLocale(localStorage.getItem('cvita_default_locale') || locale);
+      setIsPro(localStorage.getItem('cvita_is_pro') === 'true');
       try {
         const user = JSON.parse(localStorage.getItem('cvita_user') || '{}');
         const fn = user.firstName || user.first_name || user.email?.split('@')[0] || '';
@@ -83,6 +95,12 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
 
   function switchLocale(newLocale: string) {
     if (newLocale === locale) return;
+    const def = localStorage.getItem('cvita_default_locale') || locale;
+    const pro = localStorage.getItem('cvita_is_pro') === 'true';
+    if (newLocale !== def && !pro) {
+      setLangGateTarget(newLocale);
+      return;
+    }
     document.cookie = `NEXT_LOCALE=${newLocale};path=/;max-age=31536000`;
     window.location.href = `/${newLocale}/${activePage}`;
   }
@@ -165,6 +183,30 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
           </button>
         </div>
       </aside>
+
+      {langGateTarget && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
+          <div style={{ background: 'white', borderRadius: 16, padding: '32px 28px', maxWidth: 420, width: '100%', boxShadow: '0 20px 60px rgba(0,0,0,0.2)' }}>
+            <div style={{ fontSize: 32, marginBottom: 12 }}>🌍</div>
+            <div style={{ fontSize: 18, fontWeight: 700, color: 'var(--navy)', marginBottom: 8 }}>{t('onboarding.upgrade_title')}</div>
+            <div style={{ fontSize: 14, color: 'var(--slate)', lineHeight: 1.6, marginBottom: 24 }}>{t('onboarding.upgrade_desc')}</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <button
+                onClick={() => { setLangGateTarget(null); nav('upgrade'); }}
+                style={{ padding: '12px', borderRadius: 10, border: 'none', background: 'var(--blue)', color: 'white', fontSize: 14, fontWeight: 700, fontFamily: 'DM Sans, sans-serif', cursor: 'pointer' }}
+              >
+                {t('onboarding.upgrade_btn')}
+              </button>
+              <button
+                onClick={() => setLangGateTarget(null)}
+                style={{ padding: '12px', borderRadius: 10, border: '1.5px solid var(--border)', background: 'white', color: 'var(--slate)', fontSize: 14, fontWeight: 500, fontFamily: 'DM Sans, sans-serif', cursor: 'pointer' }}
+              >
+                {t('onboarding.upgrade_cancel', { lang: LANGS.find(l => l.code === defaultLocale)?.label || defaultLocale })}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

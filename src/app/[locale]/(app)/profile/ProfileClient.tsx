@@ -76,14 +76,14 @@ export default function ProfileClient() {
     const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
     if (token && user.id) {
       try {
-        const res = await fetch(`${supabaseUrl}/rest/v1/profiles?id=eq.${user.id}&select=*`, {
+        const res = await fetch(`${supabaseUrl}/rest/v1/profiles?id=eq.${user.id}&locale=eq.${locale}&select=*`, {
           headers: { apikey: supabaseKey, Authorization: 'Bearer ' + token },
         });
         if (res.ok) {
           const rows = await res.json();
           if (rows.length > 0) {
             const db = rows[0];
-            localStorage.setItem('cvita_profile', JSON.stringify({
+            localStorage.setItem(`cvita_profile_${locale}`, JSON.stringify({
               phone: db.phone || '', location: db.location || '', title: db.title || '',
               summary: db.summary || '', experiences: db.experiences || [],
               educations: db.educations || [], skills: db.skills || [], languages: db.languages || [],
@@ -96,7 +96,7 @@ export default function ProfileClient() {
         }
       } catch { /* silent */ }
     }
-    const stored = localStorage.getItem('cvita_profile');
+    const stored = localStorage.getItem(`cvita_profile_${locale}`) || localStorage.getItem('cvita_profile');
     if (stored) {
       const p: Profile = JSON.parse(stored);
       setPhone(p.phone || ''); setLocation(p.location || '');
@@ -120,7 +120,7 @@ export default function ProfileClient() {
 
   async function saveAll() {
     const profile = { phone, location, title, summary, experiences, educations, skills, languages };
-    localStorage.setItem('cvita_profile', JSON.stringify(profile));
+    localStorage.setItem(`cvita_profile_${locale}`, JSON.stringify(profile));
     const user = JSON.parse(localStorage.getItem('cvita_user') || '{}');
     user.firstName = firstName; user.lastName = lastName;
     localStorage.setItem('cvita_user', JSON.stringify(user));
@@ -132,7 +132,7 @@ export default function ProfileClient() {
         const res = await fetch(`${supabaseUrl}/rest/v1/profiles`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', apikey: supabaseKey, Authorization: 'Bearer ' + token, Prefer: 'resolution=merge-duplicates' },
-          body: JSON.stringify({ id: user.id, phone, location, title, summary, experiences, educations, skills, languages, updated_at: new Date().toISOString() }),
+          body: JSON.stringify({ id: user.id, locale, phone, location, title, summary, experiences, educations, skills, languages, updated_at: new Date().toISOString() }),
         });
         if (!res.ok) { showToast(t('profile.save_error_server')); return; }
       } catch { showToast(t('profile.save_error_network')); return; }

@@ -249,6 +249,17 @@
     "restore_btn": "↩ Restaurar",
     "delete_confirm": "¿Eliminar \"{role}\" permanentemente?"
   },
+  "onboarding": {
+    "title": "¡Bienvenido a CVzume!",
+    "subtitle": "Un último paso — ¿en qué idioma buscas trabajo?",
+    "hint": "Este será tu idioma de CV principal. Los usuarios Pro pueden añadir más idiomas después.",
+    "confirm": "Empezar →",
+    "lang_locked": "Tu idioma de CV principal",
+    "upgrade_title": "Varios idiomas de CV requieren Pro",
+    "upgrade_desc": "Como usuario Pro puedes crear y guardar CVs en todos los idiomas — sueco, inglés, español y turco.",
+    "upgrade_btn": "Actualizar a Pro →",
+    "upgrade_cancel": "Seguir en {lang}"
+  },
   "profile": {
     "title": "Mi CV",
     "download_pdf": "📥 Descargar PDF",
