@@ -5,6 +5,7 @@ export interface Job {
   workplace_address?: { municipality?: string; region?: string };
   description?: { text?: string };
   application_deadline?: string;
+  publication_date?: string;
   webpage_url?: string;
 }
 

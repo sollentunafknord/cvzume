@@ -68,6 +68,9 @@ export default function ApplicationsClient() {
   const [occFields, setOccFields] = useState<OccField[]>([]);
   const [taxLoaded, setTaxLoaded] = useState(false);
 
+  // Sort
+  const [sortBy, setSortBy] = useState('relevance');
+
   // Filter panel state
   const [ortOpen, setOrtOpen] = useState(false);
   const [yrkeOpen, setYrkeOpen] = useState(false);
@@ -144,6 +147,7 @@ export default function ApplicationsClient() {
     if (selFields.length > 0) {
       selFields.forEach(id => params.append('occupation-field', id));
     }
+    if (sortBy && sortBy !== 'relevance') params.set('sort', sortBy);
     try {
       const res = await fetch(`/api/jobs/search?${params}`);
       const data = await res.json();
@@ -154,7 +158,7 @@ export default function ApplicationsClient() {
     } finally {
       setLoading(false);
     }
-  }, [query, selRegion, selMunicipalities, selFields]);
+  }, [query, selRegion, selMunicipalities, selFields, sortBy]);
 
   function handleSearch(e: React.FormEvent) {
     e.preventDefault();
@@ -353,6 +357,16 @@ export default function ApplicationsClient() {
                 value={query}
                 onChange={e => setQuery(e.target.value)}
               />
+              <select
+                className={styles.sortSelect}
+                value={sortBy}
+                onChange={e => setSortBy(e.target.value)}
+              >
+                <option value="relevance">Sortera: Relevans</option>
+                <option value="pubdate-desc">Senast publicerade</option>
+                <option value="applydate-asc">Sista ansökningsdag (närmast)</option>
+                <option value="applydate-desc">Sista ansökningsdag (längst bort)</option>
+              </select>
               <button type="submit" className={styles.searchBtn} disabled={loading}>
                 {loading ? t('loading') : t('search_btn')}
               </button>
