@@ -44,11 +44,11 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
     setPlanLabel(isPro ? t('dashboard.pro_plan') : t('dashboard.free_plan'));
   }, [t]);
 
-  const LANGS: { code: string; flag: string; label: string }[] = [
-    { code: 'sv', flag: 'SE', label: 'Svenska' },
-    { code: 'en', flag: 'EN', label: 'English' },
-    { code: 'es', flag: 'ES', label: 'Español' },
-    { code: 'tr', flag: 'TR', label: 'Türkçe' },
+  const LANGS: { code: string; flagImg: string; label: string }[] = [
+    { code: 'sv', flagImg: 'https://flagcdn.com/20x15/se.png', label: 'Svenska' },
+    { code: 'en', flagImg: 'https://flagcdn.com/20x15/gb.png', label: 'English' },
+    { code: 'es', flagImg: 'https://flagcdn.com/20x15/es.png', label: 'Español' },
+    { code: 'tr', flagImg: 'https://flagcdn.com/20x15/tr.png', label: 'Türkçe' },
   ];
 
   function switchLocale(newLocale: string) {
@@ -118,7 +118,7 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
                 title={l.label}
                 onClick={() => switchLocale(l.code)}
               >
-                <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: 0.5 }}>{l.flag}</span>
+                <img src={l.flagImg} alt={l.label} style={{ width: 20, height: 15, display: 'block' }} />
               </button>
             ))}
           </div>

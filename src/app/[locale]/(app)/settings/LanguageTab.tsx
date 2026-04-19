@@ -3,10 +3,10 @@ import { useRouter } from 'next/navigation';
 import styles from './settings.module.css';
 
 const LANGS = [
-  { code: 'sv', flag: 'SE', name: 'Svenska', sub: 'Gränssnittet visas på svenska' },
-  { code: 'en', flag: 'EN', name: 'English', sub: 'Interface displayed in English' },
-  { code: 'es', flag: 'ES', name: 'Español', sub: 'La interfaz se muestra en español' },
-  { code: 'tr', flag: 'TR', name: 'Türkçe', sub: 'Arayüz Türkçe görüntülenir' },
+  { code: 'sv', flagImg: 'https://flagcdn.com/20x15/se.png', name: 'Svenska', sub: 'Gränssnittet visas på svenska' },
+  { code: 'en', flagImg: 'https://flagcdn.com/20x15/gb.png', name: 'English', sub: 'Interface displayed in English' },
+  { code: 'es', flagImg: 'https://flagcdn.com/20x15/es.png', name: 'Español', sub: 'La interfaz se muestra en español' },
+  { code: 'tr', flagImg: 'https://flagcdn.com/20x15/tr.png', name: 'Türkçe', sub: 'Arayüz Türkçe görüntülenir' },
 ];
 
 export default function LanguageTab() {
@@ -32,9 +32,7 @@ export default function LanguageTab() {
           {LANGS.map(lang => (
             <button key={lang.code} className={`${styles.langOptionBtn} ${locale === lang.code ? styles.active : ''}`}
               onClick={() => changeLanguage(lang.code)}>
-              <span className={styles.langFlag} style={{ fontSize: 12, fontWeight: 700, color: '#fff', background: '#1A56DB', borderRadius: 4, padding: '2px 5px', letterSpacing: 0.5 }}>
-                {lang.flag}
-              </span>
+              <img src={lang.flagImg} alt={lang.name} style={{ width: 24, height: 18, borderRadius: 2 }} />
               <div>
                 <div className={styles.langName}>{lang.name}</div>
                 <div className={styles.langSub}>{lang.sub}</div>

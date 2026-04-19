@@ -196,11 +196,7 @@ export default function DashboardClient({ onNavigate }: { onNavigate?: (seg: str
               {view === 'dashboard' ? t('nav.dashboard') : view === 'applications' ? t('nav.applications') : t('nav.archive')}
             </span>
           </div>
-          <div className={styles.topbarRight}>
-            <button className={`${styles.topbarBtn} ${styles.topbarBtnPrimary}`} onClick={() => setModalOpen(true)}>
-              ＋ {t('dashboard.new_application')}
-            </button>
-          </div>
+          <div className={styles.topbarRight} />
         </div>
 
         <div className={styles.content}>
