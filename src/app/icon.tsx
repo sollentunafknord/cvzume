@@ -11,19 +11,18 @@ export default function Icon() {
         style={{
           width: 32,
           height: 32,
-          background: 'linear-gradient(135deg, #0D1B2A 0%, #1a3a5c 100%)',
-          borderRadius: 7,
+          background: '#1A56DB',
+          borderRadius: 8,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           fontFamily: 'sans-serif',
-          fontWeight: 800,
-          fontSize: 13,
-          letterSpacing: -0.5,
+          fontWeight: 900,
+          fontSize: 14,
+          letterSpacing: -1,
         }}
       >
-        <span style={{ color: '#ffffff' }}>C</span>
-        <span style={{ color: '#93C5FD' }}>V</span>
+        <span style={{ color: '#ffffff' }}>CV</span>
       </div>
     ),
     { ...size }
