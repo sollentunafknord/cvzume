@@ -70,7 +70,7 @@ export default function FavoritesTab({ favorites, onToggleFavorite, t }: {
         </p>
         <div className={styles.stepActions}>
           <button className={styles.stepBtnSecondary} onClick={() => setStep('list')}>← Tillbaka till favoriter</button>
-          <button className={styles.stepBtnPrimary} onClick={() => router.push(`/${locale}/archive`)}>Se mina ansökningar →</button>
+          <button className={styles.stepBtnPrimary} onClick={() => router.push(`/${locale}/skickade`)}>Se mina ansökningar →</button>
         </div>
       </div>
     );
