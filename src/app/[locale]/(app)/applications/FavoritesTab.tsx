@@ -184,6 +184,7 @@ export default function FavoritesTab({ favorites, onToggleFavorite, t }: {
                   keyRequirements: analysisResult.keyRequirements,
                   tips: analysisResult.tips,
                   provider: 'favorites',
+                  status: 'sent',
                 }),
               }).catch(() => {});
               fetch('/api/events', {

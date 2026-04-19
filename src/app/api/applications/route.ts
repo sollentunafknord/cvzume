@@ -15,7 +15,7 @@ export async function POST(request: Request) {
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   if (!supabaseUrl || !supabaseKey) return NextResponse.json({ error: 'Config error' }, { status: 500 })
 
-  const { access_token, role, jobAd, matchScore, cvSummary, coverLetter, keyRequirements, tips, provider } = await request.json()
+  const { access_token, role, jobAd, matchScore, cvSummary, coverLetter, keyRequirements, tips, provider, status } = await request.json()
   if (!access_token) return NextResponse.json({ error: 'Token required' }, { status: 401 })
 
   const supabase = getSupabaseWithToken(supabaseUrl, supabaseKey, access_token)
@@ -32,7 +32,7 @@ export async function POST(request: Request) {
     key_requirements: keyRequirements,
     tips,
     provider,
-    status: 'draft'
+    status: status || 'draft'
   }).select().single()
 
   if (error) return NextResponse.json({ error: error.message }, { status: 400 })
