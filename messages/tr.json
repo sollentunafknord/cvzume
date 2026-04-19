@@ -163,7 +163,11 @@
     "plan": "Plan",
     "language": "Dil",
     "account": "Hesap",
-    "save": "Değişiklikleri kaydet"
+    "save": "Değişiklikleri kaydet",
+    "personal_desc": "Adınızı ve profil fotoğrafınızı güncelleyin",
+    "avatar_upload": "Fotoğraf yüklemek için tıkla",
+    "avatar_hint": "JPG, PNG · Maks 2 MB · Değiştirmek için tıkla",
+    "avatar_saved": "Profil fotoğrafı kaydedildi!"
   },
   "upgrade": {
     "title": "Hak ettiğin işe kavuş",

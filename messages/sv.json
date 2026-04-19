@@ -163,7 +163,11 @@
     "plan": "Plan",
     "language": "Språk",
     "account": "Konto",
-    "save": "Spara ändringar"
+    "save": "Spara ändringar",
+    "personal_desc": "Uppdatera ditt namn och profilfoto",
+    "avatar_upload": "Klicka för att ladda upp foto",
+    "avatar_hint": "JPG, PNG · Max 2 MB · Klicka för att ändra",
+    "avatar_saved": "Profilfoto sparat!"
   },
   "upgrade": {
     "title": "Få jobbet du förtjänar",

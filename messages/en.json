@@ -163,7 +163,11 @@
     "plan": "Plan",
     "language": "Language",
     "account": "Account",
-    "save": "Save changes"
+    "save": "Save changes",
+    "personal_desc": "Update your name and profile photo",
+    "avatar_upload": "Click to upload photo",
+    "avatar_hint": "JPG, PNG · Max 2 MB · Click to change",
+    "avatar_saved": "Profile photo saved!"
   },
   "upgrade": {
     "title": "Get the job you deserve",

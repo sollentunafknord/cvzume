@@ -38,17 +38,40 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
   });
 
   const [planLabel, setPlanLabel] = useState('');
+  const [avatarUrl, setAvatarUrl] = useState<string>(() => {
+    if (typeof window === 'undefined') return '';
+    return localStorage.getItem('cvita_avatar') || '';
+  });
 
   useEffect(() => {
     const isPro = localStorage.getItem('cvita_is_pro') === 'true';
     setPlanLabel(isPro ? t('dashboard.pro_plan') : t('dashboard.free_plan'));
 
-    const handler = (e: Event) => {
+    const proHandler = (e: Event) => {
       const pro = (e as CustomEvent).detail.isPro;
       setPlanLabel(pro ? t('dashboard.pro_plan') : t('dashboard.free_plan'));
     };
-    window.addEventListener('cvita_pro_updated', handler);
-    return () => window.removeEventListener('cvita_pro_updated', handler);
+    window.addEventListener('cvita_pro_updated', proHandler);
+
+    const storageHandler = () => {
+      const av = localStorage.getItem('cvita_avatar') || '';
+      setAvatarUrl(av);
+      try {
+        const user = JSON.parse(localStorage.getItem('cvita_user') || '{}');
+        const fn = user.firstName || user.first_name || user.email?.split('@')[0] || '';
+        const ln = user.lastName || user.last_name || '';
+        setInitials(((fn[0] || '') + (ln[0] || '')).toUpperCase() || '?');
+        setUserName((fn + ' ' + ln).trim() || user.email || '');
+      } catch { /* silent */ }
+    };
+    window.addEventListener('storage', storageHandler);
+    window.addEventListener('cvita_profile_updated', storageHandler);
+
+    return () => {
+      window.removeEventListener('cvita_pro_updated', proHandler);
+      window.removeEventListener('storage', storageHandler);
+      window.removeEventListener('cvita_profile_updated', storageHandler);
+    };
   }, [t]);
 
   const LANGS: { code: string; flagImg: string; label: string }[] = [
@@ -117,7 +140,9 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
         </nav>
         <div className={styles.sidebarFooter}>
           <div className={styles.userCard}>
-            <div className={styles.userAvatar}>{initials}</div>
+            <div className={styles.userAvatar}>
+              {avatarUrl ? <img src={avatarUrl} alt="avatar" style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} /> : initials}
+            </div>
             <div>
               <div className={styles.userName}>{userName}</div>
               <div className={styles.userPlan}>{planLabel}</div>

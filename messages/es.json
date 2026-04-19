@@ -163,7 +163,11 @@
     "plan": "Plan",
     "language": "Idioma",
     "account": "Cuenta",
-    "save": "Guardar cambios"
+    "save": "Guardar cambios",
+    "personal_desc": "Actualiza tu nombre y foto de perfil",
+    "avatar_upload": "Haz clic para subir foto",
+    "avatar_hint": "JPG, PNG · Máx 2 MB · Haz clic para cambiar",
+    "avatar_saved": "¡Foto de perfil guardada!"
   },
   "upgrade": {
     "title": "Consigue el trabajo que mereces",

@@ -34,6 +34,8 @@ export default function SettingsClient() {
   const userName = `${firstName} ${lastName}`.trim();
   const initials = `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase() || '?';
   const [savingPersonal, setSavingPersonal] = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState('');
+  const [avatarUploading, setAvatarUploading] = useState(false);
 
   const [planInfo, setPlanInfo] = useState<PlanInfo | null>(null);
   const [planLoading, setPlanLoading] = useState(false);
@@ -53,7 +55,41 @@ export default function SettingsClient() {
     const fn = user.firstName || user.email?.split('@')[0] || '';
     const ln = user.lastName || '';
     setFirstName(fn); setLastName(ln); setUserEmail(user.email || '');
+    const av = localStorage.getItem('cvita_avatar');
+    if (av) setAvatarUrl(av);
   }, [locale, router]);
+
+  async function uploadAvatar(file: File) {
+    if (file.size > 2 * 1024 * 1024) { showToastMsg('❌ Max 2 MB', 'error'); return; }
+    setAvatarUploading(true);
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+    const token = localStorage.getItem('cvita_token');
+    const user = JSON.parse(localStorage.getItem('cvita_user') || '{}');
+    const path = `avatar_${Date.now()}.${file.name.split('.').pop()}`;
+    try {
+      const res = await fetch(`${supabaseUrl}/storage/v1/object/avatars/${path}`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${supabaseKey}`, 'Content-Type': file.type, 'x-upsert': 'true', apikey: supabaseKey },
+        body: file,
+      });
+      if (!res.ok) throw new Error('Upload failed');
+      const publicUrl = `${supabaseUrl}/storage/v1/object/public/avatars/${path}`;
+      localStorage.setItem('cvita_avatar', publicUrl);
+      setAvatarUrl(publicUrl);
+      window.dispatchEvent(new CustomEvent('cvita_profile_updated'));
+      if (token && user.id) {
+        fetch(`${supabaseUrl}/rest/v1/profiles`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', apikey: supabaseKey, Authorization: 'Bearer ' + token, Prefer: 'resolution=merge-duplicates' },
+          body: JSON.stringify({ id: user.id, avatar_url: publicUrl, updated_at: new Date().toISOString() }),
+        }).catch(() => {});
+      }
+      showToastMsg('✅ ' + t('settings.avatar_saved'));
+    } catch (err: unknown) {
+      showToastMsg('❌ ' + (err instanceof Error ? err.message : 'Error'), 'error');
+    } finally { setAvatarUploading(false); }
+  }
 
   useEffect(() => { loadUser(); }, [loadUser]);
 
@@ -125,6 +161,7 @@ export default function SettingsClient() {
           lastName={lastName} setLastName={setLastName}
           userEmail={userEmail} initials={initials} userName={userName}
           saving={savingPersonal} onSave={savePersonalInfo}
+          avatarUrl={avatarUrl} avatarUploading={avatarUploading} onAvatarUpload={uploadAvatar}
           t={t}
         />
       )}
