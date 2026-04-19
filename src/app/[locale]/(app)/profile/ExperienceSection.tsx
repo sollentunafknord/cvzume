@@ -1,4 +1,7 @@
+'use client';
+
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import styles from './profile.module.css';
 import type { Experience } from './types';
 
@@ -9,11 +12,12 @@ export default function ExperienceSection({ experiences, onAdd, onRemove, open, 
   open: boolean;
   onToggle: () => void;
 }) {
+  const t = useTranslations('experience');
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState({ company: '', role: '', start: '', end: '', desc: '' });
 
   function submit() {
-    if (!form.company || !form.role) { alert('Företag och roll är obligatoriska.'); return; }
+    if (!form.company || !form.role) { alert(t('required_error')); return; }
     onAdd(form);
     setForm({ company: '', role: '', start: '', end: '', desc: '' });
     setShowForm(false);
@@ -25,8 +29,8 @@ export default function ExperienceSection({ experiences, onAdd, onRemove, open, 
         <div className={styles.sectionHeadLeft}>
           <div className={`${styles.sectionIcon} ${styles.siGreen}`}>💼</div>
           <div>
-            <div className={styles.sectionHeadTitle}>Arbetslivserfarenhet</div>
-            <div className={styles.sectionHeadSub}>{experiences.length} poster</div>
+            <div className={styles.sectionHeadTitle}>{t('title')}</div>
+            <div className={styles.sectionHeadSub}>{t('count', { count: experiences.length })}</div>
           </div>
         </div>
         <span className={styles.sectionToggle}>{open ? '▼' : '▶'}</span>
@@ -52,34 +56,34 @@ export default function ExperienceSection({ experiences, onAdd, onRemove, open, 
             <div className={styles.miniForm}>
               <div className={styles.formGrid}>
                 <div className={styles.formGroup}>
-                  <label className={styles.formLabel}>Företag *</label>
-                  <input className={styles.formInput} placeholder="t.ex. Spotify" value={form.company} onChange={e => setForm(p => ({ ...p, company: e.target.value }))} />
+                  <label className={styles.formLabel}>{t('field_company')}</label>
+                  <input className={styles.formInput} placeholder={t('field_company_placeholder')} value={form.company} onChange={e => setForm(p => ({ ...p, company: e.target.value }))} />
                 </div>
                 <div className={styles.formGroup}>
-                  <label className={styles.formLabel}>Roll / Titel *</label>
-                  <input className={styles.formInput} placeholder="t.ex. Frontend-utvecklare" value={form.role} onChange={e => setForm(p => ({ ...p, role: e.target.value }))} />
+                  <label className={styles.formLabel}>{t('field_role')}</label>
+                  <input className={styles.formInput} placeholder={t('field_role_placeholder')} value={form.role} onChange={e => setForm(p => ({ ...p, role: e.target.value }))} />
                 </div>
                 <div className={styles.formGroup}>
-                  <label className={styles.formLabel}>Startdatum</label>
-                  <input className={styles.formInput} placeholder="2022-01" value={form.start} onChange={e => setForm(p => ({ ...p, start: e.target.value }))} />
+                  <label className={styles.formLabel}>{t('field_start')}</label>
+                  <input className={styles.formInput} placeholder={t('field_start_placeholder')} value={form.start} onChange={e => setForm(p => ({ ...p, start: e.target.value }))} />
                 </div>
                 <div className={styles.formGroup}>
-                  <label className={styles.formLabel}>Slutdatum</label>
-                  <input className={styles.formInput} placeholder="2024-06 (eller nuvarande)" value={form.end} onChange={e => setForm(p => ({ ...p, end: e.target.value }))} />
+                  <label className={styles.formLabel}>{t('field_end')}</label>
+                  <input className={styles.formInput} placeholder={t('field_end_placeholder')} value={form.end} onChange={e => setForm(p => ({ ...p, end: e.target.value }))} />
                 </div>
                 <div className={`${styles.formGroup} ${styles.formGridFull}`}>
-                  <label className={styles.formLabel}>Beskrivning</label>
-                  <textarea className={`${styles.formInput} ${styles.formTextarea}`} placeholder="Beskriv dina arbetsuppgifter..." value={form.desc} onChange={e => setForm(p => ({ ...p, desc: e.target.value }))} />
+                  <label className={styles.formLabel}>{t('field_desc')}</label>
+                  <textarea className={`${styles.formInput} ${styles.formTextarea}`} placeholder={t('field_desc_placeholder')} value={form.desc} onChange={e => setForm(p => ({ ...p, desc: e.target.value }))} />
                 </div>
               </div>
               <div className={styles.miniFormActions}>
-                <button className={`${styles.btnSm} ${styles.btnSmCancel}`} onClick={() => setShowForm(false)}>Avbryt</button>
-                <button className={`${styles.btnSm} ${styles.btnSmPrimary}`} onClick={submit}>＋ Lägg till</button>
+                <button className={`${styles.btnSm} ${styles.btnSmCancel}`} onClick={() => setShowForm(false)}>{t('cancel')}</button>
+                <button className={`${styles.btnSm} ${styles.btnSmPrimary}`} onClick={submit}>{t('add_btn')}</button>
               </div>
             </div>
           )}
           {!showForm && (
-            <button className={styles.btnAdd} onClick={() => setShowForm(true)}>＋ Lägg till erfarenhet</button>
+            <button className={styles.btnAdd} onClick={() => setShowForm(true)}>{t('add_entry')}</button>
           )}
         </div>
       )}

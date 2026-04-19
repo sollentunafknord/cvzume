@@ -1,4 +1,7 @@
+'use client';
+
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import styles from './profile.module.css';
 
 export default function TagSection({ icon, iconColor, title, subtitle, items, placeholder, open, onToggle, onAdd, onRemove }: {
@@ -13,6 +16,7 @@ export default function TagSection({ icon, iconColor, title, subtitle, items, pl
   onAdd: (value: string) => void;
   onRemove: (index: number) => void;
 }) {
+  const t = useTranslations('profile');
   const [input, setInput] = useState('');
 
   function add() {
@@ -50,7 +54,7 @@ export default function TagSection({ icon, iconColor, title, subtitle, items, pl
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); add(); } }}
             />
-            <button className={`${styles.btn} ${styles.btnGhost}`} onClick={add}>＋ Lägg till</button>
+            <button className={`${styles.btn} ${styles.btnGhost}`} onClick={add}>{t('tag_add_btn')}</button>
           </div>
         </div>
       )}

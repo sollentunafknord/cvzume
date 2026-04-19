@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { useLocale } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import styles from './profile.module.css';
 import type { Experience, Education, Profile } from './types';
@@ -11,6 +11,7 @@ import EducationSection from './EducationSection';
 import TagSection from './TagSection';
 
 export default function ProfileClient() {
+  const t = useTranslations();
   const locale = useLocale();
   const router = useRouter();
   const avatarInputRef = useRef<HTMLInputElement>(null);
@@ -133,14 +134,14 @@ export default function ProfileClient() {
           headers: { 'Content-Type': 'application/json', apikey: supabaseKey, Authorization: 'Bearer ' + token, Prefer: 'resolution=merge-duplicates' },
           body: JSON.stringify({ id: user.id, phone, location, title, summary, experiences, educations, skills, languages, updated_at: new Date().toISOString() }),
         });
-        if (!res.ok) { showToast('❌ Kunde inte spara till servern'); return; }
-      } catch { showToast('❌ Nätverksfel — profilen sparad lokalt'); return; }
+        if (!res.ok) { showToast(t('profile.save_error_server')); return; }
+      } catch { showToast(t('profile.save_error_network')); return; }
     }
-    showToast('✅ Profilen sparad!');
+    showToast(t('profile.save_success'));
   }
 
   async function uploadAvatar(file: File) {
-    if (file.size > 2 * 1024 * 1024) { alert('Filen är för stor. Max 2 MB.'); return; }
+    if (file.size > 2 * 1024 * 1024) { alert(t('profile.photo_too_large')); return; }
     setAvatarUploading(true);
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
     const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
@@ -153,7 +154,7 @@ export default function ProfileClient() {
         headers: { Authorization: `Bearer ${supabaseKey}`, 'Content-Type': file.type, 'x-upsert': 'true', apikey: supabaseKey },
         body: file,
       });
-      if (!res.ok) throw new Error('Upload misslyckades');
+      if (!res.ok) throw new Error(t('profile.upload_failed'));
       const publicUrl = `${supabaseUrl}/storage/v1/object/public/avatars/${path}`;
       localStorage.setItem('cvita_avatar', publicUrl);
       setAvatarUrl(publicUrl);
@@ -164,9 +165,9 @@ export default function ProfileClient() {
           body: JSON.stringify({ id: user.id, avatar_url: publicUrl, updated_at: new Date().toISOString() }),
         }).catch(() => {});
       }
-      showToast('✅ Profilfoto sparat!');
+      showToast(t('profile.photo_saved'));
     } catch (err: unknown) {
-      showToast('❌ ' + (err instanceof Error ? err.message : 'Fel'));
+      showToast('❌ ' + (err instanceof Error ? err.message : t('profile.upload_failed')));
     } finally { setAvatarUploading(false); }
   }
 
@@ -174,12 +175,11 @@ export default function ProfileClient() {
     <main className={styles.main}>
       <div className={styles.topbar}>
         <div className={styles.topbarLeft}>
-          <span className={styles.topbarTitle}>Mitt CV</span>
+          <span className={styles.topbarTitle}>{t('profile.title')}</span>
         </div>
         <div className={styles.topbarRight}>
-          <button className={`${styles.btn} ${styles.btnGhost}`} onClick={() => router.push(`/${locale}/dashboard`)}>← Dashboard</button>
-          <button className={`${styles.btn} ${styles.btnGhost}`} onClick={() => router.push(`/${locale}/cv`)}>📥 Ladda ner PDF</button>
-          <button className={`${styles.btn} ${styles.btnPrimary}`} onClick={saveAll}>💾 Spara allt</button>
+          <button className={`${styles.btn} ${styles.btnGhost}`} onClick={() => router.push(`/${locale}/cv`)}>{t('profile.download_pdf')}</button>
+          <button className={`${styles.btn} ${styles.btnPrimary}`} onClick={saveAll}>{t('profile.save_all')}</button>
         </div>
       </div>
 
@@ -193,8 +193,8 @@ export default function ProfileClient() {
 
         <div className={styles.progressCard}>
           <div className={styles.progressText}>
-            <div className={styles.progressTitle}>CV-profil slutförd</div>
-            <div className={styles.progressSub}>Ju mer du fyller i, desto bättre blir AI-matchningen</div>
+            <div className={styles.progressTitle}>{t('profile.progress_title')}</div>
+            <div className={styles.progressSub}>{t('profile.progress_sub')}</div>
           </div>
           <div className={styles.progressBarWrap}>
             <div className={styles.progressBar} style={{ width: `${progress}%` }} />
@@ -209,7 +209,7 @@ export default function ProfileClient() {
               <div className={styles.sectionHeadLeft}>
                 <div className={`${styles.sectionIcon} ${styles.siBlue}`}>👤</div>
                 <div>
-                  <div className={styles.sectionHeadTitle}>Personlig information</div>
+                  <div className={styles.sectionHeadTitle}>{t('profile.personal_info')}</div>
                   <div className={styles.sectionHeadSub}>{firstName} {lastName}</div>
                 </div>
               </div>
@@ -222,11 +222,11 @@ export default function ProfileClient() {
                     {avatarUrl ? <img src={avatarUrl} alt="avatar" /> : <span className={styles.avatarInitials}>{initials}</span>}
                   </div>
                   <div className={styles.avatarInfo}>
-                    <div className={styles.avatarTitle}>Profilfoto</div>
-                    <div className={styles.avatarSub}>JPG, PNG · Max 2 MB</div>
+                    <div className={styles.avatarTitle}>{t('profile.photo_label')}</div>
+                    <div className={styles.avatarSub}>{t('profile.photo_hint')}</div>
                     <div className={styles.avatarBtns}>
-                      <button className={`${styles.btn} ${styles.btnGhost}`} onClick={() => avatarInputRef.current?.click()}>📷 Ladda upp foto</button>
-                      {avatarUploading && <span className={styles.avatarUploading}>Laddar upp...</span>}
+                      <button className={`${styles.btn} ${styles.btnGhost}`} onClick={() => avatarInputRef.current?.click()}>{t('profile.photo_upload_btn')}</button>
+                      {avatarUploading && <span className={styles.avatarUploading}>{t('profile.photo_uploading')}</span>}
                     </div>
                   </div>
                   <input ref={avatarInputRef} type="file" accept="image/*" style={{ display: 'none' }}
@@ -234,33 +234,33 @@ export default function ProfileClient() {
                 </div>
                 <div className={styles.formGrid}>
                   <div className={styles.formGroup}>
-                    <label className={styles.formLabel}>Förnamn</label>
+                    <label className={styles.formLabel}>{t('profile.field_firstname')}</label>
                     <input className={styles.formInput} value={firstName} onChange={e => setFirstName(e.target.value)} />
                   </div>
                   <div className={styles.formGroup}>
-                    <label className={styles.formLabel}>Efternamn</label>
+                    <label className={styles.formLabel}>{t('profile.field_lastname')}</label>
                     <input className={styles.formInput} value={lastName} onChange={e => setLastName(e.target.value)} />
                   </div>
                   <div className={styles.formGroup}>
-                    <label className={styles.formLabel}>E-postadress</label>
+                    <label className={styles.formLabel}>{t('profile.field_email')}</label>
                     <input className={styles.formInput} type="email" value={email} onChange={e => setEmail(e.target.value)} />
                   </div>
                   <div className={styles.formGroup}>
-                    <label className={styles.formLabel}>Telefon</label>
+                    <label className={styles.formLabel}>{t('profile.field_phone')}</label>
                     <input className={styles.formInput} value={phone} onChange={e => setPhone(e.target.value)} placeholder="+46 70 123 45 67" />
                   </div>
                   <div className={styles.formGroup}>
-                    <label className={styles.formLabel}>Ort / Stad</label>
+                    <label className={styles.formLabel}>{t('profile.field_location')}</label>
                     <input className={styles.formInput} value={location} onChange={e => setLocation(e.target.value)} placeholder="Stockholm" />
                   </div>
                   <div className={styles.formGroup}>
-                    <label className={styles.formLabel}>Jobbtitel</label>
-                    <input className={styles.formInput} value={title} onChange={e => setTitle(e.target.value)} placeholder="t.ex. Frontend-utvecklare" />
+                    <label className={styles.formLabel}>{t('profile.field_jobtitle')}</label>
+                    <input className={styles.formInput} value={title} onChange={e => setTitle(e.target.value)} placeholder={t('profile.field_jobtitle_placeholder')} />
                   </div>
                   <div className={`${styles.formGroup} ${styles.formGridFull}`}>
-                    <label className={styles.formLabel}>Sammanfattning / Om mig</label>
-                    <textarea className={`${styles.formInput} ${styles.formTextarea}`} value={summary} onChange={e => setSummary(e.target.value)} placeholder="Kort beskrivning om dig själv..." />
-                    <span className={styles.formHint}>AI:n använder detta för att skräddarsy ditt CV</span>
+                    <label className={styles.formLabel}>{t('profile.field_summary')}</label>
+                    <textarea className={`${styles.formInput} ${styles.formTextarea}`} value={summary} onChange={e => setSummary(e.target.value)} placeholder={t('profile.field_summary_placeholder')} />
+                    <span className={styles.formHint}>{t('profile.field_summary_hint')}</span>
                   </div>
                 </div>
               </div>
@@ -285,8 +285,10 @@ export default function ProfileClient() {
 
           <TagSection
             icon="⚡" iconColor={styles.siPurple}
-            title="Kompetenser" subtitle={`${skills.length} kompetenser`}
-            items={skills} placeholder="t.ex. React, TypeScript, Python..."
+            title={t('profile.skills_title')}
+            subtitle={t('profile.skills_subtitle', { count: skills.length })}
+            items={skills}
+            placeholder={t('profile.skills_placeholder')}
             open={openSections.skills} onToggle={() => toggleSection('skills')}
             onAdd={v => setSkills(prev => [...prev, v])}
             onRemove={i => setSkills(prev => prev.filter((_, j) => j !== i))}
@@ -294,8 +296,10 @@ export default function ProfileClient() {
 
           <TagSection
             icon="🌍" iconColor={styles.siBlue}
-            title="Språk" subtitle={`${languages.length} språk`}
-            items={languages} placeholder="t.ex. Svenska (modersmål), Engelska (flytande)..."
+            title={t('profile.languages_title')}
+            subtitle={t('profile.languages_subtitle', { count: languages.length })}
+            items={languages}
+            placeholder={t('profile.languages_placeholder')}
             open={openSections.langs} onToggle={() => toggleSection('langs')}
             onAdd={v => setLanguages(prev => [...prev, v])}
             onRemove={i => setLanguages(prev => prev.filter((_, j) => j !== i))}

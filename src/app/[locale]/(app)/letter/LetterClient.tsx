@@ -6,18 +6,18 @@ import { useRouter } from 'next/navigation';
 import styles from './letter.module.css';
 
 export default function LetterClient() {
-  const t = useTranslations();
+  const t = useTranslations('letter');
   const locale = useLocale();
   const router = useRouter();
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const [fullName, setFullName] = useState('Namn Efternamn');
+  const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [location, setLocation] = useState('');
   const [dateStr, setDateStr] = useState('');
-  const [company, setCompany] = useState('Företaget');
-  const [subject, setSubject] = useState('Ansökan — Tjänst');
+  const [company, setCompany] = useState('');
+  const [subject, setSubject] = useState('');
   const [letterText, setLetterText] = useState('');
 
   const [isEditing, setIsEditing] = useState(false);
@@ -39,15 +39,15 @@ export default function LetterClient() {
     const user = JSON.parse(saved);
     const fn = user.firstName || user.email?.split('@')[0] || '';
     const ln = user.lastName || '';
-    const name = (fn + ' ' + ln).trim() || 'Namn Efternamn';
-    setFullName(name);
+    setFullName((fn + ' ' + ln).trim() || '');
     setEmail(user.email || '');
 
     const localeMap: Record<string, string> = { en: 'en-GB', es: 'es-ES', tr: 'tr-TR', sv: 'sv-SE' };
     setDateStr(new Date().toLocaleDateString(localeMap[locale] || 'sv-SE', { day: 'numeric', month: 'long', year: 'numeric' }));
 
     const result = JSON.parse(localStorage.getItem('cvita_last_result') || '{}');
-    if (result.role) setSubject('Ansökan — ' + result.role);
+    if (result.role) setSubject(t('application_prefix') + result.role);
+    else setSubject(t('default_subject'));
     if (result.employer) setCompany(result.employer);
 
     let profile = JSON.parse(localStorage.getItem('cvita_profile') || '{}');
@@ -74,7 +74,7 @@ export default function LetterClient() {
     if (result.coverLetter) setLetterText(result.coverLetter);
     else if (profile.cover_letter) setLetterText(profile.cover_letter);
     else setLetterText('');
-  }, [locale, router]);
+  }, [locale, router, t]);
 
   useEffect(() => { loadLetter(); }, [loadLetter]);
 
@@ -102,22 +102,22 @@ export default function LetterClient() {
             headers: { 'Content-Type': 'application/json', apikey: supabaseKey, Authorization: 'Bearer ' + token, Prefer: 'resolution=merge-duplicates' },
             body: JSON.stringify({ id: user.id, cover_letter: editedText, updated_at: new Date().toISOString() }),
           });
-          showToast(res.ok ? '✅ Brevet sparat!' : '❌ Kunde inte spara', res.ok ? 'success' : 'error');
-        } catch { showToast('❌ Kunde inte spara', 'error'); }
+          showToast(res.ok ? t('saved') : t('save_error'), res.ok ? 'success' : 'error');
+        } catch { showToast(t('save_error'), 'error'); }
       }
     }
   }
 
   function copyLetter() {
     const text = contentRef.current?.innerText || letterText;
-    navigator.clipboard.writeText(text).then(() => showToast('✅ Kopierat till urklipp!'));
+    navigator.clipboard.writeText(text).then(() => showToast(t('copied')));
   }
 
   async function generateLetter() {
     const result = JSON.parse(localStorage.getItem('cvita_last_result') || '{}');
     const profile = JSON.parse(localStorage.getItem('cvita_profile') || '{}');
     if (!result.jobAd && !result.role) {
-      showToast('❌ Inget jobb hittades. Gå till Favoriter och analysera ett jobb först.', 'error');
+      showToast(t('no_job_error'), 'error');
       return;
     }
     setGenerating(true);
@@ -128,20 +128,20 @@ export default function LetterClient() {
         body: JSON.stringify({ jobAd: result.jobAd || result.role, userProfile: profile }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Fel');
+      if (!res.ok) throw new Error(data.error || t('generate_error'));
       setLetterText(data.coverLetter || '');
       result.coverLetter = data.coverLetter;
       localStorage.setItem('cvita_last_result', JSON.stringify(result));
-      showToast('✅ Nytt brev genererat!', 'success');
+      showToast(t('generated'), 'success');
     } catch {
-      showToast('❌ Kunde inte generera brev. Försök igen.', 'error');
+      showToast(t('generate_error'), 'error');
     } finally {
       setGenerating(false);
     }
   }
 
   function downloadPDF() {
-    document.title = subject || 'Personligt Brev';
+    document.title = subject || t('print_title');
     window.print();
   }
 
@@ -154,20 +154,20 @@ export default function LetterClient() {
           </div>
           <div className={styles.toolbarRight}>
             <button className={`${styles.btn} ${styles.btnGhost}`} onClick={generateLetter} disabled={generating}>
-              {generating ? '⏳ Genererar...' : '✨ Generera nytt brev'}
+              {generating ? t('generating') : t('generate_btn')}
             </button>
             <button className={`${styles.btn} ${isEditing ? styles.btnActive : styles.btnGhost}`} onClick={toggleEdit}>
-              ✏️ {isEditing ? 'Spara' : 'Redigera'}
+              {isEditing ? t('save_btn') : t('edit_btn')}
             </button>
-            <button className={`${styles.btn} ${styles.btnGhost}`} onClick={copyLetter}>📋 Kopiera</button>
-            <button className={`${styles.btn} ${styles.btnPrimary}`} onClick={downloadPDF}>📥 Ladda ner PDF</button>
+            <button className={`${styles.btn} ${styles.btnGhost}`} onClick={copyLetter}>{t('copy_btn')}</button>
+            <button className={`${styles.btn} ${styles.btnPrimary}`} onClick={downloadPDF}>{t('download_pdf')}</button>
           </div>
         </div>
 
         {/* LETTER PAPER */}
         <div className={styles.letterPaper}>
           {/* Print-only title */}
-          <div className={styles.printTitle}>Personligt brev</div>
+          <div className={styles.printTitle}>{t('print_title')}</div>
 
           {/* Header */}
           <div className={styles.letterHeader}>
@@ -187,7 +187,7 @@ export default function LetterClient() {
               <div className={styles.letterDate}>{dateStr}</div>
               <div className={styles.letterRecipient}>
                 <strong>{company}</strong><br />
-                <span>Till rekryteringsansvarig</span>
+                <span>{t('to_hiring')}</span>
               </div>
             </div>
 
@@ -205,17 +205,17 @@ export default function LetterClient() {
             ) : (
               <div className={styles.letterEmpty}>
                 <div className={styles.letterEmptyIcon}>✉️</div>
-                <div className={styles.letterEmptyTitle}>Inget personligt brev ännu</div>
-                <p className={styles.letterEmptyDesc}>Gå till <strong>Sök jobb → Favoriter</strong> och analysera ett jobb — eller klicka på knappen ovan för att generera ett brev baserat på ditt senaste jobb.</p>
+                <div className={styles.letterEmptyTitle}>{t('empty_title')}</div>
+                <p className={styles.letterEmptyDesc}>{t('empty_desc')}</p>
               </div>
             )}
 
             {isEditing && (
-              <div className={styles.editHint}>Klicka i texten för att redigera</div>
+              <div className={styles.editHint}>{t('edit_hint')}</div>
             )}
 
             <div className={styles.letterSignature}>
-              <div className={styles.letterSigLine}>Med vänliga hälsningar,</div>
+              <div className={styles.letterSigLine}>{t('signature')}</div>
               <div className={styles.letterSigName}>{fullName}</div>
             </div>
           </div>
