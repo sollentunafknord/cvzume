@@ -212,11 +212,6 @@ export default function DashboardClient({ onNavigate }: { onNavigate?: (seg: str
                     {activeApps.length} aktiva ansökningar · {sentCount} skickade
                   </div>
                 </div>
-                <div className={styles.welcomeAction}>
-                  <button className={styles.btnNewApp} onClick={() => setModalOpen(true)}>
-                    ＋ {t('dashboard.new_application')}
-                  </button>
-                </div>
               </div>
 
               <div className={styles.statsRow}>

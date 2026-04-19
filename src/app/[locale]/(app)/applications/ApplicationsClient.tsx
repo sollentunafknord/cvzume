@@ -12,10 +12,46 @@ interface Municipality { id: string; preferred_label: string; broader_id: string
 interface OccField { id: string; preferred_label: string; }
 
 const PAGE_SIZE = 10;
+const LS_FAV_KEY = 'cvita_job_favorites';
+
+function lsLoadFavorites(): Job[] {
+  try { return JSON.parse(localStorage.getItem(LS_FAV_KEY) || '[]'); } catch { return []; }
+}
+function lsSaveFavorites(favs: Job[]) {
+  localStorage.setItem(LS_FAV_KEY, JSON.stringify(favs));
+}
+
+async function getValidToken(): Promise<string | null> {
+  const token = localStorage.getItem('cvita_token');
+  const expiry = Number(localStorage.getItem('cvita_token_expiry') || 0);
+  if (!token) return null;
+  if (Date.now() < expiry - 60000) return token; // still valid
+
+  // Try refresh
+  const refreshToken = localStorage.getItem('cvita_refresh_token');
+  if (!refreshToken) return token;
+  try {
+    const res = await fetch('/api/auth/refresh', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ refresh_token: refreshToken }),
+    });
+    if (!res.ok) return token;
+    const data = await res.json();
+    if (data.access_token) {
+      localStorage.setItem('cvita_token', data.access_token);
+      localStorage.setItem('cvita_token_expiry', String(Date.now() + data.expires_in * 1000));
+      if (data.refresh_token) localStorage.setItem('cvita_refresh_token', data.refresh_token);
+      return data.access_token;
+    }
+  } catch { /* ignore */ }
+  return token;
+}
 
 async function apiFavorites(token: string): Promise<Job[]> {
   try {
     const res = await fetch(`/api/favorites?token=${token}`);
+    if (!res.ok) return [];
     const data = await res.json();
     return data.favorites || [];
   } catch { return []; }
@@ -63,8 +99,12 @@ export default function ApplicationsClient() {
 
   // Load taxonomy once
   useEffect(() => {
-    const token = localStorage.getItem('cvita_token');
-    if (token) apiFavorites(token).then(setFavorites);
+    setFavorites(lsLoadFavorites()); // instant load from cache
+    getValidToken().then(token => {
+      if (token) apiFavorites(token).then(favs => {
+        if (favs.length > 0) { setFavorites(favs); lsSaveFavorites(favs); }
+      });
+    });
     if (taxLoaded) return;
     Promise.all([
       fetch('/api/jobs/taxonomy?type=region').then(r => r.json()),
@@ -143,20 +183,20 @@ export default function ApplicationsClient() {
   function clearYrke() { setSelFields([]); }
 
   function toggleFavorite(job: Job) {
-    const token = localStorage.getItem('cvita_token');
     const exists = favorites.some(f => f.id === job.id);
-    if (exists) {
-      setFavorites(prev => prev.filter(f => f.id !== job.id));
-      if (token) {
+    const next = exists ? favorites.filter(f => f.id !== job.id) : [job, ...favorites];
+    setFavorites(next);
+    lsSaveFavorites(next); // always persist locally
+
+    getValidToken().then(token => {
+      if (!token) return;
+      if (exists) {
         fetch('/api/favorites', {
           method: 'DELETE',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ token, jobId: job.id }),
         }).catch(() => {});
-      }
-    } else {
-      setFavorites(prev => [job, ...prev]);
-      if (token) {
+      } else {
         fetch('/api/favorites', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -168,7 +208,7 @@ export default function ApplicationsClient() {
           body: JSON.stringify({ token, type: 'favorite', title: job.headline, subtitle: job.employer?.name || null }),
         }).catch(() => {});
       }
-    }
+    });
   }
 
   const ortLabel = selMunicipalities.length > 0
