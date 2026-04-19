@@ -258,26 +258,13 @@ export default function DashboardClient({ onNavigate }: { onNavigate?: (seg: str
               <div className={styles.dashboardGrid}>
                 <div>
                   <div className={styles.sectionHeader}>
-                    <span className={styles.sectionTitleSm}>{t('dashboard.latest_applications')}</span>
+                    <span className={styles.sectionTitleSm}>Senaste 5 händelser</span>
                     <button className={styles.sectionLink} onClick={() => setView('applications')}>
                       {t('dashboard.see_all')}
                     </button>
                   </div>
                   <div className={styles.applicationsCard}>
-                    <div className={styles.appCardHeader}>
-                      <div className={styles.cardTabs}>
-                        {(['all', 'draft', 'sent'] as AppFilter[]).map(f => (
-                          <button
-                            key={f}
-                            className={`${styles.cardTab} ${appFilter === f ? styles.active : ''}`}
-                            onClick={() => setAppFilter(f)}
-                          >
-                            {f === 'all' ? t('dashboard.all') : f === 'draft' ? t('dashboard.draft') : t('dashboard.sent')}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                    <AppList list={filterApps(apps).slice(0, 5)} />
+                    <AppList list={apps.slice(0, 5)} />
                   </div>
                 </div>
 

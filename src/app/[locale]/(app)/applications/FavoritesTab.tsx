@@ -167,19 +167,30 @@ export default function FavoritesTab({ favorites, onToggleFavorite, t }: {
             router.push(`/${locale}/profile`);
           }}>Uppdatera CV →</button>
           <button className={styles.stepBtnPrimary} onClick={() => router.push(`/${locale}/letter`)}>Skriv personligt brev →</button>
-          <button className={styles.stepBtnSend} onClick={() => {
-            const apps: { role: string; employer: string; [k: string]: unknown }[] = JSON.parse(localStorage.getItem('cvita_my_applications') || '[]');
-            const already = apps.some(a => a.role === selectedJob?.headline && a.employer === (selectedJob?.employer?.name || ''));
-            if (!already) {
-              apps.unshift({
-                id: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
-                role: selectedJob?.headline || '',
-                employer: selectedJob?.employer?.name || '',
-                matchScore: analysisResult.matchScore,
-                appliedAt: new Date().toISOString(),
-                status: 'applied',
-              });
-              localStorage.setItem('cvita_my_applications', JSON.stringify(apps));
+          <button className={styles.stepBtnSend} onClick={async () => {
+            if (selectedJob) onToggleFavorite(selectedJob); // remove from favorites
+            const token = localStorage.getItem('cvita_token');
+            if (token && selectedJob) {
+              await fetch('/api/applications', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  access_token: token,
+                  role: selectedJob.headline,
+                  jobAd: selectedJob.description?.text || selectedJob.headline,
+                  matchScore: analysisResult.matchScore,
+                  cvSummary: analysisResult.cvSummary,
+                  coverLetter: '',
+                  keyRequirements: analysisResult.keyRequirements,
+                  tips: analysisResult.tips,
+                  provider: 'favorites',
+                }),
+              }).catch(() => {});
+              fetch('/api/events', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ token, type: 'application', title: selectedJob.headline, subtitle: `${analysisResult.matchScore}% match` }),
+              }).catch(() => {});
             }
             setStep('sent');
           }}>✅ Skicka ansökan</button>
