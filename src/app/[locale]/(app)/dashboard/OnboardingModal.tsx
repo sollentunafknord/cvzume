@@ -11,7 +11,6 @@ const LANGS = [
     flagImg: 'https://flagcdn.com/20x15/se.png',
     title: 'Välkommen till CVzume!',
     subtitle: 'Vilket språk söker du jobb på?',
-    hint: 'Detta blir ditt primära CV-språk. Pro-användare kan lägga till fler språk senare.',
     confirm: 'Kom igång →',
   },
   {
@@ -20,7 +19,6 @@ const LANGS = [
     flagImg: 'https://flagcdn.com/20x15/gb.png',
     title: 'Welcome to CVzume!',
     subtitle: 'Which language will you be applying in?',
-    hint: 'This will be your primary CV language. Pro users can add more languages later.',
     confirm: 'Get started →',
   },
   {
@@ -29,7 +27,6 @@ const LANGS = [
     flagImg: 'https://flagcdn.com/20x15/es.png',
     title: '¡Bienvenido a CVzume!',
     subtitle: '¿En qué idioma vas a buscar trabajo?',
-    hint: 'Este será tu idioma principal de CV. Los usuarios Pro pueden añadir más idiomas después.',
     confirm: 'Empezar →',
   },
   {
@@ -38,7 +35,6 @@ const LANGS = [
     flagImg: 'https://flagcdn.com/20x15/tr.png',
     title: "CVzume'a Hoş Geldiniz!",
     subtitle: 'Hangi dilde iş başvurusu yapacaksınız?',
-    hint: 'Bu, birincil CV diliniz olacak. Pro kullanıcılar daha sonra dil ekleyebilir.',
     confirm: 'Başlayalım →',
   },
 ];
@@ -78,41 +74,57 @@ export default function OnboardingModal({ onComplete }: Props) {
 
   return (
     <div className={styles.modalOverlay}>
-      <div className={styles.modal} style={{ maxWidth: 480 }}>
-        <div style={{ padding: '32px 32px 0' }}>
-          <div style={{ fontSize: 32, marginBottom: 12 }}>👋</div>
-          <div style={{ fontSize: 22, fontWeight: 700, color: 'var(--navy)', marginBottom: 8, transition: 'opacity 0.15s' }}>
-            {active.title}
+      <div className={styles.modal} style={{ maxWidth: 500 }}>
+        <div style={{ padding: '28px 28px 20px', textAlign: 'center' }}>
+          <div style={{ fontSize: 32, marginBottom: 10 }}>👋</div>
+          <div style={{ fontSize: 13, color: 'var(--muted)' }}>
+            Welcome · Välkommen · Bienvenido · Hoş Geldiniz
           </div>
-          <div style={{ fontSize: 14, color: 'var(--slate)', marginBottom: 6 }}>{active.subtitle}</div>
-          <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 24 }}>{active.hint}</div>
         </div>
 
-        <div style={{ padding: '0 32px', display: 'flex', flexDirection: 'column', gap: 10 }}>
-          {LANGS.map(lang => (
-            <button
-              key={lang.code}
-              onClick={() => setSelected(lang.code)}
-              style={{
-                display: 'flex', alignItems: 'center', gap: 16, padding: '14px 18px',
-                border: `2px solid ${selected === lang.code ? 'var(--blue)' : 'var(--border)'}`,
-                borderRadius: 12, background: selected === lang.code ? 'var(--blue-light)' : 'white',
-                cursor: 'pointer', fontFamily: 'DM Sans, sans-serif', textAlign: 'left', width: '100%',
-                transition: 'all 0.15s',
-              }}
-            >
-              <img
-                src={lang.flagImg}
-                alt={lang.label}
-                style={{ width: 28, height: 21, borderRadius: 3, objectFit: 'cover', flexShrink: 0 }}
-              />
-              <span style={{ fontSize: 15, fontWeight: 600, color: 'var(--navy)' }}>{lang.label}</span>
-              {selected === lang.code && <span style={{ marginLeft: 'auto', color: 'var(--blue)', fontWeight: 700 }}>✓</span>}
-            </button>
-          ))}
+        <div style={{ padding: '0 24px', display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {LANGS.map(lang => {
+            const isSelected = selected === lang.code;
+            return (
+              <button
+                key={lang.code}
+                onClick={() => setSelected(lang.code)}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 14, padding: '14px 16px',
+                  border: `2px solid ${isSelected ? 'var(--blue)' : 'var(--border)'}`,
+                  borderRadius: 12,
+                  background: isSelected ? 'var(--blue-light)' : 'white',
+                  cursor: 'pointer', fontFamily: 'DM Sans, sans-serif',
+                  textAlign: 'left', width: '100%', transition: 'all 0.15s',
+                }}
+              >
+                <img
+                  src={lang.flagImg}
+                  alt={lang.label}
+                  style={{ width: 28, height: 21, borderRadius: 3, objectFit: 'cover', flexShrink: 0 }}
+                />
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--navy)', lineHeight: 1.3 }}>
+                    {lang.title}
+                  </div>
+                  <div style={{ fontSize: 12, color: 'var(--slate)', marginTop: 2 }}>
+                    {lang.subtitle}
+                  </div>
+                </div>
+                <div style={{
+                  width: 20, height: 20, borderRadius: '50%', flexShrink: 0,
+                  border: `2px solid ${isSelected ? 'var(--blue)' : 'var(--border)'}`,
+                  background: isSelected ? 'var(--blue)' : 'white',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}>
+                  {isSelected && <span style={{ color: 'white', fontSize: 11, fontWeight: 700 }}>✓</span>}
+                </div>
+              </button>
+            );
+          })}
         </div>
 
-        <div style={{ padding: '24px 32px 32px' }}>
+        <div style={{ padding: '20px 24px 28px' }}>
           <button
             onClick={confirm}
             style={{
