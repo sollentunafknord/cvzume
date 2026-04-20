@@ -1,7 +1,28 @@
 import Stripe from 'stripe'
 import { NextResponse } from 'next/server'
+import { createClient } from '@supabase/supabase-js'
 
 const getStripe = () => new Stripe(process.env.STRIPE_SECRET_KEY!)
+
+async function checkProOverride(email: string): Promise<boolean> {
+  try {
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!,
+      { auth: { autoRefreshToken: false, persistSession: false } }
+    )
+    const { data: users } = await supabase.auth.admin.listUsers()
+    const user = users?.users?.find(u => u.email === email)
+    if (!user) return false
+    const { data } = await supabase
+      .from('profiles')
+      .select('is_pro_override')
+      .eq('id', user.id)
+      .eq('is_pro_override', true)
+      .limit(1)
+    return !!(data && data.length > 0)
+  } catch { return false }
+}
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
@@ -9,6 +30,12 @@ export async function GET(request: Request) {
 
   if (!email) {
     return NextResponse.json({ error: 'Email krävs' }, { status: 400 })
+  }
+
+  // Manual pro override takes precedence over Stripe
+  const isOverride = await checkProOverride(email)
+  if (isOverride) {
+    return NextResponse.json({ plan: 'pro', interval: 'yearly', override: true })
   }
 
   try {
@@ -33,9 +60,8 @@ export async function GET(request: Request) {
 
     const sub = subscriptions.data[0]
     const subAny = sub as any
-    
-    // current_period_end can be in different places depending on Stripe version
-    let periodEndTs = subAny.current_period_end 
+
+    let periodEndTs = subAny.current_period_end
       || subAny.billing_cycle_anchor
       || null
 
