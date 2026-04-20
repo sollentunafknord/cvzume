@@ -1,14 +1,46 @@
 'use client';
 
 import { useState } from 'react';
-import { useTranslations, useLocale } from 'next-intl';
+import { useLocale } from 'next-intl';
 import styles from './dashboard.module.css';
 
 const LANGS = [
-  { code: 'sv', label: 'Svenska', flag: '🇸🇪' },
-  { code: 'en', label: 'English', flag: '🇬🇧' },
-  { code: 'es', label: 'Español', flag: '🇪🇸' },
-  { code: 'tr', label: 'Türkçe', flag: '🇹🇷' },
+  {
+    code: 'sv',
+    label: 'Svenska',
+    flagImg: 'https://flagcdn.com/20x15/se.png',
+    title: 'Välkommen till CVzume!',
+    subtitle: 'Vilket språk söker du jobb på?',
+    hint: 'Detta blir ditt primära CV-språk. Pro-användare kan lägga till fler språk senare.',
+    confirm: 'Kom igång →',
+  },
+  {
+    code: 'en',
+    label: 'English',
+    flagImg: 'https://flagcdn.com/20x15/gb.png',
+    title: 'Welcome to CVzume!',
+    subtitle: 'Which language will you be applying in?',
+    hint: 'This will be your primary CV language. Pro users can add more languages later.',
+    confirm: 'Get started →',
+  },
+  {
+    code: 'es',
+    label: 'Español',
+    flagImg: 'https://flagcdn.com/20x15/es.png',
+    title: '¡Bienvenido a CVzume!',
+    subtitle: '¿En qué idioma vas a buscar trabajo?',
+    hint: 'Este será tu idioma principal de CV. Los usuarios Pro pueden añadir más idiomas después.',
+    confirm: 'Empezar →',
+  },
+  {
+    code: 'tr',
+    label: 'Türkçe',
+    flagImg: 'https://flagcdn.com/20x15/tr.png',
+    title: "CVzume'a Hoş Geldiniz!",
+    subtitle: 'Hangi dilde iş başvurusu yapacaksınız?',
+    hint: 'Bu, birincil CV diliniz olacak. Pro kullanıcılar daha sonra dil ekleyebilir.',
+    confirm: 'Başlayalım →',
+  },
 ];
 
 interface Props {
@@ -16,15 +48,14 @@ interface Props {
 }
 
 export default function OnboardingModal({ onComplete }: Props) {
-  const t = useTranslations('onboarding');
   const currentLocale = useLocale();
   const [selected, setSelected] = useState(currentLocale);
 
+  const active = LANGS.find(l => l.code === selected) || LANGS[0];
+
   async function confirm() {
-    // Save to localStorage
     localStorage.setItem('cvita_default_locale', selected);
 
-    // Save to Supabase user metadata
     const token = localStorage.getItem('cvita_token');
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
     const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
@@ -36,7 +67,6 @@ export default function OnboardingModal({ onComplete }: Props) {
       }).catch(() => {});
     }
 
-    // If selected language differs from current app locale, switch
     if (selected !== currentLocale) {
       document.cookie = `NEXT_LOCALE=${selected};path=/;max-age=31536000`;
       window.location.href = `/${selected}/dashboard`;
@@ -51,9 +81,11 @@ export default function OnboardingModal({ onComplete }: Props) {
       <div className={styles.modal} style={{ maxWidth: 480 }}>
         <div style={{ padding: '32px 32px 0' }}>
           <div style={{ fontSize: 32, marginBottom: 12 }}>👋</div>
-          <div style={{ fontSize: 22, fontWeight: 700, color: 'var(--navy)', marginBottom: 8 }}>{t('title')}</div>
-          <div style={{ fontSize: 14, color: 'var(--slate)', marginBottom: 6 }}>{t('subtitle')}</div>
-          <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 24 }}>{t('hint')}</div>
+          <div style={{ fontSize: 22, fontWeight: 700, color: 'var(--navy)', marginBottom: 8, transition: 'opacity 0.15s' }}>
+            {active.title}
+          </div>
+          <div style={{ fontSize: 14, color: 'var(--slate)', marginBottom: 6 }}>{active.subtitle}</div>
+          <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 24 }}>{active.hint}</div>
         </div>
 
         <div style={{ padding: '0 32px', display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -69,7 +101,11 @@ export default function OnboardingModal({ onComplete }: Props) {
                 transition: 'all 0.15s',
               }}
             >
-              <span style={{ fontSize: 26 }}>{lang.flag}</span>
+              <img
+                src={lang.flagImg}
+                alt={lang.label}
+                style={{ width: 28, height: 21, borderRadius: 3, objectFit: 'cover', flexShrink: 0 }}
+              />
               <span style={{ fontSize: 15, fontWeight: 600, color: 'var(--navy)' }}>{lang.label}</span>
               {selected === lang.code && <span style={{ marginLeft: 'auto', color: 'var(--blue)', fontWeight: 700 }}>✓</span>}
             </button>
@@ -85,7 +121,7 @@ export default function OnboardingModal({ onComplete }: Props) {
               fontFamily: 'DM Sans, sans-serif', cursor: 'pointer',
             }}
           >
-            {t('confirm')}
+            {active.confirm}
           </button>
         </div>
       </div>
