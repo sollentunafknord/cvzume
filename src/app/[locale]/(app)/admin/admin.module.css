@@ -154,6 +154,23 @@
   white-space: nowrap;
 }
 
+.errorBox {
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  padding: 48px;
+  text-align: center;
+  color: var(--navy);
+}
+
+.avatarImg {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
 .avatar {
   width: 32px;
   height: 32px;

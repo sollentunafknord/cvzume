@@ -1,21 +1,33 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
 import { useLocale } from 'next-intl';
 import styles from './admin.module.css';
-
-const ADMIN_EMAIL = 'cyesil@gmail.com';
 
 interface AdminUser {
   id: string;
   email: string;
-  firstName: string;
-  lastName: string;
-  createdAt: string;
-  lastSignIn: string | null;
-  emailConfirmed: boolean;
+  first_name: string;
+  last_name: string;
+  avatar_url: string | null;
+  title: string | null;
+  created_at: string;
+  last_sign_in: string | null;
   isPro: boolean;
+  plan_interval: string | null;
+  stripe_sub_id: string | null;
+  confirmed: boolean;
+  provider: string;
+}
+
+interface Stats {
+  totalUsers: number;
+  proUsers: number;
+  freeUsers: number;
+  newThisMonth: number;
+  monthlyPro: number;
+  yearlyPro: number;
+  mrr: number;
 }
 
 function formatDate(d: string | null) {
@@ -24,11 +36,12 @@ function formatDate(d: string | null) {
 }
 
 export default function AdminClient() {
-  const router = useRouter();
   const locale = useLocale();
 
   const [users, setUsers] = useState<AdminUser[]>([]);
+  const [stats, setStats] = useState<Stats | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const [search, setSearch] = useState('');
   const [toast, setToast] = useState('');
   const [toastType, setToastType] = useState<'success' | 'error'>('success');
@@ -36,44 +49,57 @@ export default function AdminClient() {
 
   const showToast = (msg: string, type: 'success' | 'error' = 'success') => {
     setToast(msg); setToastType(type);
-    setTimeout(() => setToast(''), 3000);
+    setTimeout(() => setToast(''), 3500);
   };
 
   const getToken = () => localStorage.getItem('cvita_token') || '';
 
-  const loadUsers = useCallback(async () => {
+  const loadData = useCallback(async () => {
     setLoading(true);
+    setError('');
     try {
-      const res = await fetch('/api/admin/users', {
+      const res = await fetch('/api/admin', {
         headers: { Authorization: 'Bearer ' + getToken() },
       });
-      if (res.status === 403) { router.push(`/${locale}/dashboard`); return; }
       const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || `Error ${res.status}`);
+        return;
+      }
       setUsers(data.users || []);
-    } catch {
-      showToast('Failed to load users', 'error');
-    } finally { setLoading(false); }
-  }, [locale, router]);
+      setStats(data.stats || null);
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : 'Network error');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
-  useEffect(() => {
-    const user = (() => { try { return JSON.parse(localStorage.getItem('cvita_user') || '{}'); } catch { return {}; } })();
-    if (user.email !== ADMIN_EMAIL) { router.push(`/${locale}/dashboard`); return; }
-    loadUsers();
-  }, [loadUsers, locale, router]);
+  useEffect(() => { loadData(); }, [loadData]);
 
   async function togglePlan(user: AdminUser) {
     setActionLoading(user.id + '_plan');
     try {
-      const res = await fetch('/api/admin/plan', {
+      const action = user.isPro ? 'remove_pro' : 'give_pro';
+      const body: Record<string, string> = { action, userId: user.id, email: user.email || '' };
+      if (user.isPro && user.stripe_sub_id) body.subId = user.stripe_sub_id;
+
+      const res = await fetch('/api/admin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getToken() },
-        body: JSON.stringify({ userId: user.id, isPro: !user.isPro }),
+        body: JSON.stringify(body),
       });
-      if (!res.ok) throw new Error('Failed');
-      setUsers(prev => prev.map(u => u.id === user.id ? { ...u, isPro: !u.isPro } : u));
-      showToast(`${user.email} → ${!user.isPro ? 'Pro ✓' : 'Free'}`, 'success');
-    } catch { showToast('Failed to update plan', 'error'); }
-    finally { setActionLoading(null); }
+      if (!res.ok) {
+        const d = await res.json();
+        throw new Error(d.error || 'Failed');
+      }
+      showToast(`${user.email} → ${user.isPro ? 'Free' : 'Pro ⚡'}`, 'success');
+      await loadData();
+    } catch (e: unknown) {
+      showToast('❌ ' + (e instanceof Error ? e.message : 'Failed'), 'error');
+    } finally {
+      setActionLoading(null);
+    }
   }
 
   async function resetPassword(user: AdminUser) {
@@ -86,48 +112,70 @@ export default function AdminClient() {
         body: JSON.stringify({ email: user.email }),
       });
       if (!res.ok) throw new Error('Failed');
-      showToast(`Reset email sent to ${user.email}`, 'success');
-    } catch { showToast('Failed to send reset email', 'error'); }
-    finally { setActionLoading(null); }
+      showToast(`Reset email sent → ${user.email}`, 'success');
+    } catch {
+      showToast('❌ Failed to send reset email', 'error');
+    } finally {
+      setActionLoading(null);
+    }
   }
 
   const filtered = users.filter(u =>
-    u.email?.toLowerCase().includes(search.toLowerCase()) ||
-    u.firstName?.toLowerCase().includes(search.toLowerCase()) ||
-    u.lastName?.toLowerCase().includes(search.toLowerCase())
+    (u.email || '').toLowerCase().includes(search.toLowerCase()) ||
+    (u.first_name || '').toLowerCase().includes(search.toLowerCase()) ||
+    (u.last_name || '').toLowerCase().includes(search.toLowerCase())
   );
 
-  const proCount = users.filter(u => u.isPro).length;
-  const confirmedCount = users.filter(u => u.emailConfirmed).length;
+  if (error) {
+    return (
+      <main className={styles.main}>
+        <div className={styles.topbar}>
+          <div className={styles.topbarTitle}>⚙️ Admin Panel</div>
+        </div>
+        <div className={styles.errorBox}>
+          <div style={{ fontSize: 32, marginBottom: 12 }}>⚠️</div>
+          <div style={{ fontWeight: 700, marginBottom: 6 }}>Access error</div>
+          <div style={{ color: 'var(--slate)', fontSize: 14 }}>{error}</div>
+          <button className={styles.refreshBtn} style={{ marginTop: 16 }} onClick={loadData}>Try again</button>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className={styles.main}>
       <div className={styles.topbar}>
         <div>
           <div className={styles.topbarTitle}>⚙️ Admin Panel</div>
-          <div className={styles.topbarSub}>CVzume user management</div>
+          <div className={styles.topbarSub}>CVzume user management · {locale.toUpperCase()}</div>
         </div>
-        <button className={styles.refreshBtn} onClick={loadUsers}>↺ Refresh</button>
+        <button className={styles.refreshBtn} onClick={loadData}>↺ Refresh</button>
       </div>
 
-      <div className={styles.statsRow}>
-        <div className={styles.statCard}>
-          <div className={styles.statValue}>{users.length}</div>
-          <div className={styles.statLabel}>Total Users</div>
+      {stats && (
+        <div className={styles.statsRow}>
+          <div className={styles.statCard}>
+            <div className={styles.statValue}>{stats.totalUsers}</div>
+            <div className={styles.statLabel}>Total Users</div>
+          </div>
+          <div className={styles.statCard}>
+            <div className={styles.statValue} style={{ color: '#F59E0B' }}>{stats.proUsers}</div>
+            <div className={styles.statLabel}>Pro Users</div>
+          </div>
+          <div className={styles.statCard}>
+            <div className={styles.statValue} style={{ color: '#22C55E' }}>{stats.freeUsers}</div>
+            <div className={styles.statLabel}>Free Users</div>
+          </div>
+          <div className={styles.statCard}>
+            <div className={styles.statValue} style={{ color: '#1A56DB' }}>{stats.newThisMonth}</div>
+            <div className={styles.statLabel}>New This Month</div>
+          </div>
+          <div className={styles.statCard}>
+            <div className={styles.statValue} style={{ color: '#059669' }}>{stats.mrr} kr</div>
+            <div className={styles.statLabel}>Est. MRR</div>
+          </div>
         </div>
-        <div className={styles.statCard}>
-          <div className={styles.statValue} style={{ color: '#F59E0B' }}>{proCount}</div>
-          <div className={styles.statLabel}>Pro Users</div>
-        </div>
-        <div className={styles.statCard}>
-          <div className={styles.statValue} style={{ color: '#22C55E' }}>{users.length - proCount}</div>
-          <div className={styles.statLabel}>Free Users</div>
-        </div>
-        <div className={styles.statCard}>
-          <div className={styles.statValue} style={{ color: '#1A56DB' }}>{confirmedCount}</div>
-          <div className={styles.statLabel}>Email Confirmed</div>
-        </div>
-      </div>
+      )}
 
       <div className={styles.tableCard}>
         <div className={styles.tableHeader}>
@@ -161,25 +209,28 @@ export default function AdminClient() {
                   <tr key={u.id}>
                     <td>
                       <div className={styles.userCell}>
-                        <div className={styles.avatar}>
-                          {((u.firstName?.[0] || '') + (u.lastName?.[0] || '')).toUpperCase() || u.email?.[0]?.toUpperCase() || '?'}
-                        </div>
-                        <span>{u.firstName} {u.lastName}</span>
+                        {u.avatar_url
+                          ? <img src={u.avatar_url} alt="" className={styles.avatarImg} />
+                          : <div className={styles.avatar}>
+                              {((u.first_name?.[0] || '') + (u.last_name?.[0] || '')).toUpperCase() || u.email?.[0]?.toUpperCase() || '?'}
+                            </div>
+                        }
+                        <span>{u.first_name} {u.last_name}</span>
                       </div>
                     </td>
                     <td className={styles.emailCell}>{u.email}</td>
                     <td>
                       <span className={`${styles.planBadge} ${u.isPro ? styles.planPro : styles.planFree}`}>
-                        {u.isPro ? '⚡ Pro' : 'Free'}
+                        {u.isPro ? `⚡ Pro${u.plan_interval ? ' / ' + u.plan_interval : ''}` : 'Free'}
                       </span>
                     </td>
                     <td>
-                      <span className={`${styles.statusBadge} ${u.emailConfirmed ? styles.statusConfirmed : styles.statusPending}`}>
-                        {u.emailConfirmed ? '✓ Confirmed' : '⏳ Pending'}
+                      <span className={`${styles.statusBadge} ${u.confirmed ? styles.statusConfirmed : styles.statusPending}`}>
+                        {u.confirmed ? '✓ Confirmed' : '⏳ Pending'}
                       </span>
                     </td>
-                    <td className={styles.dateCell}>{formatDate(u.createdAt)}</td>
-                    <td className={styles.dateCell}>{formatDate(u.lastSignIn)}</td>
+                    <td className={styles.dateCell}>{formatDate(u.created_at)}</td>
+                    <td className={styles.dateCell}>{formatDate(u.last_sign_in)}</td>
                     <td>
                       <div className={styles.actions}>
                         <button
