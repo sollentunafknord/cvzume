@@ -57,7 +57,7 @@ export default function LetterClient() {
 
     if (token && user.id && !profile.phone) {
       try {
-        const res = await fetch(`${supabaseUrl}/rest/v1/profiles?id=eq.${user.id}&select=*`, {
+        const res = await fetch(`${supabaseUrl}/rest/v1/profiles?id=eq.${user.id}&locale=eq.${locale}&select=*`, {
           headers: { apikey: supabaseKey, Authorization: 'Bearer ' + token },
         });
         const rows = await res.json();
@@ -100,7 +100,7 @@ export default function LetterClient() {
           const res = await fetch(`${supabaseUrl}/rest/v1/profiles`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', apikey: supabaseKey, Authorization: 'Bearer ' + token, Prefer: 'resolution=merge-duplicates' },
-            body: JSON.stringify({ id: user.id, cover_letter: editedText, updated_at: new Date().toISOString() }),
+            body: JSON.stringify({ id: user.id, locale, cover_letter: editedText, updated_at: new Date().toISOString() }),
           });
           showToast(res.ok ? t('saved') : t('save_error'), res.ok ? 'success' : 'error');
         } catch { showToast(t('save_error'), 'error'); }

@@ -82,7 +82,7 @@ export default function SettingsClient() {
         fetch(`${supabaseUrl}/rest/v1/profiles`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', apikey: supabaseKey, Authorization: 'Bearer ' + token, Prefer: 'resolution=merge-duplicates' },
-          body: JSON.stringify({ id: user.id, avatar_url: publicUrl, updated_at: new Date().toISOString() }),
+          body: JSON.stringify({ id: user.id, locale, avatar_url: publicUrl, updated_at: new Date().toISOString() }),
         }).catch(() => {});
       }
       showToastMsg('✅ ' + t('settings.avatar_saved'));
@@ -110,7 +110,7 @@ export default function SettingsClient() {
   }, [activeTab]); // eslint-disable-line
 
   async function savePersonalInfo() {
-    if (!firstName && !lastName) { showToastMsg('Ange minst ett namn', 'error'); return; }
+    if (!firstName && !lastName) { showToastMsg(t('settings.name_required'), 'error'); return; }
     setSavingPersonal(true);
     const token = localStorage.getItem('cvita_token');
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;

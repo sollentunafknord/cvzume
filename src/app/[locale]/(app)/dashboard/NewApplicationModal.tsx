@@ -146,15 +146,15 @@ export default function NewApplicationModal({ open, onClose, isPro, onUsageLimit
   }
 
   async function startAnalysis() {
-    if (!modalRole || !modalAd) { alert('Fyll i roll och annonstext.'); return; }
+    if (!modalRole || !modalAd) { alert(t('modal.fill_required')); return; }
     const allowed = await checkUsage();
     if (!allowed) { onClose(); onUsageLimitHit(); return; }
 
     setAnalyzing(true);
-    setAnalyzeMsg('AI:n analyserar annonsen...');
+    setAnalyzeMsg(t('modal.analyzing_ad'));
     setAnalyzeSteps([1, 0, 0, 0]);
 
-    const profile = JSON.parse(localStorage.getItem('cvita_profile') || '{}');
+    const profile = JSON.parse(localStorage.getItem(`cvita_profile_${locale}`) || localStorage.getItem('cvita_profile') || '{}');
     try {
       setTimeout(() => setAnalyzeSteps([2, 1, 0, 0]), 800);
       const res = await fetch('/api/ai/analyze', {
@@ -170,7 +170,7 @@ export default function NewApplicationModal({ open, onClose, isPro, onUsageLimit
       setAnalyzeSteps([2, 2, 2, 1]);
       await new Promise(r => setTimeout(r, 600));
       setAnalyzeSteps([2, 2, 2, 2]);
-      setAnalyzeMsg('🎉 Klart! CV och brev är redo.');
+      setAnalyzeMsg(t('modal.analysis_complete'));
 
       localStorage.setItem('cvita_last_result', JSON.stringify({ role: modalRole, ...data }));
 

@@ -37,9 +37,9 @@ export default function PasswordTab({ onToast }: {
   const strengthLevel = pwStrength > 0 ? strengthLevels[Math.min(pwStrength - 1, 4)] : null;
 
   async function changePassword() {
-    if (!currentPw) { onToast('Ange nuvarande lösenord', 'error'); return; }
+    if (!currentPw) { onToast(t('settings.error_current_required'), 'error'); return; }
     if (newPw.length < 8) { onToast(t('auth.error_password_short'), 'error'); return; }
-    if (newPw !== confirmPw) { onToast('Lösenorden matchar inte', 'error'); return; }
+    if (newPw !== confirmPw) { onToast(t('settings.error_passwords_mismatch'), 'error'); return; }
     setSaving(true);
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
     const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
@@ -50,18 +50,18 @@ export default function PasswordTab({ onToast }: {
         headers: { 'Content-Type': 'application/json', apikey: supabaseKey },
         body: JSON.stringify({ email: user.email, password: currentPw }),
       });
-      if (!verifyRes.ok) { onToast('Nuvarande lösenord är felaktigt', 'error'); return; }
+      if (!verifyRes.ok) { onToast(t('settings.error_current_wrong'), 'error'); return; }
       const { access_token } = await verifyRes.json();
       const updateRes = await fetch(`${supabaseUrl}/auth/v1/user`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', apikey: supabaseKey, Authorization: 'Bearer ' + access_token },
         body: JSON.stringify({ password: newPw }),
       });
-      if (!updateRes.ok) throw new Error('Uppdatering misslyckades');
+      if (!updateRes.ok) throw new Error(t('settings.error_update_failed'));
       setCurrentPw(''); setNewPw(''); setConfirmPw(''); setPwStrength(0);
-      onToast('✅ Lösenord uppdaterat!');
+      onToast(t('settings.password_updated'));
     } catch (e: unknown) {
-      onToast('❌ ' + (e instanceof Error ? e.message : 'Fel'), 'error');
+      onToast('❌ ' + (e instanceof Error ? e.message : t('settings.error_update_failed')), 'error');
     } finally { setSaving(false); }
   }
 
@@ -70,24 +70,24 @@ export default function PasswordTab({ onToast }: {
       <div className={styles.cardHeader}>
         <div className={styles.cardHeaderIcon}>🔒</div>
         <div>
-          <div className={styles.cardHeaderTitle}>Byt lösenord</div>
-          <div className={styles.cardHeaderDesc}>Välj ett starkt lösenord med minst 8 tecken</div>
+          <div className={styles.cardHeaderTitle}>{t('settings.password_title')}</div>
+          <div className={styles.cardHeaderDesc}>{t('settings.password_desc')}</div>
         </div>
       </div>
       <div className={styles.cardBody}>
         <div className={styles.formGroup} style={{ marginBottom: 16 }}>
-          <label className={styles.formLabel}>Nuvarande lösenord</label>
+          <label className={styles.formLabel}>{t('settings.current_password')}</label>
           <div className={styles.formInputWrap}>
-            <input className={styles.formInput} type={showCurrentPw ? 'text' : 'password'} value={currentPw} onChange={e => setCurrentPw(e.target.value)} placeholder="Ange nuvarande lösenord" />
+            <input className={styles.formInput} type={showCurrentPw ? 'text' : 'password'} value={currentPw} onChange={e => setCurrentPw(e.target.value)} placeholder={t('settings.current_password_placeholder')} />
             <button className={styles.pwToggle} onClick={() => setShowCurrentPw(p => !p)}>{showCurrentPw ? '🙈' : '👁'}</button>
           </div>
         </div>
         <div className={styles.formGroup} style={{ marginBottom: 16 }}>
-          <label className={styles.formLabel}>Nytt lösenord</label>
+          <label className={styles.formLabel}>{t('settings.new_password')}</label>
           <div className={styles.formInputWrap}>
             <input className={styles.formInput} type={showNewPw ? 'text' : 'password'} value={newPw}
               onChange={e => { setNewPw(e.target.value); setPwStrength(calcStrength(e.target.value)); }}
-              placeholder="Minst 8 tecken" />
+              placeholder={t('settings.new_password_placeholder')} />
             <button className={styles.pwToggle} onClick={() => setShowNewPw(p => !p)}>{showNewPw ? '🙈' : '👁'}</button>
           </div>
           {newPw && strengthLevel && (
@@ -100,15 +100,15 @@ export default function PasswordTab({ onToast }: {
           )}
         </div>
         <div className={styles.formGroup} style={{ marginBottom: 16 }}>
-          <label className={styles.formLabel}>Bekräfta nytt lösenord</label>
+          <label className={styles.formLabel}>{t('settings.confirm_password')}</label>
           <div className={styles.formInputWrap}>
-            <input className={styles.formInput} type={showConfirmPw ? 'text' : 'password'} value={confirmPw} onChange={e => setConfirmPw(e.target.value)} placeholder="Upprepa nytt lösenord" />
+            <input className={styles.formInput} type={showConfirmPw ? 'text' : 'password'} value={confirmPw} onChange={e => setConfirmPw(e.target.value)} placeholder={t('settings.confirm_password_placeholder')} />
             <button className={styles.pwToggle} onClick={() => setShowConfirmPw(p => !p)}>{showConfirmPw ? '🙈' : '👁'}</button>
           </div>
         </div>
         <div className={styles.formActions}>
           <button className={styles.btnPrimary} onClick={changePassword} disabled={saving}>
-            {saving ? 'Sparar...' : 'Byt lösenord'}
+            {saving ? t('settings.saving') : t('settings.change_password_btn')}
           </button>
         </div>
       </div>

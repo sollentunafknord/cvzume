@@ -57,19 +57,19 @@ export default function CVClient() {
     const avatar = localStorage.getItem('cvita_avatar');
     if (avatar) setAvatarUrl(avatar);
 
-    let prof: Profile = JSON.parse(localStorage.getItem('cvita_profile') || '{}');
+    let prof: Profile = JSON.parse(localStorage.getItem(`cvita_profile_${locale}`) || localStorage.getItem('cvita_profile') || '{}');
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
     const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
     if (user.id) {
       try {
-        const res = await fetch(`${supabaseUrl}/rest/v1/profiles?id=eq.${user.id}&select=*`, {
+        const res = await fetch(`${supabaseUrl}/rest/v1/profiles?id=eq.${user.id}&locale=eq.${locale}&select=*`, {
           headers: { apikey: supabaseKey, Authorization: 'Bearer ' + token },
         });
         const rows = await res.json();
         if (rows.length > 0) {
           prof = { ...prof, ...rows[0] };
-          localStorage.setItem('cvita_profile', JSON.stringify(prof));
+          localStorage.setItem(`cvita_profile_${locale}`, JSON.stringify(prof));
           if (!avatar && rows[0].avatar_url) {
             setAvatarUrl(rows[0].avatar_url);
             localStorage.setItem('cvita_avatar', rows[0].avatar_url);

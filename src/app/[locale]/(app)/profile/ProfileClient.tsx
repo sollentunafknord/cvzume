@@ -162,7 +162,7 @@ export default function ProfileClient() {
         fetch(`${supabaseUrl}/rest/v1/profiles`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', apikey: supabaseKey, Authorization: 'Bearer ' + token, Prefer: 'resolution=merge-duplicates' },
-          body: JSON.stringify({ id: user.id, avatar_url: publicUrl, updated_at: new Date().toISOString() }),
+          body: JSON.stringify({ id: user.id, locale, avatar_url: publicUrl, updated_at: new Date().toISOString() }),
         }).catch(() => {});
       }
       showToast(t('profile.photo_saved'));

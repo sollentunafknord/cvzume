@@ -1,20 +1,21 @@
 'use client';
 
 import { useState } from 'react';
-import { useLocale } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import styles from './settings.module.css';
 
 export default function AccountTab({ onToast }: {
   onToast: (msg: string, type?: 'success' | 'error') => void;
 }) {
+  const t = useTranslations('settings');
   const locale = useLocale();
   const router = useRouter();
   const [deletePassword, setDeletePassword] = useState('');
   const [deleting, setDeleting] = useState(false);
 
   async function deleteAccount() {
-    if (!deletePassword) { onToast('Ange ditt lösenord', 'error'); return; }
+    if (!deletePassword) { onToast(t('account_password_required'), 'error'); return; }
     if (!confirm('⚠️ Delete your account permanently? This CANNOT be undone.')) return;
     setDeleting(true);
     try {
@@ -24,11 +25,11 @@ export default function AccountTab({ onToast }: {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token, password: deletePassword }),
       });
-      if (!res.ok) throw new Error('Radering misslyckades');
+      if (!res.ok) throw new Error(t('account_delete_failed'));
       localStorage.clear();
       router.push(`/${locale}/auth`);
     } catch (e: unknown) {
-      onToast('❌ ' + (e instanceof Error ? e.message : 'Fel'), 'error');
+      onToast('❌ ' + (e instanceof Error ? e.message : t('account_delete_failed')), 'error');
     } finally { setDeleting(false); }
   }
 
@@ -37,27 +38,27 @@ export default function AccountTab({ onToast }: {
       <div className={`${styles.cardHeader} ${styles.dangerHeader}`}>
         <div className={`${styles.cardHeaderIcon} ${styles.dangerHeaderIcon}`}>🗑</div>
         <div>
-          <div className={`${styles.cardHeaderTitle} ${styles.dangerTitle}`}>Radera konto</div>
-          <div className={styles.cardHeaderDesc}>Permanent borttagning av alla dina uppgifter</div>
+          <div className={`${styles.cardHeaderTitle} ${styles.dangerTitle}`}>{t('account_title')}</div>
+          <div className={styles.cardHeaderDesc}>{t('account_desc')}</div>
         </div>
       </div>
       <div className={styles.cardBody}>
         <div className={styles.dangerWarn}>
-          <div className={styles.dangerWarnTitle}>⚠️ Detta går inte att ångra</div>
+          <div className={styles.dangerWarnTitle}>{t('account_warning_title')}</div>
           <div className={styles.dangerWarnList}>
-            <div>• Ditt CV och all profilinformation raderas permanent</div>
-            <div>• Dina personliga brev och analyser tas bort</div>
-            <div>• Ditt profilfoto raderas</div>
-            <div>• Din e-postadress blockeras från framtida registreringar</div>
+            <div>• {t('account_warning_cv')}</div>
+            <div>• {t('account_warning_letters')}</div>
+            <div>• {t('account_warning_photo')}</div>
+            <div>• {t('account_warning_email')}</div>
           </div>
         </div>
         <div className={styles.formGroup} style={{ marginBottom: 20 }}>
-          <label className={styles.formLabel}>Bekräfta med ditt lösenord</label>
-          <input className={styles.formInput} type="password" placeholder="Ditt lösenord"
+          <label className={styles.formLabel}>{t('account_confirm_label')}</label>
+          <input className={styles.formInput} type="password" placeholder={t('account_confirm_placeholder')}
             value={deletePassword} onChange={e => setDeletePassword(e.target.value)} />
         </div>
         <button className={`${styles.btnPrimary} ${styles.btnDanger}`} onClick={deleteAccount} disabled={deleting}>
-          {deleting ? 'Raderar...' : '🗑 Radera mitt konto permanent'}
+          {deleting ? t('account_deleting') : t('account_delete_btn')}
         </button>
       </div>
     </div>
