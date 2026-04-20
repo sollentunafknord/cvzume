@@ -23,8 +23,8 @@ export default function FavoritesTab({ favorites, onToggleFavorite, t }: {
   const [step, setStep] = useState<'list' | 'nocv' | 'analyze' | 'result' | 'sent'>('list');
 
   function checkCVAndStart(job: Job) {
-    const profile = JSON.parse(localStorage.getItem('cvita_profile') || '{}');
-    const cvExists = !!(profile.firstName || profile.summary || profile.experiences?.length > 0);
+    const profile = JSON.parse(localStorage.getItem(`cvita_profile_${locale}`) || localStorage.getItem('cvita_profile') || '{}');
+    const cvExists = !!(profile.firstName || profile.title || profile.summary || (profile.experiences?.length > 0));
     setSelectedJob(job);
     setAnalysisResult(null);
     setStep(cvExists ? 'analyze' : 'nocv');
@@ -33,7 +33,7 @@ export default function FavoritesTab({ favorites, onToggleFavorite, t }: {
   async function runAnalysis() {
     if (!selectedJob) return;
     setAnalyzing(true);
-    const profile = JSON.parse(localStorage.getItem('cvita_profile') || '{}');
+    const profile = JSON.parse(localStorage.getItem(`cvita_profile_${locale}`) || localStorage.getItem('cvita_profile') || '{}');
     try {
       const res = await fetch('/api/ai/analyze', {
         method: 'POST',

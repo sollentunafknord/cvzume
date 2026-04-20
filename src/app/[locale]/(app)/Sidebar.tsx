@@ -101,8 +101,7 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
   function switchLocale(newLocale: string) {
     if (newLocale === locale) return;
     const def = localStorage.getItem('cvita_default_locale') || locale;
-    const pro = localStorage.getItem('cvita_is_pro') === 'true';
-    if (newLocale !== def && !pro) {
+    if (newLocale !== def && !isPro) {
       setLangGateTarget(newLocale);
       return;
     }
@@ -135,14 +134,14 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
           <button className={`${styles.navItem} ${seg === 'dashboard' ? styles.active : ''}`} onClick={() => nav('dashboard')}>
             <span className={styles.navIcon}>🏠</span> {t('nav.dashboard')}
           </button>
+          <button className={`${styles.navItem} ${seg === 'applications' ? styles.active : ''}`} onClick={() => nav('applications')}>
+            <span className={styles.navIcon}>🔍</span> {t('nav.applications')}
+          </button>
           <button className={`${styles.navItem} ${seg === 'profile' ? styles.active : ''}`} onClick={() => nav('profile')}>
             <span className={styles.navIcon}>🪪</span> {t('nav.cv')}
           </button>
           <button className={`${styles.navItem} ${seg === 'letter' ? styles.active : ''}`} onClick={() => nav('letter')}>
             <span className={styles.navIcon}>✍️</span> {t('nav.letters')}
-          </button>
-          <button className={`${styles.navItem} ${seg === 'applications' ? styles.active : ''}`} onClick={() => nav('applications')}>
-            <span className={styles.navIcon}>🔍</span> {t('nav.applications')}
           </button>
           <button className={`${styles.navItem} ${seg === 'skickade' ? styles.active : ''}`} onClick={() => nav('skickade')}>
             <span className={styles.navIcon}>📤</span> {t('nav.skickade')}
