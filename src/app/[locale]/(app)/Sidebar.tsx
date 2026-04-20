@@ -16,6 +16,7 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
   const router = useRouter();
 
   const [open, setOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const [initials, setInitials] = useState<string>(() => {
     if (typeof window === 'undefined') return '?';
@@ -53,8 +54,12 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
   const [langGateTarget, setLangGateTarget] = useState<string | null>(null);
 
   useEffect(() => {
-    const isPro = localStorage.getItem('cvita_is_pro') === 'true';
-    setPlanLabel(isPro ? t('dashboard.pro_plan') : t('dashboard.free_plan'));
+    const proStatus = localStorage.getItem('cvita_is_pro') === 'true';
+    setPlanLabel(proStatus ? t('dashboard.pro_plan') : t('dashboard.free_plan'));
+    try {
+      const user = JSON.parse(localStorage.getItem('cvita_user') || '{}');
+      setIsAdmin(user.email === 'cyesil@gmail.com');
+    } catch { /* silent */ }
 
     const proHandler = (e: Event) => {
       const pro = (e as CustomEvent).detail.isPro;
@@ -155,6 +160,11 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
           <button className={`${styles.navItem} ${seg === 'upgrade' ? styles.active : ''}`} onClick={() => nav('upgrade')}>
             <span className={styles.navIcon}>⚡</span> {t('nav.upgrade')}
           </button>
+          {isAdmin && (
+            <button className={`${styles.navItem} ${seg === 'admin' ? styles.active : ''}`} onClick={() => nav('admin')}>
+              <span className={styles.navIcon}>🛡️</span> Admin
+            </button>
+          )}
         </nav>
         <div className={styles.sidebarFooter}>
           <div className={styles.userCard}>

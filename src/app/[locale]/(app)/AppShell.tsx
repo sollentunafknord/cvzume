@@ -15,6 +15,7 @@ import CVClient from './cv/CVClient';
 import ApplicationsClient from './applications/ApplicationsClient';
 import SkickadeClient from './skickade/SkickadeClient';
 import IntervjuClient from './intervju/IntervjuClient';
+import AdminClient from './admin/AdminClient';
 
 export default function AppShell() {
   const pathname = usePathname();
@@ -62,6 +63,7 @@ export default function AppShell() {
         {page === 'intervju'  && <IntervjuClient onNavigate={navigate} />}
         {page === 'cv'           && <CVClient />}
         {page === 'applications' && <ApplicationsClient />}
+        {page === 'admin'        && <AdminClient />}
       </div>
     </div>
   );
