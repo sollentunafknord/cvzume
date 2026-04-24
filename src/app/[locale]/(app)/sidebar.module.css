@@ -23,6 +23,7 @@
 .langBtn { background: none; border: 1.5px solid rgba(255,255,255,0.12); border-radius: 6px; padding: 4px 7px; font-size: 15px; cursor: pointer; transition: all 0.15s; line-height: 1; }
 .langBtn:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.3); }
 .langActive { background: rgba(26,86,219,0.4) !important; border-color: #93C5FD !important; }
+.versionTag { font-size: 10px; color: rgba(255,255,255,0.2); padding: 0 12px 5px; letter-spacing: 0.08em; font-weight: 500; cursor: default; }
 .logoutBtn { display: flex; align-items: center; gap: 8px; width: 100%; padding: 9px 12px; margin-top: 2px; border-radius: 9px; border: none; background: none; color: rgba(255,255,255,0.35); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.18s; }
 .logoutBtn:hover { background: rgba(220,38,38,0.15); color: #FCA5A5; }
 .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 49; }

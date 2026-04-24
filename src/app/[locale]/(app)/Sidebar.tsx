@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
+import { APP_VERSION, RELEASE_DATE } from '@/version';
 import styles from './sidebar.module.css';
 
 interface SidebarProps {
@@ -186,6 +187,9 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
                 <img src={l.flagImg} alt={l.label} style={{ width: 20, height: 15, display: 'block' }} />
               </button>
             ))}
+          </div>
+          <div className={styles.versionTag} title={`Released ${RELEASE_DATE}`}>
+            {APP_VERSION}
           </div>
           <button className={styles.logoutBtn} onClick={handleLogout}>
             <span style={{ fontSize: 14 }}>⏻</span> {t('nav.logout')}
