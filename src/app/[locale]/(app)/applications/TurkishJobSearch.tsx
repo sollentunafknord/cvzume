@@ -9,10 +9,13 @@ interface IskurJob {
   id: string;
   title: string;
   employer: string;
-  location: string;
-  sector: string;
+  workType: string;
   openings: string;
+  location: string;
+  ilanNo: string;
   deadline: string;
+  remaining: string;
+  url: string;
 }
 
 export default function TurkishJobSearch() {
@@ -163,14 +166,28 @@ export default function TurkishJobSearch() {
                   {jobs.map(job => (
                     <div key={job.id} style={jobRow}>
                       <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--navy)', marginBottom: 3 }}>{job.title}</div>
-                        <div style={{ fontSize: 12, color: 'var(--slate)', display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-                          {job.employer && <span>🏢 {job.employer}</span>}
-                          {job.location && <span>📍 {job.location}</span>}
-                          {job.sector && <span>📂 {job.sector}</span>}
-                          {job.openings && <span>👥 {job.openings} kişi</span>}
-                          {job.deadline && <span>⏰ {job.deadline}</span>}
+                        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8, marginBottom: 4 }}>
+                          <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--navy)' }}>{job.title}</div>
+                          {job.remaining && (
+                            <span style={{ fontSize: 11, color: job.remaining.includes('Saat') ? '#DC2626' : '#64748B', whiteSpace: 'nowrap', flexShrink: 0 }}>
+                              ⏰ {job.remaining}
+                            </span>
+                          )}
                         </div>
+                        <div style={{ fontSize: 12, color: 'var(--slate)', display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+                          {job.location && <span>📍 {job.location.replace('İlçe Geneli Başvuru', '').replace('Çalışma Yeri:', '').trim()}</span>}
+                          {job.workType && <span>💼 {job.workType}</span>}
+                          {job.openings && <span>👥 {job.openings} pozisyon</span>}
+                          {job.deadline && <span>Son: {job.deadline}</span>}
+                        </div>
+                        {job.ilanNo && (
+                          <div style={{ marginTop: 6 }}>
+                            <a href={job.url} target="_blank" rel="noopener noreferrer"
+                              style={{ fontSize: 12, color: '#E30613', textDecoration: 'none', fontWeight: 600 }}>
+                              İlan #{job.ilanNo} → Detay
+                            </a>
+                          </div>
+                        )}
                       </div>
                     </div>
                   ))}
