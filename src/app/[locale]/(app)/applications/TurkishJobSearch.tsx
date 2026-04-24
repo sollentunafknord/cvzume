@@ -1,14 +1,15 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styles from './applications.module.css';
+
+const ISKUR_URL = 'https://esube.iskur.gov.tr/Istihdam/AcikIsIlanAra.aspx';
 
 interface Province { value: string; label: string; }
 interface District { value: string; label: string; }
 interface IskurJob {
   id: string;
   title: string;
-  employer: string;
   workType: string;
   openings: string;
   location: string;
@@ -24,12 +25,14 @@ export default function TurkishJobSearch() {
   const [selIl, setSelIl] = useState('');
   const [selIlce, setSelIlce] = useState('');
   const [loadingProvinces, setLoadingProvinces] = useState(true);
-  const [loadingDistricts, setLoadingDistricts] = useState(false);
   const [loadingJobs, setLoadingJobs] = useState(false);
   const [jobs, setJobs] = useState<IskurJob[]>([]);
   const [searched, setSearched] = useState(false);
   const [blocked, setBlocked] = useState(false);
-  const [fallbackUrl, setFallbackUrl] = useState('https://esube.iskur.gov.tr/Istihdam/AcikIsIlanAra.aspx');
+
+  // For client-side form submission to İŞKUR (bypasses WAF since request comes from browser)
+  const [formData, setFormData] = useState<{ viewState: string; viewStateGenerator: string; eventValidation: string } | null>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
     fetch('/api/jobs/iskur?action=provinces')
@@ -44,15 +47,12 @@ export default function TurkishJobSearch() {
     setSelIlce('');
     setDistricts([]);
     if (!val) return;
-    setLoadingDistricts(true);
     try {
       const res = await fetch(`/api/jobs/iskur?action=districts&il=${encodeURIComponent(val)}`);
       const data = await res.json();
       setDistricts(data.districts || []);
     } catch {
       setDistricts([]);
-    } finally {
-      setLoadingDistricts(false);
     }
   }
 
@@ -68,13 +68,30 @@ export default function TurkishJobSearch() {
       if (selIlce) params.set('ilce', selIlce);
       const res = await fetch(`/api/jobs/iskur?${params}`);
       const data = await res.json();
-      setJobs(data.jobs || []);
-      setBlocked(data.blocked || false);
-      if (data.fallbackUrl) setFallbackUrl(data.fallbackUrl);
+      if (!data.blocked && data.jobs?.length > 0) {
+        setJobs(data.jobs);
+      } else {
+        setBlocked(true);
+        // Fetch ViewState for browser-side form submission
+        fetch('/api/jobs/iskur?action=formdata')
+          .then(r => r.json())
+          .then(fd => {
+            if (fd.viewState) setFormData(fd);
+          })
+          .catch(() => {});
+      }
     } catch {
       setBlocked(true);
     } finally {
       setLoadingJobs(false);
+    }
+  }
+
+  function openInIskur() {
+    if (formRef.current) {
+      formRef.current.submit();
+    } else {
+      window.open(ISKUR_URL, '_blank', 'noopener');
     }
   }
 
@@ -121,9 +138,9 @@ export default function TurkishJobSearch() {
               style={selectStyle}
               value={selIlce}
               onChange={e => setSelIlce(e.target.value)}
-              disabled={!selIl || loadingDistricts}
+              disabled={!selIl}
             >
-              <option value="">{loadingDistricts ? 'Yükleniyor...' : 'Tüm ilçeler'}</option>
+              <option value="">Tüm ilçeler</option>
               {districts.map(d => (
                 <option key={d.value} value={d.value}>{d.label}</option>
               ))}
@@ -144,14 +161,29 @@ export default function TurkishJobSearch() {
           <div style={{ marginTop: 16 }}>
             {blocked ? (
               <div style={blockedBox}>
-                <div style={{ fontSize: 15, fontWeight: 600, marginBottom: 6 }}>⚠️ İŞKUR'a bağlanılamadı</div>
-                <div style={{ fontSize: 13, lineHeight: 1.6, marginBottom: 14 }}>
-                  Sunucu İŞKUR'a erişemedi. İlanları doğrudan İŞKUR sitesinde görüntüleyebilirsiniz.
-                  {selectedProvLabel && ` "${selectedProvLabel}" için arama sayfası açılacak.`}
+                <div style={{ fontSize: 15, fontWeight: 600, marginBottom: 6 }}>
+                  İlanlar İŞKUR'da açılacak
                 </div>
-                <a href={fallbackUrl} target="_blank" rel="noopener noreferrer" style={btnRedLink}>
-                  İŞKUR'da Görüntüle →
-                </a>
+                <div style={{ fontSize: 13, lineHeight: 1.6, marginBottom: 14 }}>
+                  {selectedProvLabel && <><strong>{selectedProvLabel}</strong> ilindeki ilanlar İŞKUR'un resmi sitesinde görüntülenecek.</>}
+                </div>
+                <button onClick={openInIskur} style={btnRed}>
+                  İŞKUR'da İlanları Gör →
+                </button>
+                {/* Hidden form for browser-side POST to İŞKUR — bypasses WAF */}
+                {formData && (
+                  <form ref={formRef} method="post" action={ISKUR_URL} target="_blank" style={{ display: 'none' }}>
+                    <input type="hidden" name="__EVENTTARGET" value="ctl04$ctlAcikIsPageCommand$CommandItem_Search" />
+                    <input type="hidden" name="__EVENTARGUMENT" value="" />
+                    <input type="hidden" name="__VIEWSTATE" value={formData.viewState} />
+                    <input type="hidden" name="__VIEWSTATEGENERATOR" value={formData.viewStateGenerator} />
+                    <input type="hidden" name="__EVENTVALIDATION" value={formData.eventValidation} />
+                    <input type="hidden" name="__VIEWSTATEENCRYPTED" value="" />
+                    <input type="hidden" name="ctl04$ctlIl" value={selIl} />
+                    <input type="hidden" name="ctl04$ctlIlce" value={selIlce || '0'} />
+                    <input type="hidden" name="ctl04$IsyeriTuruRadios" value="1" />
+                  </form>
+                )}
               </div>
             ) : jobs.length === 0 ? (
               <div style={{ padding: '24px 0', textAlign: 'center', color: 'var(--slate)', fontSize: 14 }}>
@@ -194,7 +226,7 @@ export default function TurkishJobSearch() {
                 </div>
                 <div style={{ marginTop: 14, fontSize: 12, color: 'var(--slate)' }}>
                   Detaylar için{' '}
-                  <a href={fallbackUrl} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--blue)', textDecoration: 'underline' }}>
+                  <a href={ISKUR_URL} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--blue)', textDecoration: 'underline' }}>
                     İŞKUR sitesini ziyaret edin
                   </a>
                 </div>
