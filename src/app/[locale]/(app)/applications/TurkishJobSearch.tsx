@@ -1,23 +1,12 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './applications.module.css';
 
 const ISKUR_URL = 'https://esube.iskur.gov.tr/Istihdam/AcikIsIlanAra.aspx';
 
 interface Province { value: string; label: string; }
 interface District { value: string; label: string; }
-interface IskurJob {
-  id: string;
-  title: string;
-  workType: string;
-  openings: string;
-  location: string;
-  ilanNo: string;
-  deadline: string;
-  remaining: string;
-  url: string;
-}
 
 export default function TurkishJobSearch() {
   const [provinces, setProvinces] = useState<Province[]>([]);
@@ -25,14 +14,6 @@ export default function TurkishJobSearch() {
   const [selIl, setSelIl] = useState('');
   const [selIlce, setSelIlce] = useState('');
   const [loadingProvinces, setLoadingProvinces] = useState(true);
-  const [loadingJobs, setLoadingJobs] = useState(false);
-  const [jobs, setJobs] = useState<IskurJob[]>([]);
-  const [searched, setSearched] = useState(false);
-  const [blocked, setBlocked] = useState(false);
-
-  // For client-side form submission to İŞKUR (bypasses WAF since request comes from browser)
-  const [formData, setFormData] = useState<{ viewState: string; viewStateGenerator: string; eventValidation: string } | null>(null);
-  const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
     fetch('/api/jobs/iskur?action=provinces')
@@ -56,46 +37,12 @@ export default function TurkishJobSearch() {
     }
   }
 
-  async function handleSearch(e: React.FormEvent) {
-    e.preventDefault();
-    if (!selIl) return;
-    setLoadingJobs(true);
-    setSearched(true);
-    setJobs([]);
-    setBlocked(false);
-    try {
-      const params = new URLSearchParams({ action: 'search', il: selIl });
-      if (selIlce) params.set('ilce', selIlce);
-      const res = await fetch(`/api/jobs/iskur?${params}`);
-      const data = await res.json();
-      if (!data.blocked && data.jobs?.length > 0) {
-        setJobs(data.jobs);
-      } else {
-        setBlocked(true);
-        // Fetch ViewState for browser-side form submission
-        fetch('/api/jobs/iskur?action=formdata')
-          .then(r => r.json())
-          .then(fd => {
-            if (fd.viewState) setFormData(fd);
-          })
-          .catch(() => {});
-      }
-    } catch {
-      setBlocked(true);
-    } finally {
-      setLoadingJobs(false);
-    }
-  }
-
   function openInIskur() {
-    if (formRef.current) {
-      formRef.current.submit();
-    } else {
-      window.open(ISKUR_URL, '_blank', 'noopener');
-    }
+    window.open(ISKUR_URL, '_blank', 'noopener');
   }
 
   const selectedProvLabel = provinces.find(p => p.value === selIl)?.label || '';
+  const selectedDistLabel = districts.find(d => d.value === selIlce)?.label || '';
 
   return (
     <div className={styles.page}>
@@ -112,13 +59,13 @@ export default function TurkishJobSearch() {
           </div>
           <div>
             <div style={sectionTitle}>Türkiye İş Kurumu</div>
-            <div style={sectionSub}>Resmi devlet iş ilanları — il ve ilçe seçerek arayın</div>
+            <div style={sectionSub}>Resmi devlet iş ilanları — il ve ilçe seçerek İŞKUR'da arayın</div>
           </div>
         </div>
 
-        <form onSubmit={handleSearch} style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'flex-end' }}>
+        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'flex-end' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4, flex: '1 1 160px' }}>
-            <label style={labelStyle}>İl *</label>
+            <label style={labelStyle}>İl</label>
             <select
               style={selectStyle}
               value={selIl}
@@ -148,90 +95,23 @@ export default function TurkishJobSearch() {
           </div>
 
           <button
-            type="submit"
-            style={{ ...btnRed, opacity: !selIl || loadingJobs ? 0.6 : 1, cursor: !selIl || loadingJobs ? 'default' : 'pointer' }}
-            disabled={!selIl || loadingJobs}
+            onClick={openInIskur}
+            style={{ ...btnRed, opacity: !selIl ? 0.6 : 1, cursor: !selIl ? 'default' : 'pointer' }}
+            disabled={!selIl}
           >
-            {loadingJobs ? '⏳ Aranıyor...' : '🔍 İlanları Göster'}
+            İŞKUR'da Ara →
           </button>
-        </form>
+        </div>
 
-        {/* Results */}
-        {searched && !loadingJobs && (
-          <div style={{ marginTop: 16 }}>
-            {blocked ? (
-              <div style={blockedBox}>
-                <div style={{ fontSize: 15, fontWeight: 600, marginBottom: 6 }}>
-                  İlanlar İŞKUR'da açılacak
-                </div>
-                <div style={{ fontSize: 13, lineHeight: 1.6, marginBottom: 14 }}>
-                  {selectedProvLabel && <><strong>{selectedProvLabel}</strong> ilindeki ilanlar İŞKUR'un resmi sitesinde görüntülenecek.</>}
-                </div>
-                <button onClick={openInIskur} style={btnRed}>
-                  İŞKUR'da İlanları Gör →
-                </button>
-                {/* Hidden form for browser-side POST to İŞKUR — bypasses WAF */}
-                {formData && (
-                  <form ref={formRef} method="post" action={ISKUR_URL} target="_blank" style={{ display: 'none' }}>
-                    <input type="hidden" name="__EVENTTARGET" value="ctl04$ctlAcikIsPageCommand$CommandItem_Search" />
-                    <input type="hidden" name="__EVENTARGUMENT" value="" />
-                    <input type="hidden" name="__VIEWSTATE" value={formData.viewState} />
-                    <input type="hidden" name="__VIEWSTATEGENERATOR" value={formData.viewStateGenerator} />
-                    <input type="hidden" name="__EVENTVALIDATION" value={formData.eventValidation} />
-                    <input type="hidden" name="__VIEWSTATEENCRYPTED" value="" />
-                    <input type="hidden" name="ctl04$ctlIl" value={selIl} />
-                    <input type="hidden" name="ctl04$ctlIlce" value={selIlce || '0'} />
-                    <input type="hidden" name="ctl04$IsyeriTuruRadios" value="1" />
-                  </form>
-                )}
-              </div>
-            ) : jobs.length === 0 ? (
-              <div style={{ padding: '24px 0', textAlign: 'center', color: 'var(--slate)', fontSize: 14 }}>
-                Bu bölgede şu an aktif ilan bulunamadı.
-              </div>
-            ) : (
-              <div>
-                <div style={{ fontSize: 13, color: 'var(--slate)', marginBottom: 12 }}>
-                  <strong>{jobs.length}</strong> ilan bulundu
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                  {jobs.map(job => (
-                    <div key={job.id} style={jobRow}>
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8, marginBottom: 4 }}>
-                          <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--navy)' }}>{job.title}</div>
-                          {job.remaining && (
-                            <span style={{ fontSize: 11, color: job.remaining.includes('Saat') ? '#DC2626' : '#64748B', whiteSpace: 'nowrap', flexShrink: 0 }}>
-                              ⏰ {job.remaining}
-                            </span>
-                          )}
-                        </div>
-                        <div style={{ fontSize: 12, color: 'var(--slate)', display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                          {job.location && <span>📍 {job.location.replace('İlçe Geneli Başvuru', '').replace('Çalışma Yeri:', '').trim()}</span>}
-                          {job.workType && <span>💼 {job.workType}</span>}
-                          {job.openings && <span>👥 {job.openings} pozisyon</span>}
-                          {job.deadline && <span>Son: {job.deadline}</span>}
-                        </div>
-                        {job.ilanNo && (
-                          <div style={{ marginTop: 6 }}>
-                            <a href={job.url} target="_blank" rel="noopener noreferrer"
-                              style={{ fontSize: 12, color: '#E30613', textDecoration: 'none', fontWeight: 600 }}>
-                              İlan #{job.ilanNo} → Detay
-                            </a>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <div style={{ marginTop: 14, fontSize: 12, color: 'var(--slate)' }}>
-                  Detaylar için{' '}
-                  <a href={ISKUR_URL} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--blue)', textDecoration: 'underline' }}>
-                    İŞKUR sitesini ziyaret edin
-                  </a>
-                </div>
-              </div>
-            )}
+        {selIl && (
+          <div style={infoBox}>
+            <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 4 }}>
+              {selectedProvLabel}{selectedDistLabel ? ` › ${selectedDistLabel}` : ''} için ilanlar açılıyor
+            </div>
+            <div style={{ fontSize: 12, color: '#92400E', lineHeight: 1.6 }}>
+              İŞKUR sitesi yeni sekmede açılacak. Site açıldıktan sonra aynı il
+              {selectedDistLabel ? '/ilçe' : ''} seçimini yapıp arama yapabilirsiniz.
+            </div>
           </div>
         )}
       </div>
@@ -352,33 +232,13 @@ const btnRed: React.CSSProperties = {
   whiteSpace: 'nowrap',
 };
 
-const btnRedLink: React.CSSProperties = {
-  display: 'inline-block',
-  padding: '9px 18px',
-  background: '#E30613',
-  color: 'white',
-  textDecoration: 'none',
-  borderRadius: 9,
-  fontSize: 14,
-  fontWeight: 600,
-};
-
-const blockedBox: React.CSSProperties = {
+const infoBox: React.CSSProperties = {
+  marginTop: 14,
   background: '#FFF7ED',
   border: '1px solid #FED7AA',
   borderRadius: 10,
-  padding: '16px 18px',
+  padding: '12px 16px',
   color: '#92400E',
-};
-
-const jobRow: React.CSSProperties = {
-  padding: '12px 14px',
-  background: '#F8FAFC',
-  border: '1px solid var(--border)',
-  borderRadius: 10,
-  display: 'flex',
-  alignItems: 'center',
-  gap: 12,
 };
 
 const linkCard: React.CSSProperties = {
