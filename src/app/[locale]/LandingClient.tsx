@@ -55,12 +55,12 @@ export default function LandingClient() {
         <div className={styles.heroInner}>
           <div className={styles.heroBadge}>
             <span className={styles.heroBadgeDot} />
-            AI-drivet för svenska jobbsökare
+            AI-drivet för jobbsökare i Sverige
           </div>
-          <h1 className={styles.heroH1}>Ditt nästa jobb börjar med rätt <em>CV</em></h1>
+          <h1 className={styles.heroH1}>Ny i Sverige? Få ett <em>CV</em> och personligt brev på korrekt svenska</h1>
           <p className={styles.heroSub}>
-            Analysera platsannonser, skapa anpassade CV:n och personliga brev på sekunder —
-            med AI som förstår den svenska arbetsmarknaden.
+            Klistra in jobbannonsen, så skapar AI:n en komplett ansökan anpassad efter just den
+            tjänsten — på minuter, även om svenska inte är ditt modersmål.
           </p>
           <div className={styles.heroActions}>
             <a href={registerUrl} className={styles.btnHero}>Skapa ditt CV gratis →</a>

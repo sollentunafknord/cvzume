@@ -2,8 +2,8 @@
 // Günlük Vercel cron'u bu endpoint'i çağırır ve veritabanına hafif bir sorgu atar.
 // Amaç: Supabase free tier'ın 7 günlük hareketsizlik sonrası projeyi
 // otomatik duraklatmasını (pause) engellemek. Bkz. vercel.json -> crons.
+import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
 
 export const dynamic = 'force-dynamic'
 
@@ -16,6 +16,15 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
   }
+
+  // Client'ı handler içinde oluştur — modül seviyesinde oluşturmak
+  // env yokken build'i kırar.
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  if (!supabaseUrl || !supabaseKey) {
+    return NextResponse.json({ ok: false, error: 'Server configuration error' }, { status: 500 })
+  }
+  const supabase = createClient(supabaseUrl, supabaseKey)
 
   // Hafif bir sorgu: tek satır bile dönmese DB'ye gider ve "aktivite" sayılır.
   const { count, error } = await supabase
