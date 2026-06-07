@@ -23,14 +23,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  const guidePages = [
-    {
-      url: `${BASE_URL}/sv/guide/personligt-brev-exempel`,
-      lastModified: now,
-      changeFrequency: 'monthly' as const,
-      priority: 0.8,
-    },
+  const GUIDE_SLUGS = [
+    'personligt-brev-exempel',
+    'cv-mall',
+    'cv-for-nyanlanda',
+    'vanliga-intervjufragor',
   ];
+  const guidePages = GUIDE_SLUGS.map(slug => ({
+    url: `${BASE_URL}/sv/guide/${slug}`,
+    lastModified: now,
+    changeFrequency: 'monthly' as const,
+    priority: 0.8,
+  }));
 
   return [...landingPages, ...authPages, ...guidePages];
 }
