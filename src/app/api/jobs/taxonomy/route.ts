@@ -29,8 +29,13 @@ export async function GET(req: NextRequest) {
       broader_id: x.broader?.[0]?.id || '',
     }));
   } else if (type === 'region') {
-    const items = await gql(`{ concepts(type: "region", limit: 30) { id preferred_label } }`);
-    data = items.map((x: { id: string; preferred_label: string }) => ({ id: x.id, preferred_label: x.preferred_label }));
+    // OBS: taxonomins "region"-typ innehåller numera även ~1500 utländska
+    // regioner. De 21 svenska länen ligger utspridda i listan, så vi måste
+    // hämta med hög limit och filtrera på "län" – annars blir orts-listan tom.
+    const items = await gql(`{ concepts(type: "region", limit: 2000) { id preferred_label } }`);
+    data = items
+      .filter((x: { preferred_label: string }) => x.preferred_label.toLowerCase().endsWith('län'))
+      .map((x: { id: string; preferred_label: string }) => ({ id: x.id, preferred_label: x.preferred_label }));
   } else if (type === 'occupation-field') {
     const items = await gql(`{ concepts(type: "occupation-field", limit: 50) { id preferred_label } }`);
     data = items.map((x: { id: string; preferred_label: string }) => ({ id: x.id, preferred_label: x.preferred_label }));
