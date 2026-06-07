@@ -267,6 +267,10 @@ export default function LandingClient() {
             <li><a href="#hur">Hur det fungerar</a></li>
             <li><a href="#funktioner">Funktioner</a></li>
             <li><a href="#priser">Priser</a></li>
+            <li><a href="/sv/guide/cv-mall">CV-mall</a></li>
+            <li><a href="/sv/guide/personligt-brev-exempel">Personligt brev</a></li>
+            <li><a href="/sv/guide/cv-for-nyanlanda">CV för nyanlända</a></li>
+            <li><a href="/sv/guide/vanliga-intervjufragor">Intervjufrågor</a></li>
             <li><a href={authUrl}>Om oss</a></li>
             <li><a href={authUrl}>Kontakt</a></li>
             <li><a href="#">Integritetspolicy</a></li>

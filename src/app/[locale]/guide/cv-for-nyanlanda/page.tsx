@@ -1,4 +1,4 @@
-import { Cta, FaqSection, GuideJsonLd, GuideShell, H2, guideMetadata, type Faq } from '../_shared';
+import { Cta, FaqSection, GuideJsonLd, GuideShell, H2, RelatedGuides, guideMetadata, type Faq } from '../_shared';
 
 const SLUG = 'cv-for-nyanlanda';
 const DESCRIPTION =
@@ -105,6 +105,7 @@ export default function Page() {
       </Cta>
 
       <FaqSection items={FAQ} />
+      <RelatedGuides current={SLUG} />
     </GuideShell>
   );
 }

@@ -1,4 +1,4 @@
-import { Cta, FaqSection, GuideJsonLd, GuideShell, H2, Quote, guideMetadata, type Faq } from '../_shared';
+import { Cta, FaqSection, GuideJsonLd, GuideShell, H2, Quote, RelatedGuides, guideMetadata, type Faq } from '../_shared';
 
 const SLUG = 'personligt-brev-exempel';
 const DESCRIPTION =
@@ -128,6 +128,7 @@ export default function Page() {
       </Cta>
 
       <FaqSection items={FAQ} />
+      <RelatedGuides current={SLUG} />
     </GuideShell>
   );
 }

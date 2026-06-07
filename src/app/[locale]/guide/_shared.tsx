@@ -111,6 +111,31 @@ export function Cta({ heading, children }: { heading: string; children: ReactNod
   );
 }
 
+export const GUIDES: { slug: string; label: string }[] = [
+  { slug: 'cv-mall', label: 'CV-mall och exempel' },
+  { slug: 'personligt-brev-exempel', label: 'Personligt brev – exempel' },
+  { slug: 'cv-for-nyanlanda', label: 'CV för dig som är ny i Sverige' },
+  { slug: 'vanliga-intervjufragor', label: 'Vanliga intervjufrågor' },
+];
+
+export function RelatedGuides({ current }: { current: string }) {
+  const others = GUIDES.filter((g) => g.slug !== current);
+  return (
+    <>
+      <H2>Fler guider</H2>
+      <ul>
+        {others.map((g) => (
+          <li key={g.slug}>
+            <a href={`/sv/guide/${g.slug}`} style={s.back}>
+              {g.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </>
+  );
+}
+
 export function FaqSection({ items }: { items: Faq[] }) {
   return (
     <>
