@@ -20,8 +20,8 @@ export async function POST(request: Request) {
       mode: 'subscription',
       customer_email: email,
       line_items: [{ price: priceId, quantity: 1 }],
-      success_url: `${SITE_URL}/dashboard.html?upgraded=true`,
-      cancel_url: `${SITE_URL}/uppgradera.html`,
+      success_url: `${SITE_URL}/sv/dashboard?upgraded=true`,
+      cancel_url: `${SITE_URL}/sv/upgrade`,
       metadata: { email },
     })
     return NextResponse.json({ url: session.url })
