@@ -1,0 +1,58 @@
+name: Supabase keepalive
+
+# Supabase free tier, "yeterli kullanıcı aktivitesi" görmeyen projeleri 7 gün
+# sonra duraklatıyor. Resmî dokümanın ölçütü: her gün veritabanına BİRKAÇ istek.
+# vercel.json'daki günlük cron tek istek attığı için eşiğin altında kalıyordu.
+# Bu workflow 6 saatte bir, 3 ayrı tabloya istek atarak günde 12 istek üretir.
+#
+# Vercel cron'undan bağımsız çalışır: Vercel deploy'u bozulsa bile bu ayakta kalır.
+# İstek başarısız olursa job kırmızıya döner ve GitHub sana e-posta atar,
+# yani aynı zamanda "sessiz arıza" alarmıdır.
+
+on:
+  schedule:
+    # UTC 00:17, 06:17, 12:17, 18:17 — tam saat başları kalabalık olduğu için
+    # gecikme riskini azaltmak adına :17 seçildi.
+    - cron: '17 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: supabase-keepalive
+  cancel-in-progress: false
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Ping Supabase REST
+        env:
+          # Bu anahtar zaten publishable/anon — tarayıcıya giden JS bundle'ında
+          # da bulunuyor. Gizli değil, RLS koruyor. Secret'a taşımaya gerek yok;
+          # burada açık durması kurulumu sıfır adıma indiriyor.
+          SUPABASE_URL: https://soktmgtrejrlfcmbbzae.supabase.co
+          SUPABASE_KEY: sb_publishable_8Pnblgu8y21ym9Pxsf9flA_A-OErMZX
+        run: |
+          set -uo pipefail
+          failed=0
+          # Farklı tablolar: hem cvzume hem fon-takip tarafına dokunuyoruz.
+          for table in profiles job_favorites fon_posts; do
+            code=$(curl -sS --max-time 30 --retry 2 --retry-delay 5 \
+              -o /dev/null -w '%{http_code}' \
+              -H "apikey: ${SUPABASE_KEY}" \
+              "${SUPABASE_URL}/rest/v1/${table}?select=*&limit=1") || code=000
+            echo "${table} -> HTTP ${code}"
+            if [ "${code}" != "200" ]; then
+              echo "::error::${table} sorgusu basarisiz (HTTP ${code})"
+              failed=1
+            fi
+            sleep 5
+          done
+          if [ "${failed}" -ne 0 ]; then
+            echo "::error::Supabase keepalive basarisiz - proje duraklatilmis olabilir."
+            exit 1
+          fi
+          echo "Tum sorgular basarili."

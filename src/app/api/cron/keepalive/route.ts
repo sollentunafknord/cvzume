@@ -26,18 +26,29 @@ export async function GET(request: Request) {
   }
   const supabase = createClient(supabaseUrl, supabaseKey)
 
-  // Hafif bir sorgu: tek satır bile dönmese DB'ye gider ve "aktivite" sayılır.
-  const { count, error } = await supabase
-    .from('profiles')
-    .select('id', { count: 'exact', head: true })
+  // Supabase'in ölçütü "her gün DB'ye birkaç istek" — tek sorgu eşiğin altında
+  // kalıyordu. Bu yüzden her çalışmada birden fazla tabloya dokunuyoruz.
+  // Asıl yük .github/workflows/supabase-keepalive.yml üzerinde; burası ikinci bacak.
+  const tables = ['profiles', 'job_favorites', 'fon_posts'] as const
+  const results: Record<string, number | null> = {}
 
-  if (error) {
-    return NextResponse.json({ ok: false, error: error.message }, { status: 500 })
+  for (const table of tables) {
+    const { count, error } = await supabase
+      .from(table)
+      .select('*', { count: 'exact', head: true })
+
+    if (error) {
+      return NextResponse.json(
+        { ok: false, table, error: error.message },
+        { status: 500 },
+      )
+    }
+    results[table] = count
   }
 
   return NextResponse.json({
     ok: true,
-    profiles: count,
+    tables: results,
     ranAt: new Date().toISOString(),
   })
 }
