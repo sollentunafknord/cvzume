@@ -115,3 +115,7 @@ export function parseJson<T>(text: string): T {
 // İlanın ülkesini modelin kendisi çıkarsın (İsveç'teki bir Türk İsveççe ilana, Türkiye'deki
 // biri Türkçe ilana başvurur — arayüz dili ülkeyi söylemez). Belirsizse İsveç.
 export const COUNTRY_RULE = `JOB MARKET: Infer which country the job is in from the ad (language, place names, currency, employer). If unclear, assume Sweden. Apply that country's application conventions (CV format, tone, whether a photo is customary, Europass in Spain, formal tone in Turkey) and never assume Swedish conventions for a job in another country. Never advise putting national ID numbers (personnummer, T.C. kimlik no, DNI/NIE), full date of birth, marital status or other sensitive personal data in a CV or letter.`
+
+// Hitap standardı (arayüz metinleriyle aynı): kullanıcıya Türkçe "siz", İspanyolca "tú",
+// İsveççe "du", İngilizce "you". İşverene giden metin (ön yazı) o dilin resmi üslubunda.
+export const ADDRESS_RULE = `FORM OF ADDRESS: When addressing the user (tips, feedback, interview advice), use exactly this register and never mix: Turkish = formal "siz" (e.g. "ekleyin", "deneyiminiz"), Spanish = informal "tú" (e.g. "añade", "tu experiencia"), Swedish = "du", English = "you". Texts written for the employer (cover letter, CV summary) are in first person and use the formal register customary in that language (Turkish: "Sayın Yetkili", siz; Spanish: usted towards the employer). Never mix in English terms (e.g. write "ön yazı", not "cover letter") unless the output language is English.`

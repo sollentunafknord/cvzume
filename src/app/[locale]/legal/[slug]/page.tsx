@@ -19,7 +19,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${doc.title} — CVzume`,
     description: doc.lead,
-    alternates: { canonical: `${BASE_URL}/${locale === 'sv' ? 'sv' : 'en'}/legal/${slug}` },
+    alternates: {
+      canonical: `${BASE_URL}/${locale}/legal/${slug}`,
+      languages: Object.fromEntries(LOCALES.map(l => [l, `${BASE_URL}/${l}/legal/${slug}`])),
+    },
   };
 }
 

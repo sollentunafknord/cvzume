@@ -199,7 +199,11 @@
     "account_delete_btn": "🗑 Delete my account permanently",
     "account_deleting": "Deleting...",
     "account_password_required": "Please enter your password",
-    "account_delete_failed": "Deletion failed"
+    "account_delete_failed": "Deletion failed",
+    "manage_subscription": "Manage subscription",
+    "manage_subscription_loading": "Opening…",
+    "manage_subscription_hint": "Cancel, change card or see receipts via Stripe.",
+    "manage_subscription_error": "Couldn't open the subscription page. Email info@cvzume.com and we'll help you."
   },
   "upgrade": {
     "title": "Get the job you deserve",

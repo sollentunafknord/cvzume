@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { callAI, COUNTRY_RULE, LANG_NAMES, parseJson } from '@/lib/ai'
+import { callAI, ADDRESS_RULE, COUNTRY_RULE, LANG_NAMES, parseJson } from '@/lib/ai'
 
 export async function POST(request: Request) {
   const { jobAd, userProfile, locale } = await request.json()
@@ -44,6 +44,8 @@ export async function POST(request: Request) {
 CRITICAL LANGUAGE RULE: You MUST write ALL output (cvSummary, coverLetter, keyRequirements, tips) in ${outputLang}. This is non-negotiable — the user's interface language is ${outputLang}. Never mix languages.
 
 ${COUNTRY_RULE}
+
+${ADDRESS_RULE}
 
 JOB AD:
 ${jobAd}

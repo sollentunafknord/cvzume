@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { callAI, COUNTRY_RULE, LANG_NAMES } from '@/lib/ai';
+import { callAI, ADDRESS_RULE, COUNTRY_RULE, LANG_NAMES } from '@/lib/ai';
 
 const CATEGORIES: Record<string, { technical: string; behavioral: string; situational: string; personal: string; company: string }> = {
   sv: { technical: 'Teknisk', behavioral: 'Beteende', situational: 'Situation', personal: 'Personlig', company: 'Företag' },
@@ -24,6 +24,8 @@ ${jobAd ? `Job ad:\n${jobAd.slice(0, 2000)}\n` : ''}
 CRITICAL LANGUAGE RULE: Write ALL output in ${lang}. Every question and tip must be in ${lang}.
 
 ${COUNTRY_RULE}
+
+${ADDRESS_RULE}
 
 Generate 10 likely interview questions for this role.
 Include a mix of:

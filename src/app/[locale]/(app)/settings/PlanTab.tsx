@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import styles from './settings.module.css';
 
@@ -17,6 +17,7 @@ export default function PlanTab({ planInfo, planLoading }: {
 }) {
   const locale = useLocale();
   const router = useRouter();
+  const t = useTranslations('settings');
   const [portalLoading, setPortalLoading] = useState(false);
   const [portalError, setPortalError] = useState('');
 
@@ -33,7 +34,7 @@ export default function PlanTab({ planInfo, planLoading }: {
       if (!res.ok || !data.url) throw new Error(data.error);
       window.location.assign(data.url);
     } catch {
-      setPortalError('Kunde inte öppna prenumerationssidan. Mejla info@cvzume.com så hjälper vi dig.');
+      setPortalError(t('manage_subscription_error'));
       setPortalLoading(false);
     }
   }
@@ -69,9 +70,9 @@ export default function PlanTab({ planInfo, planLoading }: {
             {!planInfo.override && (
               <div style={{ marginBottom: 20 }}>
                 <button className={styles.btnPrimary} onClick={openPortal} disabled={portalLoading} style={{ fontSize: 13, padding: '8px 16px' }}>
-                  {portalLoading ? 'Öppnar…' : 'Hantera prenumeration'}
+                  {portalLoading ? t('manage_subscription_loading') : t('manage_subscription')}
                 </button>
-                <div style={{ fontSize: 12, color: 'var(--muted)', marginTop: 6 }}>Avsluta, byt kort eller se kvitton via Stripe.</div>
+                <div style={{ fontSize: 12, color: 'var(--muted)', marginTop: 6 }}>{t('manage_subscription_hint')}</div>
                 {portalError && <div style={{ fontSize: 13, color: '#DC2626', marginTop: 6 }}>{portalError}</div>}
               </div>
             )}

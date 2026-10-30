@@ -36,7 +36,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  const legalPages = ['sv', 'en'].flatMap(locale =>
+  const legalPages = LOCALES.flatMap(locale =>
     ['privacy', 'cookies', 'terms'].map(slug => ({
       url: `${BASE_URL}/${locale}/legal/${slug}`,
       lastModified: now,

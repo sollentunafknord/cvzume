@@ -199,7 +199,11 @@
     "account_delete_btn": "🗑 Eliminar mi cuenta permanentemente",
     "account_deleting": "Eliminando...",
     "account_password_required": "Introduce tu contraseña",
-    "account_delete_failed": "Eliminación fallida"
+    "account_delete_failed": "Eliminación fallida",
+    "manage_subscription": "Gestionar suscripción",
+    "manage_subscription_loading": "Abriendo…",
+    "manage_subscription_hint": "Cancela, cambia de tarjeta o consulta tus recibos a través de Stripe.",
+    "manage_subscription_error": "No se pudo abrir la página de suscripción. Escribe a info@cvzume.com y te ayudaremos."
   },
   "upgrade": {
     "title": "Consigue el trabajo que mereces",

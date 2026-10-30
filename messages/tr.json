@@ -199,7 +199,11 @@
     "account_delete_btn": "🗑 Hesabımı kalıcı olarak sil",
     "account_deleting": "Siliniyor...",
     "account_password_required": "Lütfen şifrenizi girin",
-    "account_delete_failed": "Silme işlemi başarısız"
+    "account_delete_failed": "Silme işlemi başarısız",
+    "manage_subscription": "Aboneliği yönet",
+    "manage_subscription_loading": "Açılıyor…",
+    "manage_subscription_hint": "Stripe üzerinden iptal edin, kartınızı değiştirin veya makbuzlarınızı görün.",
+    "manage_subscription_error": "Abonelik sayfası açılamadı. info@cvzume.com adresine yazın, yardımcı olalım."
   },
   "upgrade": {
     "title": "Hak ettiğin işe kavuş",
@@ -395,13 +399,13 @@
   },
   "landing": {
     "nav": {
-      "demo": "Dene",
+      "demo": "Deneyin",
       "how": "Nasıl çalışır",
       "features": "Özellikler",
       "pricing": "Fiyatlar",
       "faq": "SSS",
       "login": "Giriş yap",
-      "start": "Ücretsiz başla",
+      "start": "Ücretsiz başlayın",
       "menu": "Menü",
       "language": "Dil"
     },
@@ -409,68 +413,68 @@
       "markets": {
         "se": {
           "badge": "İsveç'te iş arayanlar için yapay zeka",
-          "h1a": "İsveç'te yeni misin? Kusursuz İsveççe",
+          "h1a": "İsveç'te yeni misiniz? Kusursuz İsveççe",
           "h1em": "CV",
-          "h1b": "ve ön yazı hazırla",
-          "sub": "İş ilanını yapıştır, yapay zeka o pozisyona özel eksiksiz bir başvuru hazırlasın — dakikalar içinde, İsveççe ana dilin olmasa bile."
+          "h1b": "ve ön yazı hazırlayın",
+          "sub": "İş ilanını yapıştırın, yapay zeka o pozisyona özel eksiksiz bir başvuru hazırlasın — dakikalar içinde, İsveççe ana diliniz olmasa bile."
         },
         "local": {
           "badge": "Yapay zeka ile iş başvurusu",
           "h1a": "Her ilana özel",
           "h1em": "CV",
           "h1b": "ve ön yazı — dakikalar içinde hazır",
-          "sub": "İlanı ya da linkini yapıştır. Yapay zeka ilanı profilinle karşılaştırır ve işverenin tam olarak aradığını öne çıkaran bir başvuru yazar."
+          "sub": "İlanı ya da linkini yapıştırın. Yapay zeka ilanı profilinizle karşılaştırır ve işverenin tam olarak aradığını öne çıkaran bir başvuru yazar."
         },
         "intl": {
           "badge": "Yapay zeka ile iş başvurusu",
           "h1a": "Her işe özel",
           "h1em": "CV",
-          "h1b": "ve ön yazı — ana dilin olmayan bir dilde bile",
-          "sub": "İlanı yapıştır, yapay zeka o pozisyona özel bir başvuru yazsın — Türkçe, İngilizce, İsveççe ya da İspanyolca."
+          "h1b": "ve ön yazı — ana diliniz olmayan bir dilde bile",
+          "sub": "İlanı yapıştırın, yapay zeka o pozisyona özel bir başvuru yazsın — Türkçe, İngilizce, İsveççe ya da İspanyolca."
         }
       },
-      "cta": "CV'ni ücretsiz oluştur →",
-      "ctaDemo": "Hesapsız dene",
+      "cta": "CV'nizi ücretsiz oluşturun →",
+      "ctaDemo": "Hesapsız deneyin",
       "trust": [
-        "Ücretsiz başla",
+        "Ücretsiz başlayın",
         "Kart gerekmez",
         "Veriler AB'de saklanır"
       ]
     },
     "demo": {
-      "label": "Hemen dene",
-      "title": "Bir ilana ne kadar uyduğunu gör",
-      "sub": "Bir iş ilanını ya da linkini yapıştır — örneğin Platsbanken'den. Kendinle ilgili birkaç satır eklersen uyum puanı ve ilana özel bir CV özeti de alırsın. Hesap gerekmez.",
-      "subGeneric": "Bir iş ilanını ya da linkini yapıştır. Kendinle ilgili birkaç satır eklersen uyum puanı ve ilana özel bir CV özeti de alırsın. Hesap gerekmez.",
+      "label": "Hemen deneyin",
+      "title": "Bir ilana ne kadar uyduğunuzu görün",
+      "sub": "Bir iş ilanını ya da linkini yapıştırın — örneğin Platsbanken'den. Kendinizle ilgili birkaç satır eklerseniz uyum puanı ve ilana özel bir CV özeti de alırsınız. Hesap gerekmez.",
+      "subGeneric": "Bir iş ilanını ya da linkini yapıştırın. Kendinizle ilgili birkaç satır eklerseniz uyum puanı ve ilana özel bir CV özeti de alırsınız. Hesap gerekmez.",
       "adLabel": "İş ilanı",
-      "adPlaceholder": "İlanın tam metnini buraya yapıştır…",
-      "profileLabel": "Hakkında (isteğe bağlı)",
+      "adPlaceholder": "İlanın tam metnini buraya yapıştırın…",
+      "profileLabel": "Hakkınızda (isteğe bağlı)",
       "profilePlaceholder": "Ör. Türkiye'de 4 yıl deneyimli hemşire yardımcısı, B sınıfı ehliyet, Türkçe ve İsveççe (SFI D) konuşuyorum…",
-      "sample": "Örnekle doldur",
+      "sample": "Örnekle doldurun",
       "sampleProfile": "Türkiye'de yaşlı bakımında 4 yıl deneyimli hemşire yardımcısı. Komvux'ta bakım eğitimi aldım. B sınıfı ehliyet. Türkçe ve İsveççe konuşuyorum (SFI D, İkinci dil olarak İsveççe devam ediyor).",
       "submit": "İlanı analiz et",
       "analyzing": "Analiz ediliyor…",
       "score": "Uyum",
       "role": "Pozisyon",
       "requirements": "İşverenin aradıkları",
-      "matched": "Zaten gösterdiklerin",
-      "missing": "Öne çıkar ya da tamamla",
+      "matched": "Zaten gösterdikleriniz",
+      "missing": "Öne çıkarın ya da tamamlayın",
       "summary": "İlana özel CV özeti",
       "summaryExample": "Örnek CV özeti",
       "tips": "Bu başvuru için ipuçları",
       "copy": "Kopyala",
       "copied": "Kopyalandı!",
-      "noProfileHint": "Kişisel uyum puanı için kendinle ilgili birkaç satır ekle.",
+      "noProfileHint": "Kişisel uyum puanı için kendinizle ilgili birkaç satır ekleyin.",
       "lockedTitle": "Sonraki adım: başvurunun tamamı",
-      "lockedText": "Ücretsiz bir hesapla CVzume bu ilan için eksiksiz bir CV ve ön yazı hazırlar ve başvuruyu senin için kaydeder. Kayıt olduğunda ilan seninle gelir.",
-      "lockedCta": "Başvurunun tamamını ücretsiz oluştur →",
-      "again": "Başka bir ilan dene",
+      "lockedText": "Ücretsiz bir hesapla CVzume bu ilan için eksiksiz bir CV ve ön yazı hazırlar ve başvuruyu sizin için kaydeder. Kayıt olduğunuzda ilan sizinle gelir.",
+      "lockedCta": "Başvurunun tamamını ücretsiz oluşturun →",
+      "again": "Başka bir ilan deneyin",
       "errors": {
-        "too_short": "İlan çok kısa — metnin tamamını yapıştır.",
-        "too_long": "Metin çok uzun. İlanı (en fazla 6.000 karakter) ya da açıklamayı (en fazla 1.500) kısalt.",
-        "rate_limited": "Bugünkü ücretsiz denemelerini kullandın. Devam etmek için hesap oluştur.",
-        "ai_failed": "Yapay zeka servisi şu an yanıt vermiyor. Biraz sonra tekrar dene.",
-        "generic": "Bir şeyler ters gitti. Tekrar dene."
+        "too_short": "İlan çok kısa — metnin tamamını yapıştırın.",
+        "too_long": "Metin çok uzun. İlanı (en fazla 6.000 karakter) ya da açıklamayı (en fazla 1.500) kısaltın.",
+        "rate_limited": "Bugünkü ücretsiz denemelerinizi kullandınız. Devam etmek için hesap oluşturun.",
+        "ai_failed": "Yapay zeka servisi şu an yanıt vermiyor. Biraz sonra tekrar deneyin.",
+        "generic": "Bir şeyler ters gitti. Tekrar deneyin."
       },
       "privacy": "Metin analiz için yapay zeka sağlayıcımıza gönderilir, bizde saklanmaz."
     },
@@ -480,61 +484,61 @@
       "sub": "İş ilanından eksiksiz başvuru paketine — dakikalar içinde.",
       "steps": [
         {
-          "title": "CV'ni yükle ya da oluştur",
-          "desc": "Mevcut CV'ni PDF olarak içe aktar ya da profilini adım adım doldur."
+          "title": "CV'nizi yükleyin ya da oluşturun",
+          "desc": "Mevcut CV'nizi PDF olarak içe aktarın ya da profilinizi adım adım doldurun."
         },
         {
-          "title": "İlan bul ya da yapıştır",
-          "desc": "Açık pozisyonları uygulamanın içinde ara ya da kendi bulduğun bir ilanı yapıştır."
+          "title": "İlan bulun ya da yapıştırın",
+          "desc": "Açık pozisyonları uygulamanın içinde arayın ya da kendi bulduğunuz bir ilanı yapıştırın."
         },
         {
-          "title": "İlana özel başvuru al",
-          "desc": "Yapay zeka ilanı profilinle karşılaştırır, o iş için CV özeti ve ön yazı yazar."
+          "title": "İlana özel başvuru alın",
+          "desc": "Yapay zeka ilanı profilinizle karşılaştırır, o iş için CV özeti ve ön yazı yazar."
         },
         {
-          "title": "İndir, gönder, takip et",
-          "desc": "PDF olarak kaydet, başvuruyu gönderildi olarak işaretle ve mülakata hazırlan."
+          "title": "İndirin, gönderin, takip edin",
+          "desc": "PDF olarak kaydedin, başvuruyu gönderildi olarak işaretleyin ve mülakata hazırlanın."
         }
       ]
     },
     "features": {
       "label": "Özellikler",
-      "title": "İş aramada ihtiyacın olan her şey",
+      "title": "İş aramada ihtiyacınız olan her şey",
       "items": [
         {
           "title": "Uyum analizi",
-          "desc": "İlana ne kadar uyduğunu, hangi şartları zaten karşıladığını ve neyi öne çıkarman gerektiğini gör."
+          "desc": "İlana ne kadar uyduğunuzu, hangi şartları zaten karşıladığınızı ve neyi öne çıkarmanız gerektiğini görün."
         },
         {
           "title": "Ön yazı",
-          "desc": "Şirkete ve pozisyona özel, özenli bir ön yazı — doğru İsveççe ya da seçtiğin dilde."
+          "desc": "Şirkete ve pozisyona özel, özenli bir ön yazı — doğru İsveççe ya da seçtiğiniz dilde."
         },
         {
           "title": "Uygulamada iş ara",
-          "desc": "Platsbanken (İsveç) ve İŞKUR (Türkiye) ilanlarını şehre ve mesleğe göre ara, favorilere ekle — sekme değiştirmeden."
+          "desc": "Platsbanken (İsveç) ve İŞKUR (Türkiye) ilanlarını şehre ve mesleğe göre arayın, favorilere ekleyin — sekme değiştirmeden."
         },
         {
           "title": "Mülakat hazırlığı",
-          "desc": "O pozisyon için olası mülakat sorularını ve nasıl cevap verebileceğine dair önerileri al."
+          "desc": "O pozisyon için olası mülakat sorularını ve nasıl cevap verebileceğinize dair önerileri alın."
         },
         {
-          "title": "Başvurularını takip et",
+          "title": "Başvurularınızı takip edin",
           "desc": "Tüm başvurular tek yerde: taslaklar, gönderilenler ve arşiv; CV ve ön yazı kayıtlı."
         },
         {
           "title": "Dört dil",
-          "desc": "CVzume'u İsveççe, İngilizce, İspanyolca ya da Türkçe kullan — Pro ile birden fazla dilde CV oluştur."
+          "desc": "CVzume'u İsveççe, İngilizce, İspanyolca ya da Türkçe kullanın — Pro ile birden fazla dilde CV oluşturun."
         }
       ],
       "linkItem": {
         "title": "İlanı linkten getir",
-        "desc": "Bir kariyer sitesinden link yapıştır, ilan metnini senin için getirelim — kopyalamaya gerek yok."
+        "desc": "Bir kariyer sitesinden link yapıştırın, ilan metnini sizin için getirelim — kopyalamaya gerek yok."
       }
     },
     "pricing": {
       "label": "Fiyatlar",
       "title": "Basit, net fiyatlar",
-      "sub": "Ücretsiz başla. Çok sayıda başvuru yapınca yükselt.",
+      "sub": "Ücretsiz başlayın. Çok sayıda başvuru yaptığınızda yükseltin.",
       "currency": "SEK",
       "free": {
         "tier": "Ücretsiz",
@@ -548,20 +552,20 @@
           "Başvuru takibi",
           "Mülakat hazırlığı"
         ],
-        "cta": "Ücretsiz başla"
+        "cta": "Ücretsiz başlayın"
       },
       "pro": {
         "badge": "EN POPÜLER",
         "tier": "Pro",
         "price": "109",
-        "period": "aylık · istediğin zaman iptal et",
+        "period": "aylık · istediğiniz zaman iptal edin",
         "features": [
           "Sınırsız yapay zeka başvurusu",
           "Ücretsiz plandaki her şey",
           "Birden fazla dilde CV",
           "Öncelikli destek"
         ],
-        "cta": "Pro'ya başla"
+        "cta": "Pro'ya başlayın"
       },
       "year": {
         "badge": "EN AVANTAJLI",
@@ -576,7 +580,7 @@
           "Birden fazla dilde CV",
           "Öncelikli destek"
         ],
-        "cta": "Yıllık plana başla"
+        "cta": "Yıllık plana başlayın"
       },
       "note": "Tüm fiyatlara KDV dahildir. Stripe üzerinden kartla ödeme. Taahhüt yok."
     },
@@ -586,41 +590,41 @@
       "items": [
         {
           "q": "CVzume ücretsiz mi?",
-          "a": "Evet. Ücretsiz hesapla ayda 2 yapay zeka başvurusu (CV özeti + ön yazı), ayrıca PDF dışa aktarma, iş arama ve başvuru takibi kullanırsın. Pro aylık 109 SEK ya da yıllık 999 SEK'tir ve sınırsız başvuru sunar."
+          "a": "Evet. Ücretsiz hesapla ayda 2 yapay zeka başvurusu (CV özeti + ön yazı), ayrıca PDF dışa aktarma, iş arama ve başvuru takibi kullanırsınız. Pro aylık 109 SEK ya da yıllık 999 SEK'tir ve sınırsız başvuru sunar."
         },
         {
           "q": "Yapay zeka uyarlaması nasıl çalışıyor?",
-          "a": "CVzume ilanı okur ve profilinle karşılaştırır. Yapay zeka şartları ve anahtar kelimeleri çıkarır, gerçek deneyimini öne çıkaran bir CV özeti ve ön yazı yazar. Göndermeden önce metni her zaman düzenleyebilirsin."
+          "a": "CVzume ilanı okur ve profilinizle karşılaştırır. Yapay zeka şartları ve anahtar kelimeleri çıkarır, gerçek deneyiminizi öne çıkaran bir CV özeti ve ön yazı yazar. Göndermeden önce metni her zaman düzenleyebilirsiniz."
         },
         {
           "q": "İsveççem çok iyi değil — yine de işe yarar mı?",
-          "a": "Evet, CVzume tam da bunun için var. Deneyimini basitçe anlat, yapay zeka başvuruyu doğru ve profesyonel İsveççe ile yazsın. Her şeyin doğru olduğundan emin olmak için metni mutlaka oku."
+          "a": "Evet, CVzume tam da bunun için var. Deneyiminizi basitçe anlatın, yapay zeka başvuruyu doğru ve profesyonel İsveççe ile yazsın. Her şeyin doğru olduğundan emin olmak için metni mutlaka okuyun."
         },
         {
           "q": "Yapay zeka deneyim uyduruyor mu?",
-          "a": "Hayır, yalnızca profilinde yazanları kullanacak şekilde yönlendirilir. Yine de metni her zaman kontrol et — başvurunun doğru olmasından sen sorumlusun."
+          "a": "Hayır, yalnızca profilinizde yazanları kullanacak şekilde yönlendirilir. Yine de metni her zaman kontrol edin — başvurunun doğru olmasından siz sorumlusunuz."
         },
         {
           "q": "Verilerim güvende mi?",
-          "a": "Profilin ve başvuruların AB içinde saklanır. Analiz edilecek metin işlenmek üzere yapay zeka sağlayıcımıza gönderilir. Hesabını ve tüm verilerini istediğin zaman Ayarlar'dan silebilirsin. Ayrıntılar gizlilik politikasında."
+          "a": "Profiliniz ve başvurularınız AB içinde saklanır. Analiz edilecek metin işlenmek üzere yapay zeka sağlayıcımıza gönderilir. Hesabınızı ve tüm verilerinizi istediğiniz zaman Ayarlar'dan silebilirsiniz. Ayrıntılar gizlilik politikasında."
         },
         {
           "q": "Pro'yu istediğim zaman iptal edebilir miyim?",
-          "a": "Evet. Taahhüt yok; iptal etsen de ödediğin dönemin sonuna kadar Pro kalırsın. İptali Ayarlar → Plan'dan kendin yaparsın."
+          "a": "Evet. Taahhüt yok; iptal etseniz de ödediğiniz dönemin sonuna kadar Pro kalırsınız. İptali Ayarlar → Plan'dan kendiniz yaparsınız."
         }
       ],
       "languageItem": {
         "q": "Ana dilim olmayan bir dilde başvurabilir miyim?",
-        "a": "Evet. Deneyimini basitçe anlat ve başvurunun dilini seç — Türkçe, İngilizce, İsveççe ya da İspanyolca — yapay zeka doğru ve profesyonel bir metin yazsın. Göndermeden önce mutlaka oku."
+        "a": "Evet. Deneyiminizi basitçe anlatın ve başvurunun dilini seçin — Türkçe, İngilizce, İsveççe ya da İspanyolca — yapay zeka doğru ve profesyonel bir metin yazsın. Göndermeden önce mutlaka okuyun."
       }
     },
     "cta": {
-      "a": "Bir sonraki işine",
-      "em": "hazır mısın?",
-      "sub": "Ücretsiz hesabını bugün oluştur. Kart gerekmez.",
-      "button": "Hemen başla — ücretsiz →",
+      "a": "Bir sonraki işinize",
+      "em": "hazır mısınız?",
+      "sub": "Ücretsiz hesabınızı bugün oluşturun. Kart gerekmez.",
+      "button": "Hemen başlayın — ücretsiz →",
       "note": [
-        "Ücretsiz başla",
+        "Ücretsiz başlayın",
         "Taahhüt yok",
         "KVKK/GDPR"
       ]
@@ -702,13 +706,13 @@
     "button": "İlanı getir",
     "loading": "Getiriliyor…",
     "hint": "Platsbanken ve çoğu kariyer sitesiyle çalışır.",
-    "ok": "İlan {source} sitesinden alındı. Aşağıdaki metni kontrol et.",
+    "ok": "İlan {source} sitesinden alındı. Aşağıdaki metni kontrol edin.",
     "errors": {
       "invalid_url": "Bu geçerli bir link gibi görünmüyor.",
       "blocked": "Bu link getirilemiyor.",
-      "fetch_failed": "Sayfaya ulaşamadık. İlan metnini kopyalayıp yapıştır.",
-      "no_content": "Sayfada ilan metni bulamadık (giriş gerektiriyor olabilir). Metni kopyalayıp yapıştır.",
-      "rate_limited": "Çok fazla deneme. Biraz bekleyip tekrar dene."
+      "fetch_failed": "Sayfaya ulaşamadık. İlan metnini kopyalayıp yapıştırın.",
+      "no_content": "Sayfada ilan metni bulamadık (giriş gerektiriyor olabilir). Metni kopyalayıp yapıştırın.",
+      "rate_limited": "Çok fazla deneme. Biraz bekleyip tekrar deneyin."
     },
     "placeholderGeneric": "https://…",
     "hintGeneric": "Çoğu kariyer sitesiyle çalışır."

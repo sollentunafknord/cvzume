@@ -199,7 +199,11 @@
     "account_delete_btn": "🗑 Radera mitt konto permanent",
     "account_deleting": "Raderar...",
     "account_password_required": "Ange ditt lösenord",
-    "account_delete_failed": "Radering misslyckades"
+    "account_delete_failed": "Radering misslyckades",
+    "manage_subscription": "Hantera prenumeration",
+    "manage_subscription_loading": "Öppnar…",
+    "manage_subscription_hint": "Avsluta, byt kort eller se kvitton via Stripe.",
+    "manage_subscription_error": "Kunde inte öppna prenumerationssidan. Mejla info@cvzume.com så hjälper vi dig."
   },
   "upgrade": {
     "title": "Få jobbet du förtjänar",
