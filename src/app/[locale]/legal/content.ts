@@ -1,4 +1,4 @@
-// Juridiska sidor. Svenska är originalet; en/tr/es är översättningar (formellt tilltal på turkiska).
+// Juridiska sidor. Svenska är originalet; en/tr/es/de är översättningar (formellt tilltal på turkiska och tyska).
 // Uppdatera UPDATED när innehållet ändras.
 
 export const UPDATED = '2026-10-30';
@@ -107,7 +107,7 @@ const en: Record<LegalSlug, LegalDoc> = {
       { h: 'What data we process', p: [
         'Account data: name, email address and password (the password is stored encrypted by our authentication provider).',
         'Profile and CV: the information you enter or upload, such as work experience, education, skills, languages and profile photo.',
-        'Applications: job ads you paste or save, generated CV texts and cover letters, application status and saved favourite jobs.',
+        'Applications: job ads you paste or save, generated CV texts and cover letters, application status and saved favorite jobs.',
         'Payment: if you buy Pro, Stripe handles your card details. We only learn your email address, your plan and whether the payment succeeded.',
         'Technical information: anonymous visitor statistics (Vercel Web Analytics, without cookies) and server logs needed to run the service securely.',
       ] },
@@ -118,7 +118,7 @@ const en: Record<LegalSlug, LegalDoc> = {
         'To prevent abuse, such as the same email address being registered repeatedly for free use. When you delete your account we therefore keep a one-way hash of the email address, not the address itself (legitimate interest).',
       ] },
       { h: 'AI processing', p: [
-        'When you analyse a job ad, the ad and relevant parts of your profile are sent to an AI provider that generates the text. We primarily use Groq, with Google (Gemini) and OpenRouter as fallbacks. These providers may process data outside the EU/EEA, including in the USA. Transfers rely on the European Commission\'s Standard Contractual Clauses or the EU–US Data Privacy Framework.',
+        'When you analyze a job ad, the ad and relevant parts of your profile are sent to an AI provider that generates the text. We primarily use Groq, with Google (Gemini) and OpenRouter as fallbacks. These providers may process data outside the EU/EEA, including in the USA. Transfers rely on the European Commission\'s Standard Contractual Clauses or the EU–US Data Privacy Framework.',
         'Please avoid entering sensitive data (for example health, religion or personal identity numbers) in your profile or free-text fields.',
         'The try-it tool on the home page works without an account. The text you enter there is sent to the AI provider but not stored by us. To prevent abuse we count the number of tries per IP address. We only store a one-way hash of the IP address, never the address itself, and delete it after at most two days.',
       ] },
@@ -126,7 +126,7 @@ const en: Record<LegalSlug, LegalDoc> = {
         'Database, authentication and files are stored with Supabase in the EU (Ireland). The website runs on Vercel. Email is sent via Resend and payments are handled by Stripe. All providers are processors bound by agreements governing how they may use the data.',
       ] },
       { h: 'How long we keep data', p: [
-        'We keep your data for as long as you have an account. You can delete your account at any time under Settings → Account; this deletes your profile, CV, applications and favourites. Data we must keep under Swedish bookkeeping law (such as receipts) is kept by Stripe for seven years.',
+        'We keep your data for as long as you have an account. You can delete your account at any time under Settings → Account; this deletes your profile, CV, applications and favorites. Data we must keep under Swedish bookkeeping law (such as receipts) is kept by Stripe for seven years.',
       ] },
       { h: 'Your rights', p: [
         'You have the right to request access to, rectification, erasure and portability of your data, and to object to or request restriction of processing. Contact us at ' + CONTACT + '.',
@@ -369,7 +369,97 @@ const es: Record<LegalSlug, LegalDoc> = {
   },
 };
 
-const DOCS: Record<string, Record<LegalSlug, LegalDoc>> = { sv, en, tr, es };
+const de: Record<LegalSlug, LegalDoc> = {
+  privacy: {
+    title: 'Datenschutzerklärung',
+    lead: 'Hier erklären wir, welche personenbezogenen Daten CVzume verarbeitet, warum, und welche Rechte Sie nach der Datenschutz-Grundverordnung (DSGVO) haben. Maßgeblich ist die schwedische Fassung.',
+    sections: [
+      { h: 'Verantwortlicher', p: [`Verantwortlich für die Verarbeitung Ihrer Daten ist CVzume. Sie erreichen uns unter ${CONTACT}.`] },
+      { h: 'Welche Daten wir verarbeiten', p: [
+        'Kontodaten: Name, E-Mail-Adresse und Passwort (das Passwort wird von unserem Anmeldedienst verschlüsselt gespeichert).',
+        'Profil und Lebenslauf: die Angaben, die Sie selbst eingeben oder hochladen, etwa Berufserfahrung, Ausbildung, Kompetenzen, Sprachen und Profilfoto.',
+        'Bewerbungen: Stellenanzeigen, die Sie einfügen oder speichern, erstellte Lebenslauftexte und Anschreiben, der Status Ihrer Bewerbungen und gespeicherte Favoriten.',
+        'Zahlung: Wenn Sie Pro kaufen, verarbeitet Stripe Ihre Kartendaten. Wir erfahren nur Ihre E-Mail-Adresse, Ihren Tarif und ob die Zahlung erfolgreich war.',
+        'Technische Daten: anonyme Besuchsstatistiken (Vercel Web Analytics, ohne Cookies) und Serverprotokolle, die für den sicheren Betrieb erforderlich sind.',
+      ] },
+      { h: 'Warum wir die Daten verarbeiten', p: [
+        'Um den von Ihnen gewünschten Dienst zu erbringen — Lebensläufe, Anschreiben und Bewerbungen erstellen und speichern (Rechtsgrundlage: Vertrag, Art. 6 Abs. 1 lit. b DSGVO).',
+        'Um Zahlungen und Buchhaltung abzuwickeln (Vertrag und rechtliche Verpflichtung).',
+        'Um notwendige E-Mails zu Ihrem Konto und Ihrem Abonnement zu senden (Vertrag).',
+        'Um Missbrauch zu verhindern, zum Beispiel dass dieselbe E-Mail-Adresse immer wieder für die kostenlose Nutzung registriert wird. Wenn Sie Ihr Konto löschen, speichern wir daher einen Einweg-Hash der E-Mail-Adresse, nicht die Adresse selbst (berechtigtes Interesse, Art. 6 Abs. 1 lit. f DSGVO).',
+      ] },
+      { h: 'Verarbeitung durch KI', p: [
+        'Wenn Sie eine Anzeige analysieren, werden die Anzeige und relevante Teile Ihres Profils an einen KI-Anbieter gesendet, der den Text erstellt. Wir nutzen vorrangig Groq und als Ausweichlösung Google (Gemini) und OpenRouter. Diese Anbieter können Daten außerhalb der EU/des EWR verarbeiten, etwa in den USA. Die Übermittlung stützt sich auf die Standardvertragsklauseln der EU-Kommission oder das EU-US Data Privacy Framework.',
+        'Bitte geben Sie keine sensiblen Daten (zum Beispiel Gesundheit, Religion, Steuer-ID oder Sozialversicherungsnummer) in Ihr Profil oder in Freitextfelder ein.',
+        'Das Testwerkzeug auf der Startseite funktioniert ohne Konto. Der dort eingegebene Text wird an den KI-Anbieter gesendet, aber nicht bei uns gespeichert. Um Missbrauch zu verhindern, zählen wir die Tests pro IP-Adresse; wir speichern nur einen Einweg-Hash der IP-Adresse, nie die Adresse selbst, und löschen ihn nach spätestens zwei Tagen.',
+      ] },
+      { h: 'Wo die Daten gespeichert werden', p: [
+        'Datenbank, Anmeldung und Dateien liegen bei Supabase in der EU (Irland). Die Website läuft bei Vercel. E-Mails werden über Resend versendet, Zahlungen von Stripe abgewickelt. Alle Anbieter sind Auftragsverarbeiter mit Verträgen, die regeln, wie sie die Daten verwenden dürfen.',
+      ] },
+      { h: 'Wie lange wir die Daten speichern', p: [
+        'Wir speichern Ihre Daten, solange Sie ein Konto haben. Sie können Ihr Konto jederzeit unter Einstellungen → Konto löschen; dabei werden Profil, Lebenslauf, Bewerbungen und Favoriten gelöscht. Daten, die wir nach schwedischem Buchführungsrecht aufbewahren müssen (etwa Belege), speichert Stripe sieben Jahre lang.',
+      ] },
+      { h: 'Ihre Rechte', p: [
+        'Sie haben das Recht auf Auskunft, Berichtigung, Löschung und Datenübertragbarkeit sowie das Recht, der Verarbeitung zu widersprechen oder ihre Einschränkung zu verlangen. Schreiben Sie uns an ' + CONTACT + '.',
+        'Wenn Sie meinen, dass wir Ihre Daten unrechtmäßig verarbeiten, können Sie sich bei der schwedischen Datenschutzbehörde (IMY, imy.se) oder bei der Datenschutzaufsichtsbehörde Ihres Wohnsitzlandes beschweren.',
+      ] },
+    ],
+  },
+  cookies: {
+    title: 'Cookies',
+    lead: 'CVzume verwendet keine Cookies für Werbung oder Tracking. Das wird tatsächlich in Ihrem Browser gespeichert.',
+    sections: [
+      { h: 'Notwendige Cookies und Speicher', p: [
+        'NEXT_LOCALE — merkt sich die von Ihnen gewählte Sprache (1 Jahr).',
+        'cvz_country — das Land, aus dem Sie uns besuchen, anhand Ihrer IP-Adresse (30 Tage). Wird verwendet, um passende Inhalte und die passende Jobquelle anzuzeigen.',
+        'Lokaler Speicher (localStorage) — hält Sie angemeldet und speichert Einstellungen wie Sprache und Entwürfe. Er verlässt nie Ihren Browser und wird beim Abmelden gelöscht.',
+      ] },
+      { h: 'Besuchsstatistik', p: [
+        'Wir nutzen Vercel Web Analytics für anonyme Statistiken zu Seitenaufrufen. Es verwendet keine Cookies und identifiziert keine einzelnen Besucher.',
+      ] },
+      { h: 'Zahlung', p: [
+        'Wenn Sie für Pro bezahlen, werden Sie zu Stripe weitergeleitet; Stripe kann eigene Cookies zur Betrugsprävention setzen. Näheres in der Datenschutzerklärung von Stripe.',
+      ] },
+      { h: 'Einwilligung', p: [
+        'Da wir nur Speicher verwenden, der für den Betrieb des Dienstes notwendig ist, ist keine Cookie-Einwilligung erforderlich. Sollten wir einmal nicht notwendige Cookies einführen, bitten wir vorher um Ihre Einwilligung.',
+      ] },
+    ],
+  },
+  terms: {
+    title: 'Nutzungsbedingungen',
+    lead: 'Diese Bedingungen gelten für die Nutzung von CVzume. Mit der Erstellung eines Kontos stimmen Sie ihnen zu. Maßgeblich ist die schwedische Fassung.',
+    sections: [
+      { h: 'Der Dienst', p: [
+        'CVzume ist ein Werkzeug, das Ihnen mit Hilfe von KI hilft, Lebensläufe und Anschreiben zu erstellen und Bewerbungen vorzubereiten. Wir garantieren nicht, dass Sie eine Stelle bekommen, und der Dienst kann wegen Wartung oder Störungen bei unseren Anbietern zeitweise nicht verfügbar sein.',
+      ] },
+      { h: 'Ihre Verantwortung', p: [
+        'Sie sind dafür verantwortlich, dass die Angaben in Ihrem Lebenslauf und Ihren Bewerbungen wahr sind. KI-generierter Text kann Fehler enthalten — lesen und korrigieren Sie ihn immer, bevor Sie ihn an einen Arbeitgeber senden.',
+        'Sie dürfen den Dienst nicht nutzen, um irreführende, rechtswidrige oder beleidigende Inhalte zu erstellen oder Beschränkungen wie Nutzungsgrenzen zu umgehen.',
+        'Sie sind dafür verantwortlich, Ihr Passwort geheim zu halten.',
+      ] },
+      { h: 'Kostenlos und Pro', p: [
+        'Das kostenlose Konto umfasst eine begrenzte Anzahl an KI-Generierungen pro Monat. Pro bietet unbegrenzte Nutzung gemäß den Preisangaben auf der Website.',
+        'Pro wird monatlich oder jährlich im Voraus über Stripe bezahlt und verlängert sich automatisch, bis Sie kündigen. Es gibt keine Mindestlaufzeit. Sie kündigen selbst unter Einstellungen → Tarif → Abonnement verwalten; Pro bleibt dann bis zum Ende des bezahlten Zeitraums aktiv. Bezahlte Zeiträume werden nicht rückwirkend erstattet.',
+        'Widerrufsrecht: Nach schwedischem Fernabsatzrecht haben Sie ab dem Kauf ein Widerrufsrecht von 14 Tagen. Schreiben Sie an ' + CONTACT + ', wenn Sie widerrufen möchten. Haben Sie den Dienst in diesem Zeitraum bereits genutzt, können wir einen angemessenen Teil des Preises abziehen.',
+        'Wir können die Preise ändern. Änderungen gelten ab dem nächsten Abrechnungszeitraum und werden rechtzeitig per E-Mail angekündigt.',
+      ] },
+      { h: 'Inhalte', p: [
+        'Was Sie schreiben und die für Sie erstellten Texte gehören Ihnen. Sie räumen uns das Recht ein, die Inhalte zu speichern und zu verarbeiten, soweit dies für die Erbringung des Dienstes erforderlich ist.',
+      ] },
+      { h: 'Haftungsbeschränkung', p: [
+        'Der Dienst wird so bereitgestellt, wie er ist. Wir haften nicht für indirekte Schäden oder entgangene Stellenangebote. Unsere Gesamthaftung ist auf den Betrag begrenzt, den Sie uns in den letzten zwölf Monaten gezahlt haben. Ihre Rechte nach zwingendem Verbraucherrecht bleiben unberührt.',
+      ] },
+      { h: 'Konto schließen', p: [
+        'Sie können Ihr Konto jederzeit unter Einstellungen löschen. Wir können Konten sperren, die gegen diese Bedingungen verstoßen.',
+      ] },
+      { h: 'Änderungen und Streitigkeiten', p: [
+        'Wir können diese Bedingungen aktualisieren. Wesentliche Änderungen teilen wir per E-Mail oder in der App mit. Es gilt schwedisches Recht. Als Verbraucher können Sie sich an die schwedische Verbraucherbeschwerdestelle (ARN) oder an die Online-Streitbeilegungsplattform der EU wenden.',
+      ] },
+    ],
+  },
+};
+
+const DOCS: Record<string, Record<LegalSlug, LegalDoc>> = { sv, en, tr, es, de };
 
 export function getLegal(locale: string, slug: LegalSlug): LegalDoc {
   return (DOCS[locale] ?? en)[slug];

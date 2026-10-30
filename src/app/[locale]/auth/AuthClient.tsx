@@ -17,6 +17,7 @@ const LANGS = [
   { code: 'en', label: '🇬🇧 English' },
   { code: 'tr', label: '🇹🇷 Türkçe' },
   { code: 'es', label: '🇪🇸 Español' },
+  { code: 'de', label: '🇩🇪 Deutsch' },
 ];
 
 export default function AuthClient() {
@@ -419,7 +420,7 @@ export default function AuthClient() {
                     {regLoading ? t('creating_account') : t('register_btn_free')}
                   </button>
                   <p className={styles.authTerms}>
-                    {t('terms_pre')} <a href="#">{t('terms_link')}</a> {t('terms_and')} <a href="#">{t('privacy_link')}</a>.
+                    {t('terms_pre')} <a href={`/${locale}/legal/terms`} target="_blank" rel="noopener">{t('terms_link')}</a> {t('terms_and')} <a href={`/${locale}/legal/privacy`} target="_blank" rel="noopener">{t('privacy_link')}</a>{t('terms_post') ? ` ${t('terms_post')}` : ''}.
                   </p>
                   <SocialButtons/>
                 </div>

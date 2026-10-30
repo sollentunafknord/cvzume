@@ -42,7 +42,7 @@ export default function LetterClient() {
     setFullName((fn + ' ' + ln).trim() || '');
     setEmail(user.email || '');
 
-    const localeMap: Record<string, string> = { en: 'en-GB', es: 'es-ES', tr: 'tr-TR', sv: 'sv-SE' };
+    const localeMap: Record<string, string> = { en: 'en-GB', es: 'es-ES', tr: 'tr-TR', sv: 'sv-SE', de: 'de-DE' };
     setDateStr(new Date().toLocaleDateString(localeMap[locale] || 'sv-SE', { day: 'numeric', month: 'long', year: 'numeric' }));
 
     const result = JSON.parse(localStorage.getItem('cvita_last_result') || '{}');

@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
 
 const BASE_URL = 'https://www.cvzume.com';
-const LOCALES = ['sv', 'en', 'es', 'tr'];
+const LOCALES = ['sv', 'en', 'es', 'tr', 'de'];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date().toISOString();

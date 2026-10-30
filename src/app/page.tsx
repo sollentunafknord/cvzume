@@ -11,7 +11,7 @@ export default function Home() {
 
     const savedLang = localStorage.getItem('cvita_language');
     const browserLang = navigator.language.split('-')[0];
-    const supportedLocales = ['sv', 'en', 'es', 'tr'];
+    const supportedLocales = ['sv', 'en', 'es', 'tr', 'de'];
     const locale = savedLang && supportedLocales.includes(savedLang)
       ? savedLang
       : supportedLocales.includes(browserLang)

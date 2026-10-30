@@ -136,6 +136,7 @@
     "terms_link": "Användarvillkor",
     "terms_and": "och",
     "privacy_link": "Integritetspolicy",
+    "terms_post": "",
     "no_account_text": "Inget konto?",
     "no_account_link": "Skapa ett gratis →",
     "has_account_text": "Har du redan ett konto?",
@@ -296,7 +297,7 @@
     "confirm": "Kom igång →",
     "lang_locked": "Ditt primära CV-språk",
     "upgrade_title": "Flera CV-språk kräver Pro",
-    "upgrade_desc": "Som Pro-användare kan du skapa och spara CV på alla språk — svenska, engelska, spanska och turkiska.",
+    "upgrade_desc": "Som Pro-användare kan du skapa och spara CV på alla språk — svenska, engelska, spanska, turkiska och tyska.",
     "upgrade_btn": "Uppgradera till Pro →",
     "upgrade_cancel": "Stanna på {lang}"
   },
@@ -430,7 +431,7 @@
           "h1a": "Ett skräddarsytt",
           "h1em": "CV",
           "h1b": "och personligt brev för varje jobb — även på ett språk som inte är ditt eget",
-          "sub": "Klistra in annonsen, så skriver AI:n en ansökan anpassad efter just den tjänsten — på svenska, engelska, spanska eller turkiska."
+          "sub": "Klistra in annonsen, så skriver AI:n en ansökan anpassad efter just den tjänsten — på svenska, engelska, tyska, spanska eller turkiska."
         }
       },
       "cta": "Skapa ditt CV gratis →",
@@ -526,8 +527,8 @@
           "desc": "Alla ansökningar på ett ställe: utkast, skickade och arkiv, med CV och brev sparade."
         },
         {
-          "title": "Fyra språk",
-          "desc": "Använd CVzume på svenska, engelska, spanska eller turkiska — och skapa CV på flera språk med Pro."
+          "title": "Fem språk",
+          "desc": "Använd CVzume på svenska, engelska, tyska, spanska eller turkiska — och skapa CV på flera språk med Pro."
         }
       ],
       "linkItem": {
@@ -615,7 +616,7 @@
       ],
       "languageItem": {
         "q": "Kan jag söka jobb på ett språk som inte är mitt eget?",
-        "a": "Ja. Beskriv din erfarenhet enkelt och välj vilket språk ansökan ska vara på — svenska, engelska, spanska eller turkiska — så skriver AI:n en korrekt och professionell text. Läs alltid igenom den innan du skickar."
+        "a": "Ja. Beskriv din erfarenhet enkelt och välj vilket språk ansökan ska vara på — svenska, engelska, tyska, spanska eller turkiska — så skriver AI:n en korrekt och professionell text. Läs alltid igenom den innan du skickar."
       }
     },
     "cta": {

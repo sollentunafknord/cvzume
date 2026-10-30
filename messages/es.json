@@ -136,6 +136,7 @@
     "terms_link": "Términos de Servicio",
     "terms_and": "y",
     "privacy_link": "Política de Privacidad",
+    "terms_post": "",
     "no_account_text": "¿Sin cuenta?",
     "no_account_link": "Crea una gratis →",
     "has_account_text": "¿Ya tienes cuenta?",
@@ -296,7 +297,7 @@
     "confirm": "Empezar →",
     "lang_locked": "Tu idioma de CV principal",
     "upgrade_title": "Varios idiomas de CV requieren Pro",
-    "upgrade_desc": "Como usuario Pro puedes crear y guardar CVs en todos los idiomas — sueco, inglés, español y turco.",
+    "upgrade_desc": "Como usuario Pro puedes crear y guardar CVs en todos los idiomas — sueco, inglés, alemán, español y turco.",
     "upgrade_btn": "Actualizar a Pro →",
     "upgrade_cancel": "Seguir en {lang}"
   },
@@ -430,7 +431,7 @@
           "h1a": "Un",
           "h1em": "CV",
           "h1b": "y una carta a medida para cada empleo — incluso en un idioma que no es el tuyo",
-          "sub": "Pega la oferta y la IA redacta una solicitud adaptada a ese puesto — en español, inglés, sueco o turco."
+          "sub": "Pega la oferta y la IA redacta una solicitud adaptada a ese puesto — en español, inglés, alemán, sueco o turco."
         }
       },
       "cta": "Crea tu CV gratis →",
@@ -526,8 +527,8 @@
           "desc": "Todas tus solicitudes en un solo lugar: borradores, enviadas y archivo, con CV y carta guardados."
         },
         {
-          "title": "Cuatro idiomas",
-          "desc": "Usa CVzume en sueco, inglés, español o turco — y crea CV en varios idiomas con Pro."
+          "title": "Cinco idiomas",
+          "desc": "Usa CVzume en sueco, inglés, alemán, español o turco — y crea CV en varios idiomas con Pro."
         }
       ],
       "linkItem": {
@@ -615,7 +616,7 @@
       ],
       "languageItem": {
         "q": "¿Puedo postularme en un idioma que no es el mío?",
-        "a": "Sí. Describe tu experiencia de forma sencilla y elige el idioma de la solicitud — español, inglés, sueco o turco — y la IA redacta un texto correcto y profesional. Revísalo siempre antes de enviarlo."
+        "a": "Sí. Describe tu experiencia de forma sencilla y elige el idioma de la solicitud — español, inglés, alemán, sueco o turco — y la IA redacta un texto correcto y profesional. Revísalo siempre antes de enviarlo."
       }
     },
     "cta": {

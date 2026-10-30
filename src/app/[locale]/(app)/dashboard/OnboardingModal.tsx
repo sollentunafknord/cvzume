@@ -37,6 +37,14 @@ const LANGS = [
     subtitle: 'Hangi dilde iş başvurusu yapacaksınız?',
     confirm: 'Başlayalım →',
   },
+  {
+    code: 'de',
+    label: 'Deutsch',
+    flagImg: 'https://flagcdn.com/20x15/de.png',
+    title: 'Willkommen bei CVzume!',
+    subtitle: 'In welcher Sprache möchten Sie sich bewerben?',
+    confirm: 'Los geht’s →',
+  },
 ];
 
 interface Props {

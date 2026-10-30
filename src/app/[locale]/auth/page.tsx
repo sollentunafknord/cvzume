@@ -8,6 +8,7 @@ const TITLES: Record<string, string> = {
   en: 'Log In or Create Account — CVzume',
   es: 'Iniciar sesión o Crear cuenta — CVzume',
   tr: 'Giriş Yap veya Hesap Oluştur — CVzume',
+  de: 'Anmelden oder Konto erstellen — CVzume',
 };
 
 type Props = { params: Promise<{ locale: string }> };

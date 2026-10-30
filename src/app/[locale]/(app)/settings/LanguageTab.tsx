@@ -7,6 +7,7 @@ const LANGS = [
   { code: 'en', flagImg: 'https://flagcdn.com/20x15/gb.png', name: 'English', sub: 'Interface displayed in English' },
   { code: 'es', flagImg: 'https://flagcdn.com/20x15/es.png', name: 'Español', sub: 'La interfaz se muestra en español' },
   { code: 'tr', flagImg: 'https://flagcdn.com/20x15/tr.png', name: 'Türkçe', sub: 'Arayüz Türkçe görüntülenir' },
+  { code: 'de', flagImg: 'https://flagcdn.com/20x15/de.png', name: 'Deutsch', sub: 'Die Oberfläche wird auf Deutsch angezeigt' },
 ];
 
 export default function LanguageTab() {

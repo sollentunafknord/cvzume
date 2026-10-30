@@ -9,11 +9,12 @@ export const COUNTRY_COOKIE = 'cvz_country';
 
 // middleware.ts'teki COUNTRY_LOCALE ile aynı liste
 export const SPANISH_COUNTRIES = ['ES', 'MX', 'AR', 'CO', 'CL', 'PE', 'VE', 'EC'];
+export const GERMAN_COUNTRIES = ['DE', 'AT', 'CH', 'LI'];
 
 // Ülke bilinmiyorsa: İsveççe sayfa İsveç içeriğini korur (Googlebot dahil), diğerleri nötr.
 export function marketFor(country: string, locale: string): Market {
   if (country === 'SE') return 'se';
-  if (country === 'TR' || SPANISH_COUNTRIES.includes(country)) return 'local';
+  if (country === 'TR' || SPANISH_COUNTRIES.includes(country) || GERMAN_COUNTRIES.includes(country)) return 'local';
   return locale === 'sv' ? 'se' : 'intl';
 }
 

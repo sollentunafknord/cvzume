@@ -1,0 +1,721 @@
+{
+  "nav": {
+    "logout": "Abmelden",
+    "dashboard": "Dashboard",
+    "applications": "Jobs suchen",
+    "cv": "Mein Lebenslauf",
+    "letters": "Anschreiben",
+    "archive": "Bewerbungen",
+    "settings": "Einstellungen",
+    "upgrade": "Upgrade",
+    "main_menu": "HAUPTMENÜ",
+    "account": "KONTO",
+    "skickade": "Gesendete Bewerbungen",
+    "intervju": "Vorstellungsgespräch",
+    "arkiv": "Archiv"
+  },
+  "dashboard": {
+    "new_application": "+ Neue Bewerbung",
+    "upload_cv": "CV hochladen",
+    "active_applications": "Aktive Bewerbungen",
+    "cvs_generated": "Erstellte CVs",
+    "avg_match": "Ø Übereinstimmung",
+    "pdfs_exported": "Exportierte PDFs",
+    "latest_applications": "Neueste Bewerbungen",
+    "see_all": "Alle anzeigen →",
+    "shortcuts": "Schnellzugriff",
+    "analyze_new": "Neue Stellenanzeige analysieren",
+    "analyze_sub": "Stellenanzeige einfügen",
+    "update_cv": "Meinen Lebenslauf aktualisieren",
+    "update_cv_sub": "Profil bearbeiten",
+    "export_pdf": "PDF exportieren",
+    "export_pdf_sub": "Vorschau & Download",
+    "recent_activity": "Letzte Aktivitäten",
+    "no_activity": "Noch keine Aktivitäten.",
+    "no_applications": "Keine Bewerbungen",
+    "no_applications_sub": "Erstellen Sie oben Ihre erste Bewerbung.",
+    "all": "Alle",
+    "draft": "Entwurf",
+    "sent": "Gesendet",
+    "upgrade_banner_title": "Auf Pro upgraden",
+    "upgrade_banner_desc": "Sie haben diesen Monat 2 von 2 kostenlosen Generierungen genutzt.",
+    "upgrade_btn": "Upgrade — 109 SEK/Monat →",
+    "free_plan": "Kostenloser Tarif",
+    "pro_plan": "Pro-Tarif",
+    "pro_arsplan": "Pro Jahrestarif",
+    "sent_apps": "Gesendete Bewerbungen",
+    "waiting_answer": "warten auf Antwort",
+    "no_sent_yet": "Noch keine gesendet",
+    "interviews": "Vorstellungsgespräche",
+    "called_interview": "zum Gespräch eingeladen",
+    "no_interviews_yet": "Noch keine Vorstellungsgespräche",
+    "avg_match_label": "Ø Übereinstimmung",
+    "avg_match_sub": "Durchschnitt",
+    "recent_activity_label": "Letzte Aktivität",
+    "no_events_label": "Keine Ereignisse",
+    "recent_events": "Die letzten 5 Ereignisse",
+    "no_events_hint": "Noch keine Ereignisse — speichern Sie Favoriten oder senden Sie Bewerbungen",
+    "event_favorite": "★ Favorit",
+    "event_application": "📋 Bewerbung",
+    "shortcut_sent_title": "Gesendete Bewerbungen",
+    "shortcut_sent_sub": "Antworten auf Ihre Bewerbungen markieren",
+    "shortcut_intervju_title": "Vorbereitung auf das Vorstellungsgespräch",
+    "shortcut_intervju_sub": "KI-generierte Interviewfragen",
+    "ai_analysis_done": "KI-Analyse abgeschlossen",
+    "result_key_req": "🎯 Wichtigste Anforderungen",
+    "result_cv_summary": "📄 Kurzprofil für den Lebenslauf",
+    "result_cover_letter": "✉️ Anschreiben",
+    "result_tips": "💡 Tipps",
+    "result_btn_letter": "✉️ Anschreiben",
+    "result_btn_cv": "📄 CV herunterladen",
+    "result_btn_close": "Schließen",
+    "greeting": "Hallo, {name}! 👋"
+  },
+  "modal": {
+    "new_title": "Neue Bewerbung",
+    "role_label": "Stellenbezeichnung / Position",
+    "role_placeholder": "z. B. Frontend-Entwickler",
+    "ad_label": "Stellenanzeige",
+    "ad_placeholder": "Fügen Sie hier die vollständige Stellenanzeige ein …",
+    "analyze_btn": "Analysieren & CV erstellen →",
+    "analyzing": "Wird analysiert …",
+    "cancel": "Abbrechen",
+    "fill_required": "Bitte geben Sie Position und Stellenanzeige ein.",
+    "analyzing_ad": "Die KI analysiert die Stellenanzeige …",
+    "analysis_complete": "🎉 Fertig! Lebenslauf und Anschreiben sind bereit."
+  },
+  "auth": {
+    "login": "Anmelden",
+    "register": "Konto erstellen",
+    "email": "E-Mail-Adresse",
+    "password": "Passwort",
+    "firstname": "Vorname",
+    "lastname": "Nachname",
+    "login_btn": "Anmelden →",
+    "register_btn": "Konto erstellen →",
+    "no_account": "Noch kein Konto?",
+    "has_account": "Sie haben bereits ein Konto?",
+    "language": "Sprache wählen",
+    "back_link": "Zurück zur Startseite",
+    "headline_1": "Ihre Karriere.",
+    "headline_2_pre": "Ihr ",
+    "headline_2_em": "nächster Schritt.",
+    "sub": "CVzume hilft Ihnen, Lebensläufe und Anschreiben zu erstellen, die wirklich zu den Stellen passen, auf die Sie sich bewerben — in Minuten statt Stunden.",
+    "feature1_title": "Auf jede Anzeige zugeschnitten",
+    "feature1_desc": "Die KI liest die Stellenanzeige und optimiert Ihren Lebenslauf automatisch.",
+    "feature2_title": "In unter 3 Minuten fertig",
+    "feature2_desc": "Von der Anzeige zur kompletten Bewerbungsmappe in Rekordzeit.",
+    "feature3_title": "DSGVO-konform in der EU",
+    "feature3_desc": "Ihre Daten werden sicher gespeichert. Sie gehören immer Ihnen.",
+    "testimonial_quote": "Seit ich CVzume nutze, hatte ich drei Vorstellungsgespräche in einer Woche. Es ist wie ein Karrierecoach in der Hosentasche.",
+    "testimonial_name": "Anna Lindström",
+    "testimonial_role": "Frontend-Entwicklerin · Stockholm",
+    "welcome_back": "Willkommen zurück",
+    "create_account_title": "Erstellen Sie Ihr Konto",
+    "login_subtitle": "Melden Sie sich bei Ihrem CVzume-Konto an.",
+    "register_subtitle": "Für immer kostenlos. Keine Kreditkarte erforderlich.",
+    "tab_login": "Anmelden",
+    "tab_register": "Konto erstellen",
+    "email_label": "E-Mail-Adresse",
+    "email_placeholder": "sie@beispiel.de",
+    "password_label": "Passwort",
+    "password_placeholder_login": "Ihr Passwort",
+    "password_placeholder_register": "Mindestens 8 Zeichen",
+    "remember_me": "Angemeldet bleiben",
+    "forgot_password": "Passwort vergessen?",
+    "or_continue": "oder weiter mit",
+    "google_btn": "Weiter mit Google",
+    "github_btn": "Weiter mit GitHub",
+    "firstname_label": "Vorname",
+    "firstname_placeholder": "Anna",
+    "lastname_label": "Nachname",
+    "lastname_placeholder": "Schmidt",
+    "language_label": "🌐 Sprache wählen",
+    "register_btn_free": "Kostenlos Konto erstellen →",
+    "terms_pre": "Mit der Erstellung eines Kontos stimmen Sie unseren",
+    "terms_link": "Nutzungsbedingungen",
+    "terms_and": "und",
+    "privacy_link": "Datenschutzerklärung",
+    "terms_post": "zu",
+    "no_account_text": "Noch kein Konto?",
+    "no_account_link": "Jetzt kostenlos erstellen →",
+    "has_account_text": "Sie haben bereits ein Konto?",
+    "has_account_link": "Anmelden →",
+    "success_title": "Konto erstellt!",
+    "success_sub": "Willkommen bei CVzume, {name}! Bitte bestätigen Sie Ihr Konto über den Link in Ihrer E-Mail.",
+    "go_dashboard": "Zum Dashboard →",
+    "strength_weak": "Schwach",
+    "strength_medium": "Mittel",
+    "strength_strong": "Stark",
+    "error_fill_all": "Bitte füllen Sie alle Pflichtfelder aus.",
+    "error_password_short": "Das Passwort muss mindestens 8 Zeichen lang sein.",
+    "error_invalid": "E-Mail-Adresse oder Passwort ist falsch. Bitte überprüfen Sie Ihre Angaben.",
+    "error_not_confirmed": "Ihre E-Mail-Adresse ist noch nicht bestätigt. Bitte prüfen Sie Ihren Posteingang.",
+    "error_too_many": "Zu viele Versuche. Bitte warten Sie einen Moment und versuchen Sie es erneut.",
+    "error_user_not_found": "Zu dieser E-Mail-Adresse wurde kein Konto gefunden.",
+    "error_generic": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.",
+    "error_already_registered": "Mit dieser E-Mail-Adresse existiert bereits ein Konto.",
+    "error_account_deleted": "Mit dieser E-Mail-Adresse kann kein neues Konto erstellt werden.",
+    "logging_in": "Anmeldung läuft …",
+    "creating_account": "Konto wird erstellt …"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "subtitle": "Verwalten Sie Ihr Konto und Ihre Einstellungen",
+    "personal": "Persönliche Angaben",
+    "password": "Passwort",
+    "plan": "Tarif",
+    "language": "Sprache",
+    "account": "Konto",
+    "save": "Änderungen speichern",
+    "personal_desc": "Aktualisieren Sie Ihren Namen und Ihr Profilfoto",
+    "avatar_upload": "Klicken, um ein Foto hochzuladen",
+    "avatar_hint": "JPG, PNG · Max. 2 MB · Zum Ändern klicken",
+    "avatar_saved": "Profilfoto gespeichert!",
+    "name_required": "Bitte geben Sie mindestens einen Namen ein",
+    "password_title": "Passwort ändern",
+    "password_desc": "Wählen Sie ein sicheres Passwort mit mindestens 8 Zeichen",
+    "current_password": "Aktuelles Passwort",
+    "current_password_placeholder": "Aktuelles Passwort eingeben",
+    "new_password": "Neues Passwort",
+    "new_password_placeholder": "Mindestens 8 Zeichen",
+    "confirm_password": "Neues Passwort bestätigen",
+    "confirm_password_placeholder": "Neues Passwort wiederholen",
+    "change_password_btn": "Passwort ändern",
+    "saving": "Wird gespeichert …",
+    "error_current_required": "Bitte geben Sie Ihr aktuelles Passwort ein",
+    "error_passwords_mismatch": "Die Passwörter stimmen nicht überein",
+    "error_current_wrong": "Das aktuelle Passwort ist falsch",
+    "error_update_failed": "Aktualisierung fehlgeschlagen",
+    "password_updated": "✅ Passwort aktualisiert!",
+    "account_title": "Konto löschen",
+    "account_desc": "Alle Ihre Daten dauerhaft entfernen",
+    "account_warning_title": "⚠️ Dies kann nicht rückgängig gemacht werden",
+    "account_warning_cv": "Ihr Lebenslauf und alle Profilangaben werden dauerhaft gelöscht",
+    "account_warning_letters": "Ihre Anschreiben und Analysen werden entfernt",
+    "account_warning_photo": "Ihr Profilfoto wird gelöscht",
+    "account_warning_email": "Ihre E-Mail-Adresse wird für künftige Registrierungen gesperrt",
+    "account_confirm_label": "Mit Ihrem Passwort bestätigen",
+    "account_confirm_placeholder": "Ihr Passwort",
+    "account_delete_btn": "🗑 Mein Konto dauerhaft löschen",
+    "account_deleting": "Wird gelöscht …",
+    "account_password_required": "Bitte geben Sie Ihr Passwort ein",
+    "account_delete_failed": "Löschen fehlgeschlagen",
+    "manage_subscription": "Abonnement verwalten",
+    "manage_subscription_loading": "Wird geöffnet …",
+    "manage_subscription_hint": "Kündigen, Karte ändern oder Belege ansehen – über Stripe.",
+    "manage_subscription_error": "Die Abonnementseite konnte nicht geöffnet werden. Schreiben Sie an info@cvzume.com, wir helfen Ihnen gern."
+  },
+  "upgrade": {
+    "title": "Holen Sie sich den Job, den Sie verdienen",
+    "subtitle": "Upgraden Sie auf Pro und erhalten Sie unbegrenzten Zugang zu KI-gestützter Lebenslauf-Analyse und Anschreiben."
+  },
+  "limit": {
+    "title": "Sie haben Ihre 2 kostenlosen Analysen aufgebraucht",
+    "desc": "Der kostenlose Tarif umfasst 2 Lebenslauf-Analysen pro Monat. Nächsten Monat erhalten Sie 2 neue kostenlose Analysen — oder Sie upgraden jetzt auf Pro für unbegrenzten Zugang.",
+    "close": "Schließen",
+    "upgrade": "Auf Pro upgraden →"
+  },
+  "jobs": {
+    "title": "Jobsuche",
+    "subtitle": "Offene Stellen direkt von Arbetsförmedlingen finden",
+    "tab_search": "Jobs suchen",
+    "tab_favorites": "Favoriten",
+    "filter_lan": "Provinz (Län)",
+    "filter_kommun": "Gemeinde",
+    "filter_field": "Berufsfeld",
+    "filter_group": "Berufsgruppe",
+    "filter_query": "Suchbegriffe, z. B. Java-Entwickler …",
+    "search_btn": "Suchen",
+    "results_count": "{count} Stellen gefunden",
+    "load_more": "Mehr laden",
+    "deadline": "Bewerbungsschluss",
+    "apply_btn": "Anzeige ansehen →",
+    "favorite_add": "Merken",
+    "favorite_remove": "Gemerkt",
+    "analyze_btn": "Mit CVzume AI analysieren →",
+    "no_results": "Keine Stellen gefunden. Passen Sie Ihre Filter an.",
+    "no_favorites": "Sie haben noch keine Stellen gemerkt. Suchen Sie nach interessanten Jobs und speichern Sie sie.",
+    "loading": "Suche läuft …",
+    "anywhere": "Ganz Schweden",
+    "all_kommuner": "Alle Gemeinden",
+    "all_fields": "Alle Berufsfelder",
+    "all_groups": "Alle Berufsgruppen",
+    "source_label": "Quelle",
+    "source_platsbanken": "Platsbanken (Schweden)",
+    "source_iskur": "İŞKUR (Türkei)",
+    "source_indeed": "Indeed & LinkedIn"
+  },
+  "skickade": {
+    "title": "Gesendete Bewerbungen",
+    "subtitle": "{count} gesendet · Markieren Sie den Status, sobald Sie eine Antwort erhalten",
+    "loading": "Wird geladen …",
+    "empty_title": "Keine gesendeten Bewerbungen",
+    "empty_sub_pre": "Gehen Sie zu",
+    "empty_sub_link": "Jobs suchen",
+    "empty_sub_post": "→ Favoriten → Bewerbung senden",
+    "sent_date": "Gesendet am {date}",
+    "positive_btn": "✓ Positive Antwort",
+    "negative_btn": "✗ Absage",
+    "delete_confirm": "„{role}“ löschen? Dies kann nicht rückgängig gemacht werden."
+  },
+  "intervju": {
+    "title": "Vorbereitung auf das Vorstellungsgespräch",
+    "subtitle_hint": "Klicken Sie auf eine Stelle, um KI-Interviewfragen zu generieren",
+    "loading": "Wird geladen …",
+    "empty_title": "Noch keine Vorstellungsgespräche",
+    "empty_sub_pre": "Wenn Sie bei einer Bewerbung unter",
+    "empty_sub_link": "Gesendete Bewerbungen",
+    "empty_sub_post": "„Positive Antwort“ markieren, erscheint sie hier.",
+    "called_date": "Eingeladen am {date}",
+    "back_title": "Zurück zu gesendet",
+    "panel_placeholder": "Wählen Sie eine Stelle, um Interviewfragen zu generieren",
+    "generating": "Interviewfragen für {role} werden generiert …",
+    "questions_title": "Interviewfragen — {role}",
+    "questions_count": "{count} Fragen",
+    "regenerate": "↻ Neue Fragen generieren",
+    "retry": "Erneut versuchen",
+    "error": "Die Fragen konnten nicht generiert werden. Bitte versuchen Sie es erneut.",
+    "pdf_btn": "📥 PDF"
+  },
+  "archive": {
+    "title": "Archiv",
+    "subtitle": "{count} abgelehnte Bewerbungen · Stellen Sie sie unter „Gesendet“ wieder her, wenn Sie es erneut versuchen möchten",
+    "loading": "Wird geladen …",
+    "empty_title": "Keine abgelehnten Bewerbungen",
+    "empty_sub_pre": "Wenn Sie bei einer Bewerbung unter",
+    "empty_sub_link": "Gesendete Bewerbungen",
+    "empty_sub_post": "„Absage“ markieren, erscheint sie hier.",
+    "rejected_label": "Abgelehnt",
+    "restore_btn": "↩ Wiederherstellen",
+    "delete_confirm": "„{role}“ dauerhaft löschen?"
+  },
+  "onboarding": {
+    "title": "Willkommen bei CVzume!",
+    "subtitle": "Ein letzter Schritt — in welcher Sprache suchen Sie nach Jobs?",
+    "hint": "Dies wird die Hauptsprache Ihres Lebenslaufs. Pro-Nutzer können später weitere Sprachen hinzufügen.",
+    "confirm": "Jetzt starten →",
+    "lang_locked": "Hauptsprache Ihres Lebenslaufs",
+    "upgrade_title": "Mehrere Lebenslauf-Sprachen erfordern Pro",
+    "upgrade_desc": "Als Pro-Nutzer können Sie Lebensläufe in allen Sprachen erstellen und speichern — Deutsch, Englisch, Schwedisch, Spanisch und Türkisch.",
+    "upgrade_btn": "Auf Pro upgraden →",
+    "upgrade_cancel": "Bei {lang} bleiben"
+  },
+  "profile": {
+    "title": "Mein Lebenslauf",
+    "download_pdf": "📥 PDF herunterladen",
+    "save_all": "💾 Alles speichern",
+    "progress_title": "Lebenslauf-Profil vollständig",
+    "progress_sub": "Je mehr Sie ausfüllen, desto besser das KI-Matching",
+    "personal_info": "Persönliche Angaben",
+    "photo_label": "Profilfoto",
+    "photo_hint": "JPG, PNG · Max. 2 MB",
+    "photo_upload_btn": "📷 Foto hochladen",
+    "photo_uploading": "Wird hochgeladen …",
+    "field_firstname": "Vorname",
+    "field_lastname": "Nachname",
+    "field_email": "E-Mail-Adresse",
+    "field_phone": "Telefon",
+    "field_location": "Ort / Wohnort",
+    "field_jobtitle": "Berufsbezeichnung",
+    "field_jobtitle_placeholder": "z. B. Frontend-Entwickler",
+    "field_summary": "Kurzprofil / Über mich",
+    "field_summary_placeholder": "Kurze Beschreibung über sich …",
+    "field_summary_hint": "Die KI nutzt dies, um Ihren Lebenslauf anzupassen",
+    "skills_title": "Kenntnisse",
+    "skills_subtitle": "{count} Kenntnisse",
+    "skills_placeholder": "z. B. React, TypeScript, Python …",
+    "languages_title": "Sprachen",
+    "languages_subtitle": "{count} Sprachen",
+    "languages_placeholder": "z. B. Deutsch (Muttersprache), Englisch (fließend) …",
+    "save_success": "✅ Profil gespeichert!",
+    "save_error_server": "❌ Speichern auf dem Server nicht möglich",
+    "save_error_network": "❌ Netzwerkfehler — Profil lokal gespeichert",
+    "photo_saved": "✅ Profilfoto gespeichert!",
+    "photo_too_large": "Die Datei ist zu groß. Max. 2 MB.",
+    "upload_failed": "Hochladen fehlgeschlagen",
+    "tag_add_btn": "＋ Hinzufügen",
+    "banner_title": "🎯 KI-Vorschläge für",
+    "banner_hide": "▲ Ausblenden",
+    "banner_show": "▼ Anzeigen",
+    "banner_keywords": "Empfohlene Schlüsselwörter",
+    "banner_cv_summary": "Vorgeschlagenes Kurzprofil",
+    "banner_tips": "Tipps"
+  },
+  "experience": {
+    "title": "Berufserfahrung",
+    "count": "{count} Einträge",
+    "required_error": "Unternehmen und Position sind Pflichtfelder.",
+    "field_company": "Unternehmen *",
+    "field_company_placeholder": "z. B. Spotify",
+    "field_role": "Position / Titel *",
+    "field_role_placeholder": "z. B. Frontend-Entwickler",
+    "field_start": "Beginn",
+    "field_start_placeholder": "2022-01",
+    "field_end": "Ende",
+    "field_end_placeholder": "2024-06 (oder aktuell)",
+    "field_desc": "Beschreibung",
+    "field_desc_placeholder": "Beschreiben Sie Ihre Aufgaben …",
+    "cancel": "Abbrechen",
+    "add_btn": "＋ Hinzufügen",
+    "add_entry": "＋ Berufserfahrung hinzufügen"
+  },
+  "education": {
+    "title": "Ausbildung",
+    "count": "{count} Einträge",
+    "required_error": "Die Bildungseinrichtung ist ein Pflichtfeld.",
+    "field_school": "Schule / Hochschule *",
+    "field_school_placeholder": "z. B. TU München",
+    "field_degree": "Abschluss",
+    "field_degree_placeholder": "z. B. Bachelor",
+    "field_field": "Fachrichtung",
+    "field_field_placeholder": "z. B. Informatik",
+    "field_years": "Zeitraum",
+    "field_years_placeholder": "2018–2021",
+    "cancel": "Abbrechen",
+    "add_btn": "＋ Hinzufügen",
+    "add_entry": "＋ Ausbildung hinzufügen"
+  },
+  "letter": {
+    "application_prefix": "Bewerbung — ",
+    "default_subject": "Bewerbung — Stelle",
+    "generate_btn": "✨ Neues Anschreiben generieren",
+    "generating": "⏳ Wird generiert …",
+    "edit_btn": "✏️ Bearbeiten",
+    "save_btn": "✏️ Speichern",
+    "copy_btn": "📋 Kopieren",
+    "download_pdf": "📥 PDF herunterladen",
+    "print_title": "Anschreiben",
+    "to_hiring": "An die Personalabteilung",
+    "empty_title": "Noch kein Anschreiben",
+    "empty_desc": "Gehen Sie zu Jobs suchen → Favoriten und analysieren Sie eine Stelle — oder klicken Sie oben auf die Schaltfläche, um ein Anschreiben auf Basis Ihrer letzten Stelle zu generieren.",
+    "edit_hint": "Klicken Sie in den Text, um ihn zu bearbeiten",
+    "signature": "Mit freundlichen Grüßen",
+    "saved": "✅ Anschreiben gespeichert!",
+    "save_error": "❌ Speichern nicht möglich",
+    "copied": "✅ In die Zwischenablage kopiert!",
+    "no_job_error": "❌ Keine Stelle gefunden. Gehen Sie zu Favoriten und analysieren Sie zuerst eine Stelle.",
+    "generate_error": "❌ Das Anschreiben konnte nicht generiert werden. Bitte versuchen Sie es erneut.",
+    "generated": "✅ Neues Anschreiben generiert!"
+  },
+  "landing": {
+    "nav": {
+      "demo": "Ausprobieren",
+      "how": "So funktioniert’s",
+      "features": "Funktionen",
+      "pricing": "Preise",
+      "faq": "FAQ",
+      "login": "Anmelden",
+      "start": "Kostenlos starten",
+      "menu": "Menü",
+      "language": "Sprache"
+    },
+    "hero": {
+      "markets": {
+        "se": {
+          "badge": "KI-gestützt für Jobsuchende in Schweden",
+          "h1a": "Neu in Schweden? Erhalten Sie einen",
+          "h1em": "Lebenslauf",
+          "h1b": "und ein Anschreiben in einwandfreiem Schwedisch",
+          "sub": "Fügen Sie die Stellenanzeige ein, und die KI schreibt eine vollständige Bewerbung, zugeschnitten auf genau diese Stelle — in wenigen Minuten, auch wenn Schwedisch nicht Ihre Muttersprache ist."
+        },
+        "local": {
+          "badge": "KI-gestützte Bewerbungen",
+          "h1a": "Ein maßgeschneiderter",
+          "h1em": "Lebenslauf",
+          "h1b": "und ein Anschreiben für jede Stellenanzeige — in wenigen Minuten",
+          "sub": "Fügen Sie die Anzeige oder einen Link dazu ein. Die KI gleicht sie mit Ihrem Profil ab und schreibt eine Bewerbung, die genau das hervorhebt, was der Arbeitgeber sucht."
+        },
+        "intl": {
+          "badge": "KI-gestützte Bewerbungen",
+          "h1a": "Ein maßgeschneiderter",
+          "h1em": "Lebenslauf",
+          "h1b": "und ein Anschreiben für jede Stelle — auch in einer Sprache, die nicht Ihre eigene ist",
+          "sub": "Fügen Sie die Stellenanzeige ein, und die KI schreibt eine Bewerbung, zugeschnitten auf genau diese Stelle — auf Deutsch, Englisch, Schwedisch, Spanisch oder Türkisch."
+        }
+      },
+      "cta": "Lebenslauf kostenlos erstellen →",
+      "ctaDemo": "Ohne Konto ausprobieren",
+      "trust": [
+        "Kostenlos starten",
+        "Keine Kreditkarte nötig",
+        "Daten in der EU gespeichert"
+      ]
+    },
+    "demo": {
+      "label": "Jetzt ausprobieren",
+      "title": "Sehen Sie, wie gut Sie zu einer Stellenanzeige passen",
+      "sub": "Fügen Sie eine Stellenanzeige oder einen Link dazu ein — zum Beispiel von Platsbanken. Ergänzen Sie ein paar Zeilen über sich, um einen Match-Score und ein maßgeschneidertes Kurzprofil zu erhalten. Kein Konto nötig.",
+      "subGeneric": "Fügen Sie eine Stellenanzeige oder einen Link dazu ein. Ergänzen Sie ein paar Zeilen über sich, um einen Match-Score und ein maßgeschneidertes Kurzprofil zu erhalten. Kein Konto nötig.",
+      "adLabel": "Stellenanzeige",
+      "adPlaceholder": "Fügen Sie hier den vollständigen Text der Stellenanzeige ein …",
+      "profileLabel": "Über Sie (optional)",
+      "profilePlaceholder": "z. B. Pflegehelferin mit 4 Jahren Erfahrung aus Syrien, Führerschein Klasse B, spricht Arabisch und Schwedisch (SFI D) …",
+      "sample": "Beispiel einfügen",
+      "sampleProfile": "Pflegehelferin mit 4 Jahren Erfahrung in der Altenpflege in Syrien. Pflegeausbildung bei Komvux abgeschlossen. Führerschein Klasse B. Spricht Arabisch und Schwedisch (SFI D, Schwedisch als Zweitsprache läuft).",
+      "submit": "Anzeige analysieren",
+      "analyzing": "Wird analysiert …",
+      "score": "Übereinstimmung",
+      "role": "Position",
+      "requirements": "Was der Arbeitgeber sucht",
+      "matched": "Das bringen Sie bereits mit",
+      "missing": "Hervorheben oder ergänzen",
+      "summary": "Maßgeschneidertes Kurzprofil",
+      "summaryExample": "Beispiel für ein Kurzprofil",
+      "tips": "Tipps für diese Bewerbung",
+      "copy": "Kopieren",
+      "copied": "Kopiert!",
+      "noProfileHint": "Ergänzen Sie ein paar Zeilen über sich, um einen persönlichen Match-Score zu erhalten.",
+      "lockedTitle": "Nächster Schritt: die vollständige Bewerbung",
+      "lockedText": "Mit einem kostenlosen Konto schreibt CVzume einen vollständigen Lebenslauf und ein Anschreiben für diese Anzeige und speichert die Bewerbung für Sie. Die Anzeige wird bei der Registrierung übernommen.",
+      "lockedCta": "Vollständige Bewerbung kostenlos erstellen →",
+      "again": "Andere Anzeige ausprobieren",
+      "errors": {
+        "too_short": "Die Anzeige ist zu kurz — fügen Sie den vollständigen Text ein.",
+        "too_long": "Der Text ist zu lang. Kürzen Sie die Anzeige (max. 6.000 Zeichen) oder die Beschreibung (max. 1.500).",
+        "rate_limited": "Sie haben die kostenlosen Versuche für heute aufgebraucht. Erstellen Sie ein Konto, um fortzufahren.",
+        "ai_failed": "Der KI-Dienst antwortet gerade nicht. Bitte versuchen Sie es gleich noch einmal.",
+        "generic": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut."
+      },
+      "privacy": "Ihr Text wird zur Analyse an unseren KI-Anbieter gesendet und von uns nicht gespeichert."
+    },
+    "how": {
+      "label": "So funktioniert’s",
+      "title": "In vier Schritten zur fertigen Bewerbung",
+      "sub": "Von der Stellenanzeige zur kompletten Bewerbungsmappe — in wenigen Minuten.",
+      "steps": [
+        {
+          "title": "Lebenslauf hochladen oder erstellen",
+          "desc": "Importieren Sie Ihren bestehenden Lebenslauf als PDF oder füllen Sie Ihr Profil Schritt für Schritt aus."
+        },
+        {
+          "title": "Stellenanzeige finden oder einfügen",
+          "desc": "Suchen Sie offene Stellen direkt in der App oder fügen Sie eine Anzeige ein, die Sie selbst gefunden haben."
+        },
+        {
+          "title": "Maßgeschneiderte Bewerbung erhalten",
+          "desc": "Die KI gleicht die Anzeige mit Ihrem Profil ab und schreibt ein Kurzprofil und ein Anschreiben für genau diese Stelle."
+        },
+        {
+          "title": "Herunterladen, senden und nachfassen",
+          "desc": "Als PDF speichern, die Bewerbung als gesendet markieren und sich auf das Vorstellungsgespräch vorbereiten."
+        }
+      ]
+    },
+    "features": {
+      "label": "Funktionen",
+      "title": "Alles, was Sie für Ihre Jobsuche brauchen",
+      "items": [
+        {
+          "title": "Match-Analyse",
+          "desc": "Sehen Sie, wie gut Sie zur Anzeige passen, welche Anforderungen Sie bereits erfüllen und was Sie hervorheben sollten."
+        },
+        {
+          "title": "Anschreiben",
+          "desc": "Ein ausgefeiltes Anschreiben, zugeschnitten auf Unternehmen und Stelle — in korrektem Schwedisch oder in der Sprache Ihrer Wahl."
+        },
+        {
+          "title": "Jobs in der App suchen",
+          "desc": "Durchsuchen Sie offene Stellen auf Platsbanken nach Ort und Beruf und speichern Sie Favoriten — ohne den Tab zu wechseln."
+        },
+        {
+          "title": "Vorbereitung auf das Vorstellungsgespräch",
+          "desc": "Erhalten Sie wahrscheinliche Interviewfragen für genau diese Stelle, mit Vorschlägen für Ihre Antworten."
+        },
+        {
+          "title": "Bewerbungen im Blick behalten",
+          "desc": "Alle Bewerbungen an einem Ort: Entwürfe, gesendete und archivierte, mit gespeichertem Lebenslauf und Anschreiben."
+        },
+        {
+          "title": "Fünf Sprachen",
+          "desc": "Nutzen Sie CVzume auf Deutsch, Englisch, Schwedisch, Spanisch oder Türkisch — und erstellen Sie mit Pro Lebensläufe in mehreren Sprachen."
+        }
+      ],
+      "linkItem": {
+        "title": "Anzeige per Link abrufen",
+        "desc": "Fügen Sie einen Link von einer Karriereseite ein, und wir holen den Anzeigentext für Sie — ganz ohne Kopieren."
+      }
+    },
+    "pricing": {
+      "label": "Preise",
+      "title": "Einfache, transparente Preise",
+      "sub": "Kostenlos starten. Upgraden, wenn Sie sich auf viele Stellen bewerben.",
+      "currency": "SEK",
+      "free": {
+        "tier": "Kostenlos",
+        "price": "0",
+        "period": "für immer",
+        "features": [
+          "2 KI-Bewerbungen pro Monat (Lebenslauf + Anschreiben)",
+          "Match-Analyse",
+          "PDF-Export",
+          "Jobsuche und Favoriten",
+          "Bewerbungsübersicht",
+          "Vorbereitung auf Vorstellungsgespräche"
+        ],
+        "cta": "Kostenlos starten"
+      },
+      "pro": {
+        "badge": "AM BELIEBTESTEN",
+        "tier": "Pro",
+        "price": "109",
+        "period": "pro Monat · jederzeit kündbar",
+        "features": [
+          "Unbegrenzte KI-Bewerbungen",
+          "Alles aus Kostenlos",
+          "Lebensläufe in mehreren Sprachen",
+          "Bevorzugter Support"
+        ],
+        "cta": "Pro starten"
+      },
+      "year": {
+        "badge": "BESTES ANGEBOT",
+        "tier": "Pro jährlich",
+        "price": "83",
+        "period": "pro Monat",
+        "save": "309 SEK/Jahr sparen",
+        "billed": "999 SEK/Jahr, jährlich abgerechnet",
+        "features": [
+          "Unbegrenzte KI-Bewerbungen",
+          "Alles aus Kostenlos",
+          "Lebensläufe in mehreren Sprachen",
+          "Bevorzugter Support"
+        ],
+        "cta": "Jahrestarif starten"
+      },
+      "note": "Alle Preise inkl. MwSt. Kartenzahlung über Stripe. Keine Mindestlaufzeit."
+    },
+    "faq": {
+      "label": "Fragen & Antworten",
+      "title": "Häufig gestellte Fragen",
+      "items": [
+        {
+          "q": "Ist CVzume kostenlos?",
+          "a": "Ja. Das kostenlose Konto bietet Ihnen 2 KI-generierte Bewerbungen (Kurzprofil + Anschreiben) pro Monat sowie PDF-Export, Jobsuche und Bewerbungsübersicht. Pro kostet 109 SEK/Monat oder 999 SEK/Jahr und bietet unbegrenzte Bewerbungen."
+        },
+        {
+          "q": "Wie funktioniert die KI-Anpassung?",
+          "a": "CVzume liest die Stellenanzeige und gleicht sie mit Ihrem Profil ab. Die KI erkennt Anforderungen und Schlüsselwörter und schreibt ein Kurzprofil und ein Anschreiben, die Ihre tatsächliche Erfahrung hervorheben. Sie können den Text vor dem Absenden jederzeit bearbeiten."
+        },
+        {
+          "q": "Mein Schwedisch ist nicht so gut — funktioniert es trotzdem?",
+          "a": "Ja, genau dafür gibt es CVzume. Beschreiben Sie Ihre Erfahrung in einfachen Worten, und die KI schreibt die Bewerbung in korrektem, professionellem Schwedisch. Lesen Sie den Text immer noch einmal durch, um sicherzugehen, dass alles stimmt."
+        },
+        {
+          "q": "Erfindet die KI Berufserfahrung?",
+          "a": "Nein, sie ist angewiesen, nur die Angaben aus Ihrem Profil zu verwenden. Prüfen Sie den Text trotzdem immer — Sie sind dafür verantwortlich, dass Ihre Bewerbung der Wahrheit entspricht."
+        },
+        {
+          "q": "Sind meine Daten sicher?",
+          "a": "Ihr Profil und Ihre Bewerbungen werden in der EU gespeichert. Texte zur Analyse werden zur Verarbeitung an unseren KI-Anbieter gesendet. Sie können Ihr Konto und alle Daten jederzeit unter Einstellungen löschen. Mehr dazu in der Datenschutzerklärung."
+        },
+        {
+          "q": "Kann ich Pro jederzeit kündigen?",
+          "a": "Ja. Es gibt keine Mindestlaufzeit, und Sie behalten Pro bis zum Ende des bezahlten Zeitraums. Sie kündigen selbst unter Einstellungen → Tarif."
+        }
+      ],
+      "languageItem": {
+        "q": "Kann ich mich in einer Sprache bewerben, die nicht meine eigene ist?",
+        "a": "Ja. Beschreiben Sie Ihre Erfahrung in einfachen Worten und wählen Sie die Sprache Ihrer Bewerbung — Deutsch, Englisch, Schwedisch, Spanisch oder Türkisch —, und die KI schreibt einen korrekten, professionellen Text. Lesen Sie ihn vor dem Absenden immer noch einmal durch."
+      }
+    },
+    "cta": {
+      "a": "Bereit für Ihren",
+      "em": "nächsten Job?",
+      "sub": "Erstellen Sie noch heute Ihr kostenloses Konto. Keine Kreditkarte nötig.",
+      "button": "Jetzt starten — kostenlos →",
+      "note": [
+        "Kostenlos starten",
+        "Keine Mindestlaufzeit",
+        "DSGVO"
+      ]
+    },
+    "footer": {
+      "product": "Produkt",
+      "guides": "Ratgeber (auf Schwedisch)",
+      "legal": "Rechtliches",
+      "contact": "Kontakt",
+      "privacy": "Datenschutzerklärung",
+      "cookies": "Cookies",
+      "terms": "Nutzungsbedingungen",
+      "guideLinks": {
+        "cv-mall": "Lebenslauf-Vorlage",
+        "personligt-brev-exempel": "Anschreiben",
+        "cv-for-nyanlanda": "Lebenslauf für Neuankömmlinge",
+        "vanliga-intervjufragor": "Interviewfragen"
+      },
+      "copy": "Entwickelt in Schweden 🇸🇪"
+    },
+    "mock": {
+      "url": "cvzume.com/dashboard",
+      "my": "Meine Bewerbungen",
+      "match": "Match",
+      "cvTitle": "Angepasster Lebenslauf — Pflegehelferin",
+      "done": "Fertig",
+      "keywords": "Passende Schlüsselwörter",
+      "analysis": "Analyse",
+      "pdf": "PDF herunterladen",
+      "edit": "Bearbeiten",
+      "jobs": [
+        {
+          "title": "Undersköterska",
+          "co": "Region Stockholm · Solna"
+        },
+        {
+          "title": "Lagerarbetare",
+          "co": "PostNord · Rosersberg"
+        },
+        {
+          "title": "Barnskötare",
+          "co": "Sollentuna kommun"
+        }
+      ],
+      "kw": [
+        "Patientenversorgung",
+        "Dokumentation",
+        "Schwedisch in Wort & Schrift"
+      ]
+    },
+    "local": {
+      "sampleAd": "Verkäufer (m/w/d) – Berlin (Prenzlauer Berg)\n\nFür unser wachsendes Einzelhandelsgeschäft suchen wir eine kundenorientierte Verstärkung im Verkauf.\n\nIhre Aufgaben:\n- Kundinnen und Kunden begrüßen, ihre Wünsche erfragen und kompetent beraten\n- Kassiertätigkeiten übernehmen\n- Warenpräsentation und Bestandskontrolle unterstützen\n- Zum Erreichen der Umsatzziele der Filiale beitragen\n\nIhr Profil:\n- Abgeschlossene Schulausbildung, idealerweise eine Ausbildung im Einzelhandel\n- Vorzugsweise 1 Jahr Erfahrung im Verkauf oder Einzelhandel\n- Freundliches Auftreten, gute Kommunikationsfähigkeit und Teamgeist\n- Bereitschaft zu Schichtarbeit und Arbeit am Samstag\n- Englischkenntnisse von Vorteil\n\nVollzeit, unbefristet; Mitarbeiterrabatt und Zuschuss zum Deutschlandticket.",
+      "sampleProfile": "Ich habe 3 Jahre als Verkäuferin in einem Modegeschäft in Leipzig gearbeitet und war dort auch für Kasse und Inventur zuständig. Ich habe die mittlere Reife und spreche gut Englisch.",
+      "mockJobs": [
+        {
+          "title": "Verkäufer (m/w/d)",
+          "co": "Modegeschäft · Berlin"
+        },
+        {
+          "title": "Lagermitarbeiter (m/w/d)",
+          "co": "Logistikunternehmen · Hamburg"
+        },
+        {
+          "title": "Pflegefachkraft (m/w/d)",
+          "co": "Privatklinik · München"
+        }
+      ],
+      "mockCvTitle": "Angepasster Lebenslauf — Verkäufer (m/w/d)",
+      "mockKw": [
+        "Kundenberatung",
+        "Kassiertätigkeit",
+        "Teamarbeit"
+      ]
+    }
+  },
+  "adlink": {
+    "label": "Haben Sie einen Link zur Anzeige?",
+    "placeholder": "https://arbetsformedlingen.se/platsbanken/annonser/…",
+    "button": "Anzeige abrufen",
+    "loading": "Wird abgerufen …",
+    "hint": "Funktioniert mit Platsbanken und den meisten Karriereseiten.",
+    "ok": "Anzeige von {source} abgerufen. Bitte prüfen Sie den Text unten.",
+    "errors": {
+      "invalid_url": "Das sieht nicht nach einem gültigen Link aus.",
+      "blocked": "Dieser Link kann nicht abgerufen werden.",
+      "fetch_failed": "Die Seite war nicht erreichbar. Kopieren Sie den Anzeigentext und fügen Sie ihn stattdessen ein.",
+      "no_content": "Auf der Seite wurde kein Anzeigentext gefunden (möglicherweise ist eine Anmeldung nötig). Kopieren Sie den Text und fügen Sie ihn stattdessen ein.",
+      "rate_limited": "Zu viele Versuche. Bitte warten Sie einen Moment und versuchen Sie es erneut."
+    },
+    "placeholderGeneric": "https://…",
+    "hintGeneric": "Funktioniert mit den meisten Karriereseiten."
+  }
+}

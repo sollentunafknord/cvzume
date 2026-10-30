@@ -12,6 +12,7 @@ const LOCALES = [
   { code: 'en', label: 'English', flag: 'gb' },
   { code: 'es', label: 'Español', flag: 'es' },
   { code: 'tr', label: 'Türkçe', flag: 'tr' },
+  { code: 'de', label: 'Deutsch', flag: 'de' },
 ];
 
 // Emoji-flaggor syns inte på Windows — samma bilder som OnboardingModal
@@ -112,7 +113,7 @@ export default function LandingClient({ market }: { market: Market }) {
 
   function switchLocale(code: string) {
     try { localStorage.setItem('cvita_language', code); } catch { /* ignore */ }
-    const rest = pathname.replace(/^\/(sv|en|es|tr)(?=\/|$)/, '');
+    const rest = pathname.replace(/^\/(sv|en|es|tr|de)(?=\/|$)/, '');
     window.location.assign(`/${code}${rest}${window.location.hash}`);
   }
 

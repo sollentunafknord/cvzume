@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import { getLegal, SLUGS, UPDATED, CONTACT, type LegalSlug } from '../content';
 
 const BASE_URL = 'https://www.cvzume.com';
-const LOCALES = ['sv', 'en', 'es', 'tr'];
+const LOCALES = ['sv', 'en', 'es', 'tr', 'de'];
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
@@ -26,9 +26,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-const BACK: Record<string, string> = { sv: '← Till startsidan', en: '← Back to home', es: '← Volver al inicio', tr: '← Ana sayfaya dön' };
-const UPDATED_LABEL: Record<string, string> = { sv: 'Senast uppdaterad', en: 'Last updated', es: 'Última actualización', tr: 'Son güncelleme' };
-const QUESTIONS: Record<string, string> = { sv: 'Frågor? Mejla', en: 'Questions? Email', es: '¿Preguntas? Escribe a', tr: 'Sorular için:' };
+const BACK: Record<string, string> = { sv: '← Till startsidan', en: '← Back to home', es: '← Volver al inicio', de: '← Zur Startseite', tr: '← Ana sayfaya dön' };
+const UPDATED_LABEL: Record<string, string> = { sv: 'Senast uppdaterad', en: 'Last updated', es: 'Última actualización', de: 'Zuletzt aktualisiert', tr: 'Son güncelleme' };
+const QUESTIONS: Record<string, string> = { sv: 'Frågor? Mejla', en: 'Questions? Email', es: '¿Preguntas? Escribe a', de: 'Fragen? Schreiben Sie an', tr: 'Sorular için:' };
 
 export default async function LegalPage({ params }: Props) {
   const { locale, slug } = await params;

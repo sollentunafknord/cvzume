@@ -136,6 +136,7 @@
     "terms_link": "Kullanım Şartları",
     "terms_and": "ve",
     "privacy_link": "Gizlilik Politikası",
+    "terms_post": "",
     "no_account_text": "Hesabınız yok mu?",
     "no_account_link": "Ücretsiz oluştur →",
     "has_account_text": "Zaten hesabınız var mı?",
@@ -296,7 +297,7 @@
     "confirm": "Başlayalım →",
     "lang_locked": "Birincil CV diliniz",
     "upgrade_title": "Birden fazla CV dili Pro gerektirir",
-    "upgrade_desc": "Pro kullanıcı olarak tüm dillerde CV oluşturabilir ve kaydedebilirsiniz — İsveççe, İngilizce, İspanyolca ve Türkçe.",
+    "upgrade_desc": "Pro kullanıcı olarak tüm dillerde CV oluşturabilir ve kaydedebilirsiniz — İsveççe, İngilizce, Almanca, İspanyolca ve Türkçe.",
     "upgrade_btn": "Pro'ya yükselt →",
     "upgrade_cancel": "{lang} dilinde kal"
   },
@@ -430,7 +431,7 @@
           "h1a": "Her işe özel",
           "h1em": "CV",
           "h1b": "ve ön yazı — ana diliniz olmayan bir dilde bile",
-          "sub": "İlanı yapıştırın, yapay zeka o pozisyona özel bir başvuru yazsın — Türkçe, İngilizce, İsveççe ya da İspanyolca."
+          "sub": "İlanı yapıştırın, yapay zeka o pozisyona özel bir başvuru yazsın — Türkçe, İngilizce, Almanca, İsveççe ya da İspanyolca."
         }
       },
       "cta": "CV'nizi ücretsiz oluşturun →",
@@ -526,8 +527,8 @@
           "desc": "Tüm başvurular tek yerde: taslaklar, gönderilenler ve arşiv; CV ve ön yazı kayıtlı."
         },
         {
-          "title": "Dört dil",
-          "desc": "CVzume'u İsveççe, İngilizce, İspanyolca ya da Türkçe kullanın — Pro ile birden fazla dilde CV oluşturun."
+          "title": "Beş dil",
+          "desc": "CVzume'u İsveççe, İngilizce, Almanca, İspanyolca ya da Türkçe kullanın — Pro ile birden fazla dilde CV oluşturun."
         }
       ],
       "linkItem": {
@@ -615,7 +616,7 @@
       ],
       "languageItem": {
         "q": "Ana dilim olmayan bir dilde başvurabilir miyim?",
-        "a": "Evet. Deneyiminizi basitçe anlatın ve başvurunun dilini seçin — Türkçe, İngilizce, İsveççe ya da İspanyolca — yapay zeka doğru ve profesyonel bir metin yazsın. Göndermeden önce mutlaka okuyun."
+        "a": "Evet. Deneyiminizi basitçe anlatın ve başvurunun dilini seçin — Türkçe, İngilizce, Almanca, İsveççe ya da İspanyolca — yapay zeka doğru ve profesyonel bir metin yazsın. Göndermeden önce mutlaka okuyun."
       }
     },
     "cta": {

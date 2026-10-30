@@ -136,6 +136,7 @@
     "terms_link": "Terms of Service",
     "terms_and": "and",
     "privacy_link": "Privacy Policy",
+    "terms_post": "",
     "no_account_text": "No account?",
     "no_account_link": "Create one for free →",
     "has_account_text": "Already have an account?",
@@ -296,7 +297,7 @@
     "confirm": "Get started →",
     "lang_locked": "Your primary CV language",
     "upgrade_title": "Multiple CV languages require Pro",
-    "upgrade_desc": "As a Pro user you can create and save CVs in all languages — Swedish, English, Spanish and Turkish.",
+    "upgrade_desc": "As a Pro user you can create and save CVs in all languages — Swedish, English, German, Spanish and Turkish.",
     "upgrade_btn": "Upgrade to Pro →",
     "upgrade_cancel": "Stay on {lang}"
   },
@@ -430,7 +431,7 @@
           "h1a": "A tailored",
           "h1em": "CV",
           "h1b": "and cover letter for every job — even in a language that isn't your own",
-          "sub": "Paste the job ad and the AI writes an application tailored to that exact role — in English, Swedish, Spanish or Turkish."
+          "sub": "Paste the job ad and the AI writes an application tailored to that exact role — in English, Swedish, German, Spanish or Turkish."
         }
       },
       "cta": "Create your CV for free →",
@@ -449,11 +450,11 @@
       "adLabel": "Job ad",
       "adPlaceholder": "Paste the full job ad text here…",
       "profileLabel": "About you (optional)",
-      "profilePlaceholder": "E.g. Assistant nurse with 4 years of experience from Syria, driving licence B, speaks Arabic and Swedish (SFI D)…",
+      "profilePlaceholder": "E.g. Assistant nurse with 4 years of experience from Syria, driver's license (B), speaks Arabic and Swedish (SFI D)…",
       "sample": "Fill in an example",
-      "sampleProfile": "Assistant nurse with 4 years of experience in elderly care in Syria. Completed care training at Komvux. Driving licence B. Speaks Arabic and Swedish (SFI D, Swedish as a second language in progress).",
-      "submit": "Analyse the ad",
-      "analyzing": "Analysing…",
+      "sampleProfile": "Assistant nurse with 4 years of experience in elderly care in Syria. Completed care training at Komvux. Driver's license (B). Speaks Arabic and Swedish (SFI D, Swedish as a second language in progress).",
+      "submit": "Analyze the ad",
+      "analyzing": "Analyzing…",
       "score": "Match",
       "role": "Role",
       "requirements": "What the employer is looking for",
@@ -515,7 +516,7 @@
         },
         {
           "title": "Search jobs in the app",
-          "desc": "Search open positions from Platsbanken by location and occupation and save favourites — without switching tabs."
+          "desc": "Search open positions from Platsbanken by location and occupation and save favorites — without switching tabs."
         },
         {
           "title": "Interview preparation",
@@ -526,8 +527,8 @@
           "desc": "All applications in one place: drafts, sent and archived, with CV and letter saved."
         },
         {
-          "title": "Four languages",
-          "desc": "Use CVzume in Swedish, English, Spanish or Turkish — and create CVs in several languages with Pro."
+          "title": "Five languages",
+          "desc": "Use CVzume in Swedish, English, German, Spanish or Turkish — and create CVs in several languages with Pro."
         }
       ],
       "linkItem": {
@@ -548,7 +549,7 @@
           "2 AI applications per month (CV + letter)",
           "Match analysis",
           "PDF export",
-          "Job search and favourites",
+          "Job search and favorites",
           "Application overview",
           "Interview preparation"
         ],
@@ -606,7 +607,7 @@
         },
         {
           "q": "Is my data safe?",
-          "a": "Your profile and applications are stored in the EU. Text to be analysed is sent to our AI provider for processing. You can delete your account and all data at any time under Settings. Read more in the privacy policy."
+          "a": "Your profile and applications are stored in the EU. Text to be analyzed is sent to our AI provider for processing. You can delete your account and all data at any time under Settings. Read more in the privacy policy."
         },
         {
           "q": "Can I cancel Pro anytime?",
@@ -615,7 +616,7 @@
       ],
       "languageItem": {
         "q": "Can I apply in a language that isn't my own?",
-        "a": "Yes. Describe your experience simply and choose the language for your application — English, Swedish, Spanish or Turkish — and the AI writes correct, professional text. Always read it through before sending."
+        "a": "Yes. Describe your experience simply and choose the language for your application — English, Swedish, German, Spanish or Turkish — and the AI writes correct, professional text. Always read it through before sending."
       }
     },
     "cta": {

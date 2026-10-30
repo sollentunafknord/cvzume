@@ -31,6 +31,12 @@ const META: Record<string, { title: string; description: string; keywords: strin
     keywords: 'CV oluştur, yapay zeka CV, ön yazı örneği, iş başvurusu, CV hazırlama, ücretsiz CV, İsveç CV, İŞKUR',
     ogLocale: 'tr_TR',
   },
+  de: {
+    title: 'CVzume — Lebenslauf und Anschreiben mit KI für jede Stelle | Kostenlos starten',
+    description: 'Fügen Sie die Stellenanzeige oder den Link ein — die KI erstellt in wenigen Minuten ein passendes Lebenslauf-Profil und Anschreiben. In Deutschland, Österreich, der Schweiz oder Schweden. Kostenlos starten.',
+    keywords: 'Lebenslauf erstellen, Anschreiben, Bewerbung schreiben, KI Lebenslauf, Lebenslauf Vorlage kostenlos, Bewerbung KI, CV Schweden',
+    ogLocale: 'de_DE',
+  },
 };
 
 type Props = { params: Promise<{ locale: string }>; searchParams: Promise<{ market?: string }> };
@@ -52,6 +58,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         en: `${BASE_URL}/en`,
         es: `${BASE_URL}/es`,
         tr: `${BASE_URL}/tr`,
+        de: `${BASE_URL}/de`,
         'x-default': `${BASE_URL}/sv`,
       },
     },
@@ -90,7 +97,7 @@ function jsonLd(locale: string, faq: { q: string; a: string }[]) {
         url: BASE_URL,
         name: 'CVzume',
         publisher: { '@id': `${BASE_URL}/#organization` },
-        inLanguage: ['sv', 'en', 'es', 'tr'],
+        inLanguage: ['sv', 'en', 'es', 'tr', 'de'],
       },
       {
         '@type': 'FAQPage',

@@ -3,13 +3,21 @@
 import { useState } from 'react';
 import { useLocale } from 'next-intl';
 import styles from './applications.module.css';
+import { readCountryCookie } from '@/lib/market';
+
+// Indeed har en sajt per land; välj efter besökarens land (cvz_country), annars språkets standard.
+const INDEED_HOSTS: Record<string, string> = {
+  SE: 'se', DE: 'de', AT: 'at', CH: 'ch', ES: 'es', MX: 'mx', AR: 'ar', CO: 'co', CL: 'cl', PE: 'pe', GB: 'uk', IE: 'ie', TR: 'tr',
+};
 
 export default function IndeedJobSearch() {
   const locale = useLocale();
   const [query, setQuery] = useState('');
   const [location, setLocation] = useState('');
 
-  const isSpanish = locale === 'es';
+  const country = readCountryCookie();
+  const fallbackHost = locale === 'es' ? 'es' : locale === 'de' ? 'de' : 'se';
+  const host = `https://${INDEED_HOSTS[country] ?? fallbackHost}.indeed.com`;
 
   const CONFIG = {
     en: {
@@ -18,10 +26,7 @@ export default function IndeedJobSearch() {
       queryPlaceholder: 'Job title, keywords or company...',
       locationPlaceholder: 'City or country (e.g. Stockholm)',
       tip: 'Enter a job title and location, then click search. Results open in a new tab.',
-      indeedUrl: (q: string, l: string) =>
-        `https://se.indeed.com/jobs?q=${encodeURIComponent(q)}&l=${encodeURIComponent(l)}`,
       indeedLabel: 'Search on Indeed →',
-      indeedBase: 'https://se.indeed.com',
       indeedSub: 'Millions of jobs worldwide',
       indeedDesc: 'Indeed aggregates job listings from thousands of company career pages and job boards. Search by title, skills or company name.',
       tags: ['Free', 'Global', 'Millions of listings'],
@@ -38,10 +43,7 @@ export default function IndeedJobSearch() {
       queryPlaceholder: 'Puesto, palabras clave o empresa...',
       locationPlaceholder: 'Ciudad o país (ej. Madrid)',
       tip: 'Escribe un término de búsqueda y una ubicación, luego haz clic en buscar. Los resultados se abren en una nueva pestaña.',
-      indeedUrl: (q: string, l: string) =>
-        `https://es.indeed.com/trabajo?q=${encodeURIComponent(q)}&l=${encodeURIComponent(l)}`,
       indeedLabel: 'Buscar en Indeed →',
-      indeedBase: 'https://es.indeed.com',
       indeedSub: 'Millones de empleos en España y el mundo',
       indeedDesc: 'Indeed reúne ofertas de empleo de miles de empresas y portales de trabajo. Busca por título, habilidades o nombre de empresa.',
       tags: ['Gratis', 'Global', 'Millones de ofertas'],
@@ -52,13 +54,31 @@ export default function IndeedJobSearch() {
       linkedinDesc: 'Encuentra trabajo y conecta directamente con reclutadores. Ideal para perfiles profesionales y tecnológicos.',
       linkedinTags: ['Profesional', 'Red de contactos', 'Tecnología'],
     },
+    de: {
+      title: 'Jobsuche',
+      subtitle: 'Finden Sie Stellen über Indeed und LinkedIn',
+      queryPlaceholder: 'Jobtitel, Stichwörter oder Unternehmen …',
+      locationPlaceholder: 'Stadt oder Land (z. B. Berlin)',
+      tip: 'Geben Sie einen Suchbegriff und einen Ort ein und klicken Sie auf Suchen. Die Ergebnisse öffnen sich in einem neuen Tab.',
+      indeedLabel: 'Auf Indeed suchen →',
+      indeedSub: 'Millionen Stellen in Deutschland und weltweit',
+      indeedDesc: 'Indeed bündelt Stellenanzeigen von Tausenden Unternehmen und Jobbörsen. Suchen Sie nach Jobtitel, Fähigkeiten oder Unternehmen.',
+      tags: ['Kostenlos', 'Weltweit', 'Millionen Anzeigen'],
+      linkedinUrl: (q: string, l: string) =>
+        `https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent(q)}&location=${encodeURIComponent(l || 'Deutschland')}`,
+      linkedinLabel: 'Auf LinkedIn suchen →',
+      linkedinSub: 'Berufliches Netzwerk & Jobs',
+      linkedinDesc: 'Finden Sie Stellen und vernetzen Sie sich direkt mit Recruitern. Ideal für Fach- und Tech-Rollen.',
+      linkedinTags: ['Beruflich', 'Netzwerk', 'Tech-Fokus'],
+    },
   };
 
-  const c = isSpanish ? CONFIG.es : CONFIG.en;
+  const c = locale === 'es' ? CONFIG.es : locale === 'de' ? CONFIG.de : CONFIG.en;
+  const indeedUrl = (q: string, l: string) => `${host}/jobs?q=${encodeURIComponent(q)}&l=${encodeURIComponent(l)}`;
 
   function openIndeed(e: React.FormEvent) {
     e.preventDefault();
-    window.open(c.indeedUrl(query.trim(), location.trim()), '_blank', 'noopener');
+    window.open(indeedUrl(query.trim(), location.trim()), '_blank', 'noopener');
   }
 
   function openLinkedIn(e: React.MouseEvent) {

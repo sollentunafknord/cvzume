@@ -4,19 +4,20 @@ import { NextRequest, NextResponse } from "next/server";
 import { COUNTRY_COOKIE } from "./src/lib/market";
 
 export const routing = defineRouting({
-  locales: ["sv", "en", "es", "tr"],
+  locales: ["sv", "en", "es", "tr", "de"],
   defaultLocale: "sv",
   localeDetection: true,
 });
 
 const intlMiddleware = createMiddleware(routing);
 
-const LOCALES = ["sv", "en", "es", "tr"];
+const LOCALES = ["sv", "en", "es", "tr", "de"];
 
 // Map Vercel x-vercel-ip-country → locale
 const COUNTRY_LOCALE: Record<string, string> = {
   SE: "sv",
   TR: "tr",
+  DE: "de", AT: "de", CH: "de", LI: "de",
   ES: "es", MX: "es", AR: "es", CO: "es", CL: "es", PE: "es", VE: "es", EC: "es",
   US: "en", GB: "en", AU: "en", CA: "en", NZ: "en", IE: "en", ZA: "en", IN: "en",
 };

@@ -6,6 +6,7 @@ const CATEGORIES: Record<string, { technical: string; behavioral: string; situat
   en: { technical: 'Technical', behavioral: 'Behavioral', situational: 'Situational', personal: 'Personal', company: 'Company' },
   es: { technical: 'Técnica', behavioral: 'Conducta', situational: 'Situación', personal: 'Personal', company: 'Empresa' },
   tr: { technical: 'Teknik', behavioral: 'Davranış', situational: 'Durum', personal: 'Kişisel', company: 'Şirket' },
+  de: { technical: 'Fachlich', behavioral: 'Verhalten', situational: 'Situativ', personal: 'Persönlich', company: 'Unternehmen' },
 }
 
 export async function POST(req: Request) {

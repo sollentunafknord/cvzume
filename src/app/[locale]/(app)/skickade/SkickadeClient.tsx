@@ -14,7 +14,7 @@ interface Application {
 }
 
 function formatDate(dateStr: string, locale: string) {
-  const localeMap: Record<string, string> = { en: 'en-GB', es: 'es-ES', tr: 'tr-TR', sv: 'sv-SE' };
+  const localeMap: Record<string, string> = { en: 'en-GB', es: 'es-ES', tr: 'tr-TR', sv: 'sv-SE', de: 'de-DE' };
   return new Date(dateStr).toLocaleDateString(localeMap[locale] || 'sv-SE', { day: 'numeric', month: 'short', year: 'numeric' });
 }
 

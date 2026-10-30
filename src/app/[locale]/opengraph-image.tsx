@@ -10,6 +10,7 @@ const TITLES: Record<string, { headline: string; sub: string }> = {
   en: { headline: 'Build your CV with AI', sub: 'Tailored to every job ad · Free to start' },
   es: { headline: 'Crea tu CV con IA', sub: 'Adaptado a cada oferta · Gratis para empezar' },
   tr: { headline: 'Yapay Zeka ile CV Oluştur', sub: 'Her ilana özel uyarlanmış · Ücretsiz başlayın' },
+  de: { headline: 'Lebenslauf mit KI erstellen', sub: 'Für jede Stellenanzeige angepasst · Kostenlos starten' },
 };
 
 type Props = { params: Promise<{ locale: string }> };

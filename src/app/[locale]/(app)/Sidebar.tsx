@@ -97,6 +97,7 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
     { code: 'en', flagImg: 'https://flagcdn.com/20x15/gb.png', label: 'English' },
     { code: 'es', flagImg: 'https://flagcdn.com/20x15/es.png', label: 'Español' },
     { code: 'tr', flagImg: 'https://flagcdn.com/20x15/tr.png', label: 'Türkçe' },
+    { code: 'de', flagImg: 'https://flagcdn.com/20x15/de.png', label: 'Deutsch' },
   ];
 
   function switchLocale(newLocale: string) {
