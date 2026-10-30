@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { callAI, ADDRESS_RULE, COUNTRY_RULE, LANG_NAMES } from '@/lib/ai';
+import { callAIJson, ADDRESS_RULE, COUNTRY_RULE, LANG_NAMES } from '@/lib/ai';
 
 const CATEGORIES: Record<string, { technical: string; behavioral: string; situational: string; personal: string; company: string }> = {
   sv: { technical: 'Teknisk', behavioral: 'Beteende', situational: 'Situation', personal: 'Personlig', company: 'Företag' },
@@ -45,11 +45,7 @@ Respond ONLY with a JSON object in this exact format:
   ]
 }`;
 
-    const { text } = await callAI(prompt);
-
-    const match = text.match(/\{[\s\S]*\}/);
-    if (!match) throw new Error('No JSON in response');
-    const parsed = JSON.parse(match[0]);
+    const { data: parsed } = await callAIJson<{ questions?: unknown[] }>(prompt, 3000);
 
     return NextResponse.json({ questions: parsed.questions || [] });
   } catch (err) {

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { callAI, ADDRESS_RULE, COUNTRY_RULE, LANG_NAMES, parseJson } from '@/lib/ai'
+import { callAIJson, ADDRESS_RULE, COUNTRY_RULE, LANG_NAMES } from '@/lib/ai'
 
 export async function POST(request: Request) {
   const { jobAd, userProfile, locale } = await request.json()
@@ -80,10 +80,7 @@ Respond ONLY with this exact JSON format (no other text, no markdown):
 }`
 
   try {
-    const { text, provider } = await callAI(prompt)
-
-    // JSON parse
-    const result = parseJson<Record<string, unknown>>(text)
+    const { data: result, provider } = await callAIJson<Record<string, unknown>>(prompt)
 
     return NextResponse.json({ ...result, provider }, { status: 200 })
   } catch (err: any) {

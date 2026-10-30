@@ -1,7 +1,7 @@
 // Landing sayfasındaki kayıtsız demo: ilan (+ isteğe bağlı kısa profil) → eşleşme analizi.
 // Tam ön yazı üretmiyoruz; amaç ürünü göstermek ve kayda yönlendirmek.
 import { NextResponse } from 'next/server'
-import { callAI, ADDRESS_RULE, COUNTRY_RULE, LANG_NAMES, parseJson } from '@/lib/ai'
+import { callAIJson, ADDRESS_RULE, COUNTRY_RULE, LANG_NAMES } from '@/lib/ai'
 import { createClient } from '@supabase/supabase-js'
 import { createHash } from 'crypto'
 
@@ -132,8 +132,7 @@ Respond ONLY with JSON, no markdown:
 {"role":"","matchScore":null,"requirements":[{"text":"","met":null}],"cvSummary":"","tips":[]}`
 
   try {
-    const { text } = await callAI(prompt)
-    const r = parseJson<Partial<DemoResult> & { requirements?: { text?: unknown; met?: unknown }[] }>(text)
+    const { data: r } = await callAIJson<Partial<DemoResult> & { requirements?: { text?: unknown; met?: unknown }[] }>(prompt, 1500)
     const list = (v: unknown) => (Array.isArray(v) ? v.filter(x => typeof x === 'string').slice(0, 8) : [])
     const reqs = (Array.isArray(r.requirements) ? r.requirements : [])
       .filter(q => q && typeof q.text === 'string' && q.text)
