@@ -402,11 +402,29 @@
       "language": "Dil"
     },
     "hero": {
-      "badge": "İsveç'te iş arayanlar için yapay zeka",
-      "h1a": "İsveç'te yeni misin? Kusursuz İsveççe",
-      "h1em": "CV",
-      "h1b": "ve ön yazı hazırla",
-      "sub": "İş ilanını yapıştır, yapay zeka o pozisyona özel eksiksiz bir başvuru hazırlasın — dakikalar içinde, İsveççe ana dilin olmasa bile.",
+      "markets": {
+        "se": {
+          "badge": "İsveç'te iş arayanlar için yapay zeka",
+          "h1a": "İsveç'te yeni misin? Kusursuz İsveççe",
+          "h1em": "CV",
+          "h1b": "ve ön yazı hazırla",
+          "sub": "İş ilanını yapıştır, yapay zeka o pozisyona özel eksiksiz bir başvuru hazırlasın — dakikalar içinde, İsveççe ana dilin olmasa bile."
+        },
+        "local": {
+          "badge": "Yapay zeka ile iş başvurusu",
+          "h1a": "Her ilana özel",
+          "h1em": "CV",
+          "h1b": "ve ön yazı — dakikalar içinde hazır",
+          "sub": "İlanı ya da linkini yapıştır. Yapay zeka ilanı profilinle karşılaştırır ve işverenin tam olarak aradığını öne çıkaran bir başvuru yazar."
+        },
+        "intl": {
+          "badge": "Yapay zeka ile iş başvurusu",
+          "h1a": "Her işe özel",
+          "h1em": "CV",
+          "h1b": "ve ön yazı — ana dilin olmayan bir dilde bile",
+          "sub": "İlanı yapıştır, yapay zeka o pozisyona özel bir başvuru yazsın — Türkçe, İngilizce, İsveççe ya da İspanyolca."
+        }
+      },
       "cta": "CV'ni ücretsiz oluştur →",
       "ctaDemo": "Hesapsız dene",
       "trust": [
@@ -419,6 +437,7 @@
       "label": "Hemen dene",
       "title": "Bir ilana ne kadar uyduğunu gör",
       "sub": "Bir iş ilanını ya da linkini yapıştır — örneğin Platsbanken'den. Kendinle ilgili birkaç satır eklersen uyum puanı ve ilana özel bir CV özeti de alırsın. Hesap gerekmez.",
+      "subGeneric": "Bir iş ilanını ya da linkini yapıştır. Kendinle ilgili birkaç satır eklersen uyum puanı ve ilana özel bir CV özeti de alırsın. Hesap gerekmez.",
       "adLabel": "İş ilanı",
       "adPlaceholder": "İlanın tam metnini buraya yapıştır…",
       "profileLabel": "Hakkında (isteğe bağlı)",
@@ -502,7 +521,11 @@
           "title": "Dört dil",
           "desc": "CVzume'u İsveççe, İngilizce, İspanyolca ya da Türkçe kullan — Pro ile birden fazla dilde CV oluştur."
         }
-      ]
+      ],
+      "linkItem": {
+        "title": "İlanı linkten getir",
+        "desc": "Bir kariyer sitesinden link yapıştır, ilan metnini senin için getirelim — kopyalamaya gerek yok."
+      }
     },
     "pricing": {
       "label": "Fiyatlar",
@@ -581,7 +604,11 @@
           "q": "Pro'yu istediğim zaman iptal edebilir miyim?",
           "a": "Evet. Taahhüt yok; iptal etsen de ödediğin dönemin sonuna kadar Pro kalırsın. İptali Ayarlar → Plan'dan kendin yaparsın."
         }
-      ]
+      ],
+      "languageItem": {
+        "q": "Ana dilim olmayan bir dilde başvurabilir miyim?",
+        "a": "Evet. Deneyimini basitçe anlat ve başvurunun dilini seç — Türkçe, İngilizce, İsveççe ya da İspanyolca — yapay zeka doğru ve profesyonel bir metin yazsın. Göndermeden önce mutlaka oku."
+      }
     },
     "cta": {
       "a": "Bir sonraki işine",
@@ -654,6 +681,8 @@
       "fetch_failed": "Sayfaya ulaşamadık. İlan metnini kopyalayıp yapıştır.",
       "no_content": "Sayfada ilan metni bulamadık (giriş gerektiriyor olabilir). Metni kopyalayıp yapıştır.",
       "rate_limited": "Çok fazla deneme. Biraz bekleyip tekrar dene."
-    }
+    },
+    "placeholderGeneric": "https://…",
+    "hintGeneric": "Çoğu kariyer sitesiyle çalışır."
   }
 }

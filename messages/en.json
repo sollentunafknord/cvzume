@@ -402,11 +402,29 @@
       "language": "Language"
     },
     "hero": {
-      "badge": "AI-powered for job seekers in Sweden",
-      "h1a": "New in Sweden? Get a",
-      "h1em": "CV",
-      "h1b": "and cover letter in flawless Swedish",
-      "sub": "Paste the job ad and the AI writes a complete application tailored to that exact role — in minutes, even if Swedish isn't your first language.",
+      "markets": {
+        "se": {
+          "badge": "AI-powered for job seekers in Sweden",
+          "h1a": "New in Sweden? Get a",
+          "h1em": "CV",
+          "h1b": "and cover letter in flawless Swedish",
+          "sub": "Paste the job ad and the AI writes a complete application tailored to that exact role — in minutes, even if Swedish isn't your first language."
+        },
+        "local": {
+          "badge": "AI-powered job applications",
+          "h1a": "A tailored",
+          "h1em": "CV",
+          "h1b": "and cover letter for every job ad — in minutes",
+          "sub": "Paste the ad or a link to it. The AI compares it with your profile and writes an application that highlights exactly what the employer is looking for."
+        },
+        "intl": {
+          "badge": "AI-powered job applications",
+          "h1a": "A tailored",
+          "h1em": "CV",
+          "h1b": "and cover letter for every job — even in a language that isn't your own",
+          "sub": "Paste the job ad and the AI writes an application tailored to that exact role — in English, Swedish, Spanish or Turkish."
+        }
+      },
       "cta": "Create your CV for free →",
       "ctaDemo": "Try without an account",
       "trust": [
@@ -419,6 +437,7 @@
       "label": "Try it now",
       "title": "See how well you match a job ad",
       "sub": "Paste a job ad or a link to it — for example from Platsbanken. Add a few lines about yourself to get a match score and a tailored CV summary. No account needed.",
+      "subGeneric": "Paste a job ad or a link to it. Add a few lines about yourself to get a match score and a tailored CV summary. No account needed.",
       "adLabel": "Job ad",
       "adPlaceholder": "Paste the full job ad text here…",
       "profileLabel": "About you (optional)",
@@ -502,7 +521,11 @@
           "title": "Four languages",
           "desc": "Use CVzume in Swedish, English, Spanish or Turkish — and create CVs in several languages with Pro."
         }
-      ]
+      ],
+      "linkItem": {
+        "title": "Fetch the ad from a link",
+        "desc": "Paste a link from a career site and we fetch the ad text for you — no copying needed."
+      }
     },
     "pricing": {
       "label": "Pricing",
@@ -581,7 +604,11 @@
           "q": "Can I cancel Pro anytime?",
           "a": "Yes. There is no lock-in period, and you keep Pro until the end of the period you've paid for. You cancel yourself under Settings → Plan."
         }
-      ]
+      ],
+      "languageItem": {
+        "q": "Can I apply in a language that isn't my own?",
+        "a": "Yes. Describe your experience simply and choose the language for your application — English, Swedish, Spanish or Turkish — and the AI writes correct, professional text. Always read it through before sending."
+      }
     },
     "cta": {
       "a": "Ready to land your",
@@ -654,6 +681,8 @@
       "fetch_failed": "We couldn't reach the page. Copy the ad text and paste it instead.",
       "no_content": "We couldn't find any ad text on the page (it may require login). Copy the text and paste it instead.",
       "rate_limited": "Too many attempts. Please wait a moment and try again."
-    }
+    },
+    "placeholderGeneric": "https://…",
+    "hintGeneric": "Works with most career sites."
   }
 }

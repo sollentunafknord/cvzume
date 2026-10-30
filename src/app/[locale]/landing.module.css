@@ -148,8 +148,8 @@
 .footerBrand { display: flex; flex-direction: column; gap: 16px; }
 .footerLogo { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--navy); text-decoration: none; }
 .footerLogo span { color: var(--blue); }
-.footerLangs { display: flex; gap: 6px; }
-.footerLangs button { font-family: inherit; font-size: 12px; font-weight: 600; color: var(--slate); background: white; border: 1px solid var(--border); border-radius: 6px; padding: 4px 8px; cursor: pointer; }
+.footerLangs { display: flex; gap: 6px; flex-wrap: wrap; }
+.footerLangs button { display: inline-flex; align-items: center; gap: 5px; font-family: inherit; font-size: 12px; font-weight: 600; color: var(--slate); background: white; border: 1px solid var(--border); border-radius: 6px; padding: 4px 8px; cursor: pointer; }
 .footerLangs button.langActive { color: white; background: var(--blue); border-color: var(--blue); }
 .footerCol { display: flex; flex-direction: column; gap: 10px; }
 .footerHead { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--navy); margin-bottom: 4px; }
@@ -159,10 +159,11 @@
 
 /* ── LANGUAGE + MOBILE MENU ── */
 .langWrap { position: relative; }
-.langBtn { font-family: inherit; font-size: 13px; font-weight: 600; color: var(--navy); background: none; border: 1.5px solid var(--border); border-radius: 8px; padding: 7px 10px; cursor: pointer; }
+.flag { width: 20px; height: 15px; border-radius: 2px; object-fit: cover; vertical-align: -2px; box-shadow: 0 0 0 1px rgba(13,27,42,0.08); }
+.langBtn { display: inline-flex; align-items: center; gap: 6px; font-family: inherit; font-size: 13px; font-weight: 600; color: var(--navy); background: none; border: 1.5px solid var(--border); border-radius: 8px; padding: 7px 10px; cursor: pointer; }
 .langBtn:hover { border-color: var(--blue); }
 .langMenu { position: absolute; right: 0; top: calc(100% + 6px); background: white; border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 12px 32px rgba(13,27,42,0.12); list-style: none; padding: 6px; margin: 0; min-width: 140px; z-index: 110; }
-.langMenu button { width: 100%; text-align: left; font-family: inherit; font-size: 14px; color: var(--navy); background: none; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; }
+.langMenu button { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; font-family: inherit; font-size: 14px; color: var(--navy); background: none; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; }
 .langMenu button:hover { background: var(--blue-light); }
 .langMenu button.langActive { color: var(--blue); font-weight: 600; }
 .mobileMenu { position: fixed; top: 64px; left: 0; right: 0; z-index: 99; background: white; border-bottom: 1px solid var(--border); box-shadow: 0 12px 24px rgba(13,27,42,0.08); display: flex; flex-direction: column; padding: 12px 20px 20px; gap: 4px; }

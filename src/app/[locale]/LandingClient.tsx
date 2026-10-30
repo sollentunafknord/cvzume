@@ -7,11 +7,22 @@ import styles from './landing.module.css';
 import AdLinkInput, { isLoneUrl } from './AdLinkInput';
 
 const LOCALES = [
-  { code: 'sv', label: 'Svenska' },
-  { code: 'en', label: 'English' },
-  { code: 'es', label: 'Español' },
-  { code: 'tr', label: 'Türkçe' },
+  { code: 'sv', label: 'Svenska', flag: 'se' },
+  { code: 'en', label: 'English', flag: 'gb' },
+  { code: 'es', label: 'Español', flag: 'es' },
+  { code: 'tr', label: 'Türkçe', flag: 'tr' },
 ];
+
+// Emoji-flaggor syns inte på Windows — samma bilder som OnboardingModal
+function Flag({ code }: { code: string }) {
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src={`https://flagcdn.com/w40/${code}.png`} alt="" width={20} height={15} className={styles.flag} />
+  );
+}
+
+// Marknad styr rubrikens innehåll (land), språket styrs av locale. Sätts i page.tsx.
+export type Market = 'se' | 'local' | 'intl';
 
 const GUIDE_SLUGS = ['cv-mall', 'personligt-brev-exempel', 'cv-for-nyanlanda', 'vanliga-intervjufragor'];
 
@@ -51,17 +62,19 @@ type DemoResult = {
 type Step = { title: string; desc: string };
 type Faq = { q: string; a: string };
 type Plan = { tier: string; price: string; period: string; features: string[]; cta: string; badge?: string; save?: string; billed?: string };
+type HeroCopy = { badge: string; h1a: string; h1em: string; h1b: string; sub: string };
 type LandingLists = {
-  hero: { trust: string[] };
+  hero: { trust: string[]; markets: Record<Market, HeroCopy> };
+  demo: { sub: string; subGeneric: string };
   how: { steps: Step[] };
-  features: { items: Step[] };
+  features: { items: Step[]; linkItem: Step };
   pricing: { free: Plan; pro: Plan; year: Plan };
-  faq: { items: Faq[] };
+  faq: { items: Faq[]; languageItem: Faq };
   cta: { note: string[] };
   mock: { jobs: { title: string; co: string }[]; kw: string[] };
 };
 
-export default function LandingClient() {
+export default function LandingClient({ market }: { market: Market }) {
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
@@ -109,6 +122,12 @@ export default function LandingClient() {
     { href: '#faq', label: t('nav.faq') },
   ];
 
+  // Utanför Sverige: inga Platsbanken-/svenska-specifika påståenden
+  const se = market === 'se';
+  const hero = L.hero.markets[market];
+  const featureItems = se ? L.features.items : L.features.items.map((f, i) => (i === 2 ? L.features.linkItem : f));
+  const faqItems = se ? L.faq.items : L.faq.items.map((f, i) => (i === 2 ? L.faq.languageItem : f));
+
   const plans: { key: string; plan: Plan; cls: string; btn: string }[] = [
     { key: 'free', plan: L.pricing.free, cls: '', btn: styles.btnPricingOutline },
     { key: 'pro', plan: L.pricing.pro, cls: styles.pricingFeatured, btn: styles.btnPricingFill },
@@ -132,7 +151,7 @@ export default function LandingClient() {
               aria-label={t('nav.language')}
               aria-expanded={langOpen}
             >
-              🌐 {locale.toUpperCase()}
+              <Flag code={LOCALES.find(l => l.code === locale)?.flag ?? 'se'} /> {locale.toUpperCase()}
             </button>
             {langOpen && (
               <ul className={styles.langMenu}>
@@ -142,7 +161,7 @@ export default function LandingClient() {
                       className={l.code === locale ? styles.langActive : undefined}
                       onClick={() => switchLocale(l.code)}
                     >
-                      {l.label}
+                      <Flag code={l.flag} /> {l.label}
                     </button>
                   </li>
                 ))}
@@ -170,10 +189,10 @@ export default function LandingClient() {
         <div className={styles.heroInner}>
           <div className={styles.heroBadge}>
             <span className={styles.heroBadgeDot} />
-            {t('hero.badge')}
+            {hero.badge}
           </div>
-          <h1 className={styles.heroH1}>{t('hero.h1a')} <em>{t('hero.h1em')}</em> {t('hero.h1b')}</h1>
-          <p className={styles.heroSub}>{t('hero.sub')}</p>
+          <h1 className={styles.heroH1}>{hero.h1a} <em>{hero.h1em}</em> {hero.h1b}</h1>
+          <p className={styles.heroSub}>{hero.sub}</p>
           <div className={styles.heroActions}>
             <a href={registerUrl} className={styles.btnHero}>{t('hero.cta')}</a>
             <a href="#testa" className={styles.btnHeroGhost}>{t('hero.ctaDemo')}</a>
@@ -254,7 +273,7 @@ export default function LandingClient() {
       </section>
 
       {/* DEMO */}
-      <DemoSection locale={locale} registerUrl={registerUrl} />
+      <DemoSection locale={locale} registerUrl={registerUrl} sub={se ? L.demo.sub : L.demo.subGeneric} generic={!se} />
 
       {/* HOW IT WORKS */}
       <section id="hur" className={styles.howSection}>
@@ -280,7 +299,7 @@ export default function LandingClient() {
           <div className={`${styles.sectionLabel} ${styles.reveal}`} data-reveal="">{t('features.label')}</div>
           <h2 className={`${styles.sectionTitle} ${styles.reveal} ${styles.revealDelay1}`} data-reveal="">{t('features.title')}</h2>
           <div className={styles.featuresGrid}>
-            {L.features.items.map((f, i) => (
+            {featureItems.map((f, i) => (
               <div key={f.title} className={`${styles.featureCard} ${styles.reveal} ${[styles.revealDelay0, styles.revealDelay1, styles.revealDelay2][i % 3]}`} data-reveal="">
                 <div className={styles.featureIcon}>{FEATURE_ICONS[i]}</div>
                 <div className={styles.featureTitle}>{f.title}</div>
@@ -325,7 +344,7 @@ export default function LandingClient() {
           <div className={styles.sectionLabel}>{t('faq.label')}</div>
           <h2 className={styles.sectionTitle}>{t('faq.title')}</h2>
           <div className={styles.faqList}>
-            {L.faq.items.map(f => (
+            {faqItems.map(f => (
               <details key={f.q} className={styles.faqItem}>
                 <summary>{f.q}</summary>
                 <p>{f.a}</p>
@@ -350,8 +369,8 @@ export default function LandingClient() {
             <a href={`/${locale}`} className={styles.footerLogo}>CV<span>zume</span></a>
             <div className={styles.footerLangs}>
               {LOCALES.map(l => (
-                <button key={l.code} onClick={() => switchLocale(l.code)} className={l.code === locale ? styles.langActive : undefined}>
-                  {l.code.toUpperCase()}
+                <button key={l.code} onClick={() => switchLocale(l.code)} className={l.code === locale ? styles.langActive : undefined} aria-label={l.label}>
+                  <Flag code={l.flag} /> {l.code.toUpperCase()}
                 </button>
               ))}
             </div>
@@ -381,7 +400,7 @@ export default function LandingClient() {
   );
 }
 
-function DemoSection({ locale, registerUrl }: { locale: string; registerUrl: string }) {
+function DemoSection({ locale, registerUrl, sub, generic }: { locale: string; registerUrl: string; sub: string; generic: boolean }) {
   const t = useTranslations('landing.demo');
   const [ad, setAd] = useState('');
   const [profile, setProfile] = useState('');
@@ -453,11 +472,11 @@ function DemoSection({ locale, registerUrl }: { locale: string; registerUrl: str
       <div className={styles.demoInner}>
         <div className={styles.sectionLabel}>{t('label')}</div>
         <h2 className={styles.sectionTitle}>{t('title')}</h2>
-        <p className={styles.sectionSub}>{t('sub')}</p>
+        <p className={styles.sectionSub}>{sub}</p>
 
         {!result && (
           <form className={styles.demoForm} onSubmit={analyze}>
-            <AdLinkInput pastedUrl={pastedUrl} onFetched={a => setAd(a.text)} />
+            <AdLinkInput pastedUrl={pastedUrl} onFetched={a => setAd(a.text)} generic={generic} />
             <div className={styles.demoField}>
               <div className={styles.demoLabelRow}>
                 <label htmlFor="demo-ad">{t('adLabel')}</label>

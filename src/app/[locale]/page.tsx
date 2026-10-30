@@ -1,6 +1,19 @@
 import type { Metadata } from 'next';
 import { getMessages } from 'next-intl/server';
-import LandingClient from './LandingClient';
+import { headers } from 'next/headers';
+import LandingClient, { type Market } from './LandingClient';
+
+// Spansktalande länder: samma lista som i middleware.ts
+const SPANISH = ['ES', 'MX', 'AR', 'CO', 'CL', 'PE', 'VE', 'EC'];
+
+// Rubriken anpassas efter besökarens land (x-vercel-ip-country), inte språket:
+// en turkisktalande i Sverige ska fortfarande se "Ny i Sverige?" — på turkiska.
+// Okänt land: svenska sidan behåller Sverige-rubriken (även för Googlebot), övriga får neutral.
+function marketFor(country: string, locale: string): Market {
+  if (country === 'SE') return 'se';
+  if (country === 'TR' || SPANISH.includes(country)) return 'local';
+  return locale === 'sv' ? 'se' : 'intl';
+}
 
 const BASE_URL = 'https://www.cvzume.com';
 
@@ -31,7 +44,7 @@ const META: Record<string, { title: string; description: string; keywords: strin
   },
 };
 
-type Props = { params: Promise<{ locale: string }> };
+type Props = { params: Promise<{ locale: string }>; searchParams: Promise<{ market?: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
@@ -103,8 +116,12 @@ function jsonLd(locale: string, faq: { q: string; a: string }[]) {
   };
 }
 
-export default async function LocalePage({ params }: Props) {
+export default async function LocalePage({ params, searchParams }: Props) {
   const { locale } = await params;
+  // ?market=se|local|intl för att förhandsgranska varianterna
+  const forced = (await searchParams).market;
+  const country = (await headers()).get('x-vercel-ip-country') ?? '';
+  const market: Market = forced === 'se' || forced === 'local' || forced === 'intl' ? forced : marketFor(country, locale);
   const messages = (await getMessages()) as { landing: { faq: { items: { q: string; a: string }[] } } };
 
   return (
@@ -113,7 +130,7 @@ export default async function LocalePage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd(locale, messages.landing.faq.items)) }}
       />
-      <LandingClient />
+      <LandingClient market={market} />
     </>
   );
 }

@@ -10,8 +10,10 @@ export type FetchedAd = { title: string; company: string; location: string; text
 
 export const isLoneUrl = (s: string) => /^https?:\/\/\S+$/i.test(s.trim());
 
-export default function AdLinkInput({ onFetched, pastedUrl }: {
+export default function AdLinkInput({ onFetched, pastedUrl, generic = false }: {
   onFetched: (ad: FetchedAd) => void;
+  // Utanför Sverige: nämn inte Platsbanken i exempel/hint
+  generic?: boolean;
   // Metin kutusuna tek başına bir link yapıştırılırsa üst bileşen bunu buraya iletir
   pastedUrl?: string;
 }) {
@@ -61,7 +63,7 @@ export default function AdLinkInput({ onFetched, pastedUrl }: {
           type="url"
           inputMode="url"
           className={styles.input}
-          placeholder={t('placeholder')}
+          placeholder={t(generic ? 'placeholderGeneric' : 'placeholder')}
           value={url}
           onChange={e => setUrl(e.target.value)}
           onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); fetchAd(url); } }}
@@ -72,7 +74,7 @@ export default function AdLinkInput({ onFetched, pastedUrl }: {
       </div>
       {msg
         ? <div className={msg.ok ? styles.ok : styles.err} role="status">{msg.text}</div>
-        : <div className={styles.hint}>{t('hint')}</div>}
+        : <div className={styles.hint}>{t(generic ? 'hintGeneric' : 'hint')}</div>}
     </div>
   );
 }

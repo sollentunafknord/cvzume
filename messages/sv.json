@@ -402,11 +402,29 @@
       "language": "Språk"
     },
     "hero": {
-      "badge": "AI-drivet för jobbsökare i Sverige",
-      "h1a": "Ny i Sverige? Få ett",
-      "h1em": "CV",
-      "h1b": "och personligt brev på korrekt svenska",
-      "sub": "Klistra in jobbannonsen, så skapar AI:n en komplett ansökan anpassad efter just den tjänsten — på minuter, även om svenska inte är ditt modersmål.",
+      "markets": {
+        "se": {
+          "badge": "AI-drivet för jobbsökare i Sverige",
+          "h1a": "Ny i Sverige? Få ett",
+          "h1em": "CV",
+          "h1b": "och personligt brev på korrekt svenska",
+          "sub": "Klistra in jobbannonsen, så skapar AI:n en komplett ansökan anpassad efter just den tjänsten — på minuter, även om svenska inte är ditt modersmål."
+        },
+        "local": {
+          "badge": "AI-driven jobbansökan",
+          "h1a": "Ett skräddarsytt",
+          "h1em": "CV",
+          "h1b": "och personligt brev för varje annons — på minuter",
+          "sub": "Klistra in annonsen eller en länk till den. AI:n jämför den med din profil och skriver en ansökan som lyfter fram precis det arbetsgivaren söker."
+        },
+        "intl": {
+          "badge": "AI-driven jobbansökan",
+          "h1a": "Ett skräddarsytt",
+          "h1em": "CV",
+          "h1b": "och personligt brev för varje jobb — även på ett språk som inte är ditt eget",
+          "sub": "Klistra in annonsen, så skriver AI:n en ansökan anpassad efter just den tjänsten — på svenska, engelska, spanska eller turkiska."
+        }
+      },
       "cta": "Skapa ditt CV gratis →",
       "ctaDemo": "Testa utan konto",
       "trust": [
@@ -419,6 +437,7 @@
       "label": "Testa direkt",
       "title": "Se hur väl du matchar en annons",
       "sub": "Klistra in en jobbannons eller en länk till den — till exempel från Platsbanken. Lägg gärna till några rader om dig själv så får du en matchningspoäng och ett anpassat CV-sammandrag. Inget konto behövs.",
+      "subGeneric": "Klistra in en jobbannons eller en länk till den. Lägg gärna till några rader om dig själv så får du en matchningspoäng och ett anpassat CV-sammandrag. Inget konto behövs.",
       "adLabel": "Jobbannons",
       "adPlaceholder": "Klistra in hela annonstexten här…",
       "profileLabel": "Om dig (valfritt)",
@@ -502,7 +521,11 @@
           "title": "Fyra språk",
           "desc": "Använd CVzume på svenska, engelska, spanska eller turkiska — och skapa CV på flera språk med Pro."
         }
-      ]
+      ],
+      "linkItem": {
+        "title": "Hämta annonsen från en länk",
+        "desc": "Klistra in en länk från en karriärsida så hämtar vi annonstexten åt dig — ingen kopiering behövs."
+      }
     },
     "pricing": {
       "label": "Priser",
@@ -581,7 +604,11 @@
           "q": "Kan jag avsluta Pro när jag vill?",
           "a": "Ja. Det finns ingen bindningstid, och du behåller Pro till slutet av perioden du har betalat för. Du avslutar själv under Inställningar → Plan."
         }
-      ]
+      ],
+      "languageItem": {
+        "q": "Kan jag söka jobb på ett språk som inte är mitt eget?",
+        "a": "Ja. Beskriv din erfarenhet enkelt och välj vilket språk ansökan ska vara på — svenska, engelska, spanska eller turkiska — så skriver AI:n en korrekt och professionell text. Läs alltid igenom den innan du skickar."
+      }
     },
     "cta": {
       "a": "Redo att landa ditt",
@@ -654,6 +681,8 @@
       "fetch_failed": "Vi kunde inte nå sidan. Kopiera annonstexten och klistra in den istället.",
       "no_content": "Vi hittade ingen annonstext på sidan (den kan kräva inloggning). Kopiera texten och klistra in den istället.",
       "rate_limited": "För många försök. Vänta en stund och försök igen."
-    }
+    },
+    "placeholderGeneric": "https://…",
+    "hintGeneric": "Fungerar med de flesta karriärsidor."
   }
 }
