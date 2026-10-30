@@ -418,7 +418,7 @@
     "demo": {
       "label": "Try it now",
       "title": "See how well you match a job ad",
-      "sub": "Paste a job ad — for example from Platsbanken. Add a few lines about yourself to get a match score and a tailored CV summary. No account needed.",
+      "sub": "Paste a job ad or a link to it — for example from Platsbanken. Add a few lines about yourself to get a match score and a tailored CV summary. No account needed.",
       "adLabel": "Job ad",
       "adPlaceholder": "Paste the full job ad text here…",
       "profileLabel": "About you (optional)",
@@ -639,6 +639,21 @@
         "Documentation",
         "Spoken & written Swedish"
       ]
+    }
+  },
+  "adlink": {
+    "label": "Have a link to the ad?",
+    "placeholder": "https://arbetsformedlingen.se/platsbanken/annonser/…",
+    "button": "Fetch ad",
+    "loading": "Fetching…",
+    "hint": "Works with Platsbanken and most career sites.",
+    "ok": "Ad fetched from {source}. Check the text below.",
+    "errors": {
+      "invalid_url": "That doesn't look like a valid link.",
+      "blocked": "This link can't be fetched.",
+      "fetch_failed": "We couldn't reach the page. Copy the ad text and paste it instead.",
+      "no_content": "We couldn't find any ad text on the page (it may require login). Copy the text and paste it instead.",
+      "rate_limited": "Too many attempts. Please wait a moment and try again."
     }
   }
 }

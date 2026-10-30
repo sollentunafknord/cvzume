@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useLocale, useTranslations, useMessages } from 'next-intl';
 import { useRouter, usePathname } from 'next/navigation';
 import styles from './landing.module.css';
+import AdLinkInput, { isLoneUrl } from './AdLinkInput';
 
 const LOCALES = [
   { code: 'sv', label: 'Svenska' },
@@ -389,6 +390,7 @@ function DemoSection({ locale, registerUrl }: { locale: string; registerUrl: str
   const [errorCode, setErrorCode] = useState('');
   const [result, setResult] = useState<DemoResult | null>(null);
   const [copied, setCopied] = useState(false);
+  const [pastedUrl, setPastedUrl] = useState('');
 
   function fillSample() {
     setAd(SAMPLE_AD);
@@ -455,6 +457,7 @@ function DemoSection({ locale, registerUrl }: { locale: string; registerUrl: str
 
         {!result && (
           <form className={styles.demoForm} onSubmit={analyze}>
+            <AdLinkInput pastedUrl={pastedUrl} onFetched={a => setAd(a.text)} />
             <div className={styles.demoField}>
               <div className={styles.demoLabelRow}>
                 <label htmlFor="demo-ad">{t('adLabel')}</label>
@@ -464,6 +467,10 @@ function DemoSection({ locale, registerUrl }: { locale: string; registerUrl: str
                 id="demo-ad"
                 value={ad}
                 onChange={e => setAd(e.target.value)}
+                onPaste={e => {
+                  const text = e.clipboardData.getData('text');
+                  if (!ad.trim() && isLoneUrl(text)) { e.preventDefault(); setPastedUrl(text.trim()); }
+                }}
                 placeholder={t('adPlaceholder')}
                 rows={9}
                 maxLength={6000}

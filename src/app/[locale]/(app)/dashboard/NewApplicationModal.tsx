@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import styles from './dashboard.module.css';
+import AdLinkInput, { isLoneUrl } from '../../AdLinkInput';
 
 interface AnalysisResult {
   matchScore: number;
@@ -38,6 +39,7 @@ export default function NewApplicationModal({ open, onClose, isPro, onUsageLimit
   const [modalTab, setModalTab] = useState<'search' | 'paste'>('search');
   const [modalRole, setModalRole] = useState('');
   const [modalAd, setModalAd] = useState('');
+  const [pastedUrl, setPastedUrl] = useState('');
 
   const [analyzing, setAnalyzing] = useState(false);
   const [analyzeSteps, setAnalyzeSteps] = useState([0, 0, 0, 0]);
@@ -292,12 +294,25 @@ export default function NewApplicationModal({ open, onClose, isPro, onUsageLimit
             {modalTab === 'paste' && (
               <div className={styles.modalForm}>
                 <div className={styles.formGroup}>
+                  <AdLinkInput
+                    pastedUrl={pastedUrl}
+                    onFetched={a => {
+                      setModalRole([a.title, a.company].filter(Boolean).join(' — '));
+                      setModalAd(a.text);
+                    }}
+                  />
+                </div>
+                <div className={styles.formGroup}>
                   <label className={styles.formLabel}>{t('modal.role_label')}</label>
                   <input className={styles.formInput} type="text" placeholder={t('modal.role_placeholder')} value={modalRole} onChange={e => setModalRole(e.target.value)} />
                 </div>
                 <div className={styles.formGroup}>
                   <label className={styles.formLabel}>{t('modal.ad_label')}</label>
-                  <textarea className={`${styles.formInput} ${styles.formTextarea}`} placeholder={t('modal.ad_placeholder')} value={modalAd} onChange={e => setModalAd(e.target.value)} />
+                  <textarea className={`${styles.formInput} ${styles.formTextarea}`} placeholder={t('modal.ad_placeholder')} value={modalAd} onChange={e => setModalAd(e.target.value)}
+                    onPaste={e => {
+                      const text = e.clipboardData.getData('text');
+                      if (!modalAd.trim() && isLoneUrl(text)) { e.preventDefault(); setPastedUrl(text.trim()); }
+                    }} />
                   <span className={styles.formHint}>AI:n analyserar annonsen och anpassar ditt CV automatiskt.</span>
                 </div>
                 <div className={styles.modalActions}>

@@ -418,7 +418,7 @@
     "demo": {
       "label": "Hemen dene",
       "title": "Bir ilana ne kadar uyduğunu gör",
-      "sub": "Bir iş ilanı yapıştır — örneğin Platsbanken'den. Kendinle ilgili birkaç satır eklersen uyum puanı ve ilana özel bir CV özeti de alırsın. Hesap gerekmez.",
+      "sub": "Bir iş ilanını ya da linkini yapıştır — örneğin Platsbanken'den. Kendinle ilgili birkaç satır eklersen uyum puanı ve ilana özel bir CV özeti de alırsın. Hesap gerekmez.",
       "adLabel": "İş ilanı",
       "adPlaceholder": "İlanın tam metnini buraya yapıştır…",
       "profileLabel": "Hakkında (isteğe bağlı)",
@@ -639,6 +639,21 @@
         "Dokümantasyon",
         "Sözlü ve yazılı İsveççe"
       ]
+    }
+  },
+  "adlink": {
+    "label": "İlanın linki mi var?",
+    "placeholder": "https://arbetsformedlingen.se/platsbanken/annonser/…",
+    "button": "İlanı getir",
+    "loading": "Getiriliyor…",
+    "hint": "Platsbanken ve çoğu kariyer sitesiyle çalışır.",
+    "ok": "İlan {source} sitesinden alındı. Aşağıdaki metni kontrol et.",
+    "errors": {
+      "invalid_url": "Bu geçerli bir link gibi görünmüyor.",
+      "blocked": "Bu link getirilemiyor.",
+      "fetch_failed": "Sayfaya ulaşamadık. İlan metnini kopyalayıp yapıştır.",
+      "no_content": "Sayfada ilan metni bulamadık (giriş gerektiriyor olabilir). Metni kopyalayıp yapıştır.",
+      "rate_limited": "Çok fazla deneme. Biraz bekleyip tekrar dene."
     }
   }
 }

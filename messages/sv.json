@@ -418,7 +418,7 @@
     "demo": {
       "label": "Testa direkt",
       "title": "Se hur väl du matchar en annons",
-      "sub": "Klistra in en jobbannons — till exempel från Platsbanken. Lägg gärna till några rader om dig själv så får du en matchningspoäng och ett anpassat CV-sammandrag. Inget konto behövs.",
+      "sub": "Klistra in en jobbannons eller en länk till den — till exempel från Platsbanken. Lägg gärna till några rader om dig själv så får du en matchningspoäng och ett anpassat CV-sammandrag. Inget konto behövs.",
       "adLabel": "Jobbannons",
       "adPlaceholder": "Klistra in hela annonstexten här…",
       "profileLabel": "Om dig (valfritt)",
@@ -639,6 +639,21 @@
         "Dokumentation",
         "Svenska i tal och skrift"
       ]
+    }
+  },
+  "adlink": {
+    "label": "Har du en länk till annonsen?",
+    "placeholder": "https://arbetsformedlingen.se/platsbanken/annonser/…",
+    "button": "Hämta annons",
+    "loading": "Hämtar…",
+    "hint": "Fungerar med Platsbanken och de flesta karriärsidor.",
+    "ok": "Annonsen hämtades från {source}. Kontrollera texten nedan.",
+    "errors": {
+      "invalid_url": "Det ser inte ut som en giltig länk.",
+      "blocked": "Den här länken kan inte hämtas.",
+      "fetch_failed": "Vi kunde inte nå sidan. Kopiera annonstexten och klistra in den istället.",
+      "no_content": "Vi hittade ingen annonstext på sidan (den kan kräva inloggning). Kopiera texten och klistra in den istället.",
+      "rate_limited": "För många försök. Vänta en stund och försök igen."
     }
   }
 }

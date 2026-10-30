@@ -418,7 +418,7 @@
     "demo": {
       "label": "Pruébalo ahora",
       "title": "Mira cuánto encajas con una oferta",
-      "sub": "Pega una oferta de trabajo — por ejemplo de Platsbanken. Añade unas líneas sobre ti para obtener una puntuación de compatibilidad y un resumen de CV adaptado. No necesitas cuenta.",
+      "sub": "Pega una oferta de trabajo o su enlace — por ejemplo de Platsbanken. Añade unas líneas sobre ti para obtener una puntuación de compatibilidad y un resumen de CV adaptado. No necesitas cuenta.",
       "adLabel": "Oferta de trabajo",
       "adPlaceholder": "Pega aquí el texto completo de la oferta…",
       "profileLabel": "Sobre ti (opcional)",
@@ -639,6 +639,21 @@
         "Documentación",
         "Sueco oral y escrito"
       ]
+    }
+  },
+  "adlink": {
+    "label": "¿Tienes un enlace a la oferta?",
+    "placeholder": "https://arbetsformedlingen.se/platsbanken/annonser/…",
+    "button": "Obtener oferta",
+    "loading": "Obteniendo…",
+    "hint": "Funciona con Platsbanken y la mayoría de páginas de empleo.",
+    "ok": "Oferta obtenida de {source}. Revisa el texto abajo.",
+    "errors": {
+      "invalid_url": "No parece un enlace válido.",
+      "blocked": "Este enlace no se puede obtener.",
+      "fetch_failed": "No pudimos acceder a la página. Copia el texto de la oferta y pégalo.",
+      "no_content": "No encontramos el texto de la oferta en la página (puede requerir inicio de sesión). Copia el texto y pégalo.",
+      "rate_limited": "Demasiados intentos. Espera un momento e inténtalo de nuevo."
     }
   }
 }
