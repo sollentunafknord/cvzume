@@ -11,7 +11,7 @@ async function checkProOverride(email: string): Promise<boolean> {
       process.env.SUPABASE_SERVICE_ROLE_KEY!,
       { auth: { autoRefreshToken: false, persistSession: false } }
     )
-    const { data: users } = await supabase.auth.admin.listUsers()
+    const { data: users } = await supabase.auth.admin.listUsers({ page: 1, perPage: 1000 })
     const user = users?.users?.find(u => u.email === email)
     if (!user) return false
     const { data } = await supabase
@@ -39,29 +39,38 @@ export async function GET(request: Request) {
   }
 
   try {
-    const customers = await getStripe().customers.list({ email, limit: 1 })
+    // Checkout customer_email ile çalıştığı için Stripe her ödemede aynı e-postaya yeni bir müşteri
+    // açabiliyor; sadece ilkine bakmak Pro kullanıcıyı 'free' gösteriyordu. Hepsine bak.
+    const customers = await getStripe().customers.list({ email, limit: 20 })
 
     if (customers.data.length === 0) {
       return NextResponse.json({ plan: 'free' })
     }
 
-    const customer = customers.data[0]
+    const PRO_STATUSES = new Set(['active', 'trialing', 'past_due'])
+    let sub: Stripe.Subscription | null = null
+    let customer = customers.data[0]
+    for (const c of customers.data) {
+      const subs = await getStripe().subscriptions.list({
+        customer: c.id,
+        status: 'all',
+        limit: 10,
+        expand: ['data.items.data.price'],
+      })
+      const found = subs.data.find(s => PRO_STATUSES.has(s.status))
+      if (found) { sub = found; customer = c; break }
+    }
 
-    const subscriptions = await getStripe().subscriptions.list({
-      customer: customer.id,
-      status: 'active',
-      limit: 1,
-      expand: ['data.items.data.price'],
-    })
-
-    if (subscriptions.data.length === 0) {
+    if (!sub) {
       return NextResponse.json({ plan: 'free' })
     }
 
-    const sub = subscriptions.data[0]
     const subAny = sub as any
 
+    // Yeni Stripe API sürümlerinde dönem sonu abonelik kalemlerinde (items.data[].current_period_end);
+    // billing_cycle_anchor başlangıç anı, yenileme tarihi değil.
     let periodEndTs = subAny.current_period_end
+      || (sub.items.data[0] as unknown as { current_period_end?: number })?.current_period_end
       || subAny.billing_cycle_anchor
       || null
 

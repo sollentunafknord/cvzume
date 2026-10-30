@@ -76,15 +76,35 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
     { code: 'de', flagImg: 'https://flagcdn.com/20x15/de.png', label: 'Deutsch' },
   ];
 
-  function switchLocale(newLocale: string) {
+  async function switchLocale(newLocale: string) {
     if (newLocale === locale) return;
     const def = localStorage.getItem('cvita_default_locale') || locale;
     if (newLocale !== def && !isPro) {
-      setLangGateTarget(newLocale);
-      return;
+      // Kapıyı göstermeden önce Pro durumunu sunucudan taze kontrol et (eski localStorage değeri
+      // ya da AppShell'deki kontrol henüz bitmemişse Pro kullanıcıya yanlışlıkla kapı çıkıyordu).
+      const fresh = await checkProNow();
+      if (!fresh) {
+        setLangGateTarget(newLocale);
+        return;
+      }
     }
     document.cookie = `NEXT_LOCALE=${newLocale};path=/;max-age=31536000`;
     window.location.href = `/${newLocale}/${activePage}`;
+  }
+
+  async function checkProNow(): Promise<boolean> {
+    try {
+      const email = JSON.parse(localStorage.getItem('cvita_user') || '{}').email;
+      if (!email) return false;
+      const res = await fetch(`/api/stripe/subscription?email=${encodeURIComponent(email)}`);
+      const data = await res.json();
+      const pro = data.plan === 'pro';
+      localStorage.setItem('cvita_is_pro', pro ? 'true' : 'false');
+      setIsPro(pro);
+      return pro;
+    } catch {
+      return false;
+    }
   }
 
   function handleLogout() {
