@@ -7,10 +7,9 @@ import { Job, formatDeadline } from './types';
 import JobCard from './JobCard';
 import FavoritesTab from './FavoritesTab';
 import TurkishJobSearch from './TurkishJobSearch';
-import IndeedJobSearch from './IndeedJobSearch';
+import LinkJobSearch from './LinkJobSearch';
 import GermanJobSearch from './GermanJobSearch';
 import SpainJobSearch from './SpainJobSearch';
-import ExternalSearchLinks from './ExternalSearchLinks';
 import { defaultJobSource, readCountryCookie, type JobSource } from '@/lib/market';
 
 interface Region { id: string; preferred_label: string; }
@@ -68,7 +67,7 @@ const SOURCES: { id: JobSource; flag: string }[] = [
   { id: 'iskur', flag: 'tr' },
   { id: 'arbeitsagentur', flag: 'de' },
   { id: 'infojobs', flag: 'es' },
-  { id: 'indeed', flag: 'un' },
+  { id: 'link', flag: 'link' },
 ];
 const SOURCE_KEY = 'cvzume_job_source';
 
@@ -106,8 +105,8 @@ export default function ApplicationsClient() {
             className={`${styles.sourceBtn} ${source === s.id ? styles.sourceBtnActive : ''}`}
             onClick={() => pick(s.id)}
           >
-            {s.flag === 'un'
-              ? <span aria-hidden="true">🌍</span>
+            {s.flag === 'link'
+              ? <span aria-hidden="true">🔗</span>
               // eslint-disable-next-line @next/next/no-img-element
               : <img src={`https://flagcdn.com/w40/${s.flag}.png`} alt="" width={18} height={13} />}
             {t(`source_${s.id}`)}
@@ -117,7 +116,7 @@ export default function ApplicationsClient() {
       {source === 'iskur' && <TurkishJobSearch />}
       {source === 'arbeitsagentur' && <GermanJobSearch />}
       {source === 'infojobs' && <SpainJobSearch />}
-      {source === 'indeed' && <IndeedJobSearch />}
+      {source === 'link' && <LinkJobSearch />}
       {source === 'platsbanken' && <PlatsbankenSearch />}
     </>
   );
@@ -481,7 +480,6 @@ function PlatsbankenSearch() {
               </button>
             </div>
           )}
-          {searched && <ExternalSearchLinks query={query} location="" market="SE" />}
         </>
       )}
 

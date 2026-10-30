@@ -244,9 +244,9 @@
     "source_label": "Källa",
     "source_platsbanken": "Platsbanken (Sverige)",
     "source_iskur": "İŞKUR (Turkiet)",
-    "source_indeed": "Indeed & LinkedIn",
     "source_arbeitsagentur": "Bundesagentur (Tyskland)",
-    "source_infojobs": "Spanien"
+    "source_infojobs": "Spanien",
+    "source_link": "Länk eller text"
   },
   "skickade": {
     "title": "Skickade ansökningar",
@@ -740,8 +740,12 @@
     "city": "Stad (t.ex. Madrid)",
     "source_note_adzuna": "Källa: Adzuna (adzuna.es)."
   },
-  "external": {
-    "same_search": "Sök \"{q}\" även på:",
-    "also_search": "Sök även på:"
+  "linksrc": {
+    "title": "Klistra in en annons",
+    "subtitle": "Har du hittat ett jobb på Indeed, LinkedIn eller ett företags webbplats? Klistra in länken eller texten, så läser CVzume annonsen och jämför den med ditt CV.",
+    "role": "Tjänst (fylls i automatiskt om möjligt)",
+    "ad": "…eller klistra in hela annonstexten här",
+    "analyze": "Analysera med CVzume →",
+    "tip": "Vissa sajter (t.ex. LinkedIn) kräver inloggning och kan inte läsas via länk. Kopiera då annonstexten och klistra in den i rutan."
   }
 }

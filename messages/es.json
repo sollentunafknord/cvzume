@@ -244,9 +244,9 @@
     "source_label": "Fuente",
     "source_platsbanken": "Platsbanken (Suecia)",
     "source_iskur": "İŞKUR (Turquía)",
-    "source_indeed": "Indeed y LinkedIn",
     "source_arbeitsagentur": "Bundesagentur (Alemania)",
-    "source_infojobs": "España"
+    "source_infojobs": "España",
+    "source_link": "Enlace o texto"
   },
   "skickade": {
     "title": "Solicitudes enviadas",
@@ -768,8 +768,12 @@
     "city": "Ciudad (ej. Madrid)",
     "source_note_adzuna": "Fuente: Adzuna (adzuna.es)."
   },
-  "external": {
-    "same_search": "Busca \"{q}\" también en:",
-    "also_search": "Busca también en:"
+  "linksrc": {
+    "title": "Pega una oferta",
+    "subtitle": "¿Has encontrado un empleo en Indeed, LinkedIn o la web de una empresa? Pega el enlace o el texto y CVzume lee la oferta y la compara con tu CV.",
+    "role": "Puesto (se rellena automáticamente si es posible)",
+    "ad": "…o pega aquí el texto completo de la oferta",
+    "analyze": "Analizar con CVzume →",
+    "tip": "Algunos sitios (p. ej. LinkedIn) requieren iniciar sesión y no se pueden leer desde un enlace. En ese caso, copia el texto de la oferta y pégalo en el cuadro."
   }
 }

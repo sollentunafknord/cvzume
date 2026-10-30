@@ -7,8 +7,7 @@ import { useEffect, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import styles from './applications.module.css';
-import IndeedJobSearch from './IndeedJobSearch';
-import ExternalSearchLinks from './ExternalSearchLinks';
+import LinkJobSearch from './LinkJobSearch';
 
 type Hit = { id: string; title: string; company: string; location: string; published: string; url: string; snippet?: string };
 type Provider = 'infojobs' | 'adzuna' | 'none' | '';
@@ -49,7 +48,7 @@ export default function SpainJobSearch() {
       const res = await fetch(`/api/jobs/spain?${qs}`);
       const data = await res.json();
       if (!res.ok) {
-        // Adzuna kotası dolu → hata yerine Indeed/LinkedIn araması
+        // Adzuna kotası dolu → hata yerine link/metin yapıştırma ekranı
         if (data.error === 'quota') { setProvider('none'); return; }
         if (data.fallbackUrl) setFallbackUrl(data.fallbackUrl);
         throw new Error();
@@ -91,8 +90,8 @@ export default function SpainJobSearch() {
     }
   }
 
-  // Henüz hiçbir İspanya API anahtarı yok → bugünkü Indeed/LinkedIn araması (kötüleşme olmasın)
-  if (provider === 'none') return <IndeedJobSearch />;
+  // Hiçbir İspanya API'si yok/kotası dolu → link veya metin yapıştırma ekranı
+  if (provider === 'none') return <LinkJobSearch />;
 
   const dateFmt = (d: string) => {
     try { return new Date(d).toLocaleDateString(locale === 'sv' ? 'sv-SE' : locale, { day: 'numeric', month: 'short' }); } catch { return d; }
@@ -158,7 +157,6 @@ export default function SpainJobSearch() {
           {loading ? '…' : t('more')}
         </button>
       )}
-      {(searched || fallbackUrl) && <ExternalSearchLinks query={q} location={provider === 'adzuna' ? where : provinces.find(p => p.id === province)?.name ?? ''} market="ES" />}
       <p style={{ fontSize: 12, color: 'var(--muted)', marginTop: 20 }}>{provider === 'adzuna' ? t('source_note_adzuna') : t('source_note')}</p>
     </div>
   );

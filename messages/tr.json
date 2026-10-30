@@ -244,9 +244,9 @@
     "source_label": "Kaynak",
     "source_platsbanken": "Platsbanken (İsveç)",
     "source_iskur": "İŞKUR (Türkiye)",
-    "source_indeed": "Indeed ve LinkedIn",
     "source_arbeitsagentur": "Bundesagentur (Almanya)",
-    "source_infojobs": "İspanya"
+    "source_infojobs": "İspanya",
+    "source_link": "Link veya metin"
   },
   "skickade": {
     "title": "Gönderilen Başvurular",
@@ -764,8 +764,12 @@
     "city": "Şehir (ör. Madrid)",
     "source_note_adzuna": "Kaynak: Adzuna (adzuna.es)."
   },
-  "external": {
-    "same_search": "\"{q}\" aramasını şurada da yapın:",
-    "also_search": "Şurada da arayın:"
+  "linksrc": {
+    "title": "Bir ilan yapıştırın",
+    "subtitle": "Indeed, LinkedIn ya da bir şirketin sitesinde bir iş mi buldunuz? Linki veya metni yapıştırın; CVzume ilanı okuyup CV'nizle karşılaştırsın.",
+    "role": "Pozisyon (mümkünse otomatik doldurulur)",
+    "ad": "…ya da ilanın tam metnini buraya yapıştırın",
+    "analyze": "CVzume ile analiz edin →",
+    "tip": "Bazı siteler (ör. LinkedIn) giriş gerektirdiği için linkten okunamaz. Bu durumda ilan metnini kopyalayıp kutuya yapıştırın."
   }
 }

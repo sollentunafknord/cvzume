@@ -140,24 +140,6 @@ export default function TurkishJobSearch() {
               <div style={{ fontSize: 11, color: 'var(--slate)' }}>yenibiris.com →</div>
             </div>
           </a>
-          <a href="https://tr.indeed.com" target="_blank" rel="noopener noreferrer" style={linkCard}>
-            <div style={{ ...logoBox, background: '#2164F3', width: 36, height: 36 }}>
-              <span style={{ color: 'white', fontSize: 10, fontWeight: 800 }}>in</span>
-            </div>
-            <div>
-              <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--navy)' }}>Indeed Türkiye</div>
-              <div style={{ fontSize: 11, color: 'var(--slate)' }}>tr.indeed.com →</div>
-            </div>
-          </a>
-          <a href="https://www.linkedin.com/jobs/search/?location=Turkey" target="_blank" rel="noopener noreferrer" style={linkCard}>
-            <div style={{ ...logoBox, background: '#0A66C2', width: 36, height: 36 }}>
-              <span style={{ color: 'white', fontSize: 10, fontWeight: 800 }}>in</span>
-            </div>
-            <div>
-              <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--navy)' }}>LinkedIn Jobs</div>
-              <div style={{ fontSize: 11, color: 'var(--slate)' }}>linkedin.com →</div>
-            </div>
-          </a>
         </div>
       </div>
     </div>

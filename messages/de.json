@@ -244,9 +244,9 @@
     "source_label": "Quelle",
     "source_platsbanken": "Platsbanken (Schweden)",
     "source_iskur": "İŞKUR (Türkei)",
-    "source_indeed": "Indeed & LinkedIn",
     "source_arbeitsagentur": "Bundesagentur (Deutschland)",
-    "source_infojobs": "Spanien"
+    "source_infojobs": "Spanien",
+    "source_link": "Link oder Text"
   },
   "skickade": {
     "title": "Gesendete Bewerbungen",
@@ -768,8 +768,12 @@
     "city": "Stadt (z. B. Madrid)",
     "source_note_adzuna": "Quelle: Adzuna (adzuna.es)."
   },
-  "external": {
-    "same_search": "„{q}“ auch suchen auf:",
-    "also_search": "Auch suchen auf:"
+  "linksrc": {
+    "title": "Stellenanzeige einfügen",
+    "subtitle": "Eine Stelle auf Indeed, LinkedIn oder der Website eines Unternehmens gefunden? Fügen Sie den Link oder den Text ein – CVzume liest die Anzeige und gleicht sie mit Ihrem Lebenslauf ab.",
+    "role": "Position (wird wenn möglich automatisch ausgefüllt)",
+    "ad": "…oder den vollständigen Anzeigentext hier einfügen",
+    "analyze": "Mit CVzume analysieren →",
+    "tip": "Manche Seiten (z. B. LinkedIn) erfordern eine Anmeldung und können nicht über einen Link gelesen werden. Kopieren Sie dann den Anzeigentext und fügen Sie ihn in das Feld ein."
   }
 }

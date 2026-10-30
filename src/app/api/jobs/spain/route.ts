@@ -64,6 +64,6 @@ export async function GET(request: Request) {
       console.warn(`spain search: ${p} failed`, err instanceof Error ? err.message : err)
     }
   }
-  // Kota doluysa arayüz Indeed/LinkedIn aramasına geçer (hata göstermez)
+  // Kota doluysa arayüz link/metin yapıştırma ekranına geçer (hata göstermez)
   return NextResponse.json({ error: quota ? 'quota' : 'unavailable', fallbackUrl: infojobsSearchUrl(q) }, { status: 503 })
 }

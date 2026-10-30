@@ -244,9 +244,9 @@
     "source_label": "Source",
     "source_platsbanken": "Platsbanken (Sweden)",
     "source_iskur": "İŞKUR (Turkey)",
-    "source_indeed": "Indeed & LinkedIn",
     "source_arbeitsagentur": "Bundesagentur (Germany)",
-    "source_infojobs": "Spain"
+    "source_infojobs": "Spain",
+    "source_link": "Link or text"
   },
   "skickade": {
     "title": "Sent Applications",
@@ -740,8 +740,12 @@
     "city": "City (e.g. Madrid)",
     "source_note_adzuna": "Source: Adzuna (adzuna.es)."
   },
-  "external": {
-    "same_search": "Search \"{q}\" also on:",
-    "also_search": "Also search on:"
+  "linksrc": {
+    "title": "Paste a job ad",
+    "subtitle": "Found a job on Indeed, LinkedIn or a company website? Paste the link or the text and CVzume reads the ad and compares it with your CV.",
+    "role": "Role (filled in automatically if possible)",
+    "ad": "…or paste the full ad text here",
+    "analyze": "Analyze with CVzume →",
+    "tip": "Some sites (e.g. LinkedIn) require login and can't be read from a link. In that case, copy the ad text and paste it into the box."
   }
 }
