@@ -739,5 +739,9 @@
     "subtitle_adzuna": "Lediga jobb i Spanien via Adzuna",
     "city": "Stad (t.ex. Madrid)",
     "source_note_adzuna": "Källa: Adzuna (adzuna.es)."
+  },
+  "external": {
+    "same_search": "Sök \"{q}\" även på:",
+    "also_search": "Sök även på:"
   }
 }

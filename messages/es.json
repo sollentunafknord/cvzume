@@ -767,5 +767,9 @@
     "subtitle_adzuna": "Ofertas de empleo en España a través de Adzuna",
     "city": "Ciudad (ej. Madrid)",
     "source_note_adzuna": "Fuente: Adzuna (adzuna.es)."
+  },
+  "external": {
+    "same_search": "Busca \"{q}\" también en:",
+    "also_search": "Busca también en:"
   }
 }

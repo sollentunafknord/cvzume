@@ -767,5 +767,9 @@
     "subtitle_adzuna": "Stellenangebote in Spanien über Adzuna",
     "city": "Stadt (z. B. Madrid)",
     "source_note_adzuna": "Quelle: Adzuna (adzuna.es)."
+  },
+  "external": {
+    "same_search": "„{q}“ auch suchen auf:",
+    "also_search": "Auch suchen auf:"
   }
 }

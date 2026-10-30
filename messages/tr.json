@@ -763,5 +763,9 @@
     "subtitle_adzuna": "Adzuna üzerinden İspanya'daki iş ilanları",
     "city": "Şehir (ör. Madrid)",
     "source_note_adzuna": "Kaynak: Adzuna (adzuna.es)."
+  },
+  "external": {
+    "same_search": "\"{q}\" aramasını şurada da yapın:",
+    "also_search": "Şurada da arayın:"
   }
 }

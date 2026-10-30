@@ -8,6 +8,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import styles from './applications.module.css';
 import IndeedJobSearch from './IndeedJobSearch';
+import ExternalSearchLinks from './ExternalSearchLinks';
 
 type Hit = { id: string; title: string; company: string; location: string; published: string; url: string; snippet?: string };
 type Provider = 'infojobs' | 'adzuna' | 'none' | '';
@@ -157,6 +158,7 @@ export default function SpainJobSearch() {
           {loading ? '…' : t('more')}
         </button>
       )}
+      {(searched || fallbackUrl) && <ExternalSearchLinks query={q} location={provider === 'adzuna' ? where : provinces.find(p => p.id === province)?.name ?? ''} market="ES" />}
       <p style={{ fontSize: 12, color: 'var(--muted)', marginTop: 20 }}>{provider === 'adzuna' ? t('source_note_adzuna') : t('source_note')}</p>
     </div>
   );

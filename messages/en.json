@@ -739,5 +739,9 @@
     "subtitle_adzuna": "Job openings in Spain via Adzuna",
     "city": "City (e.g. Madrid)",
     "source_note_adzuna": "Source: Adzuna (adzuna.es)."
+  },
+  "external": {
+    "same_search": "Search \"{q}\" also on:",
+    "also_search": "Also search on:"
   }
 }

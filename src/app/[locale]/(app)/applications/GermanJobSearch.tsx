@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import styles from './applications.module.css';
+import ExternalSearchLinks from './ExternalSearchLinks';
 
 type Hit = { id: string; title: string; company: string; location: string; published: string; url: string; externalUrl?: string };
 
@@ -132,6 +133,7 @@ export default function GermanJobSearch() {
           {loading ? '…' : t('more')}
         </button>
       )}
+      {(searched || fallbackUrl) && <ExternalSearchLinks query={was} location={wo} market="DE" />}
       <p style={{ fontSize: 12, color: 'var(--muted)', marginTop: 20 }}>{t('source_note')}</p>
     </div>
   );

@@ -10,6 +10,7 @@ import TurkishJobSearch from './TurkishJobSearch';
 import IndeedJobSearch from './IndeedJobSearch';
 import GermanJobSearch from './GermanJobSearch';
 import SpainJobSearch from './SpainJobSearch';
+import ExternalSearchLinks from './ExternalSearchLinks';
 import { defaultJobSource, readCountryCookie, type JobSource } from '@/lib/market';
 
 interface Region { id: string; preferred_label: string; }
@@ -480,6 +481,7 @@ function PlatsbankenSearch() {
               </button>
             </div>
           )}
+          {searched && <ExternalSearchLinks query={query} location="" market="SE" />}
         </>
       )}
 
