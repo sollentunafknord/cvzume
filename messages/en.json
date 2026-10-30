@@ -235,7 +235,11 @@
     "anywhere": "All of Sweden",
     "all_kommuner": "All municipalities",
     "all_fields": "All occupation areas",
-    "all_groups": "All occupation groups"
+    "all_groups": "All occupation groups",
+    "source_label": "Source",
+    "source_platsbanken": "Platsbanken (Sweden)",
+    "source_iskur": "İŞKUR (Turkey)",
+    "source_indeed": "Indeed & LinkedIn"
   },
   "skickade": {
     "title": "Sent Applications",

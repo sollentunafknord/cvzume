@@ -1,19 +1,8 @@
 import type { Metadata } from 'next';
 import { getMessages } from 'next-intl/server';
 import { headers } from 'next/headers';
-import LandingClient, { type Market } from './LandingClient';
-
-// Spansktalande länder: samma lista som i middleware.ts
-const SPANISH = ['ES', 'MX', 'AR', 'CO', 'CL', 'PE', 'VE', 'EC'];
-
-// Rubriken anpassas efter besökarens land (x-vercel-ip-country), inte språket:
-// en turkisktalande i Sverige ska fortfarande se "Ny i Sverige?" — på turkiska.
-// Okänt land: svenska sidan behåller Sverige-rubriken (även för Googlebot), övriga får neutral.
-function marketFor(country: string, locale: string): Market {
-  if (country === 'SE') return 'se';
-  if (country === 'TR' || SPANISH.includes(country)) return 'local';
-  return locale === 'sv' ? 'se' : 'intl';
-}
+import LandingClient from './LandingClient';
+import { marketFor, type Market } from '@/lib/market';
 
 const BASE_URL = 'https://www.cvzume.com';
 
@@ -31,15 +20,15 @@ const META: Record<string, { title: string; description: string; keywords: strin
     ogLocale: 'en_US',
   },
   es: {
-    title: 'CVzume — Crea tu CV con IA para empleos en Suecia | Plantilla gratis',
-    description: 'Crea un CV profesional y carta de presentación en minutos con IA. CVzume adapta tu CV a cada oferta de trabajo automáticamente. Gratis para empezar.',
-    keywords: 'plantilla CV, crear CV, CV Suecia, CV con IA, carta presentación, solicitud empleo Suecia, generador CV gratis',
+    title: 'CVzume — CV y carta de presentación con IA para cada oferta | Empieza gratis',
+    description: 'Pega la oferta de trabajo o su enlace y la IA crea en minutos un resumen de CV y una carta de presentación a medida. En España, Latinoamérica o Suecia. Empieza gratis.',
+    keywords: 'crear CV, CV con IA, carta de presentación, solicitud de empleo, plantilla CV gratis, CV Suecia',
     ogLocale: 'es_ES',
   },
   tr: {
-    title: 'CVzume — İsveç İşleri için Yapay Zeka ile CV Oluştur | Ücretsiz Şablon',
-    description: "Dakikalar içinde profesyonel CV ve ön yazı oluşturun. CVzume, CV'nizi her iş ilanına otomatik olarak uyarlar. Ücretsiz başlayın — İsveç iş piyasası için tasarlandı.",
-    keywords: 'CV şablonu, CV oluştur, İsveç CV, yapay zeka CV, ön yazı, İsveç iş başvurusu, ücretsiz CV şablonu',
+    title: 'CVzume — Yapay Zeka ile Her İlana Özel CV ve Ön Yazı | Ücretsiz Başla',
+    description: "İş ilanını ya da linkini yapıştır, yapay zeka dakikalar içinde ilana özel CV özeti ve ön yazı hazırlasın. Türkiye'de, İsveç'te ya da başka bir ülkede iş arıyor olsan da. Ücretsiz başla.",
+    keywords: 'CV oluştur, yapay zeka CV, ön yazı örneği, iş başvurusu, CV hazırlama, ücretsiz CV, İsveç CV, İŞKUR',
     ogLocale: 'tr_TR',
   },
 };

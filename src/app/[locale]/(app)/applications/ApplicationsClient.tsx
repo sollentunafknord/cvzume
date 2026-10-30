@@ -8,6 +8,7 @@ import JobCard from './JobCard';
 import FavoritesTab from './FavoritesTab';
 import TurkishJobSearch from './TurkishJobSearch';
 import IndeedJobSearch from './IndeedJobSearch';
+import { defaultJobSource, readCountryCookie, type JobSource } from '@/lib/market';
 
 interface Region { id: string; preferred_label: string; }
 interface Municipality { id: string; preferred_label: string; broader_id: string; }
@@ -59,12 +60,65 @@ async function apiFavorites(token: string): Promise<Job[]> {
   } catch { return []; }
 }
 
+const SOURCES: { id: JobSource; flag: string }[] = [
+  { id: 'platsbanken', flag: 'se' },
+  { id: 'iskur', flag: 'tr' },
+  { id: 'indeed', flag: 'un' },
+];
+const SOURCE_KEY = 'cvzume_job_source';
+
+// Källa väljs efter land (cvz_country-cookie från middleware), inte språk:
+// en turkisktalande i Sverige ska få Platsbanken. Användarens eget val sparas.
 export default function ApplicationsClient() {
   const t = useTranslations('jobs');
   const locale = useLocale();
+  const [source, setSource] = useState<JobSource | null>(null);
 
-  if (locale === 'tr') return <TurkishJobSearch />;
-  if (locale === 'en' || locale === 'es') return <IndeedJobSearch />;
+  useEffect(() => {
+    let saved: string | null = null;
+    try { saved = localStorage.getItem(SOURCE_KEY); } catch { /* ignore */ }
+    const valid = SOURCES.some(s => s.id === saved);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setSource(valid ? (saved as JobSource) : defaultJobSource(readCountryCookie(), locale));
+  }, [locale]);
+
+  function pick(id: JobSource) {
+    setSource(id);
+    try { localStorage.setItem(SOURCE_KEY, id); } catch { /* ignore */ }
+  }
+
+  if (!source) return null;
+
+  return (
+    <>
+      <div className={styles.sourceBar} role="tablist" aria-label={t('source_label')}>
+        <span className={styles.sourceLabel}>{t('source_label')}</span>
+        {SOURCES.map(s => (
+          <button
+            key={s.id}
+            role="tab"
+            aria-selected={source === s.id}
+            className={`${styles.sourceBtn} ${source === s.id ? styles.sourceBtnActive : ''}`}
+            onClick={() => pick(s.id)}
+          >
+            {s.flag === 'un'
+              ? <span aria-hidden="true">🌍</span>
+              // eslint-disable-next-line @next/next/no-img-element
+              : <img src={`https://flagcdn.com/w40/${s.flag}.png`} alt="" width={18} height={13} />}
+            {t(`source_${s.id}`)}
+          </button>
+        ))}
+      </div>
+      {source === 'iskur' && <TurkishJobSearch />}
+      {source === 'indeed' && <IndeedJobSearch />}
+      {source === 'platsbanken' && <PlatsbankenSearch />}
+    </>
+  );
+}
+
+function PlatsbankenSearch() {
+  const t = useTranslations('jobs');
+  const locale = useLocale();
 
   const [tab, setTab] = useState<'search' | 'favorites'>('search');
 

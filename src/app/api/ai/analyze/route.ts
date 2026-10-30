@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { callAI, LANG_NAMES, parseJson } from '@/lib/ai'
+import { callAI, COUNTRY_RULE, LANG_NAMES, parseJson } from '@/lib/ai'
 
 export async function POST(request: Request) {
   const { jobAd, userProfile, locale } = await request.json()
@@ -42,6 +42,8 @@ export async function POST(request: Request) {
   const prompt = `You are a professional CV and cover letter writer. Analyze the job ad and the candidate's real profile below.
 
 CRITICAL LANGUAGE RULE: You MUST write ALL output (cvSummary, coverLetter, keyRequirements, tips) in ${outputLang}. This is non-negotiable — the user's interface language is ${outputLang}. Never mix languages.
+
+${COUNTRY_RULE}
 
 JOB AD:
 ${jobAd}

@@ -111,3 +111,7 @@ export function parseJson<T>(text: string): T {
   const last = clean.lastIndexOf('}')
   return JSON.parse(first >= 0 && last > first ? clean.slice(first, last + 1) : clean)
 }
+
+// İlanın ülkesini modelin kendisi çıkarsın (İsveç'teki bir Türk İsveççe ilana, Türkiye'deki
+// biri Türkçe ilana başvurur — arayüz dili ülkeyi söylemez). Belirsizse İsveç.
+export const COUNTRY_RULE = `JOB MARKET: Infer which country the job is in from the ad (language, place names, currency, employer). If unclear, assume Sweden. Apply that country's application conventions (CV format, tone, whether a photo is customary, Europass in Spain, formal tone in Turkey) and never assume Swedish conventions for a job in another country. Never advise putting national ID numbers (personnummer, T.C. kimlik no, DNI/NIE), full date of birth, marital status or other sensitive personal data in a CV or letter.`

@@ -5,6 +5,7 @@ import { useLocale, useTranslations, useMessages } from 'next-intl';
 import { useRouter, usePathname } from 'next/navigation';
 import styles from './landing.module.css';
 import AdLinkInput, { isLoneUrl } from './AdLinkInput';
+import type { Market } from '@/lib/market';
 
 const LOCALES = [
   { code: 'sv', label: 'Svenska', flag: 'se' },
@@ -21,8 +22,7 @@ function Flag({ code }: { code: string }) {
   );
 }
 
-// Marknad styr rubrikens innehåll (land), språket styrs av locale. Sätts i page.tsx.
-export type Market = 'se' | 'local' | 'intl';
+
 
 const GUIDE_SLUGS = ['cv-mall', 'personligt-brev-exempel', 'cv-for-nyanlanda', 'vanliga-intervjufragor'];
 
@@ -71,7 +71,9 @@ type LandingLists = {
   pricing: { free: Plan; pro: Plan; year: Plan };
   faq: { items: Faq[]; languageItem: Faq };
   cta: { note: string[] };
-  mock: { jobs: { title: string; co: string }[]; kw: string[] };
+  mock: { jobs: { title: string; co: string }[]; kw: string[]; cvTitle: string };
+  // Bara tr/es: lokal exempelannons och mock-jobb för marknaden 'local'
+  local?: { sampleAd: string; sampleProfile: string; mockJobs: { title: string; co: string }[]; mockCvTitle: string; mockKw: string[] };
 };
 
 export default function LandingClient({ market }: { market: Market }) {
@@ -126,6 +128,9 @@ export default function LandingClient({ market }: { market: Market }) {
   const se = market === 'se';
   const hero = L.hero.markets[market];
   const featureItems = se ? L.features.items : L.features.items.map((f, i) => (i === 2 ? L.features.linkItem : f));
+  const local = market === 'local' ? L.local : undefined;
+  const mockJobs = local?.mockJobs ?? L.mock.jobs;
+  const mockKw = local?.mockKw ?? L.mock.kw;
   const faqItems = se ? L.faq.items : L.faq.items.map((f, i) => (i === 2 ? L.faq.languageItem : f));
 
   const plans: { key: string; plan: Plan; cls: string; btn: string }[] = [
@@ -216,7 +221,7 @@ export default function LandingClient({ market }: { market: Market }) {
             <div className={styles.browserContent}>
               <div className={styles.mockSidebar}>
                 <div className={styles.mockSidebarTitle}>{t('mock.my')}</div>
-                {L.mock.jobs.map((j, i) => (
+                {mockJobs.map((j, i) => (
                   <div key={j.title} className={`${styles.mockJob} ${i === 0 ? styles.mockJobActive : styles.mockJob2}`}>
                     <div className={styles.mockJobTitle}>{j.title}</div>
                     <div className={styles.mockJobCo}>{j.co}</div>
@@ -232,7 +237,7 @@ export default function LandingClient({ market }: { market: Market }) {
               <div className={styles.mockMain}>
                 <div className={styles.mockCard}>
                   <div className={styles.mockCardHeader}>
-                    <div className={styles.mockCardTitle}>{t('mock.cvTitle')}</div>
+                    <div className={styles.mockCardTitle}>{local?.mockCvTitle ?? t('mock.cvTitle')}</div>
                     <span className={`${styles.mockTag} ${styles.tagGreen}`}>{t('mock.done')}</span>
                   </div>
                   <div className={styles.mockLines}>
@@ -250,7 +255,7 @@ export default function LandingClient({ market }: { market: Market }) {
                     <span className={`${styles.mockTag} ${styles.tagBlue}`}>{t('mock.analysis')}</span>
                   </div>
                   <div className={styles.mockProgressWrap}>
-                    {L.mock.kw.map((label, i) => {
+                    {mockKw.map((label, i) => {
                       const pct = [95, 88, 72][i];
                       return (
                         <div key={label} className={styles.mockProgressRow}>
@@ -273,7 +278,7 @@ export default function LandingClient({ market }: { market: Market }) {
       </section>
 
       {/* DEMO */}
-      <DemoSection locale={locale} registerUrl={registerUrl} sub={se ? L.demo.sub : L.demo.subGeneric} generic={!se} />
+      <DemoSection locale={locale} registerUrl={registerUrl} sub={se ? L.demo.sub : L.demo.subGeneric} generic={!se} sample={local} />
 
       {/* HOW IT WORKS */}
       <section id="hur" className={styles.howSection}>
@@ -379,10 +384,10 @@ export default function LandingClient({ market }: { market: Market }) {
             <div className={styles.footerHead}>{t('footer.product')}</div>
             {navItems.map(n => <a key={n.href} href={n.href}>{n.label}</a>)}
           </div>
-          <div className={styles.footerCol}>
+          {se && <div className={styles.footerCol}>
             <div className={styles.footerHead}>{t('footer.guides')}</div>
             {GUIDE_SLUGS.map(slug => <a key={slug} href={`/sv/guide/${slug}`}>{t(`footer.guideLinks.${slug}`)}</a>)}
-          </div>
+          </div>}
           <div className={styles.footerCol}>
             <div className={styles.footerHead}>{t('footer.legal')}</div>
             <a href={legal('privacy')}>{t('footer.privacy')}</a>
@@ -400,7 +405,10 @@ export default function LandingClient({ market }: { market: Market }) {
   );
 }
 
-function DemoSection({ locale, registerUrl, sub, generic }: { locale: string; registerUrl: string; sub: string; generic: boolean }) {
+function DemoSection({ locale, registerUrl, sub, generic, sample }: {
+  locale: string; registerUrl: string; sub: string; generic: boolean;
+  sample?: { sampleAd: string; sampleProfile: string };
+}) {
   const t = useTranslations('landing.demo');
   const [ad, setAd] = useState('');
   const [profile, setProfile] = useState('');
@@ -412,8 +420,8 @@ function DemoSection({ locale, registerUrl, sub, generic }: { locale: string; re
   const [pastedUrl, setPastedUrl] = useState('');
 
   function fillSample() {
-    setAd(SAMPLE_AD);
-    setProfile(t('sampleProfile'));
+    setAd(sample?.sampleAd ?? SAMPLE_AD);
+    setProfile(sample?.sampleProfile ?? t('sampleProfile'));
   }
 
   async function analyze(e: React.FormEvent) {

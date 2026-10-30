@@ -235,7 +235,11 @@
     "anywhere": "Toda Suecia",
     "all_kommuner": "Todos los municipios",
     "all_fields": "Todas las áreas",
-    "all_groups": "Todos los grupos"
+    "all_groups": "Todos los grupos",
+    "source_label": "Fuente",
+    "source_platsbanken": "Platsbanken (Suecia)",
+    "source_iskur": "İŞKUR (Turquía)",
+    "source_indeed": "Indeed y LinkedIn"
   },
   "skickade": {
     "title": "Solicitudes enviadas",
@@ -665,6 +669,30 @@
         "Cuidados",
         "Documentación",
         "Sueco oral y escrito"
+      ]
+    },
+    "local": {
+      "sampleAd": "Dependiente/a de tienda — Madrid (centro)\n\nBuscamos un/a dependiente/a con vocación de atención al cliente para nuestra tienda de moda.\n\nFunciones:\n- Atender y asesorar a los clientes\n- Gestionar la caja y los cobros\n- Reponer y organizar el producto en tienda\n- Colaborar en la consecución de los objetivos de venta\n\nRequisitos:\n- Bachillerato o similar\n- Experiencia mínima de 1 año en comercio o atención al cliente\n- Persona proactiva, con don de gentes y capacidad de trabajo en equipo\n- Disponibilidad para trabajar en turnos rotativos y fines de semana\n- Se valorará nivel de inglés\n\nContrato indefinido a jornada completa.",
+      "sampleProfile": "3 años como dependienta en una tienda de ropa en Valencia. Manejo de caja y reposición. Bachillerato. Inglés nivel intermedio (B1).",
+      "mockJobs": [
+        {
+          "title": "Dependiente/a",
+          "co": "Tienda de moda · Madrid"
+        },
+        {
+          "title": "Mozo/a de almacén",
+          "co": "Empresa logística · Zaragoza"
+        },
+        {
+          "title": "Auxiliar de enfermería",
+          "co": "Residencia de mayores · Valencia"
+        }
+      ],
+      "mockCvTitle": "CV adaptado — Dependiente/a",
+      "mockKw": [
+        "Atención al cliente",
+        "Manejo de caja",
+        "Trabajo en equipo"
       ]
     }
   },

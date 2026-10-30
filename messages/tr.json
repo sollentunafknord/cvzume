@@ -235,7 +235,11 @@
     "anywhere": "Tüm İsveç",
     "all_kommuner": "Tüm ilçeler",
     "all_fields": "Tüm meslek alanları",
-    "all_groups": "Tüm meslek grupları"
+    "all_groups": "Tüm meslek grupları",
+    "source_label": "Kaynak",
+    "source_platsbanken": "Platsbanken (İsveç)",
+    "source_iskur": "İŞKUR (Türkiye)",
+    "source_indeed": "Indeed ve LinkedIn"
   },
   "skickade": {
     "title": "Gönderilen Başvurular",
@@ -665,6 +669,30 @@
         "Hasta bakımı",
         "Dokümantasyon",
         "Sözlü ve yazılı İsveççe"
+      ]
+    },
+    "local": {
+      "sampleAd": "Satış Danışmanı — İstanbul (Kadıköy)\n\nBüyüyen perakende mağazamız için müşteri odaklı Satış Danışmanı arıyoruz.\n\nGörev ve sorumluluklar:\n- Müşterileri karşılamak, ihtiyaçlarını anlamak ve doğru ürüne yönlendirmek\n- Kasa işlemlerini yapmak\n- Ürün teşhiri ve stok takibine destek olmak\n- Mağaza satış hedeflerine katkı sağlamak\n\nAranan nitelikler:\n- En az lise mezunu\n- Perakende veya satış alanında tercihen 1 yıl deneyim\n- Güler yüzlü, iletişimi güçlü ve takım çalışmasına yatkın\n- Vardiyalı çalışmaya ve hafta sonu çalışmaya uygun\n- İngilizce bilgisi tercih sebebidir\n\nTam zamanlı, SGK'lı; yol ve yemek desteği sağlanır.",
+      "sampleProfile": "Ankara'da 3 yıl giyim mağazasında satış danışmanı olarak çalıştım. Kasa işlemleri ve stok sayımı yaptım. Lise mezunuyum, İngilizcem orta seviyede.",
+      "mockJobs": [
+        {
+          "title": "Satış Danışmanı",
+          "co": "Perakende mağazası · İstanbul"
+        },
+        {
+          "title": "Depo Görevlisi",
+          "co": "Lojistik firması · Gebze"
+        },
+        {
+          "title": "Hasta Bakım Personeli",
+          "co": "Özel hastane · Ankara"
+        }
+      ],
+      "mockCvTitle": "Uyarlanmış CV — Satış Danışmanı",
+      "mockKw": [
+        "Müşteri ilişkileri",
+        "Kasa işlemleri",
+        "Takım çalışması"
       ]
     }
   },

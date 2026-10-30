@@ -1,6 +1,7 @@
 import createMiddleware from "next-intl/middleware";
 import { defineRouting } from "next-intl/routing";
 import { NextRequest, NextResponse } from "next/server";
+import { COUNTRY_COOKIE } from "./src/lib/market";
 
 export const routing = defineRouting({
   locales: ["sv", "en", "es", "tr"],
@@ -48,7 +49,13 @@ export default function middleware(req: NextRequest) {
     }
   }
 
-  return intlMiddleware(req);
+  const res = intlMiddleware(req);
+  // Ülkeyi client'a da ver (uygulama içi iş arama kaynağı, bkz. src/lib/market.ts)
+  const country = req.headers.get("x-vercel-ip-country");
+  if (country && req.cookies.get(COUNTRY_COOKIE)?.value !== country) {
+    res.cookies.set(COUNTRY_COOKIE, country, { path: "/", maxAge: 60 * 60 * 24 * 30, sameSite: "lax" });
+  }
+  return res;
 }
 
 export const config = {

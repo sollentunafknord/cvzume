@@ -235,7 +235,11 @@
     "anywhere": "Hela Sverige",
     "all_kommuner": "Alla kommuner",
     "all_fields": "Alla yrkesområden",
-    "all_groups": "Alla yrkesgrupper"
+    "all_groups": "Alla yrkesgrupper",
+    "source_label": "Källa",
+    "source_platsbanken": "Platsbanken (Sverige)",
+    "source_iskur": "İŞKUR (Turkiet)",
+    "source_indeed": "Indeed & LinkedIn"
   },
   "skickade": {
     "title": "Skickade ansökningar",
