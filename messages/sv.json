@@ -246,7 +246,7 @@
     "source_iskur": "İŞKUR (Turkiet)",
     "source_indeed": "Indeed & LinkedIn",
     "source_arbeitsagentur": "Bundesagentur (Tyskland)",
-    "source_infojobs": "InfoJobs (Spanien)"
+    "source_infojobs": "Spanien"
   },
   "skickade": {
     "title": "Skickade ansökningar",
@@ -735,6 +735,9 @@
     "error_detail": "Annonsen kunde inte hämtas. Öppna den och kopiera texten.",
     "fallback": "InfoJobs-sökningen är inte tillgänglig i CVzume just nu.",
     "fallback_link": "Öppna sökningen på infojobs.net ↗",
-    "source_note": "Källa: InfoJobs (infojobs.net)."
+    "source_note": "Källa: InfoJobs (infojobs.net).",
+    "subtitle_adzuna": "Lediga jobb i Spanien via Adzuna",
+    "city": "Stad (t.ex. Madrid)",
+    "source_note_adzuna": "Källa: Adzuna (adzuna.es)."
   }
 }

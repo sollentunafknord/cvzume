@@ -246,7 +246,7 @@
     "source_iskur": "İŞKUR (Turquía)",
     "source_indeed": "Indeed y LinkedIn",
     "source_arbeitsagentur": "Bundesagentur (Alemania)",
-    "source_infojobs": "InfoJobs (España)"
+    "source_infojobs": "España"
   },
   "skickade": {
     "title": "Solicitudes enviadas",
@@ -763,6 +763,9 @@
     "error_detail": "No se pudo cargar la oferta. Ábrela y copia el texto.",
     "fallback": "La búsqueda de InfoJobs no está disponible ahora mismo en CVzume.",
     "fallback_link": "Abrir la búsqueda en infojobs.net ↗",
-    "source_note": "Fuente: InfoJobs (infojobs.net)."
+    "source_note": "Fuente: InfoJobs (infojobs.net).",
+    "subtitle_adzuna": "Ofertas de empleo en España a través de Adzuna",
+    "city": "Ciudad (ej. Madrid)",
+    "source_note_adzuna": "Fuente: Adzuna (adzuna.es)."
   }
 }

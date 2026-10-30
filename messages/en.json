@@ -246,7 +246,7 @@
     "source_iskur": "İŞKUR (Turkey)",
     "source_indeed": "Indeed & LinkedIn",
     "source_arbeitsagentur": "Bundesagentur (Germany)",
-    "source_infojobs": "InfoJobs (Spain)"
+    "source_infojobs": "Spain"
   },
   "skickade": {
     "title": "Sent Applications",
@@ -735,6 +735,9 @@
     "error_detail": "The ad couldn't be loaded. Open it and copy the text.",
     "fallback": "InfoJobs search isn't available in CVzume right now.",
     "fallback_link": "Open the search on infojobs.net ↗",
-    "source_note": "Source: InfoJobs (infojobs.net)."
+    "source_note": "Source: InfoJobs (infojobs.net).",
+    "subtitle_adzuna": "Job openings in Spain via Adzuna",
+    "city": "City (e.g. Madrid)",
+    "source_note_adzuna": "Source: Adzuna (adzuna.es)."
   }
 }

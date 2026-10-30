@@ -246,7 +246,7 @@
     "source_iskur": "İŞKUR (Türkiye)",
     "source_indeed": "Indeed ve LinkedIn",
     "source_arbeitsagentur": "Bundesagentur (Almanya)",
-    "source_infojobs": "InfoJobs (İspanya)"
+    "source_infojobs": "İspanya"
   },
   "skickade": {
     "title": "Gönderilen Başvurular",
@@ -759,6 +759,9 @@
     "error_detail": "İlan yüklenemedi. İlanı açıp metni kopyalayın.",
     "fallback": "InfoJobs araması şu an CVzume'da kullanılamıyor.",
     "fallback_link": "Aramayı infojobs.net'te açın ↗",
-    "source_note": "Kaynak: InfoJobs (infojobs.net)."
+    "source_note": "Kaynak: InfoJobs (infojobs.net).",
+    "subtitle_adzuna": "Adzuna üzerinden İspanya'daki iş ilanları",
+    "city": "Şehir (ör. Madrid)",
+    "source_note_adzuna": "Kaynak: Adzuna (adzuna.es)."
   }
 }

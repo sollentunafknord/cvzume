@@ -2,6 +2,7 @@
 // Bir kaynak bozulursa info@cvzume.com'a e-posta gider — kullanıcılar şikâyet etmeden önce haberimiz olsun.
 import { baDetail, baSearch } from './arbeitsagentur'
 import { ijSearch, infojobsConfigured } from './infojobs'
+import { adzunaConfigured, adzunaSearch } from './adzuna'
 
 export type SourceCheck = { source: string; ok: boolean; detail: string }
 
@@ -40,9 +41,19 @@ async function checkInfoJobs(): Promise<SourceCheck[]> {
   }
 }
 
+async function checkAdzuna(): Promise<SourceCheck[]> {
+  if (!adzunaConfigured()) return []
+  try {
+    const r = await adzunaSearch({ country: 'es', what: 'camarero', where: '', page: 1 })
+    return [{ source: 'Adzuna (İspanya)', ok: r.hits.length > 0, detail: `${r.total} ilan` }]
+  } catch (e) {
+    return [{ source: 'Adzuna (İspanya)', ok: false, detail: e instanceof Error ? e.message : String(e) }]
+  }
+}
+
 export async function checkSources(): Promise<SourceCheck[]> {
-  const [ba, pb, ij] = await Promise.all([checkBundesagentur(), checkPlatsbanken(), checkInfoJobs()])
-  return [...ba, pb, ...ij]
+  const [ba, pb, ij, az] = await Promise.all([checkBundesagentur(), checkPlatsbanken(), checkInfoJobs(), checkAdzuna()])
+  return [...ba, pb, ...ij, ...az]
 }
 
 export async function alertIfBroken(checks: SourceCheck[]): Promise<boolean> {

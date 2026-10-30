@@ -1,14 +1,16 @@
 'use client';
 
-// InfoJobs (İspanya) ilan araması. Yapı GermanJobSearch ile aynı: "Analiz et" tam ilan metnini
-// çeker ve dashboard'daki "Ny ansökan" penceresini doldurulmuş açar (cvita_prefill_job).
-// API anahtarı yoksa (not_configured) aramayı infojobs.net'te açan link gösterilir.
+// İspanya ilan araması (/api/jobs/spain: InfoJobs, yoksa Adzuna). Yapı GermanJobSearch ile aynı:
+// "Analiz et" tam ilan metnini çeker ve "Ny ansökan" penceresini doldurulmuş açar.
+// InfoJobs'ta il listesi, Adzuna'da serbest şehir alanı. Hiçbiri yoksa infojobs.net linki.
 import { useEffect, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import styles from './applications.module.css';
+import IndeedJobSearch from './IndeedJobSearch';
 
 type Hit = { id: string; title: string; company: string; location: string; published: string; url: string };
+type Provider = 'infojobs' | 'adzuna' | 'none' | '';
 type Province = { id: string; name: string };
 
 export default function SpainJobSearch() {
@@ -17,6 +19,8 @@ export default function SpainJobSearch() {
   const router = useRouter();
   const [q, setQ] = useState('');
   const [province, setProvince] = useState('');
+  const [where, setWhere] = useState('');
+  const [provider, setProvider] = useState<Provider>('');
   const [provinces, setProvinces] = useState<Province[]>([]);
   const [hits, setHits] = useState<Hit[]>([]);
   const [total, setTotal] = useState(0);
@@ -26,17 +30,13 @@ export default function SpainJobSearch() {
   const [searched, setSearched] = useState(false);
   const [error, setError] = useState('');
   const [fallbackUrl, setFallbackUrl] = useState('');
-  const [notConfigured, setNotConfigured] = useState(false);
   const [analyzing, setAnalyzing] = useState('');
 
   useEffect(() => {
-    fetch('/api/jobs/infojobs?provinces=1')
+    fetch('/api/jobs/spain?meta=1')
       .then(r => r.json())
-      .then(d => {
-        if (d.error === 'not_configured') setNotConfigured(true);
-        setProvinces(d.provinces || []);
-      })
-      .catch(() => setProvinces([]));
+      .then(d => { setProvider(d.provider || 'none'); setProvinces(d.provinces || []); })
+      .catch(() => setProvider('none'));
   }, []);
 
   async function search(p = 1) {
@@ -44,8 +44,8 @@ export default function SpainJobSearch() {
     setError('');
     setFallbackUrl('');
     try {
-      const qs = new URLSearchParams({ q, province, page: String(p) });
-      const res = await fetch(`/api/jobs/infojobs?${qs}`);
+      const qs = new URLSearchParams({ q, province, where, page: String(p) });
+      const res = await fetch(`/api/jobs/spain?${qs}`);
       const data = await res.json();
       if (!res.ok) {
         if (data.fallbackUrl) setFallbackUrl(data.fallbackUrl);
@@ -54,6 +54,7 @@ export default function SpainJobSearch() {
       setHits(p === 1 ? data.hits : [...hits, ...data.hits]);
       setTotal(data.total);
       setTotalPages(data.totalPages);
+      if (data.provider) setProvider(data.provider);
       setPage(p);
       setSearched(true);
     } catch {
@@ -67,7 +68,8 @@ export default function SpainJobSearch() {
     setAnalyzing(hit.id);
     setError('');
     try {
-      const res = await fetch(`/api/jobs/infojobs?detail=${encodeURIComponent(hit.id)}`);
+      const qs = new URLSearchParams({ detail: hit.id, provider, url: hit.url });
+      const res = await fetch(`/api/jobs/spain?${qs}`);
       const ad = await res.json();
       if (!res.ok || !ad.text) throw new Error();
       const head = [ad.title, [ad.company, ad.location].filter(Boolean).join(' · ')].filter(Boolean).join('\n');
@@ -82,6 +84,9 @@ export default function SpainJobSearch() {
     }
   }
 
+  // Henüz hiçbir İspanya API anahtarı yok → bugünkü Indeed/LinkedIn araması (kötüleşme olmasın)
+  if (provider === 'none') return <IndeedJobSearch />;
+
   const dateFmt = (d: string) => {
     try { return new Date(d).toLocaleDateString(locale === 'sv' ? 'sv-SE' : locale, { day: 'numeric', month: 'short' }); } catch { return d; }
   };
@@ -90,16 +95,20 @@ export default function SpainJobSearch() {
     <div className={styles.page}>
       <div className={styles.header}>
         <h1 className={styles.title}>{t('title')}</h1>
-        <p className={styles.subtitle}>{t('subtitle')}</p>
+        <p className={styles.subtitle}>{provider === 'adzuna' ? t('subtitle_adzuna') : t('subtitle')}</p>
       </div>
 
       <form className={styles.filters} onSubmit={e => { e.preventDefault(); search(1); }}>
         <div className={styles.searchRow}>
           <input className={styles.searchInput} placeholder={t('what')} value={q} onChange={e => setQ(e.target.value)} />
-          <select className={styles.searchInput} style={{ maxWidth: 220 }} value={province} onChange={e => setProvince(e.target.value)} aria-label={t('province')} disabled={notConfigured}>
-            <option value="">{t('all_spain')}</option>
-            {provinces.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
-          </select>
+          {provider === 'adzuna'
+            ? <input className={styles.searchInput} style={{ maxWidth: 220 }} placeholder={t('city')} value={where} onChange={e => setWhere(e.target.value)} />
+            : (
+              <select className={styles.searchInput} style={{ maxWidth: 220 }} value={province} onChange={e => setProvince(e.target.value)} aria-label={t('province')} disabled={provider !== 'infojobs'}>
+                <option value="">{t('all_spain')}</option>
+                {provinces.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
+              </select>
+            )}
           <button type="submit" className={styles.searchBtn} disabled={loading}>{loading && page === 1 ? '…' : t('search')}</button>
         </div>
       </form>
@@ -142,7 +151,7 @@ export default function SpainJobSearch() {
           {loading ? '…' : t('more')}
         </button>
       )}
-      <p style={{ fontSize: 12, color: 'var(--muted)', marginTop: 20 }}>{t('source_note')}</p>
+      <p style={{ fontSize: 12, color: 'var(--muted)', marginTop: 20 }}>{provider === 'adzuna' ? t('source_note_adzuna') : t('source_note')}</p>
     </div>
   );
 }
