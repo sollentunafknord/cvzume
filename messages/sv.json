@@ -245,7 +245,8 @@
     "source_platsbanken": "Platsbanken (Sverige)",
     "source_iskur": "İŞKUR (Turkiet)",
     "source_indeed": "Indeed & LinkedIn",
-    "source_arbeitsagentur": "Bundesagentur (Tyskland)"
+    "source_arbeitsagentur": "Bundesagentur (Tyskland)",
+    "source_infojobs": "InfoJobs (Spanien)"
   },
   "skickade": {
     "title": "Skickade ansökningar",
@@ -715,5 +716,25 @@
     "source_note": "Källa: Bundesagentur für Arbeit (arbeitsagentur.de).",
     "fallback": "Bundesagenturs sökning svarar inte just nu.",
     "fallback_link": "Öppna samma sökning på arbetsagentur.de ↗"
+  },
+  "ij": {
+    "title": "Sök jobb i Spanien",
+    "subtitle": "Lediga jobb direkt från InfoJobs, Spaniens största jobbsajt",
+    "what": "Yrke, sökord eller företag …",
+    "province": "Provins",
+    "all_spain": "Hela Spanien",
+    "search": "Sök",
+    "results": "{count} jobb hittades",
+    "none": "Inga jobb hittades. Prova andra sökord.",
+    "published": "Publicerad",
+    "analyze": "Analysera med CVzume →",
+    "analyzing": "Hämtar …",
+    "open": "Öppna annonsen ↗",
+    "more": "Visa fler jobb",
+    "error": "Sökningen är inte tillgänglig just nu. Försök igen senare.",
+    "error_detail": "Annonsen kunde inte hämtas. Öppna den och kopiera texten.",
+    "fallback": "InfoJobs-sökningen är inte tillgänglig i CVzume just nu.",
+    "fallback_link": "Öppna sökningen på infojobs.net ↗",
+    "source_note": "Källa: InfoJobs (infojobs.net)."
   }
 }

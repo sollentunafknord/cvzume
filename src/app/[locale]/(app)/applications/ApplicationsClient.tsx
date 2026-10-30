@@ -9,6 +9,7 @@ import FavoritesTab from './FavoritesTab';
 import TurkishJobSearch from './TurkishJobSearch';
 import IndeedJobSearch from './IndeedJobSearch';
 import GermanJobSearch from './GermanJobSearch';
+import SpainJobSearch from './SpainJobSearch';
 import { defaultJobSource, readCountryCookie, type JobSource } from '@/lib/market';
 
 interface Region { id: string; preferred_label: string; }
@@ -65,6 +66,7 @@ const SOURCES: { id: JobSource; flag: string }[] = [
   { id: 'platsbanken', flag: 'se' },
   { id: 'iskur', flag: 'tr' },
   { id: 'arbeitsagentur', flag: 'de' },
+  { id: 'infojobs', flag: 'es' },
   { id: 'indeed', flag: 'un' },
 ];
 const SOURCE_KEY = 'cvzume_job_source';
@@ -113,6 +115,7 @@ export default function ApplicationsClient() {
       </div>
       {source === 'iskur' && <TurkishJobSearch />}
       {source === 'arbeitsagentur' && <GermanJobSearch />}
+      {source === 'infojobs' && <SpainJobSearch />}
       {source === 'indeed' && <IndeedJobSearch />}
       {source === 'platsbanken' && <PlatsbankenSearch />}
     </>

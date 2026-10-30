@@ -3,7 +3,7 @@
 // çerezine de yazar ki client bileşenler (uygulama içi iş arama) okuyabilsin.
 
 export type Market = 'se' | 'local' | 'intl';
-export type JobSource = 'platsbanken' | 'iskur' | 'arbeitsagentur' | 'indeed';
+export type JobSource = 'platsbanken' | 'iskur' | 'arbeitsagentur' | 'infojobs' | 'indeed';
 
 export const COUNTRY_COOKIE = 'cvz_country';
 
@@ -23,6 +23,7 @@ export function defaultJobSource(country: string, locale: string): JobSource {
   if (country === 'SE') return 'platsbanken';
   if (country === 'TR') return 'iskur';
   if (country === 'DE') return 'arbeitsagentur';
+  if (country === 'ES') return 'infojobs';
   if (country) return 'indeed';
   if (locale === 'tr') return 'iskur';
   if (locale === 'de') return 'arbeitsagentur';

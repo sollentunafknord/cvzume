@@ -68,7 +68,7 @@ type LandingLists = {
   hero: { trust: string[]; markets: Record<Market, HeroCopy> };
   demo: { sub: string; subGeneric: string };
   how: { steps: Step[] };
-  features: { items: Step[]; linkItem: Step; baItem?: Step };
+  features: { items: Step[]; linkItem: Step; baItem?: Step; ijItem?: Step };
   pricing: { free: Plan; pro: Plan; year: Plan };
   faq: { items: Faq[]; languageItem: Faq };
   cta: { note: string[] };
@@ -129,7 +129,7 @@ export default function LandingClient({ market }: { market: Market }) {
   const se = market === 'se';
   const hero = L.hero.markets[market];
   // Tyskland har egen jobbkälla i appen (Bundesagentur) — visa den i stället för länkfunktionen
-  const localJobs = market === 'local' && locale === 'de' ? L.features.baItem : undefined;
+  const localJobs = market === 'local' ? (locale === 'de' ? L.features.baItem : locale === 'es' ? L.features.ijItem : undefined) : undefined;
   const featureItems = se ? L.features.items : L.features.items.map((f, i) => (i === 2 ? localJobs ?? L.features.linkItem : f));
   const local = market === 'local' ? L.local : undefined;
   const mockJobs = local?.mockJobs ?? L.mock.jobs;

@@ -6,6 +6,7 @@ import * as cheerio from 'cheerio'
 import { lookup } from 'dns/promises'
 import { isIP } from 'net'
 import { baDetail } from './arbeitsagentur'
+import { ijDetail, infojobsConfigured, infojobsIdFromUrl } from './infojobs'
 
 export type FetchedAd = { title: string; company: string; location: string; text: string; source: string }
 
@@ -161,6 +162,14 @@ export async function fetchAdFromUrl(raw: string): Promise<FetchedAd> {
 
   // Teamtailor vb.: başvuru formu linki → ilan sayfası
   url.pathname = url.pathname.replace(/\/applications\/new\/?$/, '')
+
+  // InfoJobs: anahtar varsa resmi API (sayfa bot korumalı)
+  const ijId = infojobsIdFromUrl(url)
+  if (ijId && infojobsConfigured()) {
+    const ad = await ijDetail(ijId).catch(() => null)
+    if (!ad || ad.text.length < 50) throw new AdFetchError('no_content')
+    return { title: ad.title, company: ad.company, location: ad.location, text: compose(ad.title, ad.company, ad.location, ad.text), source: 'infojobs' }
+  }
 
   // Arbeitsagentur sayfası JS ile yükleniyor → resmi API
   const ba = url.hostname.endsWith('arbeitsagentur.de') && url.pathname.match(/\/jobsuche\/jobdetail\/([^/?#]+)/)

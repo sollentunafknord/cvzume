@@ -245,7 +245,8 @@
     "source_platsbanken": "Platsbanken (Sweden)",
     "source_iskur": "İŞKUR (Turkey)",
     "source_indeed": "Indeed & LinkedIn",
-    "source_arbeitsagentur": "Bundesagentur (Germany)"
+    "source_arbeitsagentur": "Bundesagentur (Germany)",
+    "source_infojobs": "InfoJobs (Spain)"
   },
   "skickade": {
     "title": "Sent Applications",
@@ -715,5 +716,25 @@
     "source_note": "Source: Bundesagentur für Arbeit (arbeitsagentur.de).",
     "fallback": "The Bundesagentur search isn't reachable right now.",
     "fallback_link": "Open the same search on arbeitsagentur.de ↗"
+  },
+  "ij": {
+    "title": "Job search Spain",
+    "subtitle": "Open positions directly from InfoJobs, Spain's largest job site",
+    "what": "Job title, keyword or company …",
+    "province": "Province",
+    "all_spain": "All of Spain",
+    "search": "Search",
+    "results": "{count} jobs found",
+    "none": "No jobs found. Try different keywords.",
+    "published": "Published",
+    "analyze": "Analyze with CVzume →",
+    "analyzing": "Loading …",
+    "open": "Open ad ↗",
+    "more": "Load more jobs",
+    "error": "Search isn't available right now. Please try again later.",
+    "error_detail": "The ad couldn't be loaded. Open it and copy the text.",
+    "fallback": "InfoJobs search isn't available in CVzume right now.",
+    "fallback_link": "Open the search on infojobs.net ↗",
+    "source_note": "Source: InfoJobs (infojobs.net)."
   }
 }

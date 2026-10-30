@@ -245,7 +245,8 @@
     "source_platsbanken": "Platsbanken (İsveç)",
     "source_iskur": "İŞKUR (Türkiye)",
     "source_indeed": "Indeed ve LinkedIn",
-    "source_arbeitsagentur": "Bundesagentur (Almanya)"
+    "source_arbeitsagentur": "Bundesagentur (Almanya)",
+    "source_infojobs": "InfoJobs (İspanya)"
   },
   "skickade": {
     "title": "Gönderilen Başvurular",
@@ -739,5 +740,25 @@
     "source_note": "Kaynak: Bundesagentur für Arbeit (arbeitsagentur.de).",
     "fallback": "Bundesagentur araması şu an yanıt vermiyor.",
     "fallback_link": "Aynı aramayı arbeitsagentur.de'de açın ↗"
+  },
+  "ij": {
+    "title": "İspanya'da iş arayın",
+    "subtitle": "İspanya'nın en büyük iş sitesi InfoJobs'un ilanları",
+    "what": "Pozisyon, anahtar kelime veya şirket …",
+    "province": "İl",
+    "all_spain": "Tüm İspanya",
+    "search": "Ara",
+    "results": "{count} ilan bulundu",
+    "none": "İlan bulunamadı. Farklı kelimelerle deneyin.",
+    "published": "Yayın tarihi",
+    "analyze": "CVzume ile analiz edin →",
+    "analyzing": "Yükleniyor …",
+    "open": "İlanı açın ↗",
+    "more": "Daha fazla ilan yükleyin",
+    "error": "Arama şu an kullanılamıyor. Lütfen daha sonra tekrar deneyin.",
+    "error_detail": "İlan yüklenemedi. İlanı açıp metni kopyalayın.",
+    "fallback": "InfoJobs araması şu an CVzume'da kullanılamıyor.",
+    "fallback_link": "Aramayı infojobs.net'te açın ↗",
+    "source_note": "Kaynak: InfoJobs (infojobs.net)."
   }
 }

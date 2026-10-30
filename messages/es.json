@@ -245,7 +245,8 @@
     "source_platsbanken": "Platsbanken (Suecia)",
     "source_iskur": "İŞKUR (Turquía)",
     "source_indeed": "Indeed y LinkedIn",
-    "source_arbeitsagentur": "Bundesagentur (Alemania)"
+    "source_arbeitsagentur": "Bundesagentur (Alemania)",
+    "source_infojobs": "InfoJobs (España)"
   },
   "skickade": {
     "title": "Solicitudes enviadas",
@@ -535,6 +536,10 @@
       "linkItem": {
         "title": "Obtén la oferta desde un enlace",
         "desc": "Pega un enlace de una página de empleo y obtenemos el texto de la oferta por ti — sin copiar nada."
+      },
+      "ijItem": {
+        "title": "Busca empleo en España",
+        "desc": "Busca ofertas de InfoJobs directamente en la app y analiza cada una con un clic."
       }
     },
     "pricing": {
@@ -739,5 +744,25 @@
     "source_note": "Fuente: Bundesagentur für Arbeit (arbeitsagentur.de).",
     "fallback": "La búsqueda de la Bundesagentur no está disponible ahora mismo.",
     "fallback_link": "Abrir la misma búsqueda en arbeitsagentur.de ↗"
+  },
+  "ij": {
+    "title": "Buscar empleo en España",
+    "subtitle": "Ofertas directamente de InfoJobs, el mayor portal de empleo de España",
+    "what": "Puesto, palabra clave o empresa …",
+    "province": "Provincia",
+    "all_spain": "Toda España",
+    "search": "Buscar",
+    "results": "{count} ofertas encontradas",
+    "none": "No se encontraron ofertas. Prueba con otras palabras.",
+    "published": "Publicada",
+    "analyze": "Analizar con CVzume →",
+    "analyzing": "Cargando …",
+    "open": "Abrir oferta ↗",
+    "more": "Cargar más ofertas",
+    "error": "La búsqueda no está disponible ahora mismo. Inténtalo más tarde.",
+    "error_detail": "No se pudo cargar la oferta. Ábrela y copia el texto.",
+    "fallback": "La búsqueda de InfoJobs no está disponible ahora mismo en CVzume.",
+    "fallback_link": "Abrir la búsqueda en infojobs.net ↗",
+    "source_note": "Fuente: InfoJobs (infojobs.net)."
   }
 }

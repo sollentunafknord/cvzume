@@ -245,7 +245,8 @@
     "source_platsbanken": "Platsbanken (Schweden)",
     "source_iskur": "İŞKUR (Türkei)",
     "source_indeed": "Indeed & LinkedIn",
-    "source_arbeitsagentur": "Bundesagentur (Deutschland)"
+    "source_arbeitsagentur": "Bundesagentur (Deutschland)",
+    "source_infojobs": "InfoJobs (Spanien)"
   },
   "skickade": {
     "title": "Gesendete Bewerbungen",
@@ -743,5 +744,25 @@
     "source_note": "Quelle: Jobbörse der Bundesagentur für Arbeit (arbeitsagentur.de).",
     "fallback": "Die Suche der Bundesagentur ist gerade nicht erreichbar.",
     "fallback_link": "Gleiche Suche auf arbeitsagentur.de öffnen ↗"
+  },
+  "ij": {
+    "title": "Jobsuche Spanien",
+    "subtitle": "Stellen direkt von InfoJobs, Spaniens größter Jobbörse",
+    "what": "Jobtitel, Stichwort oder Unternehmen …",
+    "province": "Provinz",
+    "all_spain": "Ganz Spanien",
+    "search": "Suchen",
+    "results": "{count} Stellen gefunden",
+    "none": "Keine Stellen gefunden. Versuchen Sie andere Suchbegriffe.",
+    "published": "Veröffentlicht",
+    "analyze": "Mit CVzume analysieren →",
+    "analyzing": "Wird geladen …",
+    "open": "Anzeige öffnen ↗",
+    "more": "Weitere Stellen laden",
+    "error": "Die Suche ist gerade nicht verfügbar. Bitte versuchen Sie es später erneut.",
+    "error_detail": "Die Anzeige konnte nicht geladen werden. Öffnen Sie sie und kopieren Sie den Text.",
+    "fallback": "Die InfoJobs-Suche ist in CVzume gerade nicht verfügbar.",
+    "fallback_link": "Suche auf infojobs.net öffnen ↗",
+    "source_note": "Quelle: InfoJobs (infojobs.net)."
   }
 }
