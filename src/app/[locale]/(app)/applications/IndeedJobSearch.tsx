@@ -22,10 +22,10 @@ export default function IndeedJobSearch() {
   const CONFIG = {
     en: {
       title: 'Job Search',
-      subtitle: 'Find jobs via Indeed — one of the world\'s largest job platforms',
+      subtitle: 'The search opens on Indeed or LinkedIn. To see jobs right here, pick your country\'s source above.',
       queryPlaceholder: 'Job title, keywords or company...',
       locationPlaceholder: 'City or country (e.g. Stockholm)',
-      tip: 'Enter a job title and location, then click search. Results open in a new tab.',
+      tip: 'Indeed and LinkedIn offer no open API, so results open in a new tab.',
       indeedLabel: 'Search on Indeed →',
       indeedSub: 'Millions of jobs worldwide',
       indeedDesc: 'Indeed aggregates job listings from thousands of company career pages and job boards. Search by title, skills or company name.',
@@ -54,6 +54,40 @@ export default function IndeedJobSearch() {
       linkedinDesc: 'Encuentra trabajo y conecta directamente con reclutadores. Ideal para perfiles profesionales y tecnológicos.',
       linkedinTags: ['Profesional', 'Red de contactos', 'Tecnología'],
     },
+    sv: {
+      title: 'Sök jobb på Indeed och LinkedIn',
+      subtitle: 'Sökningen öppnas på Indeed eller LinkedIn. Vill du se jobben direkt här, välj Platsbanken ovan.',
+      queryPlaceholder: 'Yrke, sökord eller företag …',
+      locationPlaceholder: 'Ort (t.ex. Stockholm)',
+      tip: 'Indeed och LinkedIn erbjuder inget öppet API, så resultaten öppnas i en ny flik. Platsbanken visar jobben direkt i CVzume.',
+      indeedLabel: 'Sök på Indeed →',
+      indeedSub: 'Miljontals jobb i Sverige och världen',
+      indeedDesc: 'Indeed samlar annonser från tusentals företag och jobbsajter. Sök på titel, kompetens eller företag.',
+      tags: ['Gratis', 'Globalt', 'Miljontals annonser'],
+      linkedinUrl: (q: string, l: string) =>
+        `https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent(q)}&location=${encodeURIComponent(l || 'Sverige')}`,
+      linkedinLabel: 'Sök på LinkedIn →',
+      linkedinSub: 'Professionellt nätverk och jobb',
+      linkedinDesc: 'Hitta jobb och kontakta rekryterare direkt. Passar bra för tjänstemanna- och IT-roller.',
+      linkedinTags: ['Professionellt', 'Nätverk', 'IT-fokus'],
+    },
+    tr: {
+      title: 'Indeed ve LinkedIn\'de iş arayın',
+      subtitle: 'Arama Indeed veya LinkedIn\'de açılır. İlanları burada görmek için yukarıdan ülkenizin kaynağını seçin.',
+      queryPlaceholder: 'Pozisyon, anahtar kelime veya şirket …',
+      locationPlaceholder: 'Şehir (ör. İstanbul)',
+      tip: 'Indeed ve LinkedIn açık bir API sunmadığı için sonuçlar yeni sekmede açılır.',
+      indeedLabel: 'Indeed\'de arayın →',
+      indeedSub: 'Dünya genelinde milyonlarca ilan',
+      indeedDesc: 'Indeed binlerce şirketin ve iş sitesinin ilanlarını bir araya getirir. Pozisyon, yetkinlik veya şirkete göre arayın.',
+      tags: ['Ücretsiz', 'Küresel', 'Milyonlarca ilan'],
+      linkedinUrl: (q: string, l: string) =>
+        `https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent(q)}&location=${encodeURIComponent(l || 'Türkiye')}`,
+      linkedinLabel: 'LinkedIn\'de arayın →',
+      linkedinSub: 'Profesyonel ağ ve iş ilanları',
+      linkedinDesc: 'İş bulun ve işe alım uzmanlarıyla doğrudan bağlantı kurun. Profesyonel ve teknoloji rolleri için idealdir.',
+      linkedinTags: ['Profesyonel', 'Ağ', 'Teknoloji'],
+    },
     de: {
       title: 'Jobsuche',
       subtitle: 'Finden Sie Stellen über Indeed und LinkedIn',
@@ -73,7 +107,7 @@ export default function IndeedJobSearch() {
     },
   };
 
-  const c = locale === 'es' ? CONFIG.es : locale === 'de' ? CONFIG.de : CONFIG.en;
+  const c = (CONFIG as Record<string, typeof CONFIG.en>)[locale] ?? CONFIG.en;
   const indeedUrl = (q: string, l: string) => `${host}/jobs?q=${encodeURIComponent(q)}&l=${encodeURIComponent(l)}`;
 
   function openIndeed(e: React.FormEvent) {
