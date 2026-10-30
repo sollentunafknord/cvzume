@@ -5,6 +5,8 @@ import { useTranslations, useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import styles from './profile.module.css';
 import type { Experience, Education, Profile } from './types';
+import CvImport, { type ImportedCv } from '../CvImport';
+import { hasCvContent, saveProfile } from '@/lib/profile-store';
 import CvSuggestionsBanner from './CvSuggestionsBanner';
 import ExperienceSection from './ExperienceSection';
 import EducationSection from './EducationSection';
@@ -118,6 +120,22 @@ export default function ProfileClient() {
     setOpenSections(prev => ({ ...prev, [key]: !prev[key] }));
   }
 
+  // PDF/Word'den içe aktarılan CV: formu doldur ve hemen kaydet
+  async function applyImport(cv: ImportedCv) {
+    const current = { phone, location, title, summary, experiences, educations, skills, languages };
+    if (hasCvContent(current) && !confirm(t('cvimport.confirm_replace'))) return;
+    const next: Profile = {
+      phone: cv.phone || phone, location: cv.location || location, title: cv.title || title, summary: cv.summary || summary,
+      experiences: cv.experiences, educations: cv.educations, skills: cv.skills, languages: cv.languages,
+    };
+    setPhone(next.phone); setLocation(next.location); setTitle(next.title); setSummary(next.summary);
+    setExperiences(next.experiences); setEducations(next.educations); setSkills(next.skills); setLanguages(next.languages);
+    if (cv.firstName) setFirstName(cv.firstName);
+    if (cv.lastName) setLastName(cv.lastName);
+    await saveProfile(locale, next, { firstName: cv.firstName, lastName: cv.lastName });
+    showToast(t('cvimport.done'));
+  }
+
   async function saveAll() {
     const profile = { phone, location, title, summary, experiences, educations, skills, languages };
     localStorage.setItem(`cvita_profile_${locale}`, JSON.stringify(profile));
@@ -184,6 +202,7 @@ export default function ProfileClient() {
       </div>
 
       <div className={styles.content}>
+        <CvImport onImported={applyImport} />
         {suggestions && (
           <CvSuggestionsBanner
             suggestions={suggestions}

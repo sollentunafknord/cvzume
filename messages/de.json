@@ -775,5 +775,22 @@
     "ad": "…oder den vollständigen Anzeigentext hier einfügen",
     "analyze": "Mit CVzume analysieren →",
     "tip": "Manche Seiten (z. B. LinkedIn) erfordern eine Anmeldung und können nicht über einen Link gelesen werden. Kopieren Sie dann den Anzeigentext und fügen Sie ihn in das Feld ein."
+  },
+  "cvimport": {
+    "title": "Haben Sie bereits einen Lebenslauf?",
+    "desc": "Laden Sie ihn als PDF oder Word hoch – wir füllen alles für Sie aus. Sie können danach alles bearbeiten.",
+    "button": "Lebenslauf hochladen (PDF/Word)",
+    "busy": "Lebenslauf wird gelesen … (10–20 Sek.)",
+    "done": "Ihr Lebenslauf wurde importiert. Prüfen Sie die Angaben und speichern Sie.",
+    "confirm_replace": "Möchten Sie Ihre bisherigen Angaben durch den Inhalt der Datei ersetzen?",
+    "errors": {
+      "too_large": "Die Datei ist zu groß (max. 5 MB).",
+      "old_doc": "Alte .doc-Dateien werden nicht unterstützt. Speichern Sie in Word als .docx oder PDF und versuchen Sie es erneut.",
+      "unsupported": "Nur PDF- und Word-Dateien (.docx) werden unterstützt.",
+      "no_text": "In der Datei wurde kein Text gefunden. Ist es ein eingescanntes Bild? Speichern Sie den Lebenslauf direkt aus Word als PDF.",
+      "unauthorized": "Bitte melden Sie sich erneut an und versuchen Sie es noch einmal.",
+      "ai_failed": "Der Lebenslauf konnte gerade nicht gelesen werden. Bitte versuchen Sie es gleich noch einmal.",
+      "generic": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut."
+    }
   }
 }

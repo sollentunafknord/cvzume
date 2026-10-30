@@ -775,5 +775,22 @@
     "ad": "…o pega aquí el texto completo de la oferta",
     "analyze": "Analizar con CVzume →",
     "tip": "Algunos sitios (p. ej. LinkedIn) requieren iniciar sesión y no se pueden leer desde un enlace. En ese caso, copia el texto de la oferta y pégalo en el cuadro."
+  },
+  "cvimport": {
+    "title": "¿Ya tienes un CV?",
+    "desc": "Súbelo en PDF o Word y lo rellenamos todo por ti. Después puedes editarlo.",
+    "button": "Subir CV (PDF/Word)",
+    "busy": "Leyendo tu CV … (10–20 s)",
+    "done": "Tu CV se ha importado. Revisa los datos y guarda.",
+    "confirm_replace": "¿Quieres sustituir lo que ya has rellenado por el contenido del archivo?",
+    "errors": {
+      "too_large": "El archivo es demasiado grande (máx. 5 MB).",
+      "old_doc": "Los archivos .doc antiguos no son compatibles. Guárdalo como .docx o PDF en Word e inténtalo de nuevo.",
+      "unsupported": "Solo se admiten archivos PDF y Word (.docx).",
+      "no_text": "No encontramos texto en el archivo. ¿Es una imagen escaneada? Guarda el CV como PDF directamente desde Word.",
+      "unauthorized": "Vuelve a iniciar sesión e inténtalo de nuevo.",
+      "ai_failed": "No pudimos leer el CV ahora mismo. Inténtalo de nuevo en un momento.",
+      "generic": "Algo salió mal. Inténtalo de nuevo."
+    }
   }
 }

@@ -747,5 +747,22 @@
     "ad": "…or paste the full ad text here",
     "analyze": "Analyze with CVzume →",
     "tip": "Some sites (e.g. LinkedIn) require login and can't be read from a link. In that case, copy the ad text and paste it into the box."
+  },
+  "cvimport": {
+    "title": "Already have a CV?",
+    "desc": "Upload it as PDF or Word and we'll fill in everything for you. You can edit it all afterwards.",
+    "button": "Upload CV (PDF/Word)",
+    "busy": "Reading your CV … (10–20 sec)",
+    "done": "Your CV has been imported. Check the details and save.",
+    "confirm_replace": "Replace what you've already filled in with the content from the file?",
+    "errors": {
+      "too_large": "The file is too large (max 5 MB).",
+      "old_doc": "Old .doc files aren't supported. Save as .docx or PDF in Word and try again.",
+      "unsupported": "Only PDF and Word (.docx) files are supported.",
+      "no_text": "We couldn't find any text in the file. Is it a scanned image? Save your CV as a PDF directly from Word instead.",
+      "unauthorized": "Please log in again and retry.",
+      "ai_failed": "We couldn't read the CV right now. Please try again shortly.",
+      "generic": "Something went wrong. Please try again."
+    }
   }
 }

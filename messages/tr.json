@@ -771,5 +771,22 @@
     "ad": "…ya da ilanın tam metnini buraya yapıştırın",
     "analyze": "CVzume ile analiz edin →",
     "tip": "Bazı siteler (ör. LinkedIn) giriş gerektirdiği için linkten okunamaz. Bu durumda ilan metnini kopyalayıp kutuya yapıştırın."
+  },
+  "cvimport": {
+    "title": "Zaten bir CV'niz var mı?",
+    "desc": "PDF veya Word olarak yükleyin, her şeyi sizin için dolduralım. Sonradan hepsini düzenleyebilirsiniz.",
+    "button": "CV yükleyin (PDF/Word)",
+    "busy": "CV'niz okunuyor … (10–20 sn)",
+    "done": "CV'niz içe aktarıldı. Bilgileri kontrol edip kaydedin.",
+    "confirm_replace": "Daha önce doldurduklarınızı dosyadaki içerikle değiştirmek istiyor musunuz?",
+    "errors": {
+      "too_large": "Dosya çok büyük (en fazla 5 MB).",
+      "old_doc": "Eski .doc dosyaları desteklenmiyor. Word'de .docx veya PDF olarak kaydedip tekrar deneyin.",
+      "unsupported": "Yalnızca PDF ve Word (.docx) dosyaları destekleniyor.",
+      "no_text": "Dosyada metin bulunamadı. Taranmış bir görüntü mü? CV'nizi doğrudan Word'den PDF olarak kaydedin.",
+      "unauthorized": "Lütfen yeniden giriş yapıp tekrar deneyin.",
+      "ai_failed": "CV şu an okunamadı. Biraz sonra tekrar deneyin.",
+      "generic": "Bir şeyler ters gitti. Tekrar deneyin."
+    }
   }
 }

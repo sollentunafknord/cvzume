@@ -13,7 +13,7 @@ const TIMEOUT_MS = 25_000
 // AI Provider fallback sistemi
 // Sıra: Groq → Gemini → OpenRouter
 
-async function callGemini(prompt: string, json = false, maxTokens = 4000): Promise<string> {
+async function callGemini(prompt: string, json = false, maxTokens = 4000, temperature?: number): Promise<string> {
   const apiKey = process.env.GEMINI_API_KEY
   if (!apiKey) throw new Error('Gemini key missing')
 
@@ -25,7 +25,7 @@ async function callGemini(prompt: string, json = false, maxTokens = 4000): Promi
       signal: AbortSignal.timeout(TIMEOUT_MS),
       body: JSON.stringify({
         contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: { maxOutputTokens: maxTokens, ...(json ? { responseMimeType: 'application/json' } : {}) },
+        generationConfig: { maxOutputTokens: maxTokens, ...(temperature !== undefined ? { temperature } : {}), ...(json ? { responseMimeType: 'application/json' } : {}) },
       })
     }
   )
@@ -34,7 +34,7 @@ async function callGemini(prompt: string, json = false, maxTokens = 4000): Promi
   return data.candidates[0].content.parts[0].text
 }
 
-async function callGroq(prompt: string, json = false, model = GROQ_MODELS[0], maxTokens = 4000): Promise<string> {
+async function callGroq(prompt: string, json = false, model = GROQ_MODELS[0], maxTokens = 4000, temperature?: number): Promise<string> {
   const apiKey = process.env.GROQ_API_KEY
   if (!apiKey) throw new Error('Groq key missing')
 
@@ -51,6 +51,7 @@ async function callGroq(prompt: string, json = false, model = GROQ_MODELS[0], ma
       // gpt-oss bir reasoning modeli; düşünme token'ları da bu sınıra dahil
       reasoning_effort: 'low',
       max_tokens: maxTokens,
+      ...(temperature !== undefined ? { temperature } : {}),
       // JSON modu: model sözdizimsel olarak geçerli JSON döndürür (kaçırılmamış tırnaklar vb.)
       ...(json ? { response_format: { type: 'json_object' } } : {}),
     })
@@ -60,7 +61,7 @@ async function callGroq(prompt: string, json = false, model = GROQ_MODELS[0], ma
   return data.choices[0].message.content
 }
 
-async function callOpenRouter(prompt: string, json = false, maxTokens = 2000): Promise<string> {
+async function callOpenRouter(prompt: string, json = false, maxTokens = 2000, temperature?: number): Promise<string> {
   const apiKey = process.env.OPENROUTER_API_KEY
   if (!apiKey) throw new Error('OpenRouter key missing')
 
@@ -77,6 +78,7 @@ async function callOpenRouter(prompt: string, json = false, maxTokens = 2000): P
       model: OPENROUTER_MODEL,
       messages: [{ role: 'user', content: prompt }],
       max_tokens: maxTokens,
+      ...(temperature !== undefined ? { temperature } : {}),
       ...(json ? { response_format: { type: 'json_object' } } : {}),
     })
   })
@@ -89,13 +91,13 @@ class ProviderError extends Error {
   constructor(message: string, public status: number, public retryAfter = 0) { super(message) }
 }
 
-type ProviderFn = (prompt: string, json: boolean, maxTokens: number) => Promise<string>
+type ProviderFn = (prompt: string, json: boolean, maxTokens: number, temperature?: number) => Promise<string>
 
 // Groq modelleri önde: hızlı ve çalışıyor. Gemini anahtarı (AEA, faturalandırma yok) yavaş/503.
 const PROVIDERS: { name: string; fn: ProviderFn }[] = [
-  ...GROQ_MODELS.map(m => ({ name: `Groq ${m}`, fn: ((p, j, t) => callGroq(p, j, m, t)) as ProviderFn })),
-  { name: 'Gemini', fn: (p, j, t) => callGemini(p, j, t) },
-  { name: 'OpenRouter', fn: (p, j, t) => callOpenRouter(p, j, Math.min(t, 2000)) },
+  ...GROQ_MODELS.map(m => ({ name: `Groq ${m}`, fn: ((p, j, t, temp) => callGroq(p, j, m, t, temp)) as ProviderFn })),
+  { name: 'Gemini', fn: (p, j, t, temp) => callGemini(p, j, t, temp) },
+  { name: 'OpenRouter', fn: (p, j, t, temp) => callOpenRouter(p, j, Math.min(t, 2000), temp) },
 ]
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms))
@@ -116,11 +118,12 @@ export async function callAI(prompt: string): Promise<{ text: string; provider: 
 
 // JSON bekleyen tüm çağrılar bunu kullanmalı. 2026-10-30: Groq JSON modu olmadan bazen
 // kaçırılmamış tırnaklı bozuk JSON döndürdü ve demo doğrudan "AI-tjänsten svarar inte" dedi.
-export async function callAIJson<T>(prompt: string, maxTokens = 4000): Promise<{ data: T; provider: string }> {
+// temperature: gerçeklere sadık kalması gereken metinlerde (CV uyarlama, brev) düşük tut
+export async function callAIJson<T>(prompt: string, maxTokens = 4000, temperature?: number): Promise<{ data: T; provider: string }> {
   for (const provider of PROVIDERS) {
     for (let attempt = 0; attempt < 2; attempt++) {
       try {
-        const text = await provider.fn(prompt, true, maxTokens)
+        const text = await provider.fn(prompt, true, maxTokens, temperature)
         return { data: parseJson<T>(text), provider: provider.name }
       } catch (err) {
         console.warn(`${provider.name} (deneme ${attempt + 1}) başarısız`, err instanceof Error ? err.message : err)

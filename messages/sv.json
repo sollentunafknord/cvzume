@@ -747,5 +747,22 @@
     "ad": "…eller klistra in hela annonstexten här",
     "analyze": "Analysera med CVzume →",
     "tip": "Vissa sajter (t.ex. LinkedIn) kräver inloggning och kan inte läsas via länk. Kopiera då annonstexten och klistra in den i rutan."
+  },
+  "cvimport": {
+    "title": "Har du redan ett CV?",
+    "desc": "Ladda upp det som PDF eller Word så fyller vi i allt åt dig. Du kan ändra allt efteråt.",
+    "button": "Ladda upp CV (PDF/Word)",
+    "busy": "Läser ditt CV … (10–20 sek)",
+    "done": "Ditt CV har importerats. Kontrollera uppgifterna och spara.",
+    "confirm_replace": "Vill du ersätta det du redan har fyllt i med innehållet från filen?",
+    "errors": {
+      "too_large": "Filen är för stor (max 5 MB).",
+      "old_doc": "Gamla .doc-filer stöds inte. Spara som .docx eller PDF i Word och försök igen.",
+      "unsupported": "Bara PDF- och Word-filer (.docx) stöds.",
+      "no_text": "Vi hittade ingen text i filen. Är det en inskannad bild? Spara CV:t som PDF direkt från Word i stället.",
+      "unauthorized": "Logga in igen och försök på nytt.",
+      "ai_failed": "Vi kunde inte tolka CV:t just nu. Försök igen om en stund.",
+      "generic": "Något gick fel. Försök igen."
+    }
   }
 }
