@@ -36,5 +36,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  return [...landingPages, ...authPages, ...guidePages];
+  const legalPages = ['sv', 'en'].flatMap(locale =>
+    ['privacy', 'cookies', 'terms'].map(slug => ({
+      url: `${BASE_URL}/${locale}/legal/${slug}`,
+      lastModified: now,
+      changeFrequency: 'yearly' as const,
+      priority: 0.3,
+    }))
+  );
+
+  return [...landingPages, ...authPages, ...guidePages, ...legalPages];
 }

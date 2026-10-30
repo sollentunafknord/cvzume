@@ -1,94 +1,5 @@
 import { NextResponse } from 'next/server'
-
-// AI Provider fallback sistemi
-// Sıra: Gemini → Groq → OpenRouter → tekrar Gemini
-
-async function callGemini(prompt: string): Promise<string> {
-  const apiKey = process.env.GEMINI_API_KEY
-  if (!apiKey) throw new Error('Gemini key missing')
-
-  const res = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }]
-      })
-    }
-  )
-  if (!res.ok) throw new Error(`Gemini error: ${res.status}`)
-  const data = await res.json()
-  return data.candidates[0].content.parts[0].text
-}
-
-async function callGroq(prompt: string): Promise<string> {
-  const apiKey = process.env.GROQ_API_KEY
-  if (!apiKey) throw new Error('Groq key missing')
-
-  const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${apiKey}`
-    },
-    body: JSON.stringify({
-      model: 'llama-3.3-70b-versatile',
-      messages: [{ role: 'user', content: prompt }],
-      max_tokens: 2000
-    })
-  })
-  if (!res.ok) throw new Error(`Groq error: ${res.status}`)
-  const data = await res.json()
-  return data.choices[0].message.content
-}
-
-async function callOpenRouter(prompt: string): Promise<string> {
-  const apiKey = process.env.OPENROUTER_API_KEY
-  if (!apiKey) throw new Error('OpenRouter key missing')
-
-  const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${apiKey}`,
-      'HTTP-Referer': 'https://c-vita.vercel.app',
-      'X-Title': 'Cvita'
-    },
-    body: JSON.stringify({
-      model: 'google/gemini-2.0-flash-exp:free',
-      messages: [{ role: 'user', content: prompt }],
-      max_tokens: 2000
-    })
-  })
-  if (!res.ok) throw new Error(`OpenRouter error: ${res.status}`)
-  const data = await res.json()
-  return data.choices[0].message.content
-}
-
-async function callAI(prompt: string): Promise<{ text: string; provider: string }> {
-  const providers = [
-    { name: 'Gemini', fn: callGemini },
-    { name: 'Groq', fn: callGroq },
-    { name: 'OpenRouter', fn: callOpenRouter },
-  ]
-
-  for (const provider of providers) {
-    try {
-      console.log(`AI çağrısı: ${provider.name}`)
-      const text = await provider.fn(prompt)
-      return { text, provider: provider.name }
-    } catch (err) {
-      console.warn(`${provider.name} başarısız, sonrakine geçiliyor...`, err)
-    }
-  }
-
-  throw new Error('All AI providers failed.')
-}
-
-const LANG_NAMES: Record<string, string> = {
-  sv: 'Swedish', en: 'English', es: 'Spanish', tr: 'Turkish',
-}
+import { callAI, LANG_NAMES, parseJson } from '@/lib/ai'
 
 export async function POST(request: Request) {
   const { jobAd, userProfile, locale } = await request.json()
@@ -168,8 +79,7 @@ Respond ONLY with this exact JSON format (no other text, no markdown):
     const { text, provider } = await callAI(prompt)
 
     // JSON parse
-    const clean = text.replace(/```json|```/g, '').trim()
-    const result = JSON.parse(clean)
+    const result = parseJson<Record<string, unknown>>(text)
 
     return NextResponse.json({ ...result, provider }, { status: 200 })
   } catch (err: any) {

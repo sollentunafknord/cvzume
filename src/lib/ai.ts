@@ -1,0 +1,113 @@
+// Ortak AI çağrısı — analyze ve landing demo'su kullanır.
+// Model adları: sabit sürüm yerine "latest" takma adları — 2.0 modelleri emekliye
+// ayrılınca (404) tüm sağlayıcılar birden düştü. Groq/OpenRouter için listeyi
+// https://api.groq.com/openai/v1/models ve https://openrouter.ai/api/v1/models'tan kontrol et.
+const GEMINI_MODEL = 'gemini-flash-latest'
+const GROQ_MODEL = 'openai/gpt-oss-120b'
+const OPENROUTER_MODEL = 'google/gemma-4-31b-it:free'
+// Bir sağlayıcı asılı kalırsa sıradakine geçebilmek için
+const TIMEOUT_MS = 25_000
+
+// AI Provider fallback sistemi
+// Sıra: Groq → Gemini → OpenRouter
+
+async function callGemini(prompt: string): Promise<string> {
+  const apiKey = process.env.GEMINI_API_KEY
+  if (!apiKey) throw new Error('Gemini key missing')
+
+  const res = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${apiKey}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      signal: AbortSignal.timeout(TIMEOUT_MS),
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }]
+      })
+    }
+  )
+  if (!res.ok) throw new Error(`Gemini error: ${res.status}`)
+  const data = await res.json()
+  return data.candidates[0].content.parts[0].text
+}
+
+async function callGroq(prompt: string): Promise<string> {
+  const apiKey = process.env.GROQ_API_KEY
+  if (!apiKey) throw new Error('Groq key missing')
+
+  const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`
+    },
+    signal: AbortSignal.timeout(TIMEOUT_MS),
+    body: JSON.stringify({
+      model: GROQ_MODEL,
+      messages: [{ role: 'user', content: prompt }],
+      // gpt-oss bir reasoning modeli; düşünme token'ları da bu sınıra dahil
+      reasoning_effort: 'low',
+      max_tokens: 4000
+    })
+  })
+  if (!res.ok) throw new Error(`Groq error: ${res.status}`)
+  const data = await res.json()
+  return data.choices[0].message.content
+}
+
+async function callOpenRouter(prompt: string): Promise<string> {
+  const apiKey = process.env.OPENROUTER_API_KEY
+  if (!apiKey) throw new Error('OpenRouter key missing')
+
+  const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`,
+      'HTTP-Referer': 'https://www.cvzume.com',
+      'X-Title': 'CVzume'
+    },
+    signal: AbortSignal.timeout(TIMEOUT_MS),
+    body: JSON.stringify({
+      model: OPENROUTER_MODEL,
+      messages: [{ role: 'user', content: prompt }],
+      max_tokens: 2000
+    })
+  })
+  if (!res.ok) throw new Error(`OpenRouter error: ${res.status}`)
+  const data = await res.json()
+  return data.choices[0].message.content
+}
+
+export async function callAI(prompt: string): Promise<{ text: string; provider: string }> {
+  const providers = [
+    // Groq önde: hızlı ve çalışıyor. Gemini anahtarı (AEA, faturalandırma yok) isteklerde asılı kalıyor.
+    { name: 'Groq', fn: callGroq },
+    { name: 'Gemini', fn: callGemini },
+    { name: 'OpenRouter', fn: callOpenRouter },
+  ]
+
+  for (const provider of providers) {
+    try {
+      console.log(`AI çağrısı: ${provider.name}`)
+      const text = await provider.fn(prompt)
+      return { text, provider: provider.name }
+    } catch (err) {
+      console.warn(`${provider.name} başarısız, sonrakine geçiliyor...`, err)
+    }
+  }
+
+  throw new Error('All AI providers failed.')
+}
+
+export const LANG_NAMES: Record<string, string> = {
+  sv: 'Swedish', en: 'English', es: 'Spanish', tr: 'Turkish',
+}
+
+// Model bazen JSON'u ```json bloğuna sarıyor ya da önüne metin ekliyor.
+export function parseJson<T>(text: string): T {
+  const clean = text.replace(/```json|```/g, '').trim()
+  const first = clean.indexOf('{')
+  const last = clean.lastIndexOf('}')
+  return JSON.parse(first >= 0 && last > first ? clean.slice(first, last + 1) : clean)
+}

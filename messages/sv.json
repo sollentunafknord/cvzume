@@ -388,5 +388,257 @@
     "no_job_error": "❌ Inget jobb hittades. Gå till Favoriter och analysera ett jobb först.",
     "generate_error": "❌ Kunde inte generera brev. Försök igen.",
     "generated": "✅ Nytt brev genererat!"
+  },
+  "landing": {
+    "nav": {
+      "demo": "Testa",
+      "how": "Så fungerar det",
+      "features": "Funktioner",
+      "pricing": "Priser",
+      "faq": "Frågor",
+      "login": "Logga in",
+      "start": "Kom igång gratis",
+      "menu": "Meny",
+      "language": "Språk"
+    },
+    "hero": {
+      "badge": "AI-drivet för jobbsökare i Sverige",
+      "h1a": "Ny i Sverige? Få ett",
+      "h1em": "CV",
+      "h1b": "och personligt brev på korrekt svenska",
+      "sub": "Klistra in jobbannonsen, så skapar AI:n en komplett ansökan anpassad efter just den tjänsten — på minuter, även om svenska inte är ditt modersmål.",
+      "cta": "Skapa ditt CV gratis →",
+      "ctaDemo": "Testa utan konto",
+      "trust": [
+        "Gratis att börja",
+        "Inget kort krävs",
+        "Data lagras i EU"
+      ]
+    },
+    "demo": {
+      "label": "Testa direkt",
+      "title": "Se hur väl du matchar en annons",
+      "sub": "Klistra in en jobbannons — till exempel från Platsbanken. Lägg gärna till några rader om dig själv så får du en matchningspoäng och ett anpassat CV-sammandrag. Inget konto behövs.",
+      "adLabel": "Jobbannons",
+      "adPlaceholder": "Klistra in hela annonstexten här…",
+      "profileLabel": "Om dig (valfritt)",
+      "profilePlaceholder": "T.ex. Undersköterska med 4 års erfarenhet från Syrien, B-körkort, talar arabiska och svenska (SFI D)…",
+      "sample": "Fyll i ett exempel",
+      "sampleProfile": "Undersköterska med 4 års erfarenhet från äldreomsorg i Syrien. Har gått vårdutbildning på Komvux. B-körkort. Talar arabiska och svenska (SFI D, Svenska som andraspråk pågår).",
+      "submit": "Analysera annonsen",
+      "analyzing": "Analyserar…",
+      "score": "Matchning",
+      "role": "Tjänst",
+      "requirements": "Det här letar arbetsgivaren efter",
+      "matched": "Du visar redan",
+      "missing": "Lyft fram eller komplettera",
+      "summary": "Anpassat CV-sammandrag",
+      "summaryExample": "Exempel på CV-sammandrag",
+      "tips": "Tips för den här ansökan",
+      "copy": "Kopiera",
+      "copied": "Kopierat!",
+      "noProfileHint": "Lägg till några rader om dig själv för att få en personlig matchningspoäng.",
+      "lockedTitle": "Nästa steg: hela ansökan",
+      "lockedText": "Med ett gratis konto skapar CVzume ett komplett CV och ett personligt brev för den här annonsen och sparar ansökan åt dig. Annonsen följer med när du registrerar dig.",
+      "lockedCta": "Skapa hela ansökan gratis →",
+      "again": "Testa en annan annons",
+      "errors": {
+        "too_short": "Annonsen är för kort — klistra in hela texten.",
+        "too_long": "Texten är för lång. Korta ner annonsen (max 6 000 tecken) eller beskrivningen (max 1 500).",
+        "rate_limited": "Du har använt dagens gratis tester. Skapa ett konto för att fortsätta.",
+        "ai_failed": "AI-tjänsten svarar inte just nu. Försök igen om en stund.",
+        "generic": "Något gick fel. Försök igen."
+      },
+      "privacy": "Texten skickas till vår AI-leverantör för analys och sparas inte hos oss."
+    },
+    "how": {
+      "label": "Så fungerar det",
+      "title": "Fyra steg till en färdig ansökan",
+      "sub": "Från platsannons till färdigt ansökningspaket — på några minuter.",
+      "steps": [
+        {
+          "title": "Ladda upp eller skapa ditt CV",
+          "desc": "Importera ditt befintliga CV som PDF eller fyll i din profil steg för steg."
+        },
+        {
+          "title": "Hitta eller klistra in en annons",
+          "desc": "Sök bland lediga jobb direkt i appen eller klistra in en annons du hittat själv."
+        },
+        {
+          "title": "Få en anpassad ansökan",
+          "desc": "AI:n jämför annonsen med din profil och skriver CV-sammandrag och personligt brev för just det jobbet."
+        },
+        {
+          "title": "Ladda ner, skicka och följ upp",
+          "desc": "Spara som PDF, markera ansökan som skickad och förbered dig inför intervjun."
+        }
+      ]
+    },
+    "features": {
+      "label": "Funktioner",
+      "title": "Allt du behöver för jobbsökningen",
+      "items": [
+        {
+          "title": "Matchningsanalys",
+          "desc": "Se hur väl du matchar annonsen, vilka krav du redan uppfyller och vad du bör lyfta fram."
+        },
+        {
+          "title": "Personligt brev",
+          "desc": "Ett genomarbetat brev anpassat till företaget och rollen — på korrekt svenska eller det språk du väljer."
+        },
+        {
+          "title": "Sök jobb i appen",
+          "desc": "Sök lediga tjänster från Platsbanken efter ort och yrke och spara favoriter — utan att byta flik."
+        },
+        {
+          "title": "Intervjuförberedelse",
+          "desc": "Få troliga intervjufrågor för just den tjänsten, med förslag på hur du kan svara."
+        },
+        {
+          "title": "Håll koll på ansökningar",
+          "desc": "Alla ansökningar på ett ställe: utkast, skickade och arkiv, med CV och brev sparade."
+        },
+        {
+          "title": "Fyra språk",
+          "desc": "Använd CVzume på svenska, engelska, spanska eller turkiska — och skapa CV på flera språk med Pro."
+        }
+      ]
+    },
+    "pricing": {
+      "label": "Priser",
+      "title": "Enkla, tydliga priser",
+      "sub": "Börja gratis. Uppgradera när du söker många jobb.",
+      "currency": "kr",
+      "free": {
+        "tier": "Gratis",
+        "price": "0",
+        "period": "för alltid",
+        "features": [
+          "2 AI-ansökningar per månad (CV + brev)",
+          "Matchningsanalys",
+          "PDF-export",
+          "Jobbsök och favoriter",
+          "Ansökningsöversikt",
+          "Intervjuförberedelse"
+        ],
+        "cta": "Kom igång gratis"
+      },
+      "pro": {
+        "badge": "MEST POPULÄR",
+        "tier": "Pro",
+        "price": "109",
+        "period": "per månad · avsluta när du vill",
+        "features": [
+          "Obegränsade AI-ansökningar",
+          "Allt i Gratis",
+          "CV på flera språk",
+          "Prioriterad support"
+        ],
+        "cta": "Starta Pro"
+      },
+      "year": {
+        "badge": "BÄST VÄRDE",
+        "tier": "Pro årsplan",
+        "price": "83",
+        "period": "per månad",
+        "save": "spara 309 kr/år",
+        "billed": "Faktureras 999 kr/år",
+        "features": [
+          "Obegränsade AI-ansökningar",
+          "Allt i Gratis",
+          "CV på flera språk",
+          "Prioriterad support"
+        ],
+        "cta": "Starta årsplan"
+      },
+      "note": "Alla priser inkl. moms. Betalning med kort via Stripe. Ingen bindningstid."
+    },
+    "faq": {
+      "label": "Frågor och svar",
+      "title": "Vanliga frågor",
+      "items": [
+        {
+          "q": "Är CVzume gratis?",
+          "a": "Ja. Med gratiskontot får du 2 AI-genererade ansökningar (CV-sammandrag + personligt brev) per månad, plus PDF-export, jobbsök och ansökningsöversikt. Pro kostar 109 kr/mån eller 999 kr/år och ger obegränsat antal ansökningar."
+        },
+        {
+          "q": "Hur fungerar AI-anpassningen?",
+          "a": "CVzume läser jobbannonsen och jämför den med din profil. AI:n plockar ut krav och nyckelord och skriver ett CV-sammandrag och ett personligt brev som lyfter fram din riktiga erfarenhet. Du kan alltid redigera texten innan du skickar."
+        },
+        {
+          "q": "Jag är inte så bra på svenska — fungerar det ändå?",
+          "a": "Ja, det är precis därför CVzume finns. Du kan beskriva din erfarenhet enkelt, och AI:n skriver ansökan på korrekt, professionell svenska. Läs alltid igenom texten så att allt stämmer."
+        },
+        {
+          "q": "Hittar AI:n på erfarenheter?",
+          "a": "Nej, den är instruerad att bara använda det som står i din profil. Kontrollera ändå alltid texten — du ansvarar för att ansökan är sanningsenlig."
+        },
+        {
+          "q": "Är mina uppgifter säkra?",
+          "a": "Din profil och dina ansökningar lagras inom EU. Text som ska analyseras skickas till vår AI-leverantör för bearbetning. Du kan radera ditt konto och all data när som helst under Inställningar. Läs mer i integritetspolicyn."
+        },
+        {
+          "q": "Kan jag avsluta Pro när jag vill?",
+          "a": "Ja. Det finns ingen bindningstid, och du behåller Pro till slutet av perioden du har betalat för."
+        }
+      ]
+    },
+    "cta": {
+      "a": "Redo att landa ditt",
+      "em": "nästa jobb?",
+      "sub": "Skapa ditt konto gratis idag. Inget kort krävs.",
+      "button": "Kom igång nu — det är gratis →",
+      "note": [
+        "Gratis att börja",
+        "Ingen bindningstid",
+        "GDPR"
+      ]
+    },
+    "footer": {
+      "product": "Produkt",
+      "guides": "Guider",
+      "legal": "Juridiskt",
+      "contact": "Kontakt",
+      "privacy": "Integritetspolicy",
+      "cookies": "Cookies",
+      "terms": "Användarvillkor",
+      "guideLinks": {
+        "cv-mall": "CV-mall",
+        "personligt-brev-exempel": "Personligt brev",
+        "cv-for-nyanlanda": "CV för nyanlända",
+        "vanliga-intervjufragor": "Intervjufrågor"
+      },
+      "copy": "Byggd i Sverige 🇸🇪"
+    },
+    "mock": {
+      "url": "cvzume.com/dashboard",
+      "my": "Mina ansökningar",
+      "match": "matchning",
+      "cvTitle": "Anpassat CV — Undersköterska",
+      "done": "Klart",
+      "keywords": "Nyckelord som matchar",
+      "analysis": "Analys",
+      "pdf": "Ladda ner PDF",
+      "edit": "Redigera",
+      "jobs": [
+        {
+          "title": "Undersköterska",
+          "co": "Region Stockholm · Solna"
+        },
+        {
+          "title": "Lagerarbetare",
+          "co": "PostNord · Rosersberg"
+        },
+        {
+          "title": "Barnskötare",
+          "co": "Sollentuna kommun"
+        }
+      ],
+      "kw": [
+        "Omvårdnad",
+        "Dokumentation",
+        "Svenska i tal och skrift"
+      ]
+    }
   }
 }
