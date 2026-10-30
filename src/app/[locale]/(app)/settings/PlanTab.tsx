@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import styles from './settings.module.css';
@@ -7,6 +8,7 @@ interface PlanInfo {
   interval?: 'monthly' | 'yearly';
   currentPeriodEnd?: string;
   cancelAtPeriodEnd?: boolean;
+  override?: boolean;
 }
 
 export default function PlanTab({ planInfo, planLoading }: {
@@ -15,6 +17,26 @@ export default function PlanTab({ planInfo, planLoading }: {
 }) {
   const locale = useLocale();
   const router = useRouter();
+  const [portalLoading, setPortalLoading] = useState(false);
+  const [portalError, setPortalError] = useState('');
+
+  async function openPortal() {
+    setPortalLoading(true);
+    setPortalError('');
+    try {
+      const res = await fetch('/api/stripe/portal', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('cvita_token')}` },
+        body: JSON.stringify({ locale }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.url) throw new Error(data.error);
+      window.location.assign(data.url);
+    } catch {
+      setPortalError('Kunde inte öppna prenumerationssidan. Mejla info@cvzume.com så hjälper vi dig.');
+      setPortalLoading(false);
+    }
+  }
 
   return (
     <div className={styles.settingsCard}>
@@ -43,6 +65,16 @@ export default function PlanTab({ planInfo, planLoading }: {
                 )}
               </div>
             </div>
+            {/* Manuell Pro (is_pro_override) har ingen Stripe-kund — då finns inget att hantera */}
+            {!planInfo.override && (
+              <div style={{ marginBottom: 20 }}>
+                <button className={styles.btnPrimary} onClick={openPortal} disabled={portalLoading} style={{ fontSize: 13, padding: '8px 16px' }}>
+                  {portalLoading ? 'Öppnar…' : 'Hantera prenumeration'}
+                </button>
+                <div style={{ fontSize: 12, color: 'var(--muted)', marginTop: 6 }}>Avsluta, byt kort eller se kvitton via Stripe.</div>
+                {portalError && <div style={{ fontSize: 13, color: '#DC2626', marginTop: 6 }}>{portalError}</div>}
+              </div>
+            )}
             <div className={styles.planBenefits}>
               <div className={styles.planBenefitsTitle}>✅ Dina Pro-förmåner</div>
               <div className={styles.planBenefitsList}>

@@ -77,7 +77,7 @@ const sv: Record<LegalSlug, LegalDoc> = {
       ] },
       { h: 'Gratis och Pro', p: [
         'Gratiskontot innehåller ett begränsat antal AI-genereringar per månad. Pro ger obegränsad användning enligt prisinformationen på webbplatsen.',
-        'Pro betalas i förskott per månad eller per år via Stripe och förnyas automatiskt tills du avslutar. Det finns ingen bindningstid. Vill du avsluta, mejla ' + CONTACT + ' så avslutar vi prenumerationen till slutet av den betalda perioden. Betalda perioder återbetalas inte i efterhand.',
+        'Pro betalas i förskott per månad eller per år via Stripe och förnyas automatiskt tills du avslutar. Det finns ingen bindningstid. Du avslutar själv under Inställningar → Plan → Hantera prenumeration; Pro gäller då till slutet av den betalda perioden. Betalda perioder återbetalas inte i efterhand.',
         'Ångerrätt: Enligt distansavtalslagen har du 14 dagars ångerrätt från köpet. Mejla ' + CONTACT + ' om du vill ångra dig. Har du redan använt tjänsten under perioden kan vi dra av en skälig del av priset.',
         'Vi kan ändra priser. Ändringar gäller från nästa betalningsperiod och meddelas i god tid via e-post.',
       ] },
@@ -166,7 +166,7 @@ const en: Record<LegalSlug, LegalDoc> = {
       ] },
       { h: 'Free and Pro', p: [
         'The free account includes a limited number of AI generations per month. Pro gives unlimited use according to the pricing on the website.',
-        'Pro is paid in advance monthly or yearly via Stripe and renews automatically until you cancel. There is no lock-in period. To cancel, email ' + CONTACT + ' and we will end the subscription at the end of the paid period. Paid periods are not refunded retroactively.',
+        'Pro is paid in advance monthly or yearly via Stripe and renews automatically until you cancel. There is no lock-in period. You cancel yourself under Settings → Plan → Manage subscription; Pro then stays active until the end of the paid period. Paid periods are not refunded retroactively.',
         'Right of withdrawal: under the Swedish Distance Contracts Act you have a 14-day right of withdrawal from the purchase. Email ' + CONTACT + ' if you want to withdraw. If you have already used the service during that time, we may deduct a reasonable part of the price.',
         'We may change prices. Changes apply from the next billing period and are announced in advance by email.',
       ] },

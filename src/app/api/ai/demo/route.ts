@@ -2,6 +2,8 @@
 // Tam ön yazı üretmiyoruz; amaç ürünü göstermek ve kayda yönlendirmek.
 import { NextResponse } from 'next/server'
 import { callAI, LANG_NAMES, parseJson } from '@/lib/ai'
+import { createClient } from '@supabase/supabase-js'
+import { createHash } from 'crypto'
 
 export const dynamic = 'force-dynamic'
 
@@ -10,12 +12,40 @@ const MAX_PROFILE = 1500
 const PER_IP_PER_DAY = 3
 const GLOBAL_PER_HOUR = 60
 
-// Bellek içi sayaçlar — Fluid compute instance'ı yeniden kullandığı için yeterli bir
-// kötüye kullanım freni; kesin kota değil (soğuk başlangıçta sıfırlanır).
+// Asıl sayaç Supabase'de (public.demo_usage, bkz. supabase/migrations/20261030_demo_usage.sql).
+// DB'ye ulaşılamazsa demo durmasın diye aşağıdaki bellek içi sayaca düşüyoruz.
+async function allowDb(ip: string): Promise<boolean | null> {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
+  if (!url || !key) return null
+  const db = createClient(url, key, { auth: { persistSession: false, autoRefreshToken: false } })
+  const ipHash = createHash('sha256').update(`cvzume-demo:${ip}`).digest('hex')
+  const now = Date.now()
+  const day = new Date(now - 24 * 3600_000).toISOString()
+  const hour = new Date(now - 3600_000).toISOString()
+
+  const [mine, global] = await Promise.all([
+    db.from('demo_usage').select('id', { count: 'exact', head: true }).eq('ip_hash', ipHash).gte('created_at', day),
+    db.from('demo_usage').select('id', { count: 'exact', head: true }).gte('created_at', hour),
+  ])
+  if (mine.error || global.error) {
+    console.warn('demo_usage read failed', mine.error?.message || global.error?.message)
+    return null
+  }
+  if ((mine.count ?? 0) >= PER_IP_PER_DAY || (global.count ?? 0) >= GLOBAL_PER_HOUR) return false
+
+  const { error } = await db.from('demo_usage').insert({ ip_hash: ipHash })
+  if (error) console.warn('demo_usage insert failed', error.message)
+  // Eski satırları temizle — tablo hep birkaç günlük veriyle sınırlı kalır
+  await db.from('demo_usage').delete().lt('created_at', new Date(now - 2 * 24 * 3600_000).toISOString())
+  return true
+}
+
+// Yedek: bellek içi sayaçlar (instance başına, soğuk başlangıçta sıfırlanır).
 const ipHits = new Map<string, number[]>()
 const globalHits: number[] = []
 
-function allow(ip: string): boolean {
+function allowMemory(ip: string): boolean {
   const now = Date.now()
   const day = now - 24 * 3600_000
   const hour = now - 3600_000
@@ -66,7 +96,8 @@ export async function POST(request: Request) {
   }
 
   const ip = request.headers.get('x-forwarded-for')?.split(',')[0].trim() || 'unknown'
-  if (!allow(ip)) return NextResponse.json({ error: 'rate_limited' }, { status: 429 })
+  const allowed = (await allowDb(ip).catch(() => null)) ?? allowMemory(ip)
+  if (!allowed) return NextResponse.json({ error: 'rate_limited' }, { status: 429 })
 
   const outputLang = LANG_NAMES[locale] || 'Swedish'
   const hasProfile = profile.length > 0
