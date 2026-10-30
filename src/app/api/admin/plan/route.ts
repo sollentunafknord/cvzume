@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { isAdminEmail } from '@/lib/admin'
 
-const ADMIN_EMAIL = 'cyesil@gmail.com'
 
 async function verifyAdmin(req: Request): Promise<boolean> {
   const auth = req.headers.get('authorization') || ''
@@ -13,7 +13,7 @@ async function verifyAdmin(req: Request): Promise<boolean> {
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
     )
     const { data: { user } } = await supabase.auth.getUser(token)
-    return user?.email === ADMIN_EMAIL
+    return isAdminEmail(user?.email)
   } catch { return false }
 }
 

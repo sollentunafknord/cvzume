@@ -1,6 +1,7 @@
 // src/app/api/admin/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { isAdminEmail } from '@/lib/admin';
 import Stripe from 'stripe';
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
@@ -8,7 +9,6 @@ const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 const getStripe = () => new Stripe(process.env.STRIPE_SECRET_KEY!);
 
-const ADMIN_EMAILS = ['cyesil@gmail.com'];
 
 async function verifyAdmin(token: string): Promise<boolean> {
   const userClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
@@ -16,7 +16,7 @@ async function verifyAdmin(token: string): Promise<boolean> {
   });
   const { data: { user }, error } = await userClient.auth.getUser();
   if (error || !user) return false;
-  return ADMIN_EMAILS.includes(user.email || '');
+  return isAdminEmail(user.email || '');
 }
 
 export async function GET(req: NextRequest) {
@@ -39,8 +39,10 @@ export async function GET(req: NextRequest) {
     // 2. Get profiles (avatar_url, title, location)
     const { data: profiles } = await adminClient
       .from('profiles')
-      .select('id, avatar_url, title, location');
+      .select('id, avatar_url, title, location, is_pro_override');
     const profileMap = new Map((profiles || []).map((p: any) => [p.id, p]));
+    // Elle verilen Pro (is_pro_override) herhangi bir dildeki profil satırında olabilir
+    const overrideIds = new Set((profiles || []).filter((p: any) => p.is_pro_override).map((p: any) => p.id));
 
     // 3. Get Stripe subscriptions
     const allSubs = await getStripe().subscriptions.list({ status: 'active', limit: 100 });
@@ -78,7 +80,8 @@ export async function GET(req: NextRequest) {
         title: profile?.title || null,
         created_at: u.created_at,
         last_sign_in: u.last_sign_in_at,
-        isPro: stripePlan.isPro,
+        isPro: stripePlan.isPro || overrideIds.has(u.id) || isAdminEmail(u.email),
+        pro_source: stripePlan.isPro ? 'stripe' : overrideIds.has(u.id) ? 'override' : isAdminEmail(u.email) ? 'admin' : null,
         plan_interval: stripePlan.interval,
         stripe_sub_id: stripePlan.subId,
         confirmed: !!u.email_confirmed_at,
@@ -165,8 +168,9 @@ export async function POST(req: NextRequest) {
 
     // Remove Pro (cancel subscription)
     if (action === 'remove_pro') {
-      if (!subId) return NextResponse.json({ error: 'subId required' }, { status: 400 });
-      await getStripe().subscriptions.cancel(subId);
+      // Pro iki yerden gelebilir: Stripe aboneliği ve/veya elle verilen is_pro_override
+      if (subId) await getStripe().subscriptions.cancel(subId);
+      await adminClient.from('profiles').update({ is_pro_override: false }).eq('id', userId);
       return NextResponse.json({ success: true });
     }
 

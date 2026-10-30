@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { APP_VERSION, RELEASE_DATE } from '@/version';
+import { isAdminEmail } from '@/lib/admin';
 import styles from './sidebar.module.css';
 
 interface SidebarProps {
@@ -34,7 +35,7 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
     setPlanLabel(proStatus ? t('dashboard.pro_plan') : t('dashboard.free_plan'));
     try {
       const user = JSON.parse(localStorage.getItem('cvita_user') || '{}');
-      setIsAdmin(user.email === 'cyesil@gmail.com');
+      setIsAdmin(isAdminEmail(user.email));
     } catch { /* silent */ }
 
     const proHandler = (e: Event) => {

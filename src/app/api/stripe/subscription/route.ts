@@ -1,6 +1,7 @@
 import Stripe from 'stripe'
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { isAdminEmail } from '@/lib/admin'
 
 const getStripe = () => new Stripe(process.env.STRIPE_SECRET_KEY!)
 
@@ -30,6 +31,11 @@ export async function GET(request: Request) {
 
   if (!email) {
     return NextResponse.json({ error: 'Email krävs' }, { status: 400 })
+  }
+
+  // Admin her zaman Pro (tüm özellikleri test edebilsin)
+  if (isAdminEmail(email)) {
+    return NextResponse.json({ plan: 'pro', interval: 'yearly', override: true, admin: true })
   }
 
   // Manual pro override takes precedence over Stripe
