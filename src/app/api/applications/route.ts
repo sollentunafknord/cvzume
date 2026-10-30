@@ -53,7 +53,7 @@ export async function GET(request: Request) {
   if (!supabaseUrl || !supabaseKey) return NextResponse.json({ error: 'Config error' }, { status: 500 })
 
   const { searchParams } = new URL(request.url)
-  const access_token = searchParams.get('token')
+  const access_token = request.headers.get('authorization')?.replace(/^Bearer\s+/i, '') || searchParams.get('token')
   if (!access_token) return NextResponse.json({ error: 'Token required' }, { status: 401 })
 
   const supabase = getSupabaseWithToken(supabaseUrl, supabaseKey, access_token)

@@ -1,9 +1,9 @@
 'use client';
 
+import { authFetch } from '@/lib/auth-client';
 import { useState, useEffect } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import styles from './dashboard.module.css';
-import { consumeApplicationCredit } from '@/lib/usage';
 import AdLinkInput, { isLoneUrl } from '../../AdLinkInput';
 
 interface AnalysisResult {
@@ -33,7 +33,7 @@ interface JobHit {
   description?: { text?: string };
 }
 
-export default function NewApplicationModal({ open, onClose, isPro, onUsageLimitHit, onAnalysisComplete, onApplicationSaved }: Props) {
+export default function NewApplicationModal({ open, onClose, onUsageLimitHit, onAnalysisComplete, onApplicationSaved }: Props) {
   const t = useTranslations();
   const locale = useLocale();
 
@@ -116,15 +116,8 @@ export default function NewApplicationModal({ open, onClose, isPro, onUsageLimit
     setModalTab('paste');
   }
 
-  async function checkUsage(): Promise<boolean> {
-    if (isPro) return true;
-    return consumeApplicationCredit();
-  }
-
   async function startAnalysis() {
     if (!modalRole || !modalAd) { alert(t('modal.fill_required')); return; }
-    const allowed = await checkUsage();
-    if (!allowed) { onClose(); onUsageLimitHit(); return; }
 
     setAnalyzing(true);
     setAnalyzeMsg(t('modal.analyzing_ad'));
@@ -133,11 +126,13 @@ export default function NewApplicationModal({ open, onClose, isPro, onUsageLimit
     const profile = JSON.parse(localStorage.getItem(`cvita_profile_${locale}`) || localStorage.getItem('cvita_profile') || '{}');
     try {
       setTimeout(() => setAnalyzeSteps([2, 1, 0, 0]), 800);
-      const res = await fetch('/api/ai/analyze', {
+      const res = await authFetch('/api/ai/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ jobAd: modalAd, userProfile: profile, locale }),
       });
+      // Kota sunucuda sayılır; hak bitmişse 402
+      if (res.status === 402) { setAnalyzing(false); onClose(); onUsageLimitHit(); return; }
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'AI fel');
 

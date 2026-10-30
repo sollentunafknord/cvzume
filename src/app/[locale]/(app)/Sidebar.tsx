@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
+import { authFetch } from '@/lib/auth-client';
 import { APP_VERSION, RELEASE_DATE } from '@/version';
 import { isAdminEmail } from '@/lib/admin';
 import styles from './sidebar.module.css';
@@ -97,7 +98,7 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
     try {
       const email = JSON.parse(localStorage.getItem('cvita_user') || '{}').email;
       if (!email) return false;
-      const res = await fetch(`/api/stripe/subscription?email=${encodeURIComponent(email)}`);
+      const res = await authFetch('/api/stripe/subscription');
       const data = await res.json();
       const pro = data.plan === 'pro';
       localStorage.setItem('cvita_is_pro', pro ? 'true' : 'false');

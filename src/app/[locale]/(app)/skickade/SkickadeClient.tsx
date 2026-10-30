@@ -1,5 +1,6 @@
 'use client';
 
+import { authFetch } from '@/lib/auth-client';
 import { useState, useEffect, useCallback } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
@@ -42,7 +43,7 @@ export default function SkickadeClient({ onNavigate }: { onNavigate?: (seg: stri
     const token = localStorage.getItem('cvita_token');
     if (!token) { router.push(`/${locale}/auth`); return; }
     try {
-      const res = await fetch(`/api/applications?token=${token}`);
+      const res = await authFetch('/api/applications');
       const data = await res.json();
       setApps((data.applications || []).filter((a: Application) => a.status === 'sent'));
     } catch { /* silent */ }

@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
+import { authFetch } from '@/lib/auth-client';
 import styles from './settings.module.css';
 import PersonalTab from './PersonalTab';
 import PasswordTab from './PasswordTab';
@@ -97,7 +98,7 @@ export default function SettingsClient() {
     setPlanLoading(true);
     try {
       const email = userEmail || JSON.parse(localStorage.getItem('cvita_user') || '{}').email || '';
-      const res = await fetch(`/api/stripe/subscription?email=${encodeURIComponent(email)}`);
+      const res = await authFetch('/api/stripe/subscription');
       const data = await res.json();
       setPlanInfo(data);
       localStorage.setItem('cvita_is_pro', data.plan === 'pro' ? 'true' : 'false');

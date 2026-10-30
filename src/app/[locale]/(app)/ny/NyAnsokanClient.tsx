@@ -4,6 +4,7 @@
 // 1) İlan (link/metin, ya da uygulama içi aramadan gelen)  2) CV (kayıtlı, PDF/Word yükle, ya da elle)
 // 3) Uyum + ilana uyarlanmış CV (düzenlenebilir) → PDF/Word  4) İsteğe bağlı personligt brev → PDF/Word
 // Taslak (ilan) sessionStorage'da durur ki kullanıcı "Mitt CV"ye gidip dönünce kaybolmasın.
+import { authFetch } from '@/lib/auth-client';
 import { useCallback, useEffect, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import styles from './ny.module.css';
@@ -11,7 +12,6 @@ import PrintDocument from './PrintDocument';
 import AdLinkInput, { isLoneUrl } from '../../AdLinkInput';
 import CvImport, { type ImportedCv } from '../CvImport';
 import { hasCvContent, loadProfile, saveProfile, type Profile } from '@/lib/profile-store';
-import { consumeApplicationCredit } from '@/lib/usage';
 import { descLines, exportCvDocx, exportLetterDocx, period, safeFileName, type ExportCv, type ExportPerson } from '@/lib/export-docs';
 
 type Step = 1 | 2 | 3 | 4;
@@ -71,15 +71,16 @@ export default function NyAnsokanClient({ onNavigate }: { onNavigate: (seg: stri
   async function tailor(cv: Profile) {
     setError('');
     setLimitHit(false);
-    if (!(await consumeApplicationCredit())) { setLimitHit(true); return; }
     setBusy('tailor');
     setStep(3);
     try {
-      const res = await fetch('/api/ai/tailor', {
+      const res = await authFetch('/api/ai/tailor', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ jobAd: ad, cv, locale }),
       });
+      // Kota sunucuda sayılır; hak bitmişse 402
+      if (res.status === 402) { setLimitHit(true); setStep(2); return; }
       const data = await res.json();
       if (!res.ok) throw new Error();
       const tailored: Tailored = { role: data.role || role, matchScore: data.matchScore, requirements: data.requirements || [], tips: data.tips || [], cv: { ...cv, ...data.cv } };
@@ -142,7 +143,7 @@ export default function NyAnsokanClient({ onNavigate }: { onNavigate: (seg: stri
     setBusy('letter');
     setError('');
     try {
-      const res = await fetch('/api/ai/letter', {
+      const res = await authFetch('/api/ai/letter', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ jobAd: ad, cv: result.cv, name: person.name, locale }),

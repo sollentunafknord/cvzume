@@ -1,7 +1,7 @@
 // CV içe aktarma: PDF veya Word (.docx) → metin → yapay zeka ile yapılandırılmış profil.
 // Eski /api/cv/parse emekli bir modele bağlıydı ve hiçbir ekran onu çağırmıyordu; bu onun yerine geçer.
 import { NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
+import { getRequestUser, rateLimit } from '@/lib/server-auth'
 import { cleanCvText, extractCvText, MAX_BYTES, parseCvText } from '@/lib/cv-import'
 
 export const runtime = 'nodejs'
@@ -9,11 +9,9 @@ export const maxDuration = 60
 
 export async function POST(request: Request) {
   // Sadece giriş yapmış kullanıcılar (yapay zeka maliyeti)
-  const token = request.headers.get('authorization')?.replace('Bearer ', '')
-  if (!token) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
-  const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, { auth: { persistSession: false } })
-  const { data: { user } } = await supabase.auth.getUser(token)
+  const user = await getRequestUser(request)
   if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
+  if (!rateLimit(`cvimport:${user.id}`, 15)) return NextResponse.json({ error: 'rate_limited' }, { status: 429 })
 
   const form = await request.formData().catch(() => null)
   const file = form?.get('file')

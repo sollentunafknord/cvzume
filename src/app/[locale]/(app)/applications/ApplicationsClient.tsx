@@ -1,5 +1,6 @@
 'use client';
 
+import { authFetch } from '@/lib/auth-client';
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import styles from './applications.module.css';
@@ -55,7 +56,7 @@ async function getValidToken(): Promise<string | null> {
 
 async function apiFavorites(token: string): Promise<Job[]> {
   try {
-    const res = await fetch(`/api/favorites?token=${token}`);
+    const res = await authFetch('/api/favorites');
     if (!res.ok) return [];
     const data = await res.json();
     return data.favorites || [];

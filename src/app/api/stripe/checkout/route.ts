@@ -1,15 +1,19 @@
 // src/app/api/stripe/checkout/route.ts
 import Stripe from 'stripe'
 import { NextResponse } from 'next/server'
+import { getRequestUser } from '@/lib/server-auth'
 
 const getStripe = () => new Stripe(process.env.STRIPE_SECRET_KEY!)
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.cvzume.com'
 
 export async function POST(request: Request) {
-  const { email, yearly } = await request.json()
+  // Abonelik her zaman giriş yapmış kullanıcının kendi e-postasına açılır
+  const user = await getRequestUser(request)
+  const email = user?.email
   if (!email) {
-    return NextResponse.json({ error: 'Email krävs' }, { status: 400 })
+    return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
   }
+  const { yearly } = await request.json().catch(() => ({ yearly: false }))
   try {
     const priceId = yearly && process.env.STRIPE_YEARLY_PRICE_ID
       ? process.env.STRIPE_YEARLY_PRICE_ID

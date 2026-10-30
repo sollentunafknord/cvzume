@@ -1,5 +1,6 @@
 'use client';
 
+import { authFetch } from '@/lib/auth-client';
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
@@ -122,11 +123,12 @@ export default function LetterClient() {
     }
     setGenerating(true);
     try {
-      const res = await fetch('/api/ai/analyze', {
+      const res = await authFetch('/api/ai/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ jobAd: result.jobAd || result.role, userProfile: profile, locale }),
       });
+      if (res.status === 402) { window.location.assign(`/${locale}/upgrade`); return; }
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || t('generate_error'));
       setLetterText(data.coverLetter || '');

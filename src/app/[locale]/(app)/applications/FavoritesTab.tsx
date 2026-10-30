@@ -1,5 +1,6 @@
 'use client';
 
+import { authFetch } from '@/lib/auth-client';
 import { useState } from 'react';
 import { useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
@@ -33,7 +34,7 @@ export default function FavoritesTab({ favorites, onToggleFavorite, t }: {
     setAnalyzing(true);
     const profile = JSON.parse(localStorage.getItem(`cvita_profile_${locale}`) || localStorage.getItem('cvita_profile') || '{}');
     try {
-      const res = await fetch('/api/ai/analyze', {
+      const res = await authFetch('/api/ai/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -41,6 +42,7 @@ export default function FavoritesTab({ favorites, onToggleFavorite, t }: {
           userProfile: profile,
         }),
       });
+      if (res.status === 402) { window.location.assign(`/${locale}/upgrade`); return; }
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Fel');
       localStorage.setItem('cvita_last_result', JSON.stringify({

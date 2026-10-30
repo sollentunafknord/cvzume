@@ -2,6 +2,7 @@
 
 // "CV'ni yükle (PDF/Word)": dosyayı /api/cv/import'a gönderir, yapılandırılmış profili döner.
 // Mitt CV sayfası ve "Ny ansökan" akışı kullanır.
+import { authFetch } from '@/lib/auth-client';
 import { useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import type { Profile } from '@/lib/profile-store';
@@ -20,9 +21,8 @@ export default function CvImport({ onImported, compact = false }: { onImported: 
     try {
       const fd = new FormData();
       fd.append('file', file);
-      const res = await fetch('/api/cv/import', {
+      const res = await authFetch('/api/cv/import', {
         method: 'POST',
-        headers: { Authorization: `Bearer ${localStorage.getItem('cvita_token') || ''}` },
         body: fd,
       });
       const data = await res.json().catch(() => ({}));

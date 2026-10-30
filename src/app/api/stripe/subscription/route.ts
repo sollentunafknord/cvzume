@@ -1,37 +1,16 @@
-import Stripe from 'stripe'
 import { NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
 import { isAdminEmail } from '@/lib/admin'
+import { getRequestUser, hasProOverride } from '@/lib/server-auth'
+import { findActiveSubscription } from '@/lib/stripe-plan'
 
-const getStripe = () => new Stripe(process.env.STRIPE_SECRET_KEY!)
-
-async function checkProOverride(email: string): Promise<boolean> {
-  try {
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!,
-      { auth: { autoRefreshToken: false, persistSession: false } }
-    )
-    const { data: users } = await supabase.auth.admin.listUsers({ page: 1, perPage: 1000 })
-    const user = users?.users?.find(u => u.email === email)
-    if (!user) return false
-    const { data } = await supabase
-      .from('profiles')
-      .select('is_pro_override')
-      .eq('id', user.id)
-      .eq('is_pro_override', true)
-      .limit(1)
-    return !!(data && data.length > 0)
-  } catch { return false }
-}
-
+// Sadece giriş yapmış kullanıcının kendi planı. Eskiden ?email= ile herkesin abonelik bilgisi
+// (müşteri/abonelik kimlikleri dahil) sorgulanabiliyordu.
 export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url)
-  const email = searchParams.get('email')
-
-  if (!email) {
-    return NextResponse.json({ error: 'Email krävs' }, { status: 400 })
+  const user = await getRequestUser(request)
+  if (!user?.email) {
+    return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
   }
+  const email = user.email
 
   // Admin her zaman Pro (tüm özellikleri test edebilsin)
   if (isAdminEmail(email)) {
@@ -39,37 +18,16 @@ export async function GET(request: Request) {
   }
 
   // Manual pro override takes precedence over Stripe
-  const isOverride = await checkProOverride(email)
-  if (isOverride) {
+  if (await hasProOverride(user.id)) {
     return NextResponse.json({ plan: 'pro', interval: 'yearly', override: true })
   }
 
   try {
-    // Checkout customer_email ile çalıştığı için Stripe her ödemede aynı e-postaya yeni bir müşteri
-    // açabiliyor; sadece ilkine bakmak Pro kullanıcıyı 'free' gösteriyordu. Hepsine bak.
-    const customers = await getStripe().customers.list({ email, limit: 20 })
-
-    if (customers.data.length === 0) {
+    const found = await findActiveSubscription(email)
+    if (!found) {
       return NextResponse.json({ plan: 'free' })
     }
-
-    const PRO_STATUSES = new Set(['active', 'trialing', 'past_due'])
-    let sub: Stripe.Subscription | null = null
-    let customer = customers.data[0]
-    for (const c of customers.data) {
-      const subs = await getStripe().subscriptions.list({
-        customer: c.id,
-        status: 'all',
-        limit: 10,
-        expand: ['data.items.data.price'],
-      })
-      const found = subs.data.find(s => PRO_STATUSES.has(s.status))
-      if (found) { sub = found; customer = c; break }
-    }
-
-    if (!sub) {
-      return NextResponse.json({ plan: 'free' })
-    }
+    const { sub, customer } = found
 
     const subAny = sub as any
 

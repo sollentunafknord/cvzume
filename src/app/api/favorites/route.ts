@@ -10,7 +10,7 @@ function getSupabase(token: string) {
 }
 
 export async function GET(request: Request) {
-  const token = new URL(request.url).searchParams.get('token')
+  const token = request.headers.get('authorization')?.replace(/^Bearer\s+/i, '') || new URL(request.url).searchParams.get('token')
   if (!token) return NextResponse.json({ error: 'Token required' }, { status: 401 })
 
   const supabase = getSupabase(token)

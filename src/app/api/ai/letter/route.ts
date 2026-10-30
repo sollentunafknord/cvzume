@@ -1,5 +1,6 @@
 // "Ny ansökan" 4. adım: ilana göre personligt brev / ön yazı (uyarlanmış CV'deki gerçeklerle).
 import { NextResponse } from 'next/server'
+import { getRequestUser, rateLimit } from '@/lib/server-auth'
 import { callAIJson, ADDRESS_RULE, COUNTRY_RULE, LANG_NAMES } from '@/lib/ai'
 
 export const maxDuration = 60
@@ -7,6 +8,9 @@ export const maxDuration = 60
 type Cv = { title?: string; summary?: string; skills?: string[]; experiences?: { role?: string; company?: string; start?: string; end?: string; desc?: string }[]; educations?: { school?: string; degree?: string; field?: string }[] }
 
 export async function POST(request: Request) {
+  const user = await getRequestUser(request)
+  if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
+  if (!rateLimit(`ai:${user.id}`, 40)) return NextResponse.json({ error: 'rate_limited' }, { status: 429 })
   const body = await request.json().catch(() => null) as { jobAd?: string; cv?: Cv; name?: string; locale?: string } | null
   const jobAd = (body?.jobAd || '').slice(0, 8000)
   if (jobAd.length < 80 || !body?.cv) return NextResponse.json({ error: 'bad_request' }, { status: 400 })

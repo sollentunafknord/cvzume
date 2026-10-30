@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
+import { authFetch } from '@/lib/auth-client';
 import styles from './upgrade.module.css';
 
 const FAQ_ITEMS = [
@@ -45,7 +46,7 @@ export default function UpgradeClient() {
 
     if (isPro && user.email) {
       try {
-        const res = await fetch(`/api/stripe/subscription?email=${encodeURIComponent(user.email)}`);
+        const res = await authFetch('/api/stripe/subscription');
         const data = await res.json();
         if (data.interval === 'yearly') {
           setMonthlyBtnLabel('Du är redan Pro ✓'); setMonthlyDisabled(true);
@@ -67,7 +68,7 @@ export default function UpgradeClient() {
 
     try {
       const user = JSON.parse(localStorage.getItem('cvita_user') || '{}');
-      const res = await fetch('/api/stripe/checkout', {
+      const res = await authFetch('/api/stripe/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: user.email, yearly }),

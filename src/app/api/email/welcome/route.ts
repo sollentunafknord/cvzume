@@ -1,12 +1,16 @@
 // src/app/api/email/welcome/route.ts
 import { NextResponse } from 'next/server';
+import { escapeHtml, isInternalRequest } from '@/lib/internal';
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY!;
 const FROM_EMAIL = 'CVzume <noreply@cvzume.com>';
 
 export async function POST(request: Request) {
   try {
-    const { email, firstName } = await request.json();
+    if (!isInternalRequest(request)) return NextResponse.json({ error: 'forbidden' }, { status: 403 });
+    const raw = await request.json();
+    const email = String(raw.email || '');
+    const [firstName] = [raw.firstName].map(escapeHtml);
     if (!email) return NextResponse.json({ error: 'Email gerekli' }, { status: 400 });
 
     const name = firstName || 'där';

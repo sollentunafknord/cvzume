@@ -1,5 +1,6 @@
 'use client';
 
+import { authFetch } from '@/lib/auth-client';
 import { useState, useEffect, useCallback } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
@@ -68,7 +69,7 @@ export default function DashboardClient({ onNavigate }: { onNavigate?: (seg: str
     const token = localStorage.getItem('cvita_token');
     if (!token) return;
     try {
-      const res = await fetch(`/api/applications?token=${token}`);
+      const res = await authFetch('/api/applications');
       const data = await res.json();
       if (data.applications) setApps(data.applications);
     } catch { /* silent */ }
@@ -78,7 +79,7 @@ export default function DashboardClient({ onNavigate }: { onNavigate?: (seg: str
     const token = localStorage.getItem('cvita_token');
     if (!token) return;
     try {
-      const res = await fetch(`/api/events?token=${token}`);
+      const res = await authFetch('/api/events');
       const data = await res.json();
       if (data.events) setEvents(data.events);
     } catch { /* silent */ }

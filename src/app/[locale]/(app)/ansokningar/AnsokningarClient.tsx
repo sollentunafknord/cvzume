@@ -2,6 +2,7 @@
 
 // "Mina ansökningar": tüm başvurular tek listede (eskiden dashboard/Skickade/Intervju/Arkiv'e dağılmıştı).
 // Durum filtresi, uyarlanmış CV ve brev'i tekrar indirme, durum değiştirme, mülakat hazırlığı, silme.
+import { authFetch } from '@/lib/auth-client';
 import { useEffect, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import styles from '../ny/ny.module.css';
@@ -30,7 +31,7 @@ export default function AnsokningarClient({ onNavigate }: { onNavigate: (seg: st
   useEffect(() => {
     const token = localStorage.getItem('cvita_token');
     const user = JSON.parse(localStorage.getItem('cvita_user') || '{}');
-    fetch(`/api/applications?token=${token}`).then(r => r.json()).then(d => setApps(d.applications || [])).catch(() => setApps([]));
+    authFetch('/api/applications').then(r => r.json()).then(d => setApps(d.applications || [])).catch(() => setApps([]));
     loadProfile(locale).then(p => {
       setPerson({ name: [user.firstName, user.lastName].filter(Boolean).join(' ') || user.email || '', email: user.email, phone: p.phone, location: p.location, title: p.title });
       setFallbackCv({ summary: p.summary, experiences: p.experiences, educations: p.educations, skills: p.skills, languages: p.languages });

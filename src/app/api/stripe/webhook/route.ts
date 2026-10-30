@@ -1,6 +1,7 @@
 // src/app/api/stripe/webhook/route.ts
 import Stripe from 'stripe'
 import { NextResponse } from 'next/server'
+import { internalHeaders } from '@/lib/internal'
 
 const getStripe = () => new Stripe(process.env.STRIPE_SECRET_KEY!)
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!
@@ -43,7 +44,7 @@ export async function POST(request: Request) {
         // Pro onay emaili gönder
         await fetch(`${SITE_URL}/api/email/subscription-confirmed`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: internalHeaders(),
           body: JSON.stringify({ email, firstName, plan, nextBillingDate })
         })
         break
@@ -63,7 +64,7 @@ export async function POST(request: Request) {
         // İptal emaili gönder
         await fetch(`${SITE_URL}/api/email/subscription-cancelled`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: internalHeaders(),
           body: JSON.stringify({ email, firstName, accessUntil })
         })
         break

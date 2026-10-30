@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { getRequestUser, rateLimit } from '@/lib/server-auth';
 import { callAIJson, ADDRESS_RULE, COUNTRY_RULE, LANG_NAMES } from '@/lib/ai';
 
 const CATEGORIES: Record<string, { technical: string; behavioral: string; situational: string; personal: string; company: string }> = {
@@ -10,6 +11,9 @@ const CATEGORIES: Record<string, { technical: string; behavioral: string; situat
 }
 
 export async function POST(req: Request) {
+  const user = await getRequestUser(req);
+  if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
+  if (!rateLimit(`ai:${user.id}`, 40)) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
   try {
     const { role, jobAd, locale } = await req.json();
     if (!role) return NextResponse.json({ error: 'role required' }, { status: 400 });

@@ -1,6 +1,7 @@
 // src/app/api/auth/signup/route.ts
 import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
+import { internalHeaders } from '@/lib/internal'
 
 export async function POST(request: Request) {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
@@ -33,7 +34,7 @@ export async function POST(request: Request) {
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.cvzume.com'
     await fetch(`${baseUrl}/api/email/welcome`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: internalHeaders(),
       body: JSON.stringify({ email, firstName })
     })
   } catch (e) {

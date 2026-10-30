@@ -1,7 +1,13 @@
 import { NextResponse } from 'next/server'
+import { checkCredit, getRequestUser, rateLimit, recordCredit } from '@/lib/server-auth'
 import { callAIJson, ADDRESS_RULE, COUNTRY_RULE, LANG_NAMES } from '@/lib/ai'
 
 export async function POST(request: Request) {
+  const user = await getRequestUser(request)
+  if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
+  if (!rateLimit(`ai:${user.id}`, 40)) return NextResponse.json({ error: 'rate_limited' }, { status: 429 })
+  const credit = await checkCredit(user)
+  if (!credit.allowed) return NextResponse.json({ error: 'limit' }, { status: 402 })
   const { jobAd, userProfile, locale } = await request.json()
 
   if (!jobAd) {
@@ -82,6 +88,7 @@ Respond ONLY with this exact JSON format (no other text, no markdown):
   try {
     const { data: result, provider } = await callAIJson<Record<string, unknown>>(prompt)
 
+    if (!credit.pro) await recordCredit(user).catch(e => console.error('recordCredit', e))
     return NextResponse.json({ ...result, provider }, { status: 200 })
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 })

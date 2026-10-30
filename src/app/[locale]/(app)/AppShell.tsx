@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
+import { authFetch } from '@/lib/auth-client';
 import { useLocale } from 'next-intl';
 import Sidebar from './Sidebar';
 import styles from './sidebar.module.css';
@@ -36,7 +37,7 @@ export default function AppShell() {
   useEffect(() => {
     const email = (() => { try { return JSON.parse(localStorage.getItem('cvita_user') || '{}').email || ''; } catch { return ''; } })();
     if (!email) return;
-    fetch(`/api/stripe/subscription?email=${encodeURIComponent(email)}`)
+    authFetch('/api/stripe/subscription')
       .then(r => r.json())
       .then(data => {
         const isPro = data.plan === 'pro';

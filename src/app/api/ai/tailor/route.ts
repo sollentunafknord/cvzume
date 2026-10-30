@@ -2,6 +2,7 @@
 // Gerçekler sunucuda korunur: unvan/şirket/tarih orijinal CV'den gelir, yapay zeka sadece deneyim
 // açıklamalarını yeniden yazar ve sıralar; beceriler sadece yeniden sıralanır (yeni beceri eklenemez).
 import { NextResponse } from 'next/server'
+import { checkCredit, getRequestUser, rateLimit, recordCredit } from '@/lib/server-auth'
 import { callAIJson, ADDRESS_RULE, COUNTRY_RULE, LANG_NAMES } from '@/lib/ai'
 
 export const maxDuration = 60
@@ -48,6 +49,11 @@ function mentions(text: string, words: string[]): boolean {
 }
 
 export async function POST(request: Request) {
+  const user = await getRequestUser(request)
+  if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
+  if (!rateLimit(`ai:${user.id}`, 40)) return NextResponse.json({ error: 'rate_limited' }, { status: 429 })
+  const credit = await checkCredit(user)
+  if (!credit.allowed) return NextResponse.json({ error: 'limit' }, { status: 402 })
   const body = await request.json().catch(() => null) as { jobAd?: string; cv?: Cv; locale?: string } | null
   const jobAd = str(body?.jobAd, 8000)
   const cv = body?.cv
@@ -157,6 +163,7 @@ Return ONLY JSON: {"items":[{"k":0,"text":""}]}`
       .slice(0, 8)
       .map(r => ({ text: str(r.text, 200), met: r.met === true }))
 
+    if (!credit.pro) await recordCredit(user).catch(e => console.error('recordCredit', e))
     return NextResponse.json({
       role: str(data.role, 150),
       matchScore: typeof data.matchScore === 'number' ? Math.max(0, Math.min(100, Math.round(data.matchScore))) : null,

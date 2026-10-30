@@ -1,5 +1,6 @@
 'use client';
 
+import { authFetch } from '@/lib/auth-client';
 import { useState, useEffect, useCallback } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
@@ -65,7 +66,7 @@ export default function IntervjuClient({ onNavigate }: { onNavigate?: (seg: stri
     const token = localStorage.getItem('cvita_token');
     if (!token) { router.push(`/${locale}/auth`); return; }
     try {
-      const res = await fetch(`/api/applications?token=${token}`);
+      const res = await authFetch('/api/applications');
       const data = await res.json();
       setApps((data.applications || []).filter((a: Application) => a.status === 'interview'));
     } catch { /* silent */ }
@@ -80,7 +81,7 @@ export default function IntervjuClient({ onNavigate }: { onNavigate?: (seg: stri
     setExpanded(null);
     setGenerating(true);
     try {
-      const res = await fetch('/api/ai/interview', {
+      const res = await authFetch('/api/ai/interview', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ role: app.role, locale }),
