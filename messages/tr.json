@@ -244,7 +244,8 @@
     "source_label": "Kaynak",
     "source_platsbanken": "Platsbanken (İsveç)",
     "source_iskur": "İŞKUR (Türkiye)",
-    "source_indeed": "Indeed ve LinkedIn"
+    "source_indeed": "Indeed ve LinkedIn",
+    "source_arbeitsagentur": "Bundesagentur (Almanya)"
   },
   "skickade": {
     "title": "Gönderilen Başvurular",
@@ -717,5 +718,24 @@
     },
     "placeholderGeneric": "https://…",
     "hintGeneric": "Çoğu kariyer sitesiyle çalışır."
+  },
+  "ba": {
+    "title": "Almanya'da iş arayın",
+    "subtitle": "Almanya Federal İş Ajansı'nın (Bundesagentur für Arbeit) ilanları",
+    "what": "Meslek, anahtar kelime veya şirket …",
+    "where": "Şehir veya posta kodu",
+    "radius": "Mesafe",
+    "radius_exact": "Yalnızca şehir",
+    "search": "Ara",
+    "results": "{count} ilan bulundu",
+    "none": "İlan bulunamadı. Farklı kelimelerle deneyin.",
+    "published": "Yayın tarihi",
+    "analyze": "CVzume ile analiz edin →",
+    "analyzing": "Yükleniyor …",
+    "open": "İlanı açın ↗",
+    "more": "Daha fazla ilan yükleyin",
+    "error": "Arama şu an kullanılamıyor. Lütfen daha sonra tekrar deneyin.",
+    "error_detail": "İlan yüklenemedi. İlanı açıp metni kopyalayın.",
+    "source_note": "Kaynak: Bundesagentur für Arbeit (arbeitsagentur.de)."
   }
 }

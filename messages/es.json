@@ -244,7 +244,8 @@
     "source_label": "Fuente",
     "source_platsbanken": "Platsbanken (Suecia)",
     "source_iskur": "İŞKUR (Turquía)",
-    "source_indeed": "Indeed y LinkedIn"
+    "source_indeed": "Indeed y LinkedIn",
+    "source_arbeitsagentur": "Bundesagentur (Alemania)"
   },
   "skickade": {
     "title": "Solicitudes enviadas",
@@ -717,5 +718,24 @@
     },
     "placeholderGeneric": "https://…",
     "hintGeneric": "Funciona con la mayoría de páginas de empleo."
+  },
+  "ba": {
+    "title": "Buscar empleo en Alemania",
+    "subtitle": "Ofertas directamente de la Agencia Federal de Empleo de Alemania (Bundesagentur für Arbeit)",
+    "what": "Profesión, palabra clave o empresa …",
+    "where": "Ciudad o código postal",
+    "radius": "Radio",
+    "radius_exact": "Solo la ciudad",
+    "search": "Buscar",
+    "results": "{count} empleos encontrados",
+    "none": "No se encontraron empleos. Prueba con otras palabras.",
+    "published": "Publicado",
+    "analyze": "Analizar con CVzume →",
+    "analyzing": "Cargando …",
+    "open": "Abrir oferta ↗",
+    "more": "Cargar más empleos",
+    "error": "La búsqueda no está disponible ahora mismo. Inténtalo más tarde.",
+    "error_detail": "No se pudo cargar la oferta. Ábrela y copia el texto.",
+    "source_note": "Fuente: Bundesagentur für Arbeit (arbeitsagentur.de)."
   }
 }

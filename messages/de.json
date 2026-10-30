@@ -244,7 +244,8 @@
     "source_label": "Quelle",
     "source_platsbanken": "Platsbanken (Schweden)",
     "source_iskur": "İŞKUR (Türkei)",
-    "source_indeed": "Indeed & LinkedIn"
+    "source_indeed": "Indeed & LinkedIn",
+    "source_arbeitsagentur": "Bundesagentur (Deutschland)"
   },
   "skickade": {
     "title": "Gesendete Bewerbungen",
@@ -534,6 +535,10 @@
       "linkItem": {
         "title": "Anzeige per Link abrufen",
         "desc": "Fügen Sie einen Link von einer Karriereseite ein, und wir holen den Anzeigentext für Sie — ganz ohne Kopieren."
+      },
+      "baItem": {
+        "title": "Jobs in Deutschland suchen",
+        "desc": "Durchsuchen Sie die Jobbörse der Bundesagentur für Arbeit direkt in der App und analysieren Sie jede Stelle mit einem Klick."
       }
     },
     "pricing": {
@@ -717,5 +722,24 @@
     },
     "placeholderGeneric": "https://…",
     "hintGeneric": "Funktioniert mit den meisten Karriereseiten."
+  },
+  "ba": {
+    "title": "Jobsuche Deutschland",
+    "subtitle": "Stellen direkt aus der Jobbörse der Bundesagentur für Arbeit",
+    "what": "Beruf, Stichwort oder Unternehmen …",
+    "where": "Ort oder PLZ",
+    "radius": "Umkreis",
+    "radius_exact": "Nur Ort",
+    "search": "Suchen",
+    "results": "{count} Stellen gefunden",
+    "none": "Keine Stellen gefunden. Versuchen Sie andere Suchbegriffe.",
+    "published": "Veröffentlicht",
+    "analyze": "Mit CVzume analysieren →",
+    "analyzing": "Wird geladen …",
+    "open": "Anzeige öffnen ↗",
+    "more": "Weitere Stellen laden",
+    "error": "Die Suche ist gerade nicht verfügbar. Bitte versuchen Sie es später erneut.",
+    "error_detail": "Die Anzeige konnte nicht geladen werden. Öffnen Sie sie und kopieren Sie den Text.",
+    "source_note": "Quelle: Jobbörse der Bundesagentur für Arbeit (arbeitsagentur.de)."
   }
 }

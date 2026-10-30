@@ -59,8 +59,11 @@ export default function NewApplicationModal({ open, onClose, isPro, onUsageLimit
   const [jobLoading, setJobLoading] = useState(false);
   const [jobSearched, setJobSearched] = useState(false);
 
-  // Load prefill from localStorage
+  // Load prefill from localStorage — först när modalen faktiskt är öppen. Barnets effekt körs
+  // före DashboardClients effekt; om nyckeln togs bort redan vid mount hittade Dashboard den
+  // aldrig och modalen öppnades inte (landningssidans demo + Bundesagentur-analys).
   useEffect(() => {
+    if (!open) return;
     const prefill = localStorage.getItem('cvita_prefill_job');
     if (prefill) {
       try {

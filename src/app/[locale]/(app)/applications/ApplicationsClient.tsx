@@ -8,6 +8,7 @@ import JobCard from './JobCard';
 import FavoritesTab from './FavoritesTab';
 import TurkishJobSearch from './TurkishJobSearch';
 import IndeedJobSearch from './IndeedJobSearch';
+import GermanJobSearch from './GermanJobSearch';
 import { defaultJobSource, readCountryCookie, type JobSource } from '@/lib/market';
 
 interface Region { id: string; preferred_label: string; }
@@ -63,6 +64,7 @@ async function apiFavorites(token: string): Promise<Job[]> {
 const SOURCES: { id: JobSource; flag: string }[] = [
   { id: 'platsbanken', flag: 'se' },
   { id: 'iskur', flag: 'tr' },
+  { id: 'arbeitsagentur', flag: 'de' },
   { id: 'indeed', flag: 'un' },
 ];
 const SOURCE_KEY = 'cvzume_job_source';
@@ -110,6 +112,7 @@ export default function ApplicationsClient() {
         ))}
       </div>
       {source === 'iskur' && <TurkishJobSearch />}
+      {source === 'arbeitsagentur' && <GermanJobSearch />}
       {source === 'indeed' && <IndeedJobSearch />}
       {source === 'platsbanken' && <PlatsbankenSearch />}
     </>

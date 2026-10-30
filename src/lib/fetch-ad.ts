@@ -5,6 +5,7 @@
 import * as cheerio from 'cheerio'
 import { lookup } from 'dns/promises'
 import { isIP } from 'net'
+import { fetchBaDetail } from './arbeitsagentur'
 
 export type FetchedAd = { title: string; company: string; location: string; text: string; source: string }
 
@@ -160,6 +161,14 @@ export async function fetchAdFromUrl(raw: string): Promise<FetchedAd> {
 
   // Teamtailor vb.: başvuru formu linki → ilan sayfası
   url.pathname = url.pathname.replace(/\/applications\/new\/?$/, '')
+
+  // Arbeitsagentur sayfası JS ile yükleniyor → resmi API
+  const ba = url.hostname.endsWith('arbeitsagentur.de') && url.pathname.match(/\/jobsuche\/jobdetail\/([^/?#]+)/)
+  if (ba) {
+    const ad = await fetchBaDetail(decodeURIComponent(ba[1])).catch(() => null)
+    if (!ad || ad.text.length < 50) throw new AdFetchError('no_content')
+    return { title: ad.title, company: ad.company, location: ad.location, text: compose(ad.title, ad.company, ad.location, ad.text), source: 'arbeitsagentur' }
+  }
 
   const pb = url.hostname.endsWith('arbetsformedlingen.se') && url.pathname.match(/\/platsbanken\/annonser\/(\d+)/)
   if (pb) return fromPlatsbanken(pb[1])

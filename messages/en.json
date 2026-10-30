@@ -244,7 +244,8 @@
     "source_label": "Source",
     "source_platsbanken": "Platsbanken (Sweden)",
     "source_iskur": "İŞKUR (Turkey)",
-    "source_indeed": "Indeed & LinkedIn"
+    "source_indeed": "Indeed & LinkedIn",
+    "source_arbeitsagentur": "Bundesagentur (Germany)"
   },
   "skickade": {
     "title": "Sent Applications",
@@ -693,5 +694,24 @@
     },
     "placeholderGeneric": "https://…",
     "hintGeneric": "Works with most career sites."
+  },
+  "ba": {
+    "title": "Job search Germany",
+    "subtitle": "Open positions directly from the German Federal Employment Agency (Bundesagentur für Arbeit)",
+    "what": "Occupation, keyword or company …",
+    "where": "City or postcode",
+    "radius": "Radius",
+    "radius_exact": "City only",
+    "search": "Search",
+    "results": "{count} jobs found",
+    "none": "No jobs found. Try different keywords.",
+    "published": "Published",
+    "analyze": "Analyze with CVzume →",
+    "analyzing": "Loading …",
+    "open": "Open ad ↗",
+    "more": "Load more jobs",
+    "error": "Search isn't available right now. Please try again later.",
+    "error_detail": "The ad couldn't be loaded. Open it and copy the text.",
+    "source_note": "Source: Bundesagentur für Arbeit (arbeitsagentur.de)."
   }
 }
