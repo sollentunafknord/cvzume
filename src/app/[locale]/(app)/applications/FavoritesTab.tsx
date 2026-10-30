@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import styles from './applications.module.css';
+import { startApplication } from './startApplication';
 import { Job, formatDeadline } from './types';
 
 export default function FavoritesTab({ favorites, onToggleFavorite, t }: {
@@ -22,12 +23,9 @@ export default function FavoritesTab({ favorites, onToggleFavorite, t }: {
   } | null>(null);
   const [step, setStep] = useState<'list' | 'nocv' | 'analyze' | 'result' | 'sent'>('list');
 
+  // Favoriden analiz → "Ny ansökan" akışı (CV kontrolü ve uyarlama orada)
   function checkCVAndStart(job: Job) {
-    const profile = JSON.parse(localStorage.getItem(`cvita_profile_${locale}`) || localStorage.getItem('cvita_profile') || '{}');
-    const cvExists = !!(profile.firstName || profile.title || profile.summary || (profile.experiences?.length > 0));
-    setSelectedJob(job);
-    setAnalysisResult(null);
-    setStep(cvExists ? 'analyze' : 'nocv');
+    startApplication(job, locale);
   }
 
   async function runAnalysis() {

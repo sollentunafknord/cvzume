@@ -12,7 +12,9 @@
     "account": "HESAP",
     "skickade": "Gönderilen Başvurular",
     "intervju": "Mülakat Hazırlığı",
-    "arkiv": "Arşiv"
+    "arkiv": "Arşiv",
+    "ny": "Yeni başvuru",
+    "mina": "Başvurularım"
   },
   "dashboard": {
     "new_application": "+ Yeni Başvuru",
@@ -233,7 +235,7 @@
     "apply_btn": "İlana git →",
     "favorite_add": "Kaydet",
     "favorite_remove": "Kaydedildi",
-    "analyze_btn": "CVzume AI ile analiz et →",
+    "analyze_btn": "CVzume AI ile analiz edin →",
     "no_results": "İş bulunamadı. Filtreleri değiştirmeyi dene.",
     "no_favorites": "Henüz kaydedilmiş işin yok. İlgilendiğin işleri ara ve kaydet.",
     "loading": "Aranıyor...",
@@ -483,24 +485,20 @@
     },
     "how": {
       "label": "Nasıl çalışır",
-      "title": "Hazır bir başvuruya dört adım",
-      "sub": "İş ilanından eksiksiz başvuru paketine — dakikalar içinde.",
+      "title": "Hazır bir başvuruya üç adım",
+      "sub": "İş ilanından, işe uygun bir CV'ye ve ön yazıya — dakikalar içinde.",
       "steps": [
         {
-          "title": "CV'nizi yükleyin ya da oluşturun",
-          "desc": "Mevcut CV'nizi PDF olarak içe aktarın ya da profilinizi adım adım doldurun."
+          "title": "İlanı yapıştırın",
+          "desc": "Bir link ya da ilan metni yapıştırın — veya açık pozisyonları doğrudan CVzume'da arayın."
         },
         {
-          "title": "İlan bulun ya da yapıştırın",
-          "desc": "Açık pozisyonları uygulamanın içinde arayın ya da kendi bulduğunuz bir ilanı yapıştırın."
+          "title": "CV'nizi yükleyin",
+          "desc": "CV'nizi PDF veya Word olarak yükleyin, biz okuyalım. CV'niz yok mu? Adım adım doldurun."
         },
         {
-          "title": "İlana özel başvuru alın",
-          "desc": "Yapay zeka ilanı profilinizle karşılaştırır, o iş için CV özeti ve ön yazı yazar."
-        },
-        {
-          "title": "İndirin, gönderin, takip edin",
-          "desc": "PDF olarak kaydedin, başvuruyu gönderildi olarak işaretleyin ve mülakata hazırlanın."
+          "title": "Başvurunuzu indirin",
+          "desc": "İlana ne kadar uyduğunuzu görün, işe uyarlanmış CV'nizi — isterseniz ön yazınızı da — PDF veya Word olarak indirin."
         }
       ]
     },
@@ -787,6 +785,86 @@
       "unauthorized": "Lütfen yeniden giriş yapıp tekrar deneyin.",
       "ai_failed": "CV şu an okunamadı. Biraz sonra tekrar deneyin.",
       "generic": "Bir şeyler ters gitti. Tekrar deneyin."
+    }
+  },
+  "ny": {
+    "title": "Yeni başvuru",
+    "start_over": "Baştan başlayın",
+    "next": "İleri",
+    "back": "Geri",
+    "done": "Tamam – başvurularıma git",
+    "download": "İndirin",
+    "letter_file": "Ön yazı",
+    "steps": {
+      "ad": "İlan",
+      "cv": "CV'niz",
+      "result": "Uyarlanmış CV",
+      "letter": "Ön yazı"
+    },
+    "step1": {
+      "title": "Hangi işe başvuruyorsunuz?",
+      "lead": "İlanın linkini ya da tam metnini yapıştırın. Açık pozisyonlar arasında da arama yapabilirsiniz.",
+      "role": "Pozisyon",
+      "role_ph": "Ör. Satış Danışmanı — İstanbul",
+      "ad": "İlan metni",
+      "ad_ph": "İlanın tamamını buraya yapıştırın…",
+      "search": "Açık pozisyonlarda arayın"
+    },
+    "step2": {
+      "title": "CV'niz",
+      "have_cv": "İlanı kayıtlı CV'nizle karşılaştıracağız:",
+      "counts": "{exp} deneyim · {edu} eğitim · {skills} yetkinlik",
+      "use_cv": "Bu CV'yi kullanın",
+      "edit_cv": "CV'mde düzenleyin",
+      "no_cv": "Henüz bir CV'niz yok. Mevcut CV'nizi PDF veya Word olarak yükleyin, her şeyi sizin için dolduralım.",
+      "manual": "…ya da CV'nizi elle doldurun",
+      "confirm_replace": "Kayıtlı CV'nizi dosyayla değiştirmek istiyor musunuz?"
+    },
+    "step3": {
+      "working": "İlan CV'nizle karşılaştırılıp uyarlanıyor …",
+      "match": "Uyum",
+      "role": "Pozisyon",
+      "cv_title": "İlana uyarlanmış CV'niz",
+      "check": "Göndermeden önce metni kontrol edin — her şeyin doğru olmasından siz sorumlusunuz. Burada her şeyi düzenleyebilirsiniz.",
+      "skills_hint": "Sıralama bu pozisyon için en önemli olanı gösterir. Virgülle ayırın.",
+      "to_letter": "Ön yazı yazın"
+    },
+    "step4": {
+      "title": "Ön yazı",
+      "working": "Ön yazınız yazılıyor …",
+      "back_cv": "CV'ye dönün"
+    },
+    "cv": {
+      "profile": "Profil",
+      "experience": "İş deneyimi",
+      "education": "Eğitim",
+      "skills": "Yetkinlikler",
+      "languages": "Diller",
+      "present": "halen"
+    },
+    "errors": {
+      "ai": "Yapay zeka servisi şu an yanıt vermiyor. Biraz sonra tekrar deneyin."
+    },
+    "limit": {
+      "title": "Bu ayki ücretsiz başvurularınızı kullandınız",
+      "text": "Pro ile sınırsız sayıda uyarlanmış CV ve ön yazı oluşturabilirsiniz.",
+      "cta": "Pro'ya geçin"
+    }
+  },
+  "mina": {
+    "title": "Başvurularım",
+    "new": "Yeni başvuru",
+    "empty": "Başvurularınız burada toplanır. İlkini oluşturun – yalnızca birkaç dakika sürer.",
+    "status": "Durum",
+    "interview_prep": "Mülakata hazırlanın",
+    "delete": "Silin",
+    "delete_confirm": "\"{role}\" başvurusu silinsin mi?",
+    "filter": {
+      "all": "Tümü",
+      "draft": "Taslaklar",
+      "sent": "Gönderilenler",
+      "interview": "Mülakat",
+      "rejected": "Kapananlar"
     }
   }
 }

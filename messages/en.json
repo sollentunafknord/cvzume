@@ -12,7 +12,9 @@
     "account": "ACCOUNT",
     "skickade": "Sent Applications",
     "intervju": "Interview Prep",
-    "arkiv": "Archive"
+    "arkiv": "Archive",
+    "ny": "New application",
+    "mina": "My applications"
   },
   "dashboard": {
     "new_application": "+ New Application",
@@ -483,24 +485,20 @@
     },
     "how": {
       "label": "How it works",
-      "title": "Four steps to a finished application",
-      "sub": "From job ad to a complete application package — in minutes.",
+      "title": "Three steps to a finished application",
+      "sub": "From job ad to a CV and cover letter that match the job — in minutes.",
       "steps": [
         {
-          "title": "Upload or create your CV",
-          "desc": "Import your existing CV as a PDF or fill in your profile step by step."
+          "title": "Paste the job ad",
+          "desc": "Paste a link or the ad text — or search open positions right in CVzume."
         },
         {
-          "title": "Find or paste a job ad",
-          "desc": "Search open positions right in the app or paste an ad you found yourself."
+          "title": "Upload your CV",
+          "desc": "Upload your CV as PDF or Word and we read it in. No CV? Fill it in step by step."
         },
         {
-          "title": "Get a tailored application",
-          "desc": "The AI compares the ad with your profile and writes a CV summary and cover letter for that exact job."
-        },
-        {
-          "title": "Download, send and follow up",
-          "desc": "Save as PDF, mark the application as sent and prepare for the interview."
+          "title": "Download your application",
+          "desc": "See how well you match and get a CV tailored to the job — plus a cover letter if you want. Download as PDF or Word."
         }
       ]
     },
@@ -763,6 +761,86 @@
       "unauthorized": "Please log in again and retry.",
       "ai_failed": "We couldn't read the CV right now. Please try again shortly.",
       "generic": "Something went wrong. Please try again."
+    }
+  },
+  "ny": {
+    "title": "New application",
+    "start_over": "Start over",
+    "next": "Next",
+    "back": "Back",
+    "done": "Done – go to my applications",
+    "download": "Download",
+    "letter_file": "Cover letter",
+    "steps": {
+      "ad": "Job ad",
+      "cv": "Your CV",
+      "result": "Tailored CV",
+      "letter": "Cover letter"
+    },
+    "step1": {
+      "title": "Which job are you applying for?",
+      "lead": "Paste a link to the ad or the full ad text. You can also search open positions.",
+      "role": "Role",
+      "role_ph": "E.g. Assistant nurse — Region Stockholm",
+      "ad": "Ad text",
+      "ad_ph": "Paste the full job ad here…",
+      "search": "Search open positions"
+    },
+    "step2": {
+      "title": "Your CV",
+      "have_cv": "We'll compare the ad with your saved CV:",
+      "counts": "{exp} experiences · {edu} educations · {skills} skills",
+      "use_cv": "Use this CV",
+      "edit_cv": "Edit in My CV",
+      "no_cv": "You don't have a CV yet. Upload your existing CV as PDF or Word and we'll fill in everything for you.",
+      "manual": "…or fill in your CV manually",
+      "confirm_replace": "Replace your saved CV with the file?"
+    },
+    "step3": {
+      "working": "Comparing the ad with your CV and tailoring it …",
+      "match": "Match",
+      "role": "Role",
+      "cv_title": "Your CV, tailored to the ad",
+      "check": "Check the text before you send it — you're responsible for everything being accurate. You can edit everything here.",
+      "skills_hint": "The order shows what matters most for this role. Separate with commas.",
+      "to_letter": "Write cover letter"
+    },
+    "step4": {
+      "title": "Cover letter",
+      "working": "Writing your cover letter …",
+      "back_cv": "Back to the CV"
+    },
+    "cv": {
+      "profile": "Profile",
+      "experience": "Work experience",
+      "education": "Education",
+      "skills": "Skills",
+      "languages": "Languages",
+      "present": "present"
+    },
+    "errors": {
+      "ai": "The AI service isn't responding right now. Please try again shortly."
+    },
+    "limit": {
+      "title": "You've used this month's free applications",
+      "text": "With Pro you can create unlimited tailored CVs and letters.",
+      "cta": "Upgrade to Pro"
+    }
+  },
+  "mina": {
+    "title": "My applications",
+    "new": "New application",
+    "empty": "Your applications are collected here. Create your first one – it takes a few minutes.",
+    "status": "Status",
+    "interview_prep": "Prepare for the interview",
+    "delete": "Delete",
+    "delete_confirm": "Delete the application \"{role}\"?",
+    "filter": {
+      "all": "All",
+      "draft": "Drafts",
+      "sent": "Sent",
+      "interview": "Interview",
+      "rejected": "Closed"
     }
   }
 }

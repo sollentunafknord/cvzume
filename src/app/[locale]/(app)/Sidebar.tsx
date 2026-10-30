@@ -127,29 +127,18 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
       <button className={styles.menuToggle} onClick={() => setOpen(o => !o)}>☰</button>
 
       <aside className={`${styles.sidebar} ${open ? styles.sidebarOpen : ''}`}>
-        <button className={styles.sidebarLogo} onClick={() => nav('dashboard')}>CV<span>zume</span></button>
+        <button className={styles.sidebarLogo} onClick={() => nav('ny')}>CV<span>zume</span></button>
         <nav className={styles.sidebarNav}>
           <div className={styles.sidebarSection}>{t('nav.main_menu')}</div>
-          <button className={`${styles.navItem} ${seg === 'dashboard' ? styles.active : ''}`} onClick={() => nav('dashboard')}>
-            <span className={styles.navIcon}>🏠</span> {t('nav.dashboard')}
+          {/* Sade menü: ana akış "Ny ansökan"; iş arama, mülakat vb. akışın içinden açılır */}
+          <button className={`${styles.navItem} ${seg === 'ny' ? styles.active : ''}`} onClick={() => nav('ny')}>
+            <span className={styles.navIcon}>➕</span> {t('nav.ny')}
           </button>
-          <button className={`${styles.navItem} ${seg === 'applications' ? styles.active : ''}`} onClick={() => nav('applications')}>
-            <span className={styles.navIcon}>🔍</span> {t('nav.applications')}
+          <button className={`${styles.navItem} ${['ansokningar', 'intervju', 'archive', 'skickade', 'dashboard'].includes(seg) ? styles.active : ''}`} onClick={() => nav('ansokningar')}>
+            <span className={styles.navIcon}>📂</span> {t('nav.mina')}
           </button>
-          <button className={`${styles.navItem} ${seg === 'profile' ? styles.active : ''}`} onClick={() => nav('profile')}>
+          <button className={`${styles.navItem} ${['profile', 'cv'].includes(seg) ? styles.active : ''}`} onClick={() => nav('profile')}>
             <span className={styles.navIcon}>🪪</span> {t('nav.cv')}
-          </button>
-          <button className={`${styles.navItem} ${seg === 'letter' ? styles.active : ''}`} onClick={() => nav('letter')}>
-            <span className={styles.navIcon}>✍️</span> {t('nav.letters')}
-          </button>
-          <button className={`${styles.navItem} ${seg === 'skickade' ? styles.active : ''}`} onClick={() => nav('skickade')}>
-            <span className={styles.navIcon}>📤</span> {t('nav.skickade')}
-          </button>
-          <button className={`${styles.navItem} ${seg === 'intervju' ? styles.active : ''}`} onClick={() => nav('intervju')}>
-            <span className={styles.navIcon}>🎯</span> {t('nav.intervju')}
-          </button>
-          <button className={`${styles.navItem} ${seg === 'archive' ? styles.active : ''}`} onClick={() => nav('archive')}>
-            <span className={styles.navIcon}>🗄️</span> {t('nav.arkiv')}
           </button>
           <div className={styles.sidebarSection}>{t('nav.account')}</div>
           <button className={`${styles.navItem} ${seg === 'settings' ? styles.active : ''}`} onClick={() => nav('settings')}>

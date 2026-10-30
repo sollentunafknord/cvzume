@@ -12,7 +12,9 @@
     "account": "KONTO",
     "skickade": "Skickade ansökningar",
     "intervju": "Intervju förberedelse",
-    "arkiv": "Arkiv"
+    "arkiv": "Arkiv",
+    "ny": "Ny ansökan",
+    "mina": "Mina ansökningar"
   },
   "dashboard": {
     "new_application": "+ Ny ansökan",
@@ -483,24 +485,20 @@
     },
     "how": {
       "label": "Så fungerar det",
-      "title": "Fyra steg till en färdig ansökan",
-      "sub": "Från platsannons till färdigt ansökningspaket — på några minuter.",
+      "title": "Tre steg till en färdig ansökan",
+      "sub": "Från platsannons till CV och personligt brev som matchar jobbet — på några minuter.",
       "steps": [
         {
-          "title": "Ladda upp eller skapa ditt CV",
-          "desc": "Importera ditt befintliga CV som PDF eller fyll i din profil steg för steg."
+          "title": "Klistra in annonsen",
+          "desc": "Klistra in en länk eller annonstexten — eller sök bland lediga jobb direkt i CVzume."
         },
         {
-          "title": "Hitta eller klistra in en annons",
-          "desc": "Sök bland lediga jobb direkt i appen eller klistra in en annons du hittat själv."
+          "title": "Ladda upp ditt CV",
+          "desc": "Ladda upp ditt CV som PDF eller Word, så läser vi in det. Inget CV? Fyll i det steg för steg."
         },
         {
-          "title": "Få en anpassad ansökan",
-          "desc": "AI:n jämför annonsen med din profil och skriver CV-sammandrag och personligt brev för just det jobbet."
-        },
-        {
-          "title": "Ladda ner, skicka och följ upp",
-          "desc": "Spara som PDF, markera ansökan som skickad och förbered dig inför intervjun."
+          "title": "Ladda ner din ansökan",
+          "desc": "Du ser hur väl du matchar och får ett CV anpassat för jobbet — och ett personligt brev om du vill. Ladda ner som PDF eller Word."
         }
       ]
     },
@@ -763,6 +761,86 @@
       "unauthorized": "Logga in igen och försök på nytt.",
       "ai_failed": "Vi kunde inte tolka CV:t just nu. Försök igen om en stund.",
       "generic": "Något gick fel. Försök igen."
+    }
+  },
+  "ny": {
+    "title": "Ny ansökan",
+    "start_over": "Börja om",
+    "next": "Nästa",
+    "back": "Tillbaka",
+    "done": "Klar – till mina ansökningar",
+    "download": "Ladda ner",
+    "letter_file": "Personligt brev",
+    "steps": {
+      "ad": "Annons",
+      "cv": "Ditt CV",
+      "result": "Anpassat CV",
+      "letter": "Personligt brev"
+    },
+    "step1": {
+      "title": "Vilket jobb söker du?",
+      "lead": "Klistra in en länk till annonsen eller hela annonstexten. Du kan också söka bland lediga jobb.",
+      "role": "Tjänst",
+      "role_ph": "T.ex. Undersköterska — Region Stockholm",
+      "ad": "Annonstext",
+      "ad_ph": "Klistra in hela annonsen här…",
+      "search": "Sök bland lediga jobb"
+    },
+    "step2": {
+      "title": "Ditt CV",
+      "have_cv": "Vi jämför annonsen med ditt sparade CV:",
+      "counts": "{exp} erfarenheter · {edu} utbildningar · {skills} kompetenser",
+      "use_cv": "Använd detta CV",
+      "edit_cv": "Redigera i Mitt CV",
+      "no_cv": "Du har inget CV än. Ladda upp ditt befintliga CV som PDF eller Word, så fyller vi i allt åt dig.",
+      "manual": "…eller fyll i ditt CV för hand",
+      "confirm_replace": "Vill du ersätta ditt sparade CV med filen?"
+    },
+    "step3": {
+      "working": "Jämför annonsen med ditt CV och anpassar det …",
+      "match": "Matchning",
+      "role": "Tjänst",
+      "cv_title": "Ditt CV, anpassat för annonsen",
+      "check": "Kontrollera texten innan du skickar den — du ansvarar för att allt stämmer. Allt går att ändra här.",
+      "skills_hint": "Ordningen visar vad som är viktigast för just den här tjänsten. Separera med kommatecken.",
+      "to_letter": "Skriv personligt brev"
+    },
+    "step4": {
+      "title": "Personligt brev",
+      "working": "Skriver ditt personliga brev …",
+      "back_cv": "Tillbaka till CV:t"
+    },
+    "cv": {
+      "profile": "Profil",
+      "experience": "Arbetslivserfarenhet",
+      "education": "Utbildning",
+      "skills": "Kompetenser",
+      "languages": "Språk",
+      "present": "nu"
+    },
+    "errors": {
+      "ai": "AI-tjänsten svarar inte just nu. Försök igen om en stund."
+    },
+    "limit": {
+      "title": "Du har använt månadens gratis ansökningar",
+      "text": "Med Pro kan du skapa obegränsat antal anpassade CV och brev.",
+      "cta": "Uppgradera till Pro"
+    }
+  },
+  "mina": {
+    "title": "Mina ansökningar",
+    "new": "Ny ansökan",
+    "empty": "Här samlas dina ansökningar. Skapa din första – det tar några minuter.",
+    "status": "Status",
+    "interview_prep": "Förbered intervjun",
+    "delete": "Ta bort",
+    "delete_confirm": "Ta bort ansökan \"{role}\"?",
+    "filter": {
+      "all": "Alla",
+      "draft": "Utkast",
+      "sent": "Skickade",
+      "interview": "Intervju",
+      "rejected": "Avslutade"
     }
   }
 }

@@ -27,7 +27,7 @@ function Flag({ code }: { code: string }) {
 
 const GUIDE_SLUGS = ['cv-mall', 'personligt-brev-exempel', 'cv-for-nyanlanda', 'vanliga-intervjufragor'];
 
-const STEP_ICONS = ['📄', '🔍', '✨', '📬'];
+const STEP_ICONS = ['🔗', '📄', '⬇️'];
 const FEATURE_ICONS = ['🎯', '📝', '🔎', '🎤', '📁', '🌐'];
 
 // Demo-exempel: annonsen är alltid på svenska (det är svenska jobb vi hjälper till med).
@@ -91,7 +91,7 @@ export default function LandingClient({ market }: { market: Market }) {
     const token = localStorage.getItem('cvita_token');
     const user = localStorage.getItem('cvita_user');
     if (token && user) {
-      router.replace(`/${locale}/dashboard`);
+      router.replace(`/${locale}/ny`);
       return;
     }
 
@@ -291,7 +291,7 @@ export default function LandingClient({ market }: { market: Market }) {
           <p className={`${styles.sectionSub} ${styles.reveal} ${styles.revealDelay2}`} data-reveal="">{t('how.sub')}</p>
           <div className={styles.steps}>
             {L.how.steps.map((s, i) => (
-              <div key={s.title} className={`${styles.step} ${styles.reveal} ${[styles.revealDelay0, styles.revealDelay1, styles.revealDelay2, styles.revealDelay3][i]}`} data-reveal="">
+              <div key={s.title} className={`${styles.step} ${styles.reveal} ${[styles.revealDelay0, styles.revealDelay1, styles.revealDelay2][i]}`} data-reveal="">
                 <div className={styles.stepIcon}>{STEP_ICONS[i]}</div>
                 <div className={styles.stepTitle}>{s.title}</div>
                 <div className={styles.stepDesc}>{s.desc}</div>

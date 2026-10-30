@@ -16,6 +16,8 @@ import ApplicationsClient from './applications/ApplicationsClient';
 import SkickadeClient from './skickade/SkickadeClient';
 import IntervjuClient from './intervju/IntervjuClient';
 import AdminClient from './admin/AdminClient';
+import NyAnsokanClient from './ny/NyAnsokanClient';
+import AnsokningarClient from './ansokningar/AnsokningarClient';
 
 export default function AppShell() {
   const pathname = usePathname();
@@ -53,6 +55,8 @@ export default function AppShell() {
     <div className={styles.layout}>
       <Sidebar activePage={page} onNavigate={navigate} />
       <div className={styles.content}>
+        {page === 'ny'        && <NyAnsokanClient onNavigate={navigate} />}
+        {page === 'ansokningar' && <AnsokningarClient onNavigate={navigate} />}
         {page === 'dashboard' && <DashboardClient onNavigate={navigate} />}
         {page === 'profile'   && <ProfileClient />}
         {page === 'settings'  && <SettingsClient />}

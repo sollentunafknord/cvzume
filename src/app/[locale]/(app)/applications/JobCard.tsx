@@ -1,9 +1,11 @@
 import styles from './applications.module.css';
 import { Job, formatDeadline } from './types';
 import FavButton from './FavButton';
+import { startApplication } from './startApplication';
 
-export default function JobCard({ job, favorited, onToggleFavorite, t }: {
+export default function JobCard({ job, favorited, onToggleFavorite, t, locale }: {
   job: Job;
+  locale: string;
   favorited: boolean;
   onToggleFavorite: (job: Job) => void;
   t: (key: string) => string;
@@ -28,6 +30,7 @@ export default function JobCard({ job, favorited, onToggleFavorite, t }: {
         <p className={styles.jobDesc}>{job.description.text.replace(/<[^>]+>/g, '').slice(0, 200)}…</p>
       )}
       <div className={styles.jobActions}>
+        <button type="button" className={styles.searchBtn} onClick={() => startApplication(job, locale)}>{t('analyze_btn')}</button>
         {job.webpage_url && (
           <a href={job.webpage_url} target="_blank" rel="noopener noreferrer" className={styles.applyLink}>
             {t('apply_btn')}

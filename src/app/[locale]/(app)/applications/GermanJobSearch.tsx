@@ -1,7 +1,7 @@
 'use client';
 
 // Bundesagentur für Arbeit (Almanya) ilan araması. "Analiz et" ilanın tam metnini çeker
-// ve dashboard'daki "Ny ansökan" penceresini doldurulmuş açar (cvita_prefill_job).
+// ve "Ny ansökan" akışını o ilanla açar (cvita_prefill_job).
 import { useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
@@ -65,7 +65,7 @@ export default function GermanJobSearch() {
         role: [ad.title, ad.company].filter(Boolean).join(' — '),
         description: `${head}\n\n${ad.text}`.slice(0, 6000),
       }));
-      router.push(`/${locale}/dashboard`);
+      router.push(`/${locale}/ny`);
     } catch {
       setError(t('error_detail'));
       setAnalyzing('');

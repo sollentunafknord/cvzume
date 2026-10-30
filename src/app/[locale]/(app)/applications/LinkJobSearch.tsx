@@ -20,7 +20,7 @@ export default function LinkJobSearch() {
   function analyze() {
     if (ad.trim().length < 80) return;
     localStorage.setItem('cvita_prefill_job', JSON.stringify({ role: role.trim(), description: ad.slice(0, 6000) }));
-    router.push(`/${locale}/dashboard`);
+    router.push(`/${locale}/ny`);
   }
 
   return (

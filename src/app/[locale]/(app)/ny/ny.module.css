@@ -1,0 +1,88 @@
+.main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+.topbar { background: white; border-bottom: 1px solid var(--border); padding: 0 36px; height: 60px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 40; }
+.topbarTitle { font-size: 16px; font-weight: 600; color: var(--navy); }
+.content { padding: 28px 36px 60px; max-width: 900px; width: 100%; box-sizing: border-box; }
+
+.stepper { display: flex; gap: 8px; list-style: none; padding: 0; margin: 0 0 24px; flex-wrap: wrap; }
+.stepper li { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--muted); padding: 6px 14px 6px 6px; border-radius: 100px; background: white; border: 1px solid var(--border); }
+.stepper li span { width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; background: var(--border); color: var(--slate); font-size: 12px; }
+.stepActive { color: var(--blue) !important; border-color: var(--blue) !important; }
+.stepActive span { background: var(--blue) !important; color: white !important; }
+.stepDone { color: #047857 !important; }
+.stepDone span { background: #D1FAE5 !important; color: #047857 !important; }
+
+.card { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 24px 26px; margin-bottom: 18px; display: flex; flex-direction: column; gap: 10px; }
+.card h2 { font-size: 18px; color: var(--navy); margin: 0; }
+.cardHead { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.lead { font-size: 14px; color: var(--slate); margin: 0 0 6px; line-height: 1.6; }
+.label { font-size: 13px; font-weight: 600; color: var(--navy); margin-top: 8px; }
+.input, .textarea { font-family: inherit; font-size: 14px; line-height: 1.55; color: var(--navy); border: 1.5px solid var(--border); border-radius: 9px; padding: 10px 12px; outline: none; width: 100%; box-sizing: border-box; }
+.textarea { resize: vertical; }
+.input:focus, .textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(37,99,235,0.12); }
+.hint { font-size: 12px; color: var(--muted); margin: 0; }
+.actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 10px; }
+.back { margin-top: 6px; }
+.primary { font-family: inherit; font-size: 14px; font-weight: 600; color: white; background: var(--blue); border: none; border-radius: 9px; padding: 11px 20px; cursor: pointer; }
+.primary:disabled { opacity: 0.5; cursor: default; }
+.linkBtn { font-family: inherit; font-size: 13px; font-weight: 600; color: var(--blue); background: none; border: none; padding: 0; cursor: pointer; }
+.error { background: #FEF2F2; border: 1px solid #FECACA; color: #B91C1C; font-size: 14px; padding: 10px 14px; border-radius: 9px; margin-bottom: 14px; }
+.notice { font-size: 13px; color: #92400E; background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 8px; padding: 8px 12px; margin: 0; }
+
+.cvSummaryBox { border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; background: var(--off-white); }
+.cvName { font-weight: 600; color: var(--navy); }
+.cvMeta { font-size: 13px; color: var(--slate); margin-top: 2px; }
+
+.loading { display: flex; align-items: center; gap: 12px; color: var(--slate); font-size: 14px; padding: 24px 0; }
+.spinner { width: 18px; height: 18px; border: 2.5px solid var(--border); border-top-color: var(--blue); border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.resultHead { display: flex; align-items: center; gap: 20px; }
+.scoreRing { --score: 0; --score-color: var(--blue); width: 92px; height: 92px; flex-shrink: 0; border-radius: 50%; background: conic-gradient(var(--score-color) calc(var(--score) * 1%), var(--border) 0); display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
+.scoreRing::before { content: ''; position: absolute; inset: 8px; border-radius: 50%; background: white; }
+.scoreRing span, .scoreRing small { position: relative; }
+.scoreRing span { font-size: 24px; font-weight: 700; color: var(--navy); line-height: 1; }
+.scoreRing small { font-size: 11px; color: var(--muted); }
+.roleLabel { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
+.roleName { font-size: 18px; font-weight: 600; color: var(--navy); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font-size: 13px; padding: 5px 11px; border-radius: 100px; border: 1px solid; }
+.chipOk { background: #ECFDF5; color: #047857; border-color: #A7F3D0; }
+.chipMiss { background: #FFFBEB; color: #B45309; border-color: #FDE68A; }
+.tips { margin: 4px 0 0; padding-left: 20px; font-size: 14px; color: var(--slate); line-height: 1.6; }
+
+.expBox { border: 1px solid var(--border); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+.expHead { font-size: 14px; color: var(--navy); display: flex; gap: 6px; flex-wrap: wrap; align-items: baseline; }
+.expHead span { margin-left: auto; font-size: 12px; color: var(--muted); }
+.exportBtns { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--slate); }
+.exportBtns button { font-family: inherit; font-size: 13px; font-weight: 600; color: var(--blue); background: var(--blue-light); border: 1.5px solid var(--blue-pale); border-radius: 8px; padding: 7px 14px; cursor: pointer; }
+.exportBtns button:hover { background: var(--blue-pale); }
+
+.limit { border: 1px solid #FDE68A; background: #FFFBEB; border-radius: 10px; padding: 16px; display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+.limit p { margin: 0; font-size: 14px; color: #92400E; }
+
+@media (max-width: 700px) {
+  .topbar { padding: 0 16px 0 60px; }
+  .content { padding: 18px 14px 40px; }
+  .card { padding: 18px 16px; }
+}
+
+/* ── Yazdırma (PDF) ── */
+.printArea { display: none; }
+@media print {
+  :global(body > *:not(.cvzume-print)) { display: none !important; }
+  /* intervju.module.css'in print stili body * { visibility: hidden } yapıyor — burada geçersiz kıl */
+  .printArea, .printArea * { visibility: visible !important; }
+  .printArea { display: block; font-family: 'DM Sans', Arial, sans-serif; color: #1E293B; font-size: 10.5pt; line-height: 1.5; padding: 0; }
+  .printArea h3 { font-size: 9.5pt; letter-spacing: 1.2px; text-transform: uppercase; color: #1A56DB; border-bottom: 1px solid #CBD5E1; padding-bottom: 3px; margin: 16px 0 8px; }
+  .printArea p { margin: 0 0 8px; }
+  .printArea ul { margin: 4px 0 0; padding-left: 16px; }
+  .pName { font-size: 22pt; font-weight: 700; color: #0D1B2A; }
+  .pTitle { font-size: 12pt; color: #1A56DB; }
+  .pContact { font-size: 9pt; color: #64748B; margin: 2px 0 6px; }
+  .pExp { margin-bottom: 10px; break-inside: avoid; }
+  .pEdu { margin-bottom: 4px; }
+  .pPeriod { font-size: 9pt; color: #64748B; }
+  .pLetter { margin-top: 24px; font-size: 11pt; line-height: 1.6; }
+  .pLetter p { margin-bottom: 12px; white-space: pre-wrap; }
+  @page { margin: 16mm 16mm; }
+}

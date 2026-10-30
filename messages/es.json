@@ -12,7 +12,9 @@
     "account": "CUENTA",
     "skickade": "Solicitudes enviadas",
     "intervju": "Preparación de entrevista",
-    "arkiv": "Archivo"
+    "arkiv": "Archivo",
+    "ny": "Nueva solicitud",
+    "mina": "Mis solicitudes"
   },
   "dashboard": {
     "new_application": "+ Nueva solicitud",
@@ -483,24 +485,20 @@
     },
     "how": {
       "label": "Cómo funciona",
-      "title": "Cuatro pasos hasta tu solicitud",
-      "sub": "De la oferta de trabajo a un paquete de solicitud completo — en minutos.",
+      "title": "Tres pasos hasta tu solicitud",
+      "sub": "De la oferta a un CV y una carta que encajan con el puesto — en minutos.",
       "steps": [
         {
-          "title": "Sube o crea tu CV",
-          "desc": "Importa tu CV actual en PDF o completa tu perfil paso a paso."
+          "title": "Pega la oferta",
+          "desc": "Pega un enlace o el texto de la oferta, o busca vacantes directamente en CVzume."
         },
         {
-          "title": "Busca o pega una oferta",
-          "desc": "Busca vacantes directamente en la app o pega una oferta que hayas encontrado."
+          "title": "Sube tu CV",
+          "desc": "Sube tu CV en PDF o Word y lo leemos. ¿No tienes CV? Rellénalo paso a paso."
         },
         {
-          "title": "Recibe una solicitud adaptada",
-          "desc": "La IA compara la oferta con tu perfil y redacta un resumen de CV y una carta para ese puesto."
-        },
-        {
-          "title": "Descarga, envía y haz seguimiento",
-          "desc": "Guarda en PDF, marca la solicitud como enviada y prepárate para la entrevista."
+          "title": "Descarga tu solicitud",
+          "desc": "Mira cuánto encajas y recibe un CV adaptado al puesto, y una carta si quieres. Descárgalos en PDF o Word."
         }
       ]
     },
@@ -791,6 +789,86 @@
       "unauthorized": "Vuelve a iniciar sesión e inténtalo de nuevo.",
       "ai_failed": "No pudimos leer el CV ahora mismo. Inténtalo de nuevo en un momento.",
       "generic": "Algo salió mal. Inténtalo de nuevo."
+    }
+  },
+  "ny": {
+    "title": "Nueva solicitud",
+    "start_over": "Empezar de nuevo",
+    "next": "Siguiente",
+    "back": "Atrás",
+    "done": "Listo – ir a mis solicitudes",
+    "download": "Descargar",
+    "letter_file": "Carta de presentación",
+    "steps": {
+      "ad": "Oferta",
+      "cv": "Tu CV",
+      "result": "CV adaptado",
+      "letter": "Carta"
+    },
+    "step1": {
+      "title": "¿A qué empleo te postulas?",
+      "lead": "Pega el enlace a la oferta o el texto completo. También puedes buscar entre las vacantes.",
+      "role": "Puesto",
+      "role_ph": "Ej.: Dependiente/a — Madrid",
+      "ad": "Texto de la oferta",
+      "ad_ph": "Pega aquí la oferta completa…",
+      "search": "Buscar vacantes"
+    },
+    "step2": {
+      "title": "Tu CV",
+      "have_cv": "Compararemos la oferta con tu CV guardado:",
+      "counts": "{exp} experiencias · {edu} formaciones · {skills} competencias",
+      "use_cv": "Usar este CV",
+      "edit_cv": "Editar en Mi CV",
+      "no_cv": "Aún no tienes CV. Sube tu CV actual en PDF o Word y lo rellenamos todo por ti.",
+      "manual": "…o rellena tu CV a mano",
+      "confirm_replace": "¿Quieres sustituir tu CV guardado por el archivo?"
+    },
+    "step3": {
+      "working": "Comparando la oferta con tu CV y adaptándolo …",
+      "match": "Compatibilidad",
+      "role": "Puesto",
+      "cv_title": "Tu CV, adaptado a la oferta",
+      "check": "Revisa el texto antes de enviarlo: tú eres responsable de que todo sea correcto. Aquí puedes editarlo todo.",
+      "skills_hint": "El orden muestra lo más importante para este puesto. Sepáralas con comas.",
+      "to_letter": "Escribir carta de presentación"
+    },
+    "step4": {
+      "title": "Carta de presentación",
+      "working": "Escribiendo tu carta …",
+      "back_cv": "Volver al CV"
+    },
+    "cv": {
+      "profile": "Perfil",
+      "experience": "Experiencia laboral",
+      "education": "Formación",
+      "skills": "Competencias",
+      "languages": "Idiomas",
+      "present": "actualidad"
+    },
+    "errors": {
+      "ai": "El servicio de IA no responde ahora mismo. Inténtalo de nuevo en un momento."
+    },
+    "limit": {
+      "title": "Has usado las solicitudes gratuitas de este mes",
+      "text": "Con Pro puedes crear CV y cartas adaptados sin límite.",
+      "cta": "Pasar a Pro"
+    }
+  },
+  "mina": {
+    "title": "Mis solicitudes",
+    "new": "Nueva solicitud",
+    "empty": "Aquí se reúnen tus solicitudes. Crea la primera: solo lleva unos minutos.",
+    "status": "Estado",
+    "interview_prep": "Preparar la entrevista",
+    "delete": "Eliminar",
+    "delete_confirm": "¿Eliminar la solicitud \"{role}\"?",
+    "filter": {
+      "all": "Todas",
+      "draft": "Borradores",
+      "sent": "Enviadas",
+      "interview": "Entrevista",
+      "rejected": "Cerradas"
     }
   }
 }

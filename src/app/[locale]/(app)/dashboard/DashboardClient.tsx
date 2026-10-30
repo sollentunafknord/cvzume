@@ -93,7 +93,8 @@ export default function DashboardClient({ onNavigate }: { onNavigate?: (seg: str
     loadUser();
     loadApplications();
     loadEvents();
-    if (localStorage.getItem('cvita_prefill_job')) setModalOpen(true);
+    // Arama/landing demosundan gelen ilan → "Ny ansökan" akışı
+    if (localStorage.getItem('cvita_prefill_job')) onNavigate?.('ny');
   }, [locale, loadUser, loadApplications, loadEvents]);
 
   useEffect(() => {

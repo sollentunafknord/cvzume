@@ -12,7 +12,9 @@
     "account": "KONTO",
     "skickade": "Gesendete Bewerbungen",
     "intervju": "Vorstellungsgespräch",
-    "arkiv": "Archiv"
+    "arkiv": "Archiv",
+    "ny": "Neue Bewerbung",
+    "mina": "Meine Bewerbungen"
   },
   "dashboard": {
     "new_application": "+ Neue Bewerbung",
@@ -483,24 +485,20 @@
     },
     "how": {
       "label": "So funktioniert’s",
-      "title": "In vier Schritten zur fertigen Bewerbung",
-      "sub": "Von der Stellenanzeige zur kompletten Bewerbungsmappe — in wenigen Minuten.",
+      "title": "Drei Schritte zur fertigen Bewerbung",
+      "sub": "Von der Stellenanzeige zu Lebenslauf und Anschreiben, die zur Stelle passen — in wenigen Minuten.",
       "steps": [
         {
-          "title": "Lebenslauf hochladen oder erstellen",
-          "desc": "Importieren Sie Ihren bestehenden Lebenslauf als PDF oder füllen Sie Ihr Profil Schritt für Schritt aus."
+          "title": "Anzeige einfügen",
+          "desc": "Fügen Sie einen Link oder den Anzeigentext ein — oder durchsuchen Sie offene Stellen direkt in CVzume."
         },
         {
-          "title": "Stellenanzeige finden oder einfügen",
-          "desc": "Suchen Sie offene Stellen direkt in der App oder fügen Sie eine Anzeige ein, die Sie selbst gefunden haben."
+          "title": "Lebenslauf hochladen",
+          "desc": "Laden Sie Ihren Lebenslauf als PDF oder Word hoch, wir lesen ihn ein. Kein Lebenslauf? Füllen Sie ihn Schritt für Schritt aus."
         },
         {
-          "title": "Maßgeschneiderte Bewerbung erhalten",
-          "desc": "Die KI gleicht die Anzeige mit Ihrem Profil ab und schreibt ein Kurzprofil und ein Anschreiben für genau diese Stelle."
-        },
-        {
-          "title": "Herunterladen, senden und nachfassen",
-          "desc": "Als PDF speichern, die Bewerbung als gesendet markieren und sich auf das Vorstellungsgespräch vorbereiten."
+          "title": "Bewerbung herunterladen",
+          "desc": "Sie sehen, wie gut Sie passen, und erhalten einen angepassten Lebenslauf — auf Wunsch mit Anschreiben. Download als PDF oder Word."
         }
       ]
     },
@@ -791,6 +789,86 @@
       "unauthorized": "Bitte melden Sie sich erneut an und versuchen Sie es noch einmal.",
       "ai_failed": "Der Lebenslauf konnte gerade nicht gelesen werden. Bitte versuchen Sie es gleich noch einmal.",
       "generic": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut."
+    }
+  },
+  "ny": {
+    "title": "Neue Bewerbung",
+    "start_over": "Neu beginnen",
+    "next": "Weiter",
+    "back": "Zurück",
+    "done": "Fertig – zu meinen Bewerbungen",
+    "download": "Herunterladen",
+    "letter_file": "Anschreiben",
+    "steps": {
+      "ad": "Anzeige",
+      "cv": "Ihr Lebenslauf",
+      "result": "Angepasster Lebenslauf",
+      "letter": "Anschreiben"
+    },
+    "step1": {
+      "title": "Auf welche Stelle bewerben Sie sich?",
+      "lead": "Fügen Sie einen Link zur Anzeige oder den vollständigen Anzeigentext ein. Sie können auch offene Stellen durchsuchen.",
+      "role": "Position",
+      "role_ph": "Z. B. Verkäufer (m/w/d) — Berlin",
+      "ad": "Anzeigentext",
+      "ad_ph": "Fügen Sie hier die vollständige Anzeige ein…",
+      "search": "Offene Stellen durchsuchen"
+    },
+    "step2": {
+      "title": "Ihr Lebenslauf",
+      "have_cv": "Wir gleichen die Anzeige mit Ihrem gespeicherten Lebenslauf ab:",
+      "counts": "{exp} Stationen · {edu} Ausbildungen · {skills} Kompetenzen",
+      "use_cv": "Diesen Lebenslauf verwenden",
+      "edit_cv": "In „Mein Lebenslauf“ bearbeiten",
+      "no_cv": "Sie haben noch keinen Lebenslauf. Laden Sie Ihren vorhandenen Lebenslauf als PDF oder Word hoch – wir füllen alles für Sie aus.",
+      "manual": "…oder Lebenslauf manuell ausfüllen",
+      "confirm_replace": "Möchten Sie Ihren gespeicherten Lebenslauf durch die Datei ersetzen?"
+    },
+    "step3": {
+      "working": "Anzeige wird mit Ihrem Lebenslauf abgeglichen und angepasst …",
+      "match": "Übereinstimmung",
+      "role": "Position",
+      "cv_title": "Ihr Lebenslauf, angepasst an die Anzeige",
+      "check": "Prüfen Sie den Text vor dem Versand – Sie sind für die Richtigkeit verantwortlich. Hier können Sie alles bearbeiten.",
+      "skills_hint": "Die Reihenfolge zeigt, was für diese Stelle am wichtigsten ist. Mit Kommas trennen.",
+      "to_letter": "Anschreiben verfassen"
+    },
+    "step4": {
+      "title": "Anschreiben",
+      "working": "Ihr Anschreiben wird verfasst …",
+      "back_cv": "Zurück zum Lebenslauf"
+    },
+    "cv": {
+      "profile": "Profil",
+      "experience": "Berufserfahrung",
+      "education": "Ausbildung",
+      "skills": "Kompetenzen",
+      "languages": "Sprachen",
+      "present": "heute"
+    },
+    "errors": {
+      "ai": "Der KI-Dienst antwortet gerade nicht. Bitte versuchen Sie es gleich noch einmal."
+    },
+    "limit": {
+      "title": "Sie haben die kostenlosen Bewerbungen dieses Monats genutzt",
+      "text": "Mit Pro erstellen Sie unbegrenzt angepasste Lebensläufe und Anschreiben.",
+      "cta": "Auf Pro upgraden"
+    }
+  },
+  "mina": {
+    "title": "Meine Bewerbungen",
+    "new": "Neue Bewerbung",
+    "empty": "Hier sammeln sich Ihre Bewerbungen. Erstellen Sie Ihre erste – es dauert nur wenige Minuten.",
+    "status": "Status",
+    "interview_prep": "Vorstellungsgespräch vorbereiten",
+    "delete": "Löschen",
+    "delete_confirm": "Bewerbung „{role}“ löschen?",
+    "filter": {
+      "all": "Alle",
+      "draft": "Entwürfe",
+      "sent": "Gesendet",
+      "interview": "Gespräch",
+      "rejected": "Abgeschlossen"
     }
   }
 }

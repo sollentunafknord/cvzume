@@ -462,6 +462,7 @@ function PlatsbankenSearch() {
                 favorited={favorites.some(f => f.id === job.id)}
                 onToggleFavorite={toggleFavorite}
                 t={t}
+                locale={locale}
               />
             ))}
             {searched && !loading && results.length === 0 && (

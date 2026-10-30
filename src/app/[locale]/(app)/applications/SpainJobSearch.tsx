@@ -83,7 +83,7 @@ export default function SpainJobSearch() {
         role: [ad.title, ad.company].filter(Boolean).join(' — '),
         description: `${head}\n\n${ad.text}`.slice(0, 6000),
       }));
-      router.push(`/${locale}/dashboard`);
+      router.push(`/${locale}/ny`);
     } catch {
       setError(t('error_detail'));
       setAnalyzing('');
