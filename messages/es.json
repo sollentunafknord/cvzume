@@ -388,5 +388,257 @@
     "no_job_error": "❌ No se encontró ningún trabajo. Ve a Favoritos y analiza un trabajo primero.",
     "generate_error": "❌ No se pudo generar la carta. Inténtalo de nuevo.",
     "generated": "✅ ¡Nueva carta generada!"
+  },
+  "landing": {
+    "nav": {
+      "demo": "Probar",
+      "how": "Cómo funciona",
+      "features": "Funciones",
+      "pricing": "Precios",
+      "faq": "Preguntas",
+      "login": "Iniciar sesión",
+      "start": "Empieza gratis",
+      "menu": "Menú",
+      "language": "Idioma"
+    },
+    "hero": {
+      "badge": "Con IA para quienes buscan trabajo en Suecia",
+      "h1a": "¿Nuevo en Suecia? Consigue un",
+      "h1em": "CV",
+      "h1b": "y una carta de presentación en sueco correcto",
+      "sub": "Pega la oferta de trabajo y la IA redacta una solicitud completa adaptada a ese puesto — en minutos, aunque el sueco no sea tu lengua materna.",
+      "cta": "Crea tu CV gratis →",
+      "ctaDemo": "Probar sin cuenta",
+      "trust": [
+        "Gratis para empezar",
+        "Sin tarjeta",
+        "Datos guardados en la UE"
+      ]
+    },
+    "demo": {
+      "label": "Pruébalo ahora",
+      "title": "Mira cuánto encajas con una oferta",
+      "sub": "Pega una oferta de trabajo — por ejemplo de Platsbanken. Añade unas líneas sobre ti para obtener una puntuación de compatibilidad y un resumen de CV adaptado. No necesitas cuenta.",
+      "adLabel": "Oferta de trabajo",
+      "adPlaceholder": "Pega aquí el texto completo de la oferta…",
+      "profileLabel": "Sobre ti (opcional)",
+      "profilePlaceholder": "Ej.: Auxiliar de enfermería con 4 años de experiencia en Colombia, carné de conducir B, hablo español y sueco (SFI D)…",
+      "sample": "Rellenar con un ejemplo",
+      "sampleProfile": "Auxiliar de enfermería con 4 años de experiencia en cuidado de mayores en Colombia. Formación en atención sanitaria en Komvux. Carné de conducir B. Hablo español y sueco (SFI D, sueco como segunda lengua en curso).",
+      "submit": "Analizar la oferta",
+      "analyzing": "Analizando…",
+      "score": "Compatibilidad",
+      "role": "Puesto",
+      "requirements": "Lo que busca el empleador",
+      "matched": "Ya lo demuestras",
+      "missing": "Destácalo o compleméntalo",
+      "summary": "Resumen de CV adaptado",
+      "summaryExample": "Ejemplo de resumen de CV",
+      "tips": "Consejos para esta solicitud",
+      "copy": "Copiar",
+      "copied": "¡Copiado!",
+      "noProfileHint": "Añade unas líneas sobre ti para obtener una puntuación personal.",
+      "lockedTitle": "Siguiente paso: la solicitud completa",
+      "lockedText": "Con una cuenta gratuita, CVzume crea un CV completo y una carta de presentación para esta oferta y guarda la solicitud. La oferta se conserva al registrarte.",
+      "lockedCta": "Crear la solicitud completa gratis →",
+      "again": "Probar otra oferta",
+      "errors": {
+        "too_short": "La oferta es demasiado corta — pega el texto completo.",
+        "too_long": "El texto es demasiado largo. Acorta la oferta (máx. 6000 caracteres) o la descripción (máx. 1500).",
+        "rate_limited": "Has usado las pruebas gratuitas de hoy. Crea una cuenta para continuar.",
+        "ai_failed": "El servicio de IA no responde ahora mismo. Inténtalo de nuevo en un momento.",
+        "generic": "Algo salió mal. Inténtalo de nuevo."
+      },
+      "privacy": "El texto se envía a nuestro proveedor de IA para su análisis y no lo guardamos."
+    },
+    "how": {
+      "label": "Cómo funciona",
+      "title": "Cuatro pasos hasta tu solicitud",
+      "sub": "De la oferta de trabajo a un paquete de solicitud completo — en minutos.",
+      "steps": [
+        {
+          "title": "Sube o crea tu CV",
+          "desc": "Importa tu CV actual en PDF o completa tu perfil paso a paso."
+        },
+        {
+          "title": "Busca o pega una oferta",
+          "desc": "Busca vacantes directamente en la app o pega una oferta que hayas encontrado."
+        },
+        {
+          "title": "Recibe una solicitud adaptada",
+          "desc": "La IA compara la oferta con tu perfil y redacta un resumen de CV y una carta para ese puesto."
+        },
+        {
+          "title": "Descarga, envía y haz seguimiento",
+          "desc": "Guarda en PDF, marca la solicitud como enviada y prepárate para la entrevista."
+        }
+      ]
+    },
+    "features": {
+      "label": "Funciones",
+      "title": "Todo lo que necesitas para buscar trabajo",
+      "items": [
+        {
+          "title": "Análisis de compatibilidad",
+          "desc": "Mira cuánto encajas con la oferta, qué requisitos ya cumples y qué deberías destacar."
+        },
+        {
+          "title": "Carta de presentación",
+          "desc": "Una carta cuidada y adaptada a la empresa y al puesto — en sueco correcto o en el idioma que elijas."
+        },
+        {
+          "title": "Busca empleo en la app",
+          "desc": "Busca vacantes de Platsbanken por ciudad y profesión y guarda favoritos — sin cambiar de pestaña."
+        },
+        {
+          "title": "Preparación de entrevistas",
+          "desc": "Recibe preguntas probables para ese puesto, con sugerencias de cómo responder."
+        },
+        {
+          "title": "Controla tus solicitudes",
+          "desc": "Todas tus solicitudes en un solo lugar: borradores, enviadas y archivo, con CV y carta guardados."
+        },
+        {
+          "title": "Cuatro idiomas",
+          "desc": "Usa CVzume en sueco, inglés, español o turco — y crea CV en varios idiomas con Pro."
+        }
+      ]
+    },
+    "pricing": {
+      "label": "Precios",
+      "title": "Precios simples y claros",
+      "sub": "Empieza gratis. Mejora tu plan cuando envíes muchas solicitudes.",
+      "currency": "SEK",
+      "free": {
+        "tier": "Gratis",
+        "price": "0",
+        "period": "para siempre",
+        "features": [
+          "2 solicitudes con IA al mes (CV + carta)",
+          "Análisis de compatibilidad",
+          "Exportar a PDF",
+          "Búsqueda de empleo y favoritos",
+          "Resumen de solicitudes",
+          "Preparación de entrevistas"
+        ],
+        "cta": "Empieza gratis"
+      },
+      "pro": {
+        "badge": "MÁS POPULAR",
+        "tier": "Pro",
+        "price": "109",
+        "period": "al mes · cancela cuando quieras",
+        "features": [
+          "Solicitudes con IA ilimitadas",
+          "Todo lo del plan Gratis",
+          "CV en varios idiomas",
+          "Soporte prioritario"
+        ],
+        "cta": "Empezar Pro"
+      },
+      "year": {
+        "badge": "MEJOR PRECIO",
+        "tier": "Pro anual",
+        "price": "83",
+        "period": "al mes",
+        "save": "ahorra 309 SEK/año",
+        "billed": "Facturado 999 SEK/año",
+        "features": [
+          "Solicitudes con IA ilimitadas",
+          "Todo lo del plan Gratis",
+          "CV en varios idiomas",
+          "Soporte prioritario"
+        ],
+        "cta": "Empezar plan anual"
+      },
+      "note": "Todos los precios incluyen IVA. Pago con tarjeta mediante Stripe. Sin permanencia."
+    },
+    "faq": {
+      "label": "Preguntas y respuestas",
+      "title": "Preguntas frecuentes",
+      "items": [
+        {
+          "q": "¿CVzume es gratis?",
+          "a": "Sí. La cuenta gratuita incluye 2 solicitudes generadas con IA (resumen de CV + carta) al mes, además de exportación a PDF, búsqueda de empleo y resumen de solicitudes. Pro cuesta 109 SEK/mes o 999 SEK/año e incluye solicitudes ilimitadas."
+        },
+        {
+          "q": "¿Cómo funciona la adaptación con IA?",
+          "a": "CVzume lee la oferta y la compara con tu perfil. La IA identifica requisitos y palabras clave y redacta un resumen de CV y una carta que destacan tu experiencia real. Siempre puedes editar el texto antes de enviarlo."
+        },
+        {
+          "q": "Mi sueco no es muy bueno, ¿funciona igual?",
+          "a": "Sí, para eso existe CVzume. Describe tu experiencia de forma sencilla y la IA redacta la solicitud en un sueco correcto y profesional. Revisa siempre el texto para comprobar que todo es correcto."
+        },
+        {
+          "q": "¿La IA se inventa experiencia?",
+          "a": "No, está instruida para usar solo lo que aparece en tu perfil. Aun así, revisa siempre el texto: tú eres responsable de que la solicitud sea veraz."
+        },
+        {
+          "q": "¿Mis datos están seguros?",
+          "a": "Tu perfil y tus solicitudes se guardan en la UE. El texto que se analiza se envía a nuestro proveedor de IA para procesarlo. Puedes eliminar tu cuenta y todos tus datos en cualquier momento desde Ajustes. Más información en la política de privacidad."
+        },
+        {
+          "q": "¿Puedo cancelar Pro cuando quiera?",
+          "a": "Sí. No hay permanencia y mantienes Pro hasta el final del periodo pagado."
+        }
+      ]
+    },
+    "cta": {
+      "a": "¿Listo para conseguir tu",
+      "em": "próximo trabajo?",
+      "sub": "Crea tu cuenta gratis hoy. Sin tarjeta.",
+      "button": "Empieza ahora — es gratis →",
+      "note": [
+        "Gratis para empezar",
+        "Sin permanencia",
+        "RGPD"
+      ]
+    },
+    "footer": {
+      "product": "Producto",
+      "guides": "Guías (en sueco)",
+      "legal": "Legal",
+      "contact": "Contacto",
+      "privacy": "Política de privacidad",
+      "cookies": "Cookies",
+      "terms": "Condiciones de uso",
+      "guideLinks": {
+        "cv-mall": "Plantilla de CV",
+        "personligt-brev-exempel": "Carta de presentación",
+        "cv-for-nyanlanda": "CV para recién llegados",
+        "vanliga-intervjufragor": "Preguntas de entrevista"
+      },
+      "copy": "Hecho en Suecia 🇸🇪"
+    },
+    "mock": {
+      "url": "cvzume.com/dashboard",
+      "my": "Mis solicitudes",
+      "match": "compatible",
+      "cvTitle": "CV adaptado — Auxiliar de enfermería",
+      "done": "Listo",
+      "keywords": "Palabras clave",
+      "analysis": "Análisis",
+      "pdf": "Descargar PDF",
+      "edit": "Editar",
+      "jobs": [
+        {
+          "title": "Undersköterska",
+          "co": "Region Stockholm · Solna"
+        },
+        {
+          "title": "Lagerarbetare",
+          "co": "PostNord · Rosersberg"
+        },
+        {
+          "title": "Barnskötare",
+          "co": "Sollentuna kommun"
+        }
+      ],
+      "kw": [
+        "Cuidados",
+        "Documentación",
+        "Sueco oral y escrito"
+      ]
+    }
   }
 }

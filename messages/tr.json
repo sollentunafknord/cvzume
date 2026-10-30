@@ -388,5 +388,257 @@
     "no_job_error": "❌ İş bulunamadı. Önce Favoriler'e git ve bir iş analiz et.",
     "generate_error": "❌ Mektup oluşturulamadı. Tekrar dene.",
     "generated": "✅ Yeni mektup oluşturuldu!"
+  },
+  "landing": {
+    "nav": {
+      "demo": "Dene",
+      "how": "Nasıl çalışır",
+      "features": "Özellikler",
+      "pricing": "Fiyatlar",
+      "faq": "SSS",
+      "login": "Giriş yap",
+      "start": "Ücretsiz başla",
+      "menu": "Menü",
+      "language": "Dil"
+    },
+    "hero": {
+      "badge": "İsveç'te iş arayanlar için yapay zeka",
+      "h1a": "İsveç'te yeni misin? Kusursuz İsveççe",
+      "h1em": "CV",
+      "h1b": "ve ön yazı hazırla",
+      "sub": "İş ilanını yapıştır, yapay zeka o pozisyona özel eksiksiz bir başvuru hazırlasın — dakikalar içinde, İsveççe ana dilin olmasa bile.",
+      "cta": "CV'ni ücretsiz oluştur →",
+      "ctaDemo": "Hesapsız dene",
+      "trust": [
+        "Ücretsiz başla",
+        "Kart gerekmez",
+        "Veriler AB'de saklanır"
+      ]
+    },
+    "demo": {
+      "label": "Hemen dene",
+      "title": "Bir ilana ne kadar uyduğunu gör",
+      "sub": "Bir iş ilanı yapıştır — örneğin Platsbanken'den. Kendinle ilgili birkaç satır eklersen uyum puanı ve ilana özel bir CV özeti de alırsın. Hesap gerekmez.",
+      "adLabel": "İş ilanı",
+      "adPlaceholder": "İlanın tam metnini buraya yapıştır…",
+      "profileLabel": "Hakkında (isteğe bağlı)",
+      "profilePlaceholder": "Ör. Türkiye'de 4 yıl deneyimli hemşire yardımcısı, B sınıfı ehliyet, Türkçe ve İsveççe (SFI D) konuşuyorum…",
+      "sample": "Örnekle doldur",
+      "sampleProfile": "Türkiye'de yaşlı bakımında 4 yıl deneyimli hemşire yardımcısı. Komvux'ta bakım eğitimi aldım. B sınıfı ehliyet. Türkçe ve İsveççe konuşuyorum (SFI D, İkinci dil olarak İsveççe devam ediyor).",
+      "submit": "İlanı analiz et",
+      "analyzing": "Analiz ediliyor…",
+      "score": "Uyum",
+      "role": "Pozisyon",
+      "requirements": "İşverenin aradıkları",
+      "matched": "Zaten gösterdiklerin",
+      "missing": "Öne çıkar ya da tamamla",
+      "summary": "İlana özel CV özeti",
+      "summaryExample": "Örnek CV özeti",
+      "tips": "Bu başvuru için ipuçları",
+      "copy": "Kopyala",
+      "copied": "Kopyalandı!",
+      "noProfileHint": "Kişisel uyum puanı için kendinle ilgili birkaç satır ekle.",
+      "lockedTitle": "Sonraki adım: başvurunun tamamı",
+      "lockedText": "Ücretsiz bir hesapla CVzume bu ilan için eksiksiz bir CV ve ön yazı hazırlar ve başvuruyu senin için kaydeder. Kayıt olduğunda ilan seninle gelir.",
+      "lockedCta": "Başvurunun tamamını ücretsiz oluştur →",
+      "again": "Başka bir ilan dene",
+      "errors": {
+        "too_short": "İlan çok kısa — metnin tamamını yapıştır.",
+        "too_long": "Metin çok uzun. İlanı (en fazla 6.000 karakter) ya da açıklamayı (en fazla 1.500) kısalt.",
+        "rate_limited": "Bugünkü ücretsiz denemelerini kullandın. Devam etmek için hesap oluştur.",
+        "ai_failed": "Yapay zeka servisi şu an yanıt vermiyor. Biraz sonra tekrar dene.",
+        "generic": "Bir şeyler ters gitti. Tekrar dene."
+      },
+      "privacy": "Metin analiz için yapay zeka sağlayıcımıza gönderilir, bizde saklanmaz."
+    },
+    "how": {
+      "label": "Nasıl çalışır",
+      "title": "Hazır bir başvuruya dört adım",
+      "sub": "İş ilanından eksiksiz başvuru paketine — dakikalar içinde.",
+      "steps": [
+        {
+          "title": "CV'ni yükle ya da oluştur",
+          "desc": "Mevcut CV'ni PDF olarak içe aktar ya da profilini adım adım doldur."
+        },
+        {
+          "title": "İlan bul ya da yapıştır",
+          "desc": "Açık pozisyonları uygulamanın içinde ara ya da kendi bulduğun bir ilanı yapıştır."
+        },
+        {
+          "title": "İlana özel başvuru al",
+          "desc": "Yapay zeka ilanı profilinle karşılaştırır, o iş için CV özeti ve ön yazı yazar."
+        },
+        {
+          "title": "İndir, gönder, takip et",
+          "desc": "PDF olarak kaydet, başvuruyu gönderildi olarak işaretle ve mülakata hazırlan."
+        }
+      ]
+    },
+    "features": {
+      "label": "Özellikler",
+      "title": "İş aramada ihtiyacın olan her şey",
+      "items": [
+        {
+          "title": "Uyum analizi",
+          "desc": "İlana ne kadar uyduğunu, hangi şartları zaten karşıladığını ve neyi öne çıkarman gerektiğini gör."
+        },
+        {
+          "title": "Ön yazı",
+          "desc": "Şirkete ve pozisyona özel, özenli bir ön yazı — doğru İsveççe ya da seçtiğin dilde."
+        },
+        {
+          "title": "Uygulamada iş ara",
+          "desc": "Platsbanken (İsveç) ve İŞKUR (Türkiye) ilanlarını şehre ve mesleğe göre ara, favorilere ekle — sekme değiştirmeden."
+        },
+        {
+          "title": "Mülakat hazırlığı",
+          "desc": "O pozisyon için olası mülakat sorularını ve nasıl cevap verebileceğine dair önerileri al."
+        },
+        {
+          "title": "Başvurularını takip et",
+          "desc": "Tüm başvurular tek yerde: taslaklar, gönderilenler ve arşiv; CV ve ön yazı kayıtlı."
+        },
+        {
+          "title": "Dört dil",
+          "desc": "CVzume'u İsveççe, İngilizce, İspanyolca ya da Türkçe kullan — Pro ile birden fazla dilde CV oluştur."
+        }
+      ]
+    },
+    "pricing": {
+      "label": "Fiyatlar",
+      "title": "Basit, net fiyatlar",
+      "sub": "Ücretsiz başla. Çok sayıda başvuru yapınca yükselt.",
+      "currency": "SEK",
+      "free": {
+        "tier": "Ücretsiz",
+        "price": "0",
+        "period": "süresiz",
+        "features": [
+          "Ayda 2 yapay zeka başvurusu (CV + ön yazı)",
+          "Uyum analizi",
+          "PDF dışa aktarma",
+          "İş arama ve favoriler",
+          "Başvuru takibi",
+          "Mülakat hazırlığı"
+        ],
+        "cta": "Ücretsiz başla"
+      },
+      "pro": {
+        "badge": "EN POPÜLER",
+        "tier": "Pro",
+        "price": "109",
+        "period": "aylık · istediğin zaman iptal et",
+        "features": [
+          "Sınırsız yapay zeka başvurusu",
+          "Ücretsiz plandaki her şey",
+          "Birden fazla dilde CV",
+          "Öncelikli destek"
+        ],
+        "cta": "Pro'ya başla"
+      },
+      "year": {
+        "badge": "EN AVANTAJLI",
+        "tier": "Pro yıllık",
+        "price": "83",
+        "period": "aylık",
+        "save": "yılda 309 SEK tasarruf",
+        "billed": "Yıllık 999 SEK faturalanır",
+        "features": [
+          "Sınırsız yapay zeka başvurusu",
+          "Ücretsiz plandaki her şey",
+          "Birden fazla dilde CV",
+          "Öncelikli destek"
+        ],
+        "cta": "Yıllık plana başla"
+      },
+      "note": "Tüm fiyatlara KDV dahildir. Stripe üzerinden kartla ödeme. Taahhüt yok."
+    },
+    "faq": {
+      "label": "Soru ve cevaplar",
+      "title": "Sık sorulan sorular",
+      "items": [
+        {
+          "q": "CVzume ücretsiz mi?",
+          "a": "Evet. Ücretsiz hesapla ayda 2 yapay zeka başvurusu (CV özeti + ön yazı), ayrıca PDF dışa aktarma, iş arama ve başvuru takibi kullanırsın. Pro aylık 109 SEK ya da yıllık 999 SEK'tir ve sınırsız başvuru sunar."
+        },
+        {
+          "q": "Yapay zeka uyarlaması nasıl çalışıyor?",
+          "a": "CVzume ilanı okur ve profilinle karşılaştırır. Yapay zeka şartları ve anahtar kelimeleri çıkarır, gerçek deneyimini öne çıkaran bir CV özeti ve ön yazı yazar. Göndermeden önce metni her zaman düzenleyebilirsin."
+        },
+        {
+          "q": "İsveççem çok iyi değil — yine de işe yarar mı?",
+          "a": "Evet, CVzume tam da bunun için var. Deneyimini basitçe anlat, yapay zeka başvuruyu doğru ve profesyonel İsveççe ile yazsın. Her şeyin doğru olduğundan emin olmak için metni mutlaka oku."
+        },
+        {
+          "q": "Yapay zeka deneyim uyduruyor mu?",
+          "a": "Hayır, yalnızca profilinde yazanları kullanacak şekilde yönlendirilir. Yine de metni her zaman kontrol et — başvurunun doğru olmasından sen sorumlusun."
+        },
+        {
+          "q": "Verilerim güvende mi?",
+          "a": "Profilin ve başvuruların AB içinde saklanır. Analiz edilecek metin işlenmek üzere yapay zeka sağlayıcımıza gönderilir. Hesabını ve tüm verilerini istediğin zaman Ayarlar'dan silebilirsin. Ayrıntılar gizlilik politikasında."
+        },
+        {
+          "q": "Pro'yu istediğim zaman iptal edebilir miyim?",
+          "a": "Evet. Taahhüt yok; iptal etsen de ödediğin dönemin sonuna kadar Pro kalırsın."
+        }
+      ]
+    },
+    "cta": {
+      "a": "Bir sonraki işine",
+      "em": "hazır mısın?",
+      "sub": "Ücretsiz hesabını bugün oluştur. Kart gerekmez.",
+      "button": "Hemen başla — ücretsiz →",
+      "note": [
+        "Ücretsiz başla",
+        "Taahhüt yok",
+        "KVKK/GDPR"
+      ]
+    },
+    "footer": {
+      "product": "Ürün",
+      "guides": "Rehberler (İsveççe)",
+      "legal": "Yasal",
+      "contact": "İletişim",
+      "privacy": "Gizlilik politikası",
+      "cookies": "Çerezler",
+      "terms": "Kullanım koşulları",
+      "guideLinks": {
+        "cv-mall": "CV şablonu",
+        "personligt-brev-exempel": "Ön yazı örneği",
+        "cv-for-nyanlanda": "Yeni gelenler için CV",
+        "vanliga-intervjufragor": "Mülakat soruları"
+      },
+      "copy": "İsveç'te geliştirildi 🇸🇪"
+    },
+    "mock": {
+      "url": "cvzume.com/dashboard",
+      "my": "Başvurularım",
+      "match": "uyum",
+      "cvTitle": "Uyarlanmış CV — Hemşire yardımcısı",
+      "done": "Hazır",
+      "keywords": "Eşleşen anahtar kelimeler",
+      "analysis": "Analiz",
+      "pdf": "PDF indir",
+      "edit": "Düzenle",
+      "jobs": [
+        {
+          "title": "Undersköterska",
+          "co": "Region Stockholm · Solna"
+        },
+        {
+          "title": "Lagerarbetare",
+          "co": "PostNord · Rosersberg"
+        },
+        {
+          "title": "Barnskötare",
+          "co": "Sollentuna kommun"
+        }
+      ],
+      "kw": [
+        "Hasta bakımı",
+        "Dokümantasyon",
+        "Sözlü ve yazılı İsveççe"
+      ]
+    }
   }
 }

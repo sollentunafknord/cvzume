@@ -388,5 +388,257 @@
     "no_job_error": "❌ No job found. Go to Favorites and analyze a job first.",
     "generate_error": "❌ Could not generate letter. Try again.",
     "generated": "✅ New letter generated!"
+  },
+  "landing": {
+    "nav": {
+      "demo": "Try it",
+      "how": "How it works",
+      "features": "Features",
+      "pricing": "Pricing",
+      "faq": "FAQ",
+      "login": "Log in",
+      "start": "Get started free",
+      "menu": "Menu",
+      "language": "Language"
+    },
+    "hero": {
+      "badge": "AI-powered for job seekers in Sweden",
+      "h1a": "New in Sweden? Get a",
+      "h1em": "CV",
+      "h1b": "and cover letter in flawless Swedish",
+      "sub": "Paste the job ad and the AI writes a complete application tailored to that exact role — in minutes, even if Swedish isn't your first language.",
+      "cta": "Create your CV for free →",
+      "ctaDemo": "Try without an account",
+      "trust": [
+        "Free to start",
+        "No card required",
+        "Data stored in the EU"
+      ]
+    },
+    "demo": {
+      "label": "Try it now",
+      "title": "See how well you match a job ad",
+      "sub": "Paste a job ad — for example from Platsbanken. Add a few lines about yourself to get a match score and a tailored CV summary. No account needed.",
+      "adLabel": "Job ad",
+      "adPlaceholder": "Paste the full job ad text here…",
+      "profileLabel": "About you (optional)",
+      "profilePlaceholder": "E.g. Assistant nurse with 4 years of experience from Syria, driving licence B, speaks Arabic and Swedish (SFI D)…",
+      "sample": "Fill in an example",
+      "sampleProfile": "Assistant nurse with 4 years of experience in elderly care in Syria. Completed care training at Komvux. Driving licence B. Speaks Arabic and Swedish (SFI D, Swedish as a second language in progress).",
+      "submit": "Analyse the ad",
+      "analyzing": "Analysing…",
+      "score": "Match",
+      "role": "Role",
+      "requirements": "What the employer is looking for",
+      "matched": "You already show",
+      "missing": "Highlight or add",
+      "summary": "Tailored CV summary",
+      "summaryExample": "Example CV summary",
+      "tips": "Tips for this application",
+      "copy": "Copy",
+      "copied": "Copied!",
+      "noProfileHint": "Add a few lines about yourself to get a personal match score.",
+      "lockedTitle": "Next step: the full application",
+      "lockedText": "With a free account CVzume writes a complete CV and cover letter for this ad and saves the application for you. The ad comes with you when you sign up.",
+      "lockedCta": "Create the full application for free →",
+      "again": "Try another ad",
+      "errors": {
+        "too_short": "The ad is too short — paste the full text.",
+        "too_long": "The text is too long. Shorten the ad (max 6,000 characters) or the description (max 1,500).",
+        "rate_limited": "You've used today's free tries. Create an account to continue.",
+        "ai_failed": "The AI service isn't responding right now. Please try again shortly.",
+        "generic": "Something went wrong. Please try again."
+      },
+      "privacy": "Your text is sent to our AI provider for analysis and is not stored by us."
+    },
+    "how": {
+      "label": "How it works",
+      "title": "Four steps to a finished application",
+      "sub": "From job ad to a complete application package — in minutes.",
+      "steps": [
+        {
+          "title": "Upload or create your CV",
+          "desc": "Import your existing CV as a PDF or fill in your profile step by step."
+        },
+        {
+          "title": "Find or paste a job ad",
+          "desc": "Search open positions right in the app or paste an ad you found yourself."
+        },
+        {
+          "title": "Get a tailored application",
+          "desc": "The AI compares the ad with your profile and writes a CV summary and cover letter for that exact job."
+        },
+        {
+          "title": "Download, send and follow up",
+          "desc": "Save as PDF, mark the application as sent and prepare for the interview."
+        }
+      ]
+    },
+    "features": {
+      "label": "Features",
+      "title": "Everything you need for your job search",
+      "items": [
+        {
+          "title": "Match analysis",
+          "desc": "See how well you match the ad, which requirements you already meet and what to highlight."
+        },
+        {
+          "title": "Cover letter",
+          "desc": "A polished letter tailored to the company and role — in correct Swedish or the language you choose."
+        },
+        {
+          "title": "Search jobs in the app",
+          "desc": "Search open positions from Platsbanken by location and occupation and save favourites — without switching tabs."
+        },
+        {
+          "title": "Interview preparation",
+          "desc": "Get likely interview questions for that exact role, with suggestions on how to answer."
+        },
+        {
+          "title": "Track your applications",
+          "desc": "All applications in one place: drafts, sent and archived, with CV and letter saved."
+        },
+        {
+          "title": "Four languages",
+          "desc": "Use CVzume in Swedish, English, Spanish or Turkish — and create CVs in several languages with Pro."
+        }
+      ]
+    },
+    "pricing": {
+      "label": "Pricing",
+      "title": "Simple, clear pricing",
+      "sub": "Start for free. Upgrade when you apply for lots of jobs.",
+      "currency": "SEK",
+      "free": {
+        "tier": "Free",
+        "price": "0",
+        "period": "forever",
+        "features": [
+          "2 AI applications per month (CV + letter)",
+          "Match analysis",
+          "PDF export",
+          "Job search and favourites",
+          "Application overview",
+          "Interview preparation"
+        ],
+        "cta": "Get started free"
+      },
+      "pro": {
+        "badge": "MOST POPULAR",
+        "tier": "Pro",
+        "price": "109",
+        "period": "per month · cancel anytime",
+        "features": [
+          "Unlimited AI applications",
+          "Everything in Free",
+          "CVs in several languages",
+          "Priority support"
+        ],
+        "cta": "Start Pro"
+      },
+      "year": {
+        "badge": "BEST VALUE",
+        "tier": "Pro yearly",
+        "price": "83",
+        "period": "per month",
+        "save": "save 309 SEK/year",
+        "billed": "Billed 999 SEK/year",
+        "features": [
+          "Unlimited AI applications",
+          "Everything in Free",
+          "CVs in several languages",
+          "Priority support"
+        ],
+        "cta": "Start yearly plan"
+      },
+      "note": "All prices include VAT. Card payment via Stripe. No lock-in period."
+    },
+    "faq": {
+      "label": "Questions & answers",
+      "title": "Frequently asked questions",
+      "items": [
+        {
+          "q": "Is CVzume free?",
+          "a": "Yes. The free account gives you 2 AI-generated applications (CV summary + cover letter) per month, plus PDF export, job search and application overview. Pro costs 109 SEK/month or 999 SEK/year and gives unlimited applications."
+        },
+        {
+          "q": "How does the AI tailoring work?",
+          "a": "CVzume reads the job ad and compares it with your profile. The AI picks out requirements and keywords and writes a CV summary and cover letter that highlight your real experience. You can always edit the text before sending."
+        },
+        {
+          "q": "My Swedish isn't great — will it still work?",
+          "a": "Yes, that's exactly why CVzume exists. Describe your experience simply and the AI writes the application in correct, professional Swedish. Always read the text through to make sure everything is right."
+        },
+        {
+          "q": "Does the AI make up experience?",
+          "a": "No, it is instructed to use only what's in your profile. Still, always check the text — you are responsible for your application being truthful."
+        },
+        {
+          "q": "Is my data safe?",
+          "a": "Your profile and applications are stored in the EU. Text to be analysed is sent to our AI provider for processing. You can delete your account and all data at any time under Settings. Read more in the privacy policy."
+        },
+        {
+          "q": "Can I cancel Pro anytime?",
+          "a": "Yes. There is no lock-in period, and you keep Pro until the end of the period you've paid for."
+        }
+      ]
+    },
+    "cta": {
+      "a": "Ready to land your",
+      "em": "next job?",
+      "sub": "Create your free account today. No card required.",
+      "button": "Get started — it's free →",
+      "note": [
+        "Free to start",
+        "No lock-in",
+        "GDPR"
+      ]
+    },
+    "footer": {
+      "product": "Product",
+      "guides": "Guides (in Swedish)",
+      "legal": "Legal",
+      "contact": "Contact",
+      "privacy": "Privacy policy",
+      "cookies": "Cookies",
+      "terms": "Terms of use",
+      "guideLinks": {
+        "cv-mall": "CV template",
+        "personligt-brev-exempel": "Cover letter",
+        "cv-for-nyanlanda": "CV for newcomers",
+        "vanliga-intervjufragor": "Interview questions"
+      },
+      "copy": "Built in Sweden 🇸🇪"
+    },
+    "mock": {
+      "url": "cvzume.com/dashboard",
+      "my": "My applications",
+      "match": "match",
+      "cvTitle": "Tailored CV — Assistant nurse",
+      "done": "Done",
+      "keywords": "Matching keywords",
+      "analysis": "Analysis",
+      "pdf": "Download PDF",
+      "edit": "Edit",
+      "jobs": [
+        {
+          "title": "Undersköterska",
+          "co": "Region Stockholm · Solna"
+        },
+        {
+          "title": "Lagerarbetare",
+          "co": "PostNord · Rosersberg"
+        },
+        {
+          "title": "Barnskötare",
+          "co": "Sollentuna kommun"
+        }
+      ],
+      "kw": [
+        "Patient care",
+        "Documentation",
+        "Spoken & written Swedish"
+      ]
+    }
   }
 }

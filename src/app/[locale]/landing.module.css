@@ -29,14 +29,8 @@
 .btnHero:hover { background: #1d4ed8; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(37,99,235,0.4); }
 .btnHeroGhost { font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 500; color: var(--navy); background: white; border: 1.5px solid var(--border); padding: 13px 28px; border-radius: 10px; cursor: pointer; text-decoration: none; transition: all 0.2s; display: inline-block; }
 .btnHeroGhost:hover { border-color: var(--blue); color: var(--blue); }
-.heroTrust { margin-top: 52px; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 13px; color: var(--muted); animation: fadeUp 0.7s 0.3s ease both; }
-.heroTrustAvatars { display: flex; }
-.avatar { width: 28px; height: 28px; border-radius: 50%; border: 2px solid white; margin-left: -8px; font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center; color: white; }
-.avatar:first-child { margin-left: 0; }
-.av1 { background: #3B82F6; }
-.av2 { background: #8B5CF6; }
-.av3 { background: #EC4899; }
-.av4 { background: #F59E0B; }
+.heroTrust { margin-top: 44px; display: flex; align-items: center; justify-content: center; gap: 22px; flex-wrap: wrap; list-style: none; padding: 0; font-size: 14px; color: var(--slate); animation: fadeUp 0.7s 0.3s ease both; }
+.heroTrust li { white-space: nowrap; }
 
 /* ── BROWSER MOCK ── */
 .heroVisual { position: relative; z-index: 1; margin-top: 56px; max-width: 900px; width: calc(100% - 48px); animation: fadeUp 0.8s 0.35s ease both; }
@@ -136,6 +130,7 @@
 .btnPricingFill:hover { background: #1d4ed8; }
 .btnPricingGreen { background: #059669; color: white; }
 .btnPricingGreen:hover { background: #047857; }
+.pricingBilled { font-size: 13px; color: var(--muted); margin: -20px 0 24px; }
 .pricingNote { text-align: center; margin-top: 20px; font-size: 13px; color: var(--muted); }
 
 /* ── CTA ── */
@@ -148,18 +143,96 @@
 .ctaNote { margin-top: 16px; font-size: 13px; color: rgba(255,255,255,0.4); }
 
 /* ── FOOTER ── */
-.footer { background: var(--off-white); border-top: 1px solid var(--border); padding: 48px; }
-.footerInner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
-.footerLogo { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--navy); text-decoration: none; }
+.footer { background: var(--off-white); border-top: 1px solid var(--border); padding: 56px 48px 32px; }
+.footerInner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1.3fr repeat(4, 1fr); gap: 32px; }
+.footerBrand { display: flex; flex-direction: column; gap: 16px; }
+.footerLogo { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--navy); text-decoration: none; }
 .footerLogo span { color: var(--blue); }
-.footerLinks { display: flex; gap: 28px; list-style: none; flex-wrap: wrap; }
-.footerLinks a { font-size: 13px; color: var(--muted); text-decoration: none; transition: color 0.2s; }
-.footerLinks a:hover { color: var(--navy); }
-.footerCopy { font-size: 12px; color: var(--muted); width: 100%; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; }
+.footerLangs { display: flex; gap: 6px; }
+.footerLangs button { font-family: inherit; font-size: 12px; font-weight: 600; color: var(--slate); background: white; border: 1px solid var(--border); border-radius: 6px; padding: 4px 8px; cursor: pointer; }
+.footerLangs button.langActive { color: white; background: var(--blue); border-color: var(--blue); }
+.footerCol { display: flex; flex-direction: column; gap: 10px; }
+.footerHead { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--navy); margin-bottom: 4px; }
+.footerCol a { font-size: 14px; color: var(--slate); text-decoration: none; transition: color 0.2s; }
+.footerCol a:hover { color: var(--blue); }
+.footerCopy { grid-column: 1 / -1; font-size: 12px; color: var(--muted); padding-top: 24px; border-top: 1px solid var(--border); text-align: center; }
+
+/* ── LANGUAGE + MOBILE MENU ── */
+.langWrap { position: relative; }
+.langBtn { font-family: inherit; font-size: 13px; font-weight: 600; color: var(--navy); background: none; border: 1.5px solid var(--border); border-radius: 8px; padding: 7px 10px; cursor: pointer; }
+.langBtn:hover { border-color: var(--blue); }
+.langMenu { position: absolute; right: 0; top: calc(100% + 6px); background: white; border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 12px 32px rgba(13,27,42,0.12); list-style: none; padding: 6px; margin: 0; min-width: 140px; z-index: 110; }
+.langMenu button { width: 100%; text-align: left; font-family: inherit; font-size: 14px; color: var(--navy); background: none; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; }
+.langMenu button:hover { background: var(--blue-light); }
+.langMenu button.langActive { color: var(--blue); font-weight: 600; }
+.mobileMenu { position: fixed; top: 64px; left: 0; right: 0; z-index: 99; background: white; border-bottom: 1px solid var(--border); box-shadow: 0 12px 24px rgba(13,27,42,0.08); display: flex; flex-direction: column; padding: 12px 20px 20px; gap: 4px; }
+.mobileMenu a { font-size: 16px; font-weight: 500; color: var(--navy); text-decoration: none; padding: 12px 4px; border-bottom: 1px solid var(--border); }
+.mobileMenu a.btnNavPrimary { color: white; text-align: center; border: none; margin-top: 12px; padding: 13px; }
+
+/* ── DEMO ── */
+.demoSection { background: linear-gradient(180deg, var(--off-white), white); border-top: 1px solid var(--border); padding: 100px 0; scroll-margin-top: 64px; }
+.demoInner { max-width: 880px; margin: 0 auto; padding: 0 48px; }
+.demoForm { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 28px; box-shadow: 0 8px 32px rgba(13,27,42,0.06); display: flex; flex-direction: column; gap: 20px; }
+.demoField { display: flex; flex-direction: column; gap: 8px; }
+.demoField label { font-size: 14px; font-weight: 600; color: var(--navy); }
+.demoLabelRow { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.demoField textarea { font-family: inherit; font-size: 15px; line-height: 1.55; color: var(--navy); border: 1.5px solid var(--border); border-radius: 10px; padding: 12px 14px; resize: vertical; outline: none; transition: border-color 0.2s, box-shadow 0.2s; width: 100%; box-sizing: border-box; }
+.demoField textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(37,99,235,0.12); }
+.demoCount { font-size: 12px; color: var(--muted); text-align: right; }
+.demoActions { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.demoActions .btnHero:disabled { opacity: 0.75; cursor: wait; transform: none; }
+.demoPrivacy { font-size: 12px; color: var(--muted); flex: 1; min-width: 200px; }
+.demoError { background: #FEF2F2; border: 1px solid #FECACA; color: #B91C1C; font-size: 14px; padding: 10px 14px; border-radius: 8px; }
+.demoError a { color: #B91C1C; font-weight: 600; }
+.linkBtn { font-family: inherit; font-size: 13px; font-weight: 600; color: var(--blue); background: none; border: none; padding: 0; cursor: pointer; }
+.linkBtn:hover { text-decoration: underline; }
+.spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.4); border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite; vertical-align: -2px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.demoResult { scroll-margin-top: 80px; animation: fadeUp 0.5s ease both; }
+.demoResultHead { display: flex; align-items: center; gap: 24px; margin-bottom: 20px; }
+.scoreRing { --score: 0; --score-color: var(--blue); width: 104px; height: 104px; flex-shrink: 0; border-radius: 50%; background: conic-gradient(var(--score-color) calc(var(--score) * 1%), var(--border) 0); display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
+.scoreRing::before { content: ''; position: absolute; inset: 9px; border-radius: 50%; background: white; }
+.scoreRing span, .scoreRing small { position: relative; }
+.scoreRing span { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--navy); line-height: 1; }
+.scoreRing small { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.demoRole { font-size: 20px; font-weight: 600; color: var(--navy); }
+.demoRole small { display: block; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 2px; }
+.demoHint { font-size: 14px; color: var(--slate); margin: 8px 0 0; }
+.demoGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.demoWide { grid-column: 1 / -1; }
+.demoCard { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 22px; }
+.demoCard h3, .demoLocked h3 { font-size: 15px; font-weight: 600; color: var(--navy); margin: 0 0 12px; }
+.demoCardHead { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.demoSummary { font-size: 14px; line-height: 1.65; color: var(--slate); margin: 0; white-space: pre-wrap; }
+.demoTips { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 14px; line-height: 1.55; color: var(--slate); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font-size: 13px; padding: 5px 11px; border-radius: 100px; background: var(--blue-light); color: var(--blue); border: 1px solid var(--blue-pale); }
+.chipOk { background: #ECFDF5; color: #047857; border-color: #A7F3D0; }
+.chipMiss { background: #FFFBEB; color: #B45309; border-color: #FDE68A; }
+.chipLegend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 14px; font-size: 12px; color: var(--muted); }
+.chipLegend i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; }
+.dotOk { background: #10B981; }
+.dotMiss { background: #F59E0B; }
+.demoLocked { background: var(--navy); color: rgba(255,255,255,0.75); border-radius: 14px; padding: 24px 28px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+.demoLocked h3 { color: white; }
+.demoLocked p { margin: 0; font-size: 14px; line-height: 1.6; max-width: 460px; }
+
+/* ── FAQ ── */
+.faqSection { padding: 100px 0; background: var(--off-white); border-top: 1px solid var(--border); scroll-margin-top: 64px; }
+.faqInner { max-width: 780px; margin: 0 auto; padding: 0 48px; }
+.faqList { margin-top: 36px; display: flex; flex-direction: column; gap: 10px; }
+.faqItem { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 0 22px; }
+.faqItem summary { font-size: 16px; font-weight: 600; color: var(--navy); padding: 18px 0; cursor: pointer; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+.faqItem summary::-webkit-details-marker { display: none; }
+.faqItem summary::after { content: '+'; font-size: 20px; color: var(--blue); line-height: 1; }
+.faqItem[open] summary::after { content: '–'; }
+.faqItem p { font-size: 15px; line-height: 1.65; color: var(--slate); margin: 0 0 18px; }
 
 /* ── SCROLL REVEAL ── */
 .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
 .revealVisible { opacity: 1; transform: translateY(0); }
+.revealDelay0 { transition-delay: 0s; }
 .revealDelay1 { transition-delay: 0.1s; }
 .revealDelay2 { transition-delay: 0.2s; }
 .revealDelay3 { transition-delay: 0.3s; }
@@ -169,6 +242,9 @@
   .nav { padding: 0 20px; }
   .navLinks { display: none; }
   .navMobile { display: block; }
+  .hideMobile { display: none; }
+  .footerInner { grid-template-columns: 1fr 1fr; }
+  .footerBrand { grid-column: 1 / -1; }
   .browserContent { grid-template-columns: 1fr; }
   .mockSidebar { display: none; }
   .featuresGrid { grid-template-columns: 1fr 1fr; }
@@ -181,6 +257,14 @@
   .featuresGrid { grid-template-columns: 1fr; }
   .pricingSection { padding: 60px 20px; }
   .ctaSection { padding: 60px 20px; }
-  .footer { padding: 32px 20px; }
+  .footer { padding: 40px 20px 28px; }
+  .demoSection, .faqSection { padding: 60px 0; }
+  .demoInner, .faqInner { padding: 0 20px; }
+  .demoForm { padding: 18px; }
+  .demoGrid { grid-template-columns: 1fr; }
+  .demoResultHead { gap: 16px; }
+  .scoreRing { width: 88px; height: 88px; }
+  .heroTrust { gap: 10px 18px; margin-top: 32px; }
+  .demoLocked .btnHero { width: 100%; text-align: center; box-sizing: border-box; }
   .heroVisual { display: none; }
 }
