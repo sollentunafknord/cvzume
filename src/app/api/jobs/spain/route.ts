@@ -3,7 +3,7 @@
 // Vercel'e eklendiği anda kod değişmeden InfoJobs'a geçer. Yardımcılar: src/lib/infojobs.ts, adzuna.ts
 import { NextResponse } from 'next/server'
 import { ijDetail, ijProvinces, ijSearch, infojobsConfigured, infojobsSearchUrl } from '@/lib/infojobs'
-import { adzunaConfigured, adzunaSearch } from '@/lib/adzuna'
+import { AdzunaError, adzunaConfigured, adzunaSearch } from '@/lib/adzuna'
 import { fetchAdFromUrl } from '@/lib/fetch-ad'
 
 type Provider = 'infojobs' | 'adzuna'
@@ -50,6 +50,7 @@ export async function GET(request: Request) {
 
   if (list.length === 0) return none()
   const page = Math.max(1, Number(sp.get('page')) || 1)
+  let quota = false
   for (const p of list) {
     try {
       if (p === 'infojobs') {
@@ -59,8 +60,10 @@ export async function GET(request: Request) {
       const where = (sp.get('where') || '').trim().slice(0, 100)
       return NextResponse.json({ provider: p, ...(await adzunaSearch({ country: 'es', what: q, where, page })) })
     } catch (err) {
+      if (err instanceof AdzunaError && err.code === 'quota') quota = true
       console.warn(`spain search: ${p} failed`, err instanceof Error ? err.message : err)
     }
   }
-  return NextResponse.json({ error: 'unavailable', fallbackUrl: infojobsSearchUrl(q) }, { status: 503 })
+  // Kota doluysa arayüz Indeed/LinkedIn aramasına geçer (hata göstermez)
+  return NextResponse.json({ error: quota ? 'quota' : 'unavailable', fallbackUrl: infojobsSearchUrl(q) }, { status: 503 })
 }

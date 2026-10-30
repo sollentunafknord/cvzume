@@ -6,7 +6,7 @@ const API = 'https://api.adzuna.com/v1/api/jobs'
 const TIMEOUT_MS = 10_000
 
 export class AdzunaError extends Error {
-  constructor(public code: 'not_configured' | 'unauthorized' | 'unavailable') { super(code) }
+  constructor(public code: 'not_configured' | 'unauthorized' | 'quota' | 'unavailable') { super(code) }
 }
 
 export function adzunaConfigured(): boolean {
@@ -29,11 +29,17 @@ export async function adzunaSearch(opts: { country: string; what: string; where:
   let res: Response | null = null
   for (let attempt = 0; attempt < 2 && !res; attempt++) {
     try {
-      const r = await fetch(`${API}/${opts.country}/search/${opts.page}?${params}`, { signal: AbortSignal.timeout(TIMEOUT_MS) })
+      // Ücretsiz katman sorgu sayısıyla sınırlı → aynı arama bir saat Vercel Data Cache'ten döner,
+      // kaç kullanıcı ararsa arasın Adzuna'ya tek istek gider.
+      const r = await fetch(`${API}/${opts.country}/search/${opts.page}?${params}`, {
+        signal: AbortSignal.timeout(TIMEOUT_MS),
+        next: { revalidate: 3600 },
+      })
       if (r.status < 500) res = r
     } catch { /* zaman aşımı → tekrar */ }
   }
   if (!res) throw new AdzunaError('unavailable')
+  if (res.status === 429) throw new AdzunaError('quota')
   if (res.status === 401 || res.status === 403) throw new AdzunaError('unauthorized')
   if (!res.ok) throw new AdzunaError('unavailable')
 

@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 import styles from './applications.module.css';
 import IndeedJobSearch from './IndeedJobSearch';
 
-type Hit = { id: string; title: string; company: string; location: string; published: string; url: string };
+type Hit = { id: string; title: string; company: string; location: string; published: string; url: string; snippet?: string };
 type Provider = 'infojobs' | 'adzuna' | 'none' | '';
 type Province = { id: string; name: string };
 
@@ -48,6 +48,8 @@ export default function SpainJobSearch() {
       const res = await fetch(`/api/jobs/spain?${qs}`);
       const data = await res.json();
       if (!res.ok) {
+        // Adzuna kotası dolu → hata yerine Indeed/LinkedIn araması
+        if (data.error === 'quota') { setProvider('none'); return; }
         if (data.fallbackUrl) setFallbackUrl(data.fallbackUrl);
         throw new Error();
       }
@@ -70,8 +72,12 @@ export default function SpainJobSearch() {
     try {
       const qs = new URLSearchParams({ detail: hit.id, provider, url: hit.url });
       const res = await fetch(`/api/jobs/spain?${qs}`);
-      const ad = await res.json();
-      if (!res.ok || !ad.text) throw new Error();
+      let ad = await res.json();
+      if (!res.ok || !ad.text) {
+        // İlan sayfası okunamadı → Adzuna'nın özeti (kısmi ama boş hatadan iyi)
+        if (hit.snippet && hit.snippet.length > 200) ad = { title: hit.title, company: hit.company, location: hit.location, text: hit.snippet };
+        else throw new Error();
+      }
       const head = [ad.title, [ad.company, ad.location].filter(Boolean).join(' · ')].filter(Boolean).join('\n');
       localStorage.setItem('cvita_prefill_job', JSON.stringify({
         role: [ad.title, ad.company].filter(Boolean).join(' — '),
