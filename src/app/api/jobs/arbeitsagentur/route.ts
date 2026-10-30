@@ -1,6 +1,7 @@
-// Bundesagentur für Arbeit araması ve ilan detayı. Yardımcılar: src/lib/arbeitsagentur.ts
+// Bundesagentur für Arbeit araması ve ilan detayı. Sürüm yedekleri: src/lib/arbeitsagentur.ts
 import { NextResponse } from 'next/server'
-import { BA_BASE, BA_HEADERS, baLocation, detailUrl, fetchBaDetail, type Angebot } from '@/lib/arbeitsagentur'
+import { baDetail, baSearch, searchUrl } from '@/lib/arbeitsagentur'
+import { fetchAdFromUrl } from '@/lib/fetch-ad'
 
 export async function GET(request: Request) {
   const sp = new URL(request.url).searchParams
@@ -8,43 +9,28 @@ export async function GET(request: Request) {
   // Tek ilan: analiz için tam metin
   const detail = sp.get('detail')
   if (detail) {
-    try {
-      const ad = await fetchBaDetail(detail)
-      if (!ad) return NextResponse.json({ error: 'not_found' }, { status: 404 })
-      return NextResponse.json(ad)
-    } catch {
-      return NextResponse.json({ error: 'fetch_failed' }, { status: 502 })
+    const ad = await baDetail(detail).catch(() => null)
+    if (ad && ad.text.length >= 50) return NextResponse.json(ad)
+    // Yedek: BA detay API'si kapalıysa ilanın işveren sitesindeki asıl sayfası
+    const ext = sp.get('ext')
+    if (ext) {
+      try {
+        const page = await fetchAdFromUrl(ext)
+        return NextResponse.json({ id: detail, title: page.title, company: page.company, location: page.location, text: page.text, url: ext, endpoint: 'external' })
+      } catch { /* aşağıda hata */ }
     }
+    return NextResponse.json({ error: ad ? 'no_content' : 'unavailable' }, { status: 502 })
   }
 
-  const params = new URLSearchParams({
-    size: '20',
-    page: String(Math.max(1, Number(sp.get('page')) || 1)),
-    angebotsart: '1', // 1 = Arbeit (iş ilanları; staj/eğitim hariç)
-  })
   const was = (sp.get('was') || '').trim().slice(0, 100)
   const wo = (sp.get('wo') || '').trim().slice(0, 100)
-  if (was) params.set('was', was)
-  if (wo) {
-    params.set('wo', wo)
-    params.set('umkreis', String(Math.min(200, Math.max(0, Number(sp.get('umkreis')) || 25))))
-  }
+  const umkreis = Math.min(200, Math.max(0, Number(sp.get('umkreis')) || 25))
+  const page = Math.max(1, Number(sp.get('page')) || 1)
 
-  try {
-    const res = await fetch(`${BA_BASE}/v6/jobs?${params}`, { headers: BA_HEADERS, signal: AbortSignal.timeout(10_000) })
-    if (!res.ok) return NextResponse.json({ error: 'fetch_failed' }, { status: 502 })
-    const d = await res.json()
-    const list: Angebot[] = d.ergebnisliste || d.stellenangebote || []
-    const hits = list.map(a => ({
-      id: a.referenznummer,
-      title: a.stellenangebotsTitel || a.titel || a.hauptberuf || '',
-      company: a.firma || '',
-      location: baLocation(a),
-      published: a.datumErsteVeroeffentlichung || a.aktuelleVeroeffentlichungsdatum || '',
-      url: detailUrl(a.referenznummer),
-    }))
-    return NextResponse.json({ total: d.maxErgebnisse || 0, hits })
-  } catch {
-    return NextResponse.json({ error: 'fetch_failed' }, { status: 502 })
+  const result = await baSearch({ was, wo, umkreis, page }).catch(() => null)
+  if (!result) {
+    // Arayüz bu linkle aynı aramayı arbeitsagentur.de'de açmayı önerir
+    return NextResponse.json({ error: 'unavailable', fallbackUrl: searchUrl(was, wo, umkreis) }, { status: 503 })
   }
+  return NextResponse.json({ total: result.total, hits: result.hits })
 }

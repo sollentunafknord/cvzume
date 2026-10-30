@@ -740,6 +740,8 @@
     "more": "Weitere Stellen laden",
     "error": "Die Suche ist gerade nicht verfügbar. Bitte versuchen Sie es später erneut.",
     "error_detail": "Die Anzeige konnte nicht geladen werden. Öffnen Sie sie und kopieren Sie den Text.",
-    "source_note": "Quelle: Jobbörse der Bundesagentur für Arbeit (arbeitsagentur.de)."
+    "source_note": "Quelle: Jobbörse der Bundesagentur für Arbeit (arbeitsagentur.de).",
+    "fallback": "Die Suche der Bundesagentur ist gerade nicht erreichbar.",
+    "fallback_link": "Gleiche Suche auf arbeitsagentur.de öffnen ↗"
   }
 }

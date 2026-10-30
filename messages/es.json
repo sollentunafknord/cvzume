@@ -736,6 +736,8 @@
     "more": "Cargar más empleos",
     "error": "La búsqueda no está disponible ahora mismo. Inténtalo más tarde.",
     "error_detail": "No se pudo cargar la oferta. Ábrela y copia el texto.",
-    "source_note": "Fuente: Bundesagentur für Arbeit (arbeitsagentur.de)."
+    "source_note": "Fuente: Bundesagentur für Arbeit (arbeitsagentur.de).",
+    "fallback": "La búsqueda de la Bundesagentur no está disponible ahora mismo.",
+    "fallback_link": "Abrir la misma búsqueda en arbeitsagentur.de ↗"
   }
 }

@@ -4,6 +4,7 @@
 // otomatik duraklatmasını (pause) engellemek. Bkz. vercel.json -> crons.
 import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
+import { alertIfBroken, checkSources } from '@/lib/source-health'
 
 export const dynamic = 'force-dynamic'
 
@@ -46,9 +47,15 @@ export async function GET(request: Request) {
     results[table] = count
   }
 
+  // Dış ilan kaynakları (Bundesagentur, Platsbanken) — bozuksa e-posta. Cron'u düşürmesin.
+  const sources = await checkSources().catch(() => [])
+  const alerted = await alertIfBroken(sources).catch(() => false)
+
   return NextResponse.json({
     ok: true,
     tables: results,
+    sources,
+    alerted,
     ranAt: new Date().toISOString(),
   })
 }

@@ -19,39 +19,14 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
   const [open, setOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
-  const [initials, setInitials] = useState<string>(() => {
-    if (typeof window === 'undefined') return '?';
-    try {
-      const user = JSON.parse(localStorage.getItem('cvita_user') || '{}');
-      const fn = user.firstName || user.first_name || user.email?.split('@')[0] || '';
-      const ln = user.lastName || user.last_name || '';
-      return ((fn[0] || '') + (ln[0] || '')).toUpperCase() || '?';
-    } catch { return '?'; }
-  });
-
-  const [userName, setUserName] = useState<string>(() => {
-    if (typeof window === 'undefined') return '';
-    try {
-      const user = JSON.parse(localStorage.getItem('cvita_user') || '{}');
-      const fn = user.firstName || user.first_name || user.email?.split('@')[0] || '';
-      const ln = user.lastName || user.last_name || '';
-      return (fn + ' ' + ln).trim() || user.email || '';
-    } catch { return ''; }
-  });
-
+  // Startvärden måste vara samma på server och klient (annars hydreringsfel #418);
+  // localStorage läses i effekten nedan (storageHandler körs direkt vid mount).
+  const [initials, setInitials] = useState('?');
+  const [userName, setUserName] = useState('');
   const [planLabel, setPlanLabel] = useState('');
-  const [isPro, setIsPro] = useState<boolean>(() => {
-    if (typeof window === 'undefined') return false;
-    return localStorage.getItem('cvita_is_pro') === 'true';
-  });
-  const [defaultLocale, setDefaultLocale] = useState<string>(() => {
-    if (typeof window === 'undefined') return locale;
-    return localStorage.getItem('cvita_default_locale') || locale;
-  });
-  const [avatarUrl, setAvatarUrl] = useState<string>(() => {
-    if (typeof window === 'undefined') return '';
-    return localStorage.getItem('cvita_avatar') || '';
-  });
+  const [isPro, setIsPro] = useState(false);
+  const [defaultLocale, setDefaultLocale] = useState<string>(locale);
+  const [avatarUrl, setAvatarUrl] = useState('');
   const [langGateTarget, setLangGateTarget] = useState<string | null>(null);
 
   useEffect(() => {
@@ -82,6 +57,7 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
         setUserName((fn + ' ' + ln).trim() || user.email || '');
       } catch { /* silent */ }
     };
+    storageHandler();
     window.addEventListener('storage', storageHandler);
     window.addEventListener('cvita_profile_updated', storageHandler);
 

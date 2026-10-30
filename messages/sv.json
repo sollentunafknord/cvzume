@@ -712,6 +712,8 @@
     "more": "Visa fler jobb",
     "error": "Sökningen är inte tillgänglig just nu. Försök igen senare.",
     "error_detail": "Annonsen kunde inte hämtas. Öppna den och kopiera texten.",
-    "source_note": "Källa: Bundesagentur für Arbeit (arbeitsagentur.de)."
+    "source_note": "Källa: Bundesagentur für Arbeit (arbeitsagentur.de).",
+    "fallback": "Bundesagenturs sökning svarar inte just nu.",
+    "fallback_link": "Öppna samma sökning på arbetsagentur.de ↗"
   }
 }

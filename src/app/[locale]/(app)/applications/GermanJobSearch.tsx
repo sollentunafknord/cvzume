@@ -7,7 +7,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import styles from './applications.module.css';
 
-type Hit = { id: string; title: string; company: string; location: string; published: string; url: string };
+type Hit = { id: string; title: string; company: string; location: string; published: string; url: string; externalUrl?: string };
 
 const RADII = [0, 10, 25, 50, 100];
 
@@ -25,15 +25,21 @@ export default function GermanJobSearch() {
   const [searched, setSearched] = useState(false);
   const [error, setError] = useState('');
   const [analyzing, setAnalyzing] = useState('');
+  // BA kapalıysa: aynı aramayı arbeitsagentur.de'de açan link
+  const [fallbackUrl, setFallbackUrl] = useState('');
 
   async function search(p = 1) {
     setLoading(true);
     setError('');
+    setFallbackUrl('');
     try {
       const qs = new URLSearchParams({ was, wo, umkreis: String(umkreis), page: String(p) });
       const res = await fetch(`/api/jobs/arbeitsagentur?${qs}`);
       const data = await res.json();
-      if (!res.ok) throw new Error();
+      if (!res.ok) {
+        if (data.fallbackUrl) setFallbackUrl(data.fallbackUrl);
+        throw new Error();
+      }
       setHits(p === 1 ? data.hits : [...hits, ...data.hits]);
       setTotal(data.total);
       setPage(p);
@@ -49,7 +55,9 @@ export default function GermanJobSearch() {
     setAnalyzing(hit.id);
     setError('');
     try {
-      const res = await fetch(`/api/jobs/arbeitsagentur?detail=${encodeURIComponent(hit.id)}`);
+      const qs = new URLSearchParams({ detail: hit.id });
+      if (hit.externalUrl) qs.set('ext', hit.externalUrl);
+      const res = await fetch(`/api/jobs/arbeitsagentur?${qs}`);
       const ad = await res.json();
       if (!res.ok || !ad.text) throw new Error();
       const head = [ad.title, [ad.company, ad.location].filter(Boolean).join(' · ')].filter(Boolean).join('\n');
@@ -86,7 +94,13 @@ export default function GermanJobSearch() {
         </div>
       </form>
 
-      {error && <div style={{ color: '#B91C1C', fontSize: 14, margin: '12px 0' }}>{error}</div>}
+      {error && !fallbackUrl && <div style={{ color: '#B91C1C', fontSize: 14, margin: '12px 0' }}>{error}</div>}
+      {fallbackUrl && (
+        <div style={{ margin: '12px 0', padding: '14px 18px', background: '#FFFBEB', border: '1px solid #FDE68A', borderRadius: 10, fontSize: 14, color: '#92400E' }}>
+          {t('fallback')}{' '}
+          <a href={fallbackUrl} target="_blank" rel="noopener noreferrer" style={{ color: '#92400E', fontWeight: 600 }}>{t('fallback_link')}</a>
+        </div>
+      )}
       {searched && <div className={styles.resultCount}>{t('results', { count: total.toLocaleString(locale === 'sv' ? 'sv-SE' : locale) })}</div>}
       {searched && hits.length === 0 && !loading && <div className={styles.subtitle}>{t('none')}</div>}
 

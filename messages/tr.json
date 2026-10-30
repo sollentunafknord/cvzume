@@ -736,6 +736,8 @@
     "more": "Daha fazla ilan yükleyin",
     "error": "Arama şu an kullanılamıyor. Lütfen daha sonra tekrar deneyin.",
     "error_detail": "İlan yüklenemedi. İlanı açıp metni kopyalayın.",
-    "source_note": "Kaynak: Bundesagentur für Arbeit (arbeitsagentur.de)."
+    "source_note": "Kaynak: Bundesagentur für Arbeit (arbeitsagentur.de).",
+    "fallback": "Bundesagentur araması şu an yanıt vermiyor.",
+    "fallback_link": "Aynı aramayı arbeitsagentur.de'de açın ↗"
   }
 }
