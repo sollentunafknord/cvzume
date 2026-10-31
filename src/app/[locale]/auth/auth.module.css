@@ -35,12 +35,14 @@
 .leftContent { position: relative; z-index: 1; }
 
 .leftLogo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   font-family: 'DM Serif Display', serif;
   font-size: 26px;
   color: white;
   text-decoration: none;
   letter-spacing: -0.3px;
-  display: inline-block;
   margin-bottom: 64px;
 }
 .leftLogo span { color: #93C5FD; }

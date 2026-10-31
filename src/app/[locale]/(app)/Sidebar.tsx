@@ -1,5 +1,6 @@
 'use client';
 
+import LogoMark from '@/components/LogoMark';
 import { useState, useEffect } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
@@ -128,7 +129,7 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
       <button className={styles.menuToggle} onClick={() => setOpen(o => !o)}>☰</button>
 
       <aside className={`${styles.sidebar} ${open ? styles.sidebarOpen : ''}`}>
-        <button className={styles.sidebarLogo} onClick={() => nav('ny')}>CV<span>zume</span></button>
+        <button className={styles.sidebarLogo} onClick={() => nav('ny')}><LogoMark size={30} onDark /><span style={{ color: 'inherit' }}>CV<span>zume</span></span></button>
         <nav className={styles.sidebarNav}>
           <div className={styles.sidebarSection}>{t('nav.main_menu')}</div>
           {/* Sade menü: ana akış "Ny ansökan"; iş arama, mülakat vb. akışın içinden açılır */}

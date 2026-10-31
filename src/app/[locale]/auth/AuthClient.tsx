@@ -1,5 +1,6 @@
 'use client';
 
+import LogoMark from '@/components/LogoMark';
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useLocale } from 'next-intl';
@@ -224,7 +225,7 @@ export default function AuthClient() {
       {/* ── LEFT PANEL ── */}
       <div className={styles.leftPanel}>
         <div className={styles.leftContent}>
-          <a href={`/${locale}`} className={styles.leftLogo}>CV<span>zume</span></a>
+          <a href={`/${locale}`} className={styles.leftLogo}><LogoMark size={30} onDark /><span style={{ color: 'inherit' }}>CV<span>zume</span></span></a>
           <h2 className={styles.leftHeadline}>
             {t('headline_1')}<br/>
             {t('headline_2_pre')}<em>{t('headline_2_em')}</em>

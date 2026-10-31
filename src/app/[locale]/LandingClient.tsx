@@ -1,5 +1,6 @@
 'use client';
 
+import LogoMark from '@/components/LogoMark';
 import { useEffect, useState } from 'react';
 import { useLocale, useTranslations, useMessages } from 'next-intl';
 import { useRouter, usePathname } from 'next/navigation';
@@ -147,7 +148,7 @@ export default function LandingClient({ market }: { market: Market }) {
 
       {/* NAV */}
       <nav className={styles.nav}>
-        <a href={`/${locale}`} className={styles.navLogo}>CV<span>zume</span></a>
+        <a href={`/${locale}`} className={styles.navLogo}><LogoMark size={30} /><span style={{ color: 'inherit' }}>CV<span>zume</span></span></a>
         <ul className={styles.navLinks}>
           {navItems.map(n => <li key={n.href}><a href={n.href}>{n.label}</a></li>)}
         </ul>
@@ -374,7 +375,7 @@ export default function LandingClient({ market }: { market: Market }) {
       <footer className={styles.footer}>
         <div className={styles.footerInner}>
           <div className={styles.footerBrand}>
-            <a href={`/${locale}`} className={styles.footerLogo}>CV<span>zume</span></a>
+            <a href={`/${locale}`} className={styles.footerLogo}><LogoMark size={28} /><span style={{ color: 'inherit' }}>CV<span>zume</span></span></a>
             <div className={styles.footerLangs}>
               {LOCALES.map(l => (
                 <button key={l.code} onClick={() => switchLocale(l.code)} className={l.code === locale ? styles.langActive : undefined} aria-label={l.label}>

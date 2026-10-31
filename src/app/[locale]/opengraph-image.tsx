@@ -13,6 +13,8 @@ const TITLES: Record<string, { headline: string; sub: string }> = {
   de: { headline: 'Lebenslauf mit KI erstellen', sub: 'Für jede Stellenanzeige angepasst · Kostenlos starten' },
 };
 
+const MARK = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect x="1" y="1" width="62" height="62" rx="15" fill="#0D1B2A" stroke="rgba(255,255,255,0.22)" stroke-width="2"/><rect x="14" y="16" width="22" height="30" rx="3.5" fill="#93C5FD" transform="rotate(-10 25 31)"/><rect x="27" y="17" width="22" height="30" rx="3.5" fill="#fff" transform="rotate(8 38 32)"/><g transform="rotate(8 38 32)" fill="#1A56DB"><rect x="31" y="24" width="12" height="2.8" rx="1.4"/><rect x="31" y="30" width="14" height="2.8" rx="1.4"/><rect x="31" y="36" width="9" height="2.8" rx="1.4"/></g></svg>`;
+
 type Props = { params: Promise<{ locale: string }> };
 
 export default async function Image({ params }: Props) {
@@ -43,6 +45,8 @@ export default async function Image({ params }: Props) {
 
         {/* logo */}
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: 48 }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={`data:image/svg+xml;utf8,${encodeURIComponent(MARK)}`} width={68} height={68} alt="" style={{ marginRight: 18 }} />
           <span style={{ fontSize: 52, fontWeight: 800, color: 'white', letterSpacing: -2 }}>
             CV<span style={{ color: '#93C5FD' }}>zume</span>
           </span>

@@ -35,7 +35,7 @@ export async function POST(request: Request) {
       <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
 
         <tr><td style="background:#0D1B2A;border-radius:16px 16px 0 0;padding:36px 48px;text-align:center;">
-          <div style="font-family:Georgia,serif;font-size:28px;font-weight:700;color:white;">CV<span style="color:#93C5FD;">zume</span></div>
+          <div style="font-family:Georgia,serif;font-size:28px;font-weight:700;color:white;"><img src="https://www.cvzume.com/brand/cvzume-mark-on-dark-96.png" width="40" height="40" alt="" style="display:inline-block;vertical-align:middle;margin-right:10px;border:0;"><span style="vertical-align:middle;">CV<span style="color:#93C5FD;">zume</span></span></div>
         </td></tr>
 
         <tr><td style="background:white;padding:48px;border-radius:0 0 16px 16px;box-shadow:0 4px 24px rgba(0,0,0,0.08);">

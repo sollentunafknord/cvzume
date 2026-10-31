@@ -42,7 +42,7 @@ export async function POST(request: Request) {
           <tr>
             <td style="background:#0D1B2A;border-radius:16px 16px 0 0;padding:36px 48px;text-align:center;">
               <div style="font-family:Georgia,serif;font-size:28px;font-weight:700;color:white;letter-spacing:-0.5px;">
-                CV<span style="color:#93C5FD;">zume</span>
+                <img src="https://www.cvzume.com/brand/cvzume-mark-on-dark-96.png" width="40" height="40" alt="" style="display:inline-block;vertical-align:middle;margin-right:10px;border:0;"><span style="vertical-align:middle;">CV<span style="color:#93C5FD;">zume</span></span>
               </div>
             </td>
           </tr>
