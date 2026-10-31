@@ -1,7 +1,8 @@
 'use client';
 
 import LogoMark from '@/components/LogoMark';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import ForgotPassword from './ForgotPassword';
 import { useTranslations } from 'next-intl';
 import { useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
@@ -27,6 +28,21 @@ export default function AuthClient() {
   const router = useRouter();
 
   const [tab, setTab] = useState<Tab>('login');
+  // Şifre sıfırlama: 'request' = link iste, 'reset' = e-postadaki linkten gelindi (yeni şifre)
+  const [forgot, setForgot] = useState<{ mode: 'request' | 'reset'; token?: string; expired?: boolean } | null>(null);
+
+  useEffect(() => {
+    const hash = new URLSearchParams(window.location.hash.slice(1));
+    const query = new URLSearchParams(window.location.search);
+    const recovery = hash.get('type') === 'recovery' || query.get('mode') === 'reset';
+    if (!recovery) return;
+    const token = hash.get('access_token') || undefined;
+    const expired = !!hash.get('error') || !token;
+    /* eslint-disable-next-line react-hooks/set-state-in-effect */
+    setForgot({ mode: 'reset', token, expired });
+    // Anahtar adres çubuğunda/geçmişte kalmasın
+    window.history.replaceState(null, '', window.location.pathname);
+  }, []);
 
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPw, setLoginPw] = useState('');
@@ -270,7 +286,9 @@ export default function AuthClient() {
         </a>
 
         <div className={styles.authBox}>
-          {success ? (
+          {forgot ? (
+            <ForgotPassword mode={forgot.mode} token={forgot.token} expired={forgot.expired} initialEmail={loginEmail} onDone={() => { setForgot(null); setTab('login'); }} />
+          ) : success ? (
             <div className={styles.successMessage}>
               <div className={styles.successIcon}>✅</div>
               <h2 className={styles.successTitle}>{t('success_title')}</h2>
@@ -334,7 +352,7 @@ export default function AuthClient() {
                     <label className={styles.formCheck}>
                       <input type="checkbox"/> {t('remember_me')}
                     </label>
-                    <a href="#" className={styles.forgotLink}>{t('forgot_password')}</a>
+                    <button type="button" className={styles.forgotLink} style={{ background: 'none', border: 0, padding: 0, cursor: 'pointer', font: 'inherit' }} onClick={() => setForgot({ mode: 'request' })}>{t('forgot_password')}</button>
                   </div>
                   <button className={styles.btnSubmit} onClick={handleLogin} disabled={loginLoading}>
                     {loginLoading ? t('logging_in') : t('login_btn')}

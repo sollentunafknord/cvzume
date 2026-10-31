@@ -89,6 +89,11 @@ export default function LandingClient({ market }: { market: Market }) {
   const [langOpen, setLangOpen] = useState(false);
 
   useEffect(() => {
+    // Şifre sıfırlama linki (Supabase izin listesinde yoksa) site köküne dönebilir → giriş sayfasına taşı
+    if (/type=recovery|error_code=otp_expired/.test(window.location.hash)) {
+      window.location.replace(`/${locale}/auth?mode=reset${window.location.hash}`);
+      return;
+    }
     const token = localStorage.getItem('cvita_token');
     const user = localStorage.getItem('cvita_user');
     if (token && user) {
