@@ -23,6 +23,7 @@ export async function POST(request: Request) {
       },
       body: JSON.stringify({
         from: FROM_EMAIL,
+        reply_to: 'hello@cvzume.com', // noreply'a verilen cevaplar kaybolmasın (Cloudflare catch-all: Drop)
         to: [email],
         subject: `Din CVzume Pro-prenumeration har avslutats`,
         html: `

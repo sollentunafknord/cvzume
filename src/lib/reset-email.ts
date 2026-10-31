@@ -37,7 +37,7 @@ export async function sendResetEmail(to: string, link: string, locale: string): 
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.RESEND_API_KEY}` },
-    body: JSON.stringify({ from: 'CVzume <noreply@cvzume.com>', to: [to], subject: c.subject, html: html(c, link, l), text: `${c.title}\n\n${c.text}\n\n${link}\n\n${c.note}\n${c.ignore}` }),
+    body: JSON.stringify({ from: 'CVzume <noreply@cvzume.com>', reply_to: 'hello@cvzume.com', to: [to], subject: c.subject, html: html(c, link, l), text: `${c.title}\n\n${c.text}\n\n${link}\n\n${c.note}\n${c.ignore}` }),
   }).catch(() => null)
   if (!res?.ok) console.error('reset email failed', res?.status, await res?.text().catch(() => ''))
   return !!res?.ok
