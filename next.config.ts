@@ -4,8 +4,8 @@ import createNextIntlPlugin from "next-intl/plugin";
 const withNextIntl = createNextIntlPlugin();
 
 const nextConfig: NextConfig = {
-  // PDF/Word okuma (CV içe aktarma) — pdfjs worker'ı paketlenince bozuluyor, Node'dan yüklensin
-  serverExternalPackages: ["pdf-parse", "mammoth"],
+  // Word okuma (CV içe aktarma) Node'dan yüklensin; PDF için unpdf (sunucusuz uyumlu, paketlenebilir)
+  serverExternalPackages: ["mammoth"],
   poweredByHeader: false,
   // Güvenlik başlıkları: başka sitede iframe'e gömülmeyi (clickjacking), MIME tahminini ve
   // gereksiz tarayıcı izinlerini engeller. script-src kısıtlaması yok (Next'in satır içi script'leri).

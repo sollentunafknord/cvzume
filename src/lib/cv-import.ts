@@ -13,12 +13,15 @@ type Parsed = {
 export async function extractCvText(name: string, type: string, buf: Buffer): Promise<string> {
   name = name.toLowerCase()
   if (name.endsWith('.pdf') || type === 'application/pdf') {
-    const { PDFParse } = await import('pdf-parse')
-    const parser = new PDFParse({ data: buf })
+    // unpdf: sunucusuz ortam için paketlenmiş pdf.js (worker dosyası ve yerel canvas kütüphanesi gerekmez).
+    // pdf-parse Vercel'de @napi-rs/canvas ve pdf.worker dosyasını bulamadığı için PDF'ler okunamıyordu.
+    const { extractText, getDocumentProxy } = await import('unpdf')
+    const pdf = await getDocumentProxy(new Uint8Array(buf))
     try {
-      return (await parser.getText()).text
+      const { text } = await extractText(pdf, { mergePages: true })
+      return text
     } finally {
-      await parser.destroy().catch(() => {})
+      await pdf.destroy().catch(() => {})
     }
   }
   if (name.endsWith('.docx') || type.includes('wordprocessingml')) {

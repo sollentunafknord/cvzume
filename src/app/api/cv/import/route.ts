@@ -24,6 +24,7 @@ export async function POST(request: Request) {
     text = cleanCvText(await extractCvText(file.name, file.type, Buffer.from(await file.arrayBuffer())))
   } catch (e) {
     const code = e instanceof Error && e.message === 'unsupported' ? 'unsupported' : 'unreadable'
+    if (code === 'unreadable') console.error('cv import: dosya okunamadı', file.name, file.type, file.size, e)
     return NextResponse.json({ error: code }, { status: 400 })
   }
   // Taranmış (resim) PDF'te metin katmanı yok
