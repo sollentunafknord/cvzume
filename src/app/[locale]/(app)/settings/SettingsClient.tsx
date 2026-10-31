@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { authFetch } from '@/lib/auth-client';
+import { uploadPhoto } from '@/lib/profile-store';
 import styles from './settings.module.css';
 import PersonalTab from './PersonalTab';
 import CvPhotoCard from './CvPhotoCard';
@@ -68,15 +69,8 @@ export default function SettingsClient() {
     const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
     const token = localStorage.getItem('cvita_token');
     const user = JSON.parse(localStorage.getItem('cvita_user') || '{}');
-    const path = `avatar_${Date.now()}.${file.name.split('.').pop()}`;
     try {
-      const res = await fetch(`${supabaseUrl}/storage/v1/object/avatars/${path}`, {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${supabaseKey}`, 'Content-Type': file.type, 'x-upsert': 'true', apikey: supabaseKey },
-        body: file,
-      });
-      if (!res.ok) throw new Error('Upload failed');
-      const publicUrl = `${supabaseUrl}/storage/v1/object/public/avatars/${path}`;
+      const publicUrl = await uploadPhoto(file).catch(() => { throw new Error('Upload failed'); });
       localStorage.setItem('cvita_avatar', publicUrl);
       setAvatarUrl(publicUrl);
       window.dispatchEvent(new CustomEvent('cvita_profile_updated'));
@@ -98,7 +92,6 @@ export default function SettingsClient() {
   async function loadPlan() {
     setPlanLoading(true);
     try {
-      const email = userEmail || JSON.parse(localStorage.getItem('cvita_user') || '{}').email || '';
       const res = await authFetch('/api/stripe/subscription');
       const data = await res.json();
       setPlanInfo(data);

@@ -1,6 +1,7 @@
 // Profil (CV verisi) okuma/kaydetme — client tarafı. Kaynak: profiles tablosu (id+locale), yerel kopya
 // localStorage `cvita_profile_${locale}`. ProfileClient ve "Ny ansökan" akışı aynı yolu kullanır.
 import type { Profile } from '@/app/[locale]/(app)/profile/types'
+import { authFetch } from './auth-client'
 
 export type { Profile }
 
@@ -99,14 +100,17 @@ export async function loadCvPhoto(): Promise<string> {
   return resolveCvPhoto(choice, avatar)
 }
 
-/** Resmi avatars kovasına yükler, herkese açık URL'ini döner. */
+/** Resmi avatars kovasına, kullanıcının kendi klasörüne (<user id>/...) kullanıcının kendi anahtarıyla yükler;
+ *  herkese açık URL'ini döner. Kova kuralları başkasının klasörüne ve girişsiz yüklemeye izin vermez. */
 export async function uploadPhoto(file: File, prefix = 'avatar'): Promise<string> {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL!
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  const path = `${prefix}_${Date.now()}.${(file.name.split('.').pop() || 'jpg').toLowerCase()}`
-  const res = await fetch(`${url}/storage/v1/object/avatars/${path}`, {
+  const { user } = session()
+  if (!user.id) throw new Error('upload_failed')
+  const ext = ({ 'image/png': 'png', 'image/webp': 'webp' } as Record<string, string>)[file.type] || 'jpg'
+  const path = `${user.id}/${prefix}_${Date.now()}.${ext}`
+  const res = await authFetch(`${url}/storage/v1/object/avatars/${path}`, {
     method: 'POST',
-    headers: { Authorization: `Bearer ${key}`, 'Content-Type': file.type, 'x-upsert': 'true', apikey: key },
+    headers: { 'Content-Type': file.type, apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY! },
     body: file,
   })
   if (!res.ok) throw new Error('upload_failed')

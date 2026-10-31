@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
+import { uploadPhoto } from '@/lib/profile-store';
 import styles from './profile.module.css';
 import type { Experience, Education, Profile } from './types';
 import CvImport, { type ImportedCv } from '../CvImport';
@@ -165,15 +166,8 @@ export default function ProfileClient() {
     const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
     const token = localStorage.getItem('cvita_token');
     const user = JSON.parse(localStorage.getItem('cvita_user') || '{}');
-    const path = `avatar_${Date.now()}.${file.name.split('.').pop()}`;
     try {
-      const res = await fetch(`${supabaseUrl}/storage/v1/object/avatars/${path}`, {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${supabaseKey}`, 'Content-Type': file.type, 'x-upsert': 'true', apikey: supabaseKey },
-        body: file,
-      });
-      if (!res.ok) throw new Error(t('profile.upload_failed'));
-      const publicUrl = `${supabaseUrl}/storage/v1/object/public/avatars/${path}`;
+      const publicUrl = await uploadPhoto(file).catch(() => { throw new Error(t('profile.upload_failed')); });
       localStorage.setItem('cvita_avatar', publicUrl);
       setAvatarUrl(publicUrl);
       if (token && user.id) {
