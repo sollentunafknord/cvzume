@@ -1,21 +1,16 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { useTranslations, useLocale } from 'next-intl';
+import { useTranslations, useLocale, useMessages } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { authFetch } from '@/lib/auth-client';
 import styles from './upgrade.module.css';
 
-const FAQ_ITEMS = [
-  { q: 'Kan jag avsluta när som helst?', a: 'Ja, du kan avsluta din prenumeration när som helst. Du behåller Pro-åtkomst till slutet av din betalningsperiod.' },
-  { q: 'Hur säker är betalningen?', a: 'Alla betalningar hanteras av Stripe — en av världens ledande betalningsleverantörer. Vi lagrar aldrig dina kortuppgifter.' },
-  { q: 'Vad händer med mina data om jag nedgraderar?', a: 'Dina CV-analyser och personliga brev sparas. Du kan fortfarande se dem, men kan inte skapa nya utöver gränsen på 2 per månad.' },
-  { q: 'Finns det en årsrabatt?', a: 'Ja! Med årsplan betalar du 999 SEK istället för 1 308 SEK — du sparar 309 kronor, vilket motsvarar nästan 3 månaders gratis användning.' },
-  { q: 'Kan jag byta från månads- till årsplan?', a: 'Ja, du kan byta plan när som helst via dina kontoinställningar under "Plan".' },
-];
 
 export default function UpgradeClient() {
   const t = useTranslations();
+  const tu = useTranslations('upgrade');
+  const FAQ_ITEMS = ((useMessages() as unknown as { upgrade?: { faq?: { q: string; a: string }[] } }).upgrade?.faq) ?? [];
   const locale = useLocale();
   const router = useRouter();
 
@@ -23,8 +18,8 @@ export default function UpgradeClient() {
   const [checkoutLoadingYearly, setCheckoutLoadingYearly] = useState(false);
   const [monthlyDisabled, setMonthlyDisabled] = useState(false);
   const [yearlyDisabled, setYearlyDisabled] = useState(false);
-  const [monthlyBtnLabel, setMonthlyBtnLabel] = useState('Välj Pro →');
-  const [yearlyBtnLabel, setYearlyBtnLabel] = useState('Välj Årsplan →');
+  const [monthlyBtnLabel, setMonthlyBtnLabel] = useState('choose_pro');
+  const [yearlyBtnLabel, setYearlyBtnLabel] = useState('choose_yearly');
 
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [toast, setToast] = useState('');
@@ -49,11 +44,11 @@ export default function UpgradeClient() {
         const res = await authFetch('/api/stripe/subscription');
         const data = await res.json();
         if (data.interval === 'yearly') {
-          setMonthlyBtnLabel('Du är redan Pro ✓'); setMonthlyDisabled(true);
-          setYearlyBtnLabel('Du är redan på Årsplan ✓'); setYearlyDisabled(true);
+          setMonthlyBtnLabel('already_pro'); setMonthlyDisabled(true);
+          setYearlyBtnLabel('already_yearly'); setYearlyDisabled(true);
         } else {
-          setMonthlyBtnLabel('Din nuvarande plan'); setMonthlyDisabled(true);
-          setYearlyBtnLabel('Uppgradera till Årsplan →');
+          setMonthlyBtnLabel('your_plan'); setMonthlyDisabled(true);
+          setYearlyBtnLabel('to_yearly');
         }
       } catch { /* silent */ }
     }
@@ -77,12 +72,13 @@ export default function UpgradeClient() {
       if (data.url) {
         window.location.href = data.url;
       } else {
-        throw new Error(data.error || 'Något gick fel');
+        throw new Error(data.error || 'checkout');
       }
     } catch (e: unknown) {
-      showToast('Fel: ' + (e instanceof Error ? e.message : 'okänt'), true);
+      console.error('checkout', e);
+      showToast(tu('error'), true);
       setMonthlyDisabled(false); setYearlyDisabled(false);
-      setMonthlyBtnLabel('Välj Pro →'); setYearlyBtnLabel('Välj Årsplan →');
+      setMonthlyBtnLabel('choose_pro'); setYearlyBtnLabel('choose_yearly');
     } finally {
       setCheckoutLoadingMonthly(false); setCheckoutLoadingYearly(false);
     }
@@ -93,7 +89,7 @@ export default function UpgradeClient() {
 
         {/* HERO */}
         <div className={styles.hero}>
-          <div className={styles.heroBadge}>⚡ Uppgradera</div>
+          <div className={styles.heroBadge}>{tu('badge')}</div>
           <h1 className={styles.heroTitle}>
             {t('upgrade.title').split(' ').slice(0, -2).join(' ')}{' '}
             <span>{t('upgrade.title').split(' ').slice(-2).join(' ')}</span>
@@ -106,72 +102,69 @@ export default function UpgradeClient() {
 
           {/* FREE */}
           <div className={styles.pricingCard}>
-            <div className={styles.planName}>Gratis</div>
+            <div className={styles.planName}>{tu('free')}</div>
             <div className={styles.planPrice}>
               <span className={styles.priceAmount}>0</span>
-              <span className={styles.pricePeriod}>SEK/mån</span>
+              <span className={styles.pricePeriod}>{tu('per_month')}</span>
             </div>
             <div className={styles.priceYearly}>&nbsp;</div>
             <hr className={styles.planDivider} />
             <ul className={styles.featureList}>
-              <li className={styles.featureItem}><span className={styles.featureCheck}>✓</span> 2 CV-analyser per månad</li>
-              <li className={styles.featureItem}><span className={styles.featureCheck}>✓</span> 2 personliga brev per månad</li>
-              <li className={`${styles.featureItem} ${styles.featureMuted}`}><span className={styles.featureCross}>✕</span> PDF-export</li>
-              <li className={`${styles.featureItem} ${styles.featureMuted}`}><span className={styles.featureCross}>✕</span> Prioriterad AI</li>
-              <li className={`${styles.featureItem} ${styles.featureMuted}`}><span className={styles.featureCross}>✕</span> Obegränsad historik</li>
+              <li className={styles.featureItem}><span className={styles.featureCheck}>✓</span> {tu('f_apps_free')}</li>
+              <li className={styles.featureItem}><span className={styles.featureCheck}>✓</span> {tu('f_export')}</li>
+              <li className={`${styles.featureItem} ${styles.featureMuted}`}><span className={styles.featureCross}>✕</span> {tu('f_no_mark')}</li>
+              <li className={`${styles.featureItem} ${styles.featureMuted}`}><span className={styles.featureCross}>✕</span> {tu('f_palettes')}</li>
             </ul>
-            <button className={`${styles.planBtn} ${styles.planBtnGhost}`} disabled>Ditt nuvarande paket</button>
+            <button className={`${styles.planBtn} ${styles.planBtnGhost}`} disabled>{tu('current')}</button>
           </div>
 
           {/* PRO MONTHLY */}
           <div className={`${styles.pricingCard} ${styles.pricingCardFeatured}`}>
-            <div className={styles.popularBadge} style={{ background: 'var(--blue)' }}>⭐ Mest populärt</div>
-            <div className={styles.planName} style={{ color: 'var(--blue)' }}>Pro</div>
+            <div className={styles.popularBadge} style={{ background: 'var(--blue)' }}>{tu('popular')}</div>
+            <div className={styles.planName} style={{ color: 'var(--blue)' }}>{tu('pro')}</div>
             <div className={styles.planPrice}>
               <span className={styles.priceAmount}>109</span>
-              <span className={styles.pricePeriod}>SEK/mån</span>
+              <span className={styles.pricePeriod}>{tu('per_month')}</span>
             </div>
             <div className={styles.priceYearly}>&nbsp;</div>
             <hr className={styles.planDivider} />
             <ul className={styles.featureList}>
-              <li className={styles.featureItem}><span className={styles.featureCheck}>✓</span> Obegränsade CV-analyser</li>
-              <li className={styles.featureItem}><span className={styles.featureCheck}>✓</span> Obegränsade personliga brev</li>
-              <li className={styles.featureItem}><span className={styles.featureCheck}>✓</span> PDF-export</li>
-              <li className={styles.featureItem}><span className={styles.featureCheck}>✓</span> Prioriterad AI</li>
-              <li className={styles.featureItem}><span className={styles.featureCheck}>✓</span> Obegränsad historik</li>
+              <li className={styles.featureItem}><span className={styles.featureCheck}>✓</span> {tu('f_apps_pro')}</li>
+              <li className={styles.featureItem}><span className={styles.featureCheck}>✓</span> {tu('f_export')}</li>
+              <li className={styles.featureItem}><span className={styles.featureCheck}>✓</span> {tu('f_no_mark')}</li>
+              <li className={styles.featureItem}><span className={styles.featureCheck}>✓</span> {tu('f_palettes')}</li>
             </ul>
             <button
               className={`${styles.planBtn} ${styles.planBtnPrimary}`}
               disabled={monthlyDisabled || checkoutLoadingMonthly}
               onClick={() => startCheckout(false)}
             >
-              {checkoutLoadingMonthly ? 'Laddar...' : monthlyBtnLabel}
+              {checkoutLoadingMonthly ? tu('loading') : tu(monthlyBtnLabel)}
             </button>
           </div>
 
           {/* PRO YEARLY */}
-          <div className={`${styles.pricingCard} ${styles.pricingCardGreen}`} style={{ gridColumn: '1 / -1', maxWidth: 380, margin: '0 auto', width: '100%' }}>
-            <div className={styles.popularBadge} style={{ background: '#059669' }}>🌟 Bästa värdet</div>
-            <div className={styles.planName} style={{ color: '#059669' }}>Pro Årsplan</div>
+          <div className={`${styles.pricingCard} ${styles.pricingCardGreen}`}>
+            <div className={styles.popularBadge} style={{ background: '#059669' }}>{tu('best')}</div>
+            <div className={styles.planName} style={{ color: '#059669' }}>{tu('yearly')}</div>
             <div className={styles.planPrice}>
               <span className={styles.priceAmount} style={{ color: '#059669' }}>83</span>
-              <span className={styles.pricePeriod}>SEK/mån</span>
+              <span className={styles.pricePeriod}>{tu('per_month')}</span>
             </div>
-            <div className={`${styles.priceYearly} ${styles.priceYearlyHighlight}`}>999 SEK/år — spara 309 kr!</div>
+            <div className={`${styles.priceYearly} ${styles.priceYearlyHighlight}`}>{tu('yearly_note')}</div>
             <hr className={styles.planDivider} />
             <ul className={styles.featureList}>
-              <li className={styles.featureItem}><span className={styles.featureCheck}>✓</span> Obegränsade CV-analyser</li>
-              <li className={styles.featureItem}><span className={styles.featureCheck}>✓</span> Obegränsade personliga brev</li>
-              <li className={styles.featureItem}><span className={styles.featureCheck}>✓</span> PDF-export</li>
-              <li className={styles.featureItem}><span className={styles.featureCheck}>✓</span> Prioriterad AI</li>
-              <li className={styles.featureItem}><span className={styles.featureCheck}>✓</span> Obegränsad historik</li>
+              <li className={styles.featureItem}><span className={styles.featureCheck}>✓</span> {tu('f_apps_pro')}</li>
+              <li className={styles.featureItem}><span className={styles.featureCheck}>✓</span> {tu('f_export')}</li>
+              <li className={styles.featureItem}><span className={styles.featureCheck}>✓</span> {tu('f_no_mark')}</li>
+              <li className={styles.featureItem}><span className={styles.featureCheck}>✓</span> {tu('f_palettes')}</li>
             </ul>
             <button
               className={`${styles.planBtn} ${styles.planBtnPrimary} ${styles.planBtnGreen}`}
               disabled={yearlyDisabled || checkoutLoadingYearly}
               onClick={() => startCheckout(true)}
             >
-              {checkoutLoadingYearly ? 'Laddar...' : yearlyBtnLabel}
+              {checkoutLoadingYearly ? tu('loading') : tu(yearlyBtnLabel)}
             </button>
           </div>
 
@@ -179,7 +172,7 @@ export default function UpgradeClient() {
 
         {/* FAQ */}
         <div className={styles.faqSection}>
-          <div className={styles.faqTitle}>Vanliga frågor</div>
+          <div className={styles.faqTitle}>{tu('faq_title')}</div>
           {FAQ_ITEMS.map((item, i) => (
             <div key={i} className={styles.faqItem}>
               <button className={styles.faqQuestion} onClick={() => setOpenFaq(openFaq === i ? null : i)}>

@@ -35,7 +35,11 @@
 .heroSubtitle { font-size: 16px; color: var(--muted); max-width: 480px; margin: 0 auto; line-height: 1.7; }
 
 /* ── PRICING GRID ── */
-.pricingGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 780px; margin: 0 auto 60px; }
+/* Üç paket yan yana; dar ekranda alt alta */
+.pricingGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; max-width: 1080px; margin: 0 auto 60px; align-items: stretch; }
+.pricingCard { display: flex; flex-direction: column; }
+.pricingCard .featureList { flex: 1; }
+@media (max-width: 1100px) { .pricingGrid { grid-template-columns: 1fr; max-width: 440px; } }
 
 .pricingCard { background: white; border: 2px solid var(--border); border-radius: 20px; padding: 32px; position: relative; transition: all 0.2s; }
 .pricingCardFeatured { border-color: var(--blue); box-shadow: 0 8px 40px rgba(26,86,219,0.15); }

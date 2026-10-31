@@ -5,21 +5,29 @@
 import { createPortal } from 'react-dom';
 import { useTranslations } from 'next-intl';
 import styles from './ny.module.css';
-import { descLines, period, type ExportCv, type ExportPerson } from '@/lib/export-docs';
+import { descLines, period, type ExportCv, type ExportPerson, type LetterMeta } from '@/lib/export-docs';
 
-export default function PrintDocument({ kind, person, cv, letter, footer, style }: { kind: 'cv' | 'letter'; person: ExportPerson; cv?: ExportCv | null; letter?: string; footer?: string; style?: React.CSSProperties }) {
+export default function PrintDocument({ kind, person, cv, letter, footer, style, meta }: { kind: 'cv' | 'letter'; person: ExportPerson; cv?: ExportCv | null; letter?: string; footer?: string; style?: React.CSSProperties; meta?: LetterMeta }) {
   const t = useTranslations('ny');
   return createPortal(
     <div className={`${styles.printArea} cvzume-print`} style={style}>
-      <div className={styles.pHead}>
-        <div>
-          <div className={styles.pName}>{person.name}</div>
-          {kind === 'cv' && person.title && <div className={styles.pTitle}>{person.title}</div>}
-          <div className={styles.pContact}>{[person.email, person.phone, person.location].filter(Boolean).join('  ·  ')}</div>
+      {kind === 'cv' ? (
+        <div className={styles.pHead}>
+          <div>
+            <div className={styles.pName}>{person.name}</div>
+            {person.title && <div className={styles.pTitle}>{person.title}</div>}
+            <div className={styles.pContact}>{[person.email, person.phone, person.location].filter(Boolean).join('  ·  ')}</div>
+          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          {person.photo && <img className={styles.pPhoto} src={person.photo} alt="" />}
         </div>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        {kind === 'cv' && person.photo && <img className={styles.pPhoto} src={person.photo} alt="" />}
-      </div>
+      ) : (
+        // Mektup: ad normal büyüklükte, altında iletişim; sonra yer/tarih, alıcı ve konu satırı
+        <div className={styles.lHead}>
+          <div className={styles.lName}>{person.name}</div>
+          <div className={styles.pContact}>{[person.location, person.phone, person.email].filter(Boolean).join('  ·  ')}</div>
+        </div>
+      )}
       {kind === 'cv' && cv ? (
         <>
           {cv.summary && (<><h3>{t('cv.profile')}</h3><p>{cv.summary}</p></>)}
@@ -39,7 +47,12 @@ export default function PrintDocument({ kind, person, cv, letter, footer, style 
           {cv.languages.length > 0 && (<><h3>{t('cv.languages')}</h3><p>{cv.languages.join('  ·  ')}</p></>)}
         </>
       ) : (
-        <div className={styles.pLetter}>{(letter || '').split(/\n{2,}/).map((par, i) => <p key={i}>{par}</p>)}</div>
+        <div className={styles.pLetter}>
+          {meta?.date && <div className={styles.lDate}>{meta.date}</div>}
+          {meta?.recipient && <div className={styles.lTo}>{meta.recipient}</div>}
+          {meta?.subject && <div className={styles.lSubject}>{meta.subject}</div>}
+          {(letter || '').split(/\n{2,}/).map((par, i) => <p key={i}>{par}</p>)}
+        </div>
       )}
       {footer && <div className={styles.pFooter}>{footer}</div>}
     </div>,

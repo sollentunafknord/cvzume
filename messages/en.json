@@ -236,8 +236,53 @@
     "cv_photo_error": "Couldn't save. Please try again."
   },
   "upgrade": {
-    "title": "Get the job you deserve",
-    "subtitle": "Upgrade to Pro and get unlimited access to AI-powered CV analysis and cover letters."
+    "title": "Land the job you deserve",
+    "subtitle": "With Pro you can prepare unlimited applications, and your resumes and letters come without the CVzume line, in the color you like.",
+    "badge": "⚡ Upgrade",
+    "free": "Free",
+    "pro": "Pro",
+    "yearly": "Pro Yearly",
+    "per_month": "SEK/mo",
+    "yearly_note": "999 SEK/year — save 309 SEK",
+    "popular": "⭐ Most popular",
+    "best": "🌟 Best value",
+    "current": "Your current plan",
+    "choose_pro": "Choose Pro →",
+    "choose_yearly": "Choose yearly →",
+    "already_pro": "You're already Pro ✓",
+    "already_yearly": "You're already on the yearly plan ✓",
+    "your_plan": "Your current plan",
+    "to_yearly": "Switch to yearly →",
+    "loading": "Loading…",
+    "error": "The checkout page couldn't be opened. Please try again.",
+    "f_apps_free": "2 applications a month (tailored resume + cover letter)",
+    "f_apps_pro": "Unlimited applications",
+    "f_export": "Download as PDF and Word",
+    "f_no_mark": "No CVzume line on your documents",
+    "f_palettes": "3 color palettes",
+    "faq_title": "Frequently asked questions",
+    "faq": [
+      {
+        "q": "Can I cancel anytime?",
+        "a": "Yes. Cancel under Settings → Plan whenever you like; you keep Pro until the end of the billing period."
+      },
+      {
+        "q": "Is payment secure?",
+        "a": "All payments are handled by Stripe, one of the world's leading payment providers. We never store your card details."
+      },
+      {
+        "q": "What happens to my data if I go back to Free?",
+        "a": "Your applications, resumes and letters are kept and you can still see them; you just can't prepare more than 2 new applications a month."
+      },
+      {
+        "q": "Is there a discount on the yearly plan?",
+        "a": "Yes. You pay 999 SEK instead of 1,308 SEK, saving 309 SEK, almost 3 months for free."
+      },
+      {
+        "q": "Can I switch from monthly to yearly?",
+        "a": "Yes, anytime under Settings → Plan."
+      }
+    ]
   },
   "limit": {
     "title": "You have used your 2 free analyses",

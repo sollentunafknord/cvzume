@@ -14,7 +14,7 @@ import AdLinkInput, { type FetchedAd } from '../AdLinkInput';
 import PrintDocument from '../(app)/ny/PrintDocument';
 import { authFetch } from '@/lib/auth-client';
 import { EMPTY_PROFILE, hasCvContent, loadCvPhoto, loadProfile, saveAvatarUrl, saveProfile, uploadPhoto, type Profile } from '@/lib/profile-store';
-import { descLines, exportCvDocx, exportLetterDocx, period, printPortal, safeFileName, type ExportPerson } from '@/lib/export-docs';
+import { cvText, descLines, docLang, exportCvDocx, exportLetterDocx, freeFooter, letterMeta, period, printPortal, safeFileName, type ExportPerson } from '@/lib/export-docs';
 
 type Screen = 'welcome' | 'hasCv' | 'upload' | 'reading' | 'name' | 'contact' | 'photo' | 'target' | 'worked' | 'nowork' | 'job' | 'jobai'
   | 'edu' | 'lang' | 'licence' | 'skills' | 'building' | 'panel' | 'preview' | 'ad' | 'analyzing' | 'match' | 'tailored' | 'tailoredEdit'
@@ -26,7 +26,7 @@ type Draft = {
   langs: string[]; licence: boolean | null; skills: string[]; suggestions: string[];
 };
 type Req = { text: string; met: boolean };
-type Result = { role: string; matchScore: number | null; requirements: Req[]; tips: string[]; cv: Profile; creditToken?: string };
+type Result = { role: string; employer?: string; matchScore: number | null; requirements: Req[]; tips: string[]; cv: Profile; creditToken?: string };
 type State = { screen: Screen; history: Screen[]; path: 'yes' | 'no' | ''; draft: Draft; ad: string; role: string; result: Result | null; letter: string; asks: Record<number, 'yes' | 'no' | ''>; notes: Record<number, string>; saved: boolean };
 
 const STORE = 'cvzume_akis_v1';
@@ -225,7 +225,9 @@ export default function AkisClient() {
 
   const fullName = [names.first, names.last].filter(Boolean).join(' ') || email;
   const person = (cv: Profile): ExportPerson => ({ name: fullName, email, phone: cv.phone, location: cv.location, title: cv.title, photo });
-  const footer = isPro ? '' : t('footer');
+  // Ücretsiz planda belgenin altındaki ibare, belgenin kendi dilinde (Türkçe CV → Türkçe ibare)
+  const footerFor = (text: string) => (isPro ? '' : freeFooter(docLang(text, locale)));
+  const meta = () => letterMeta(docLang(s?.letter || '', locale), s?.result?.role || s?.role || '', profile.location, s?.result?.employer);
   const palette: Palette = isPro ? chosen : 'mint';
   const pal = PALETTES[palette];
   const pickPalette = (v: Palette) => { setChosen(v); try { localStorage.setItem(PALETTE_KEY, v); } catch { /* yok */ } };
@@ -338,7 +340,7 @@ export default function AkisClient() {
       if (res.status === 402) { setS(prev => (prev ? { ...prev, screen: 'limit' } : prev)); return; }
       const data = await res.json();
       if (!res.ok) throw new Error();
-      const result: Result = { role: data.role || s.role, matchScore: data.matchScore, requirements: data.requirements || [], tips: data.tips || [], cv: { ...cv, ...data.cv }, creditToken: data.creditToken };
+      const result: Result = { role: data.role || s.role, employer: data.employer || '', matchScore: data.matchScore, requirements: data.requirements || [], tips: data.tips || [], cv: { ...cv, ...data.cv }, creditToken: data.creditToken };
       setS(prev => (prev ? { ...prev, screen: 'match', result, role: prev.role || data.role || '', asks: {}, notes: {}, saved: false, letter: '' } : prev));
     } catch {
       setS(prev => (prev ? { ...prev, screen: 'ad', history: prev.history.slice(0, -1) } : prev));
@@ -385,13 +387,13 @@ export default function AkisClient() {
 
   function exportCv(cv: Profile, format: 'pdf' | 'docx') {
     const name = safeFileName(fullName, 'CV', s?.result?.role || cv.title || '');
-    if (format === 'docx') exportCvDocx(person(cv), cv, cvLabels, name, { footer, ...docColors });
+    if (format === 'docx') exportCvDocx(person(cv), cv, cvLabels, name, { footer: footerFor(cvText(cv)), ...docColors });
     else { setPrinting('cv'); printPortal(name).finally(() => setPrinting('')); }
   }
   function exportLetter(format: 'pdf' | 'docx') {
     if (!s) return;
     const name = safeFileName(fullName, tn('letter_file'), s.result?.role || '');
-    if (format === 'docx') exportLetterDocx(person(profile), s.letter, name, { footer, ...docColors });
+    if (format === 'docx') exportLetterDocx(person(profile), s.letter, name, { footer: footerFor(s.letter), meta: meta(), ...docColors });
     else { setPrinting('letter'); printPortal(name).finally(() => setPrinting('')); }
   }
 
@@ -534,7 +536,7 @@ export default function AkisClient() {
       foot = <Next label={t('panel.save')} onClick={async () => { await saveProfile(locale, profile, { firstName: names.first, lastName: names.last }); go('preview'); }} />;
       break;
     case 'preview':
-      body = <><h1 className={styles.q}>{t('preview.title')}</h1><Sheet cv={profile} name={fullName} email={email} photo={photo} footer={footer} tn={tn} /></>;
+      body = <><h1 className={styles.q}>{t('preview.title')}</h1><Sheet cv={profile} name={fullName} email={email} photo={photo} footer={footerFor(cvText(profile))} tn={tn} /></>;
       foot = <><div className={styles.btnRow}><button className={`${styles.btn} ${styles.ghost}`} onClick={() => exportCv(profile, 'pdf')}>{t('pdf')}</button><button className={`${styles.btn} ${styles.ghost}`} onClick={() => exportCv(profile, 'docx')}>{t('word')}</button></div>
         <button className={`${styles.btn} ${styles.ghost}`} onClick={() => go('panel')}>{t('edit')}</button>
         <Next onClick={() => go('ad')} label={t('preview.next')} /></>;
@@ -579,7 +581,7 @@ export default function AkisClient() {
       break;
     }
     case 'tailored':
-      body = <><h1 className={styles.q}>{t('tailored.title')}</h1><p className={styles.hint}>{t('tailored.text')}</p><Sheet cv={s.result!.cv} name={fullName} email={email} photo={photo} footer={footer} tn={tn} /></>;
+      body = <><h1 className={styles.q}>{t('tailored.title')}</h1><p className={styles.hint}>{t('tailored.text')}</p><Sheet cv={s.result!.cv} name={fullName} email={email} photo={photo} footer={footerFor(cvText(s.result!.cv))} tn={tn} /></>;
       foot = <><div className={styles.btnRow}><button className={`${styles.btn} ${styles.ghost}`} onClick={() => exportCv(s.result!.cv, 'pdf')}>{t('pdf')}</button><button className={`${styles.btn} ${styles.ghost}`} onClick={() => exportCv(s.result!.cv, 'docx')}>{t('word')}</button></div>
         <button className={`${styles.btn} ${styles.ghost}`} onClick={() => go('tailoredEdit')}>{t('edit')}</button>
         <Next label={t('tailored.letter')} onClick={writeLetter} /></>;
@@ -622,7 +624,7 @@ export default function AkisClient() {
         </div>
         {foot && <div className={styles.foot}>{foot}</div>}
       </main>
-      {printing && <PrintDocument kind={printing} person={person(printCv)} cv={printCv} letter={s.letter} footer={footer} style={{ fontFamily: lexend.style.fontFamily, '--accent': pal.strong, '--ink': pal.ink } as React.CSSProperties} />}
+      {printing && <PrintDocument kind={printing} person={person(printCv)} cv={printCv} letter={s.letter} meta={printing === 'letter' ? meta() : undefined} footer={printing === 'letter' ? footerFor(s.letter) : footerFor(cvText(printCv))} style={{ fontFamily: lexend.style.fontFamily, '--accent': pal.strong, '--ink': pal.ink } as React.CSSProperties} />}
     </div>
   );
 }

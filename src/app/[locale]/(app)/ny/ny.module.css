@@ -72,7 +72,9 @@
   :global(body > *:not(.cvzume-print)) { display: none !important; }
   /* intervju.module.css'in print stili body * { visibility: hidden } yapıyor — burada geçersiz kıl */
   .printArea, .printArea * { visibility: visible !important; }
-  .printArea { display: block; font-family: 'DM Sans', Arial, sans-serif; color: #1E293B; font-size: 10.5pt; line-height: 1.5; padding: 0; }
+  /* Sayfa kenar boşluğu 0: tarayıcı başlık/altbilgisini (tarih, sayfa adı, adres) bu boşluğa basar; 0 olunca basmaz.
+     Boşluğu belgenin içinde veriyoruz; 'clone' her sayfada tekrarlanmasını sağlar. */
+  .printArea { display: block; font-family: 'DM Sans', Arial, sans-serif; color: #1E293B; font-size: 10.5pt; line-height: 1.5; padding: 15mm 17mm; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
   .printArea h3 { font-size: 9.5pt; letter-spacing: 1.2px; text-transform: uppercase; color: var(--accent, #1A56DB); border-bottom: 1px solid #CBD5E1; padding-bottom: 3px; margin: 16px 0 8px; }
   .printArea p { margin: 0 0 8px; }
   .printArea ul { margin: 4px 0 0; padding-left: 16px; }
@@ -84,10 +86,16 @@
   .pExp { margin-bottom: 10px; break-inside: avoid; }
   .pEdu { margin-bottom: 4px; }
   .pPeriod { font-size: 9pt; color: #64748B; }
-  .pFooter { text-align: center; color: #A0AEC0; font-size: 7.5pt; margin-top: 18px; }
-  .pLetter { margin-top: 24px; font-size: 11pt; line-height: 1.6; }
+  /* Sayfanın en altında küçük ibare (fixed: her sayfada aynı yerde) */
+  .pFooter { position: fixed; left: 0; right: 0; bottom: 7mm; text-align: center; color: #A0AEC0; font-size: 7.5pt; }
+  .lHead { border-bottom: 1px solid #D5DAD6; padding-bottom: 8px; }
+  .lName { font-size: 15pt; font-weight: 600; color: var(--ink, #0D1B2A); }
+  .lDate { text-align: right; color: #64748B; font-size: 10pt; margin: 14px 0 16px; }
+  .lTo { margin-bottom: 10px; }
+  .lSubject { font-weight: 700; font-size: 12pt; color: var(--accent, #1A56DB); margin-bottom: 16px; }
+  .pLetter { margin-top: 8px; font-size: 11pt; line-height: 1.6; }
   .pLetter p { margin-bottom: 12px; white-space: pre-wrap; }
-  @page { margin: 16mm 16mm; }
+  @page { margin: 0; }
 }
 
 .cvPhoto { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }

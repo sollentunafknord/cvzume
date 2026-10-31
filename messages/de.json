@@ -237,7 +237,52 @@
   },
   "upgrade": {
     "title": "Holen Sie sich den Job, den Sie verdienen",
-    "subtitle": "Upgraden Sie auf Pro und erhalten Sie unbegrenzten Zugang zu KI-gestützter Lebenslauf-Analyse und Anschreiben."
+    "subtitle": "Mit Pro erstellen Sie unbegrenzt viele Bewerbungen, und Ihre Lebensläufe und Anschreiben erscheinen ohne CVzume-Hinweis und in Ihrer Wunschfarbe.",
+    "badge": "⚡ Upgrade",
+    "free": "Kostenlos",
+    "pro": "Pro",
+    "yearly": "Pro Jährlich",
+    "per_month": "SEK/Monat",
+    "yearly_note": "999 SEK/Jahr — 309 SEK sparen",
+    "popular": "⭐ Am beliebtesten",
+    "best": "🌟 Bester Preis",
+    "current": "Ihr aktuelles Paket",
+    "choose_pro": "Pro wählen →",
+    "choose_yearly": "Jahresplan wählen →",
+    "already_pro": "Sie sind bereits Pro ✓",
+    "already_yearly": "Sie haben bereits den Jahresplan ✓",
+    "your_plan": "Ihr aktueller Plan",
+    "to_yearly": "Zum Jahresplan wechseln →",
+    "loading": "Wird geladen…",
+    "error": "Die Zahlungsseite konnte nicht geöffnet werden. Bitte versuchen Sie es erneut.",
+    "f_apps_free": "2 Bewerbungen pro Monat (angepasster Lebenslauf + Anschreiben)",
+    "f_apps_pro": "Unbegrenzte Bewerbungen",
+    "f_export": "Download als PDF und Word",
+    "f_no_mark": "Kein CVzume-Hinweis in Ihren Dokumenten",
+    "f_palettes": "3 Farbpaletten",
+    "faq_title": "Häufige Fragen",
+    "faq": [
+      {
+        "q": "Kann ich jederzeit kündigen?",
+        "a": "Ja. Sie kündigen jederzeit unter Einstellungen → Plan und behalten Pro bis zum Ende des Abrechnungszeitraums."
+      },
+      {
+        "q": "Ist die Zahlung sicher?",
+        "a": "Alle Zahlungen laufen über Stripe, einen der weltweit führenden Zahlungsanbieter. Wir speichern Ihre Kartendaten nie."
+      },
+      {
+        "q": "Was passiert mit meinen Daten, wenn ich zu Kostenlos zurückwechsle?",
+        "a": "Ihre Bewerbungen, Lebensläufe und Anschreiben bleiben gespeichert und sichtbar; Sie können nur nicht mehr als 2 neue Bewerbungen pro Monat erstellen."
+      },
+      {
+        "q": "Gibt es einen Rabatt beim Jahresplan?",
+        "a": "Ja. Sie zahlen 999 SEK statt 1.308 SEK und sparen 309 SEK, fast 3 Monate gratis."
+      },
+      {
+        "q": "Kann ich vom Monats- zum Jahresplan wechseln?",
+        "a": "Ja, jederzeit unter Einstellungen → Plan."
+      }
+    ]
   },
   "limit": {
     "title": "Sie haben Ihre 2 kostenlosen Analysen aufgebraucht",

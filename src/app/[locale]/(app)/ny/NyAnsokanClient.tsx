@@ -12,7 +12,7 @@ import PrintDocument from './PrintDocument';
 import AdLinkInput, { isLoneUrl } from '../../AdLinkInput';
 import CvImport, { type ImportedCv } from '../CvImport';
 import { hasCvContent, loadProfile, saveProfile, type Profile, loadCvPhoto } from '@/lib/profile-store';
-import { descLines, exportCvDocx, exportLetterDocx, period, safeFileName, type ExportCv, type ExportPerson, printPortal } from '@/lib/export-docs';
+import { cvText, descLines, docLang, exportCvDocx, exportLetterDocx, freeFooter, letterMeta, period, safeFileName, type ExportCv, type ExportPerson, printPortal } from '@/lib/export-docs';
 
 type Step = 1 | 2 | 3 | 4;
 type Requirement = { text: string; met: boolean };
@@ -65,6 +65,8 @@ export default function NyAnsokanClient({ onNavigate }: { onNavigate: (seg: stri
   }, [role, ad]);
 
   const cvLabels = { profile: t('cv.profile'), experience: t('cv.experience'), education: t('cv.education'), skills: t('cv.skills'), languages: t('cv.languages'), present: t('cv.present') };
+  // Ücretsiz planda belgenin altındaki ibare, belgenin kendi dilinde
+  const footerFor = (text: string) => (typeof window !== 'undefined' && localStorage.getItem('cvita_is_pro') === 'true' ? '' : freeFooter(docLang(text, locale)));
   const fileBase = (kind: string) => safeFileName(person.name, kind, result?.role || role);
 
   // ── 2 → 3: uyarlama ──
@@ -163,13 +165,13 @@ export default function NyAnsokanClient({ onNavigate }: { onNavigate: (seg: stri
     if (!result) return;
     persist({ tailoredCv: result.cv, cvSummary: result.cv.summary });
     const cv: ExportCv = { summary: result.cv.summary, experiences: result.cv.experiences, educations: result.cv.educations, skills: result.cv.skills, languages: result.cv.languages };
-    if (format === 'docx') exportCvDocx({ ...person, title: result.cv.title || person.title }, cv, cvLabels, fileBase('CV'));
+    if (format === 'docx') exportCvDocx({ ...person, title: result.cv.title || person.title }, cv, cvLabels, fileBase('CV'), { footer: footerFor(cvText(cv)) });
     else printDoc('cv', fileBase('CV'));
   }
 
   function exportLetter(format: 'pdf' | 'docx') {
     persist({ coverLetter: letter });
-    if (format === 'docx') exportLetterDocx(person, letter, fileBase(t('letter_file')));
+    if (format === 'docx') exportLetterDocx(person, letter, fileBase(t('letter_file')), { footer: footerFor(letter), meta: letterMeta(docLang(letter, locale), result?.role || role, person.location) });
     else printDoc('letter', fileBase(t('letter_file')));
   }
 
@@ -352,7 +354,7 @@ export default function NyAnsokanClient({ onNavigate }: { onNavigate: (seg: stri
       </div>
 
       {printing && result && (
-        <PrintDocument kind={printing} person={{ ...person, title: result.cv.title || person.title }} cv={result.cv} letter={letter} />
+        <PrintDocument kind={printing} person={{ ...person, title: result.cv.title || person.title }} cv={result.cv} letter={letter} footer={printing === 'letter' ? footerFor(letter) : footerFor(cvText(result.cv))} meta={printing === 'letter' ? letterMeta(docLang(letter, locale), result.role || role, person.location) : undefined} />
       )}
     </main>
   );

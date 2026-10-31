@@ -236,8 +236,53 @@
     "cv_photo_error": "Kaydedilemedi. Lütfen tekrar deneyin."
   },
   "upgrade": {
-    "title": "Hak ettiğin işe kavuş",
-    "subtitle": "Pro'ya yükselterek sınırsız AI destekli CV analizi ve ön yazı oluşturma hakkı kazan."
+    "title": "Hak ettiğiniz işe kavuşun",
+    "subtitle": "Pro ile sınırsız başvuru hazırlayın; CV'leriniz ve mektuplarınız CVzume ibaresi olmadan, istediğiniz renkte.",
+    "badge": "⚡ Pro'ya geçin",
+    "free": "Ücretsiz",
+    "pro": "Pro",
+    "yearly": "Pro Yıllık",
+    "per_month": "SEK/ay",
+    "yearly_note": "999 SEK/yıl — 309 SEK tasarruf",
+    "popular": "⭐ En popüler",
+    "best": "🌟 En avantajlı",
+    "current": "Şu anki paketiniz",
+    "choose_pro": "Pro'yu seçin →",
+    "choose_yearly": "Yıllık planı seçin →",
+    "already_pro": "Zaten Pro'sunuz ✓",
+    "already_yearly": "Zaten yıllık plandasınız ✓",
+    "your_plan": "Şu anki planınız",
+    "to_yearly": "Yıllık plana geçin →",
+    "loading": "Yükleniyor…",
+    "error": "Ödeme sayfası açılamadı. Lütfen tekrar deneyin.",
+    "f_apps_free": "Ayda 2 başvuru (ilana uyarlanmış CV + kişisel mektup)",
+    "f_apps_pro": "Sınırsız başvuru",
+    "f_export": "PDF ve Word olarak indirme",
+    "f_no_mark": "Belgelerde CVzume ibaresi yok",
+    "f_palettes": "3 renk paleti",
+    "faq_title": "Sık sorulan sorular",
+    "faq": [
+      {
+        "q": "İstediğim zaman iptal edebilir miyim?",
+        "a": "Evet. Aboneliğinizi Ayarlar → Plan bölümünden istediğiniz zaman iptal edebilirsiniz; Pro erişiminiz ödeme döneminin sonuna kadar devam eder."
+      },
+      {
+        "q": "Ödeme güvenli mi?",
+        "a": "Ödemeler dünyanın önde gelen ödeme altyapılarından Stripe üzerinden yapılır. Kart bilgileriniz bizde saklanmaz."
+      },
+      {
+        "q": "Ücretsiz plana dönersem verilerime ne olur?",
+        "a": "Başvurularınız, CV'leriniz ve mektuplarınız saklanır ve görebilirsiniz; sadece ayda 2'den fazla yeni başvuru hazırlayamazsınız."
+      },
+      {
+        "q": "Yıllık planda indirim var mı?",
+        "a": "Evet. Yıllık planda 1.308 SEK yerine 999 SEK ödersiniz; 309 SEK, yani yaklaşık 3 aylık ücret tasarruf edersiniz."
+      },
+      {
+        "q": "Aylık plandan yıllığa geçebilir miyim?",
+        "a": "Evet, istediğiniz zaman Ayarlar → Plan bölümünden geçebilirsiniz."
+      }
+    ]
   },
   "limit": {
     "title": "2 ücretsiz analizini kullandın",

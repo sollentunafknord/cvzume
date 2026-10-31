@@ -237,7 +237,52 @@
   },
   "upgrade": {
     "title": "Få jobbet du förtjänar",
-    "subtitle": "Uppgradera till Pro och få obegränsad tillgång till AI-driven CV-analys och personliga brev."
+    "subtitle": "Med Pro tar du fram obegränsat med ansökningar, och dina CV och brev blir utan CVzume-rad och i den färg du vill.",
+    "badge": "⚡ Uppgradera",
+    "free": "Gratis",
+    "pro": "Pro",
+    "yearly": "Pro Årsplan",
+    "per_month": "SEK/mån",
+    "yearly_note": "999 SEK/år — spara 309 kr",
+    "popular": "⭐ Mest populärt",
+    "best": "🌟 Bästa värdet",
+    "current": "Ditt nuvarande paket",
+    "choose_pro": "Välj Pro →",
+    "choose_yearly": "Välj årsplan →",
+    "already_pro": "Du är redan Pro ✓",
+    "already_yearly": "Du har redan årsplan ✓",
+    "your_plan": "Din nuvarande plan",
+    "to_yearly": "Byt till årsplan →",
+    "loading": "Laddar…",
+    "error": "Betalningssidan kunde inte öppnas. Försök igen.",
+    "f_apps_free": "2 ansökningar per månad (anpassat CV + personligt brev)",
+    "f_apps_pro": "Obegränsat med ansökningar",
+    "f_export": "Ladda ner som PDF och Word",
+    "f_no_mark": "Ingen CVzume-rad i dokumenten",
+    "f_palettes": "3 färgpaletter",
+    "faq_title": "Vanliga frågor",
+    "faq": [
+      {
+        "q": "Kan jag avsluta när som helst?",
+        "a": "Ja. Du avslutar under Inställningar → Plan när du vill, och behåller Pro till slutet av betalningsperioden."
+      },
+      {
+        "q": "Hur säker är betalningen?",
+        "a": "Alla betalningar hanteras av Stripe, en av världens ledande betalningsleverantörer. Vi sparar aldrig dina kortuppgifter."
+      },
+      {
+        "q": "Vad händer med mina data om jag går tillbaka till gratis?",
+        "a": "Dina ansökningar, CV och brev sparas och du kan se dem, men du kan inte ta fram fler än 2 nya ansökningar i månaden."
+      },
+      {
+        "q": "Finns det rabatt på årsplanen?",
+        "a": "Ja. Med årsplanen betalar du 999 SEK i stället för 1 308 SEK, alltså 309 kr mindre, nästan 3 månader gratis."
+      },
+      {
+        "q": "Kan jag byta från månads- till årsplan?",
+        "a": "Ja, när som helst under Inställningar → Plan."
+      }
+    ]
   },
   "limit": {
     "title": "Du har använt dina 2 gratis analyser",

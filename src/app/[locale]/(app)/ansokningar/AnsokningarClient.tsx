@@ -8,7 +8,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import styles from '../ny/ny.module.css';
 import PrintDocument from '../ny/PrintDocument';
 import { loadCvPhoto, loadProfile } from '@/lib/profile-store';
-import { exportCvDocx, exportLetterDocx, printPortal, safeFileName, type ExportCv, type ExportPerson } from '@/lib/export-docs';
+import { cvText, docLang, exportCvDocx, exportLetterDocx, freeFooter, letterMeta, printPortal, safeFileName, type ExportCv, type ExportPerson } from '@/lib/export-docs';
 
 type App = {
   id: string; role: string; status: string; created_at: string; match_score: number | null
@@ -61,13 +61,16 @@ export default function AnsokningarClient({ onNavigate }: { onNavigate: (seg: st
     }).catch(() => {});
   }
 
+  // Ücretsiz planda belgenin altındaki ibare, belgenin kendi dilinde
+  const footerFor = (text: string) => (localStorage.getItem('cvita_is_pro') === 'true' ? '' : freeFooter(docLang(text, locale)));
+
   function download(a: App, kind: 'cv' | 'letter', format: 'pdf' | 'docx') {
     const name = safeFileName(person.name, kind === 'cv' ? 'CV' : tn('letter_file'), a.role);
     const cv = cvFor(a);
     if (format === 'docx') {
       const labels = { profile: tn('cv.profile'), experience: tn('cv.experience'), education: tn('cv.education'), skills: tn('cv.skills'), languages: tn('cv.languages'), present: tn('cv.present') };
-      if (kind === 'cv' && cv) exportCvDocx(person, cv, labels, name);
-      if (kind === 'letter' && a.cover_letter) exportLetterDocx(person, a.cover_letter, name);
+      if (kind === 'cv' && cv) exportCvDocx(person, cv, labels, name, { footer: footerFor(cvText(cv)) });
+      if (kind === 'letter' && a.cover_letter) exportLetterDocx(person, a.cover_letter, name, { footer: footerFor(a.cover_letter), meta: letterMeta(docLang(a.cover_letter, locale), a.role, person.location) });
       return;
     }
     setPrinting({ kind, app: a });
@@ -132,7 +135,9 @@ export default function AnsokningarClient({ onNavigate }: { onNavigate: (seg: st
       </div>
 
       {printing && (
-        <PrintDocument kind={printing.kind} person={person} cv={cvFor(printing.app)} letter={printing.app.cover_letter || ''} />
+        <PrintDocument kind={printing.kind} person={person} cv={cvFor(printing.app)} letter={printing.app.cover_letter || ''}
+          footer={printing.kind === 'letter' ? footerFor(printing.app.cover_letter || '') : footerFor(cvText(cvFor(printing.app) ?? { summary: '', experiences: [], educations: [], skills: [], languages: [] }))}
+          meta={printing.kind === 'letter' ? letterMeta(docLang(printing.app.cover_letter || '', locale), printing.app.role, person.location) : undefined} />
       )}
     </main>
   );

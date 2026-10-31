@@ -134,12 +134,18 @@ export async function exportCvDocx(person: ExportPerson, cv: ExportCv, labels: C
   download(await Packer.toBlob(doc), `${filename}.docx`)
 }
 
-export async function exportLetterDocx(person: ExportPerson, letter: string, filename: string, opts: ExportOptions = {}) {
-  const { Document, Packer, Paragraph, TextRun } = await import('docx')
-  const contact = [person.email, person.phone, person.location].filter(Boolean).join('  ·  ')
+export async function exportLetterDocx(person: ExportPerson, letter: string, filename: string, opts: ExportOptions & { meta?: LetterMeta } = {}) {
+  const { Document, Packer, Paragraph, TextRun, BorderStyle } = await import('docx')
+  const contact = [person.location, person.phone, person.email].filter(Boolean).join('  ·  ')
+  const accent = opts.accent ?? BLUE, ink = opts.ink ?? NAVY
+  const m = opts.meta
   const children = [
-    new Paragraph({ children: [new TextRun({ text: person.name, bold: true, size: 28, color: NAVY })] }),
-    ...(contact ? [new Paragraph({ spacing: { after: 360 }, children: [new TextRun({ text: contact, size: 18, color: GREY })] })] : []),
+    // Mektup başlığı: ad normal büyüklükte, altında iletişim; ince çizgiyle gövdeden ayrılır
+    new Paragraph({ children: [new TextRun({ text: person.name, bold: true, size: 30, color: ink })] }),
+    ...(contact ? [new Paragraph({ spacing: { after: 120 }, border: { bottom: { style: BorderStyle.SINGLE, size: 6, color: 'D5DAD6', space: 6 } }, children: [new TextRun({ text: contact, size: 18, color: GREY })] })] : []),
+    ...(m?.date ? [new Paragraph({ alignment: 'right', spacing: { before: 240, after: 240 }, children: [new TextRun({ text: m.date, size: 20, color: GREY })] })] : []),
+    ...(m?.recipient ? [new Paragraph({ spacing: { after: 160 }, children: [new TextRun({ text: m.recipient, size: 22 })] })] : []),
+    ...(m?.subject ? [new Paragraph({ spacing: { after: 280 }, children: [new TextRun({ text: m.subject, bold: true, size: 24, color: accent })] })] : []),
     ...letter.split(/\n{2,}/).map(par => new Paragraph({
       spacing: { after: 200 },
       children: par.split('\n').flatMap((line, i) => [...(i ? [new TextRun({ break: 1 })] : []), new TextRun({ text: line, size: 22 })]),
@@ -162,4 +168,43 @@ export async function printPortal(title: string) {
   document.title = title
   window.print()
   document.title = old
+}
+
+// ── Belgenin dili, ücretsiz plan ibaresi ve mektup biçimi ──
+export type DocLang = 'sv' | 'en' | 'tr' | 'de' | 'es'
+const LANG_HINTS: Record<DocLang, RegExp> = {
+  sv: /\b(och|att|jag|för|med|som|på|är|av|erfarenhet|arbetat|ansvar)\b|[åä]/gi,
+  en: /\b(and|the|with|for|of|experience|worked|responsible|skills)\b/gi,
+  tr: /\b(ve|ile|bir|için|olarak|deneyim|sorumlu|çalıştım)\b|[ğışçİ]/gi,
+  de: /\b(und|der|die|das|mit|für|ich|Erfahrung|verantwortlich)\b|ß/gi,
+  es: /\b(y|el|la|los|con|para|experiencia|responsable|trabajé)\b|ñ/gi,
+}
+/** Metnin (CV/mektup) dilini kaba bir sayımla tahmin eder; bulunamazsa yedek dil. */
+export function docLang(text: string, fallback: string): DocLang {
+  let best: DocLang | null = null, n = 0
+  for (const l of Object.keys(LANG_HINTS) as DocLang[]) {
+    const c = (text.match(LANG_HINTS[l]) || []).length
+    if (c > n) { n = c; best = l }
+  }
+  return best && n >= 3 ? best : ((['sv', 'en', 'tr', 'de', 'es'] as string[]).includes(fallback) ? fallback as DocLang : 'en')
+}
+const FREE_FOOTER: Record<DocLang, string> = {
+  sv: 'Skapad med CVzume · cvzume.com', en: 'Made with CVzume · cvzume.com', tr: 'CVzume ile oluşturuldu · cvzume.com',
+  de: 'Erstellt mit CVzume · cvzume.com', es: 'Creado con CVzume · cvzume.com',
+}
+/** Ücretsiz planda belgenin en altındaki küçük ibare, belgenin kendi dilinde. */
+export const freeFooter = (lang: DocLang) => FREE_FOOTER[lang]
+export const cvText = (cv: ExportCv) => [cv.summary, ...cv.experiences.map(e => `${e.role} ${e.desc}`), ...cv.skills].join(' ')
+
+export type LetterMeta = { date: string; subject: string; recipient?: string }
+const SUBJECT: Record<DocLang, (role: string) => string> = {
+  sv: r => `Ansökan: ${r}`, en: r => `Application: ${r}`, tr: r => `Başvuru: ${r}`, de: r => `Bewerbung als ${r}`, es: r => `Solicitud: ${r}`,
+}
+const DATE_LOCALE: Record<DocLang, string> = { sv: 'sv-SE', en: 'en-US', tr: 'tr-TR', de: 'de-DE', es: 'es-ES' }
+/** Mektubun yer/tarih satırı, konu satırı ve alıcısı (rol "Unvan — Şirket" biçiminde gelebilir). */
+export function letterMeta(lang: DocLang, role: string, location?: string, employer?: string): LetterMeta {
+  const [title, company] = role.split(' — ')
+  const city = (location || '').split(',').pop()?.replace(/\d{3,}\s*/g, '').trim()
+  const date = new Date().toLocaleDateString(DATE_LOCALE[lang], { day: 'numeric', month: 'long', year: 'numeric' })
+  return { date: city ? `${city}, ${date}` : date, subject: title ? SUBJECT[lang](title.trim()) : '', recipient: (employer || company || '').trim() || undefined }
 }

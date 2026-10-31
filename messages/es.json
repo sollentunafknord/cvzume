@@ -237,7 +237,52 @@
   },
   "upgrade": {
     "title": "Consigue el trabajo que mereces",
-    "subtitle": "Mejora a Pro y obtén acceso ilimitado al análisis de CV y cartas de presentación con IA."
+    "subtitle": "Con Pro preparas solicitudes ilimitadas, y tus CV y cartas salen sin la línea de CVzume y en el color que prefieras.",
+    "badge": "⚡ Mejora tu plan",
+    "free": "Gratis",
+    "pro": "Pro",
+    "yearly": "Pro Anual",
+    "per_month": "SEK/mes",
+    "yearly_note": "999 SEK/año — ahorra 309 SEK",
+    "popular": "⭐ El más popular",
+    "best": "🌟 Mejor precio",
+    "current": "Tu plan actual",
+    "choose_pro": "Elegir Pro →",
+    "choose_yearly": "Elegir anual →",
+    "already_pro": "Ya eres Pro ✓",
+    "already_yearly": "Ya tienes el plan anual ✓",
+    "your_plan": "Tu plan actual",
+    "to_yearly": "Cambiar a anual →",
+    "loading": "Cargando…",
+    "error": "No se pudo abrir la página de pago. Inténtalo de nuevo.",
+    "f_apps_free": "2 solicitudes al mes (CV adaptado + carta)",
+    "f_apps_pro": "Solicitudes ilimitadas",
+    "f_export": "Descarga en PDF y Word",
+    "f_no_mark": "Sin la línea de CVzume en tus documentos",
+    "f_palettes": "3 paletas de color",
+    "faq_title": "Preguntas frecuentes",
+    "faq": [
+      {
+        "q": "¿Puedo cancelar cuando quiera?",
+        "a": "Sí. Cancela en Ajustes → Plan cuando quieras; mantienes Pro hasta el final del periodo de pago."
+      },
+      {
+        "q": "¿Es seguro el pago?",
+        "a": "Todos los pagos los gestiona Stripe, uno de los principales proveedores de pago del mundo. Nunca guardamos los datos de tu tarjeta."
+      },
+      {
+        "q": "¿Qué pasa con mis datos si vuelvo al plan gratis?",
+        "a": "Tus solicitudes, CV y cartas se guardan y puedes verlos; solo no podrás preparar más de 2 solicitudes nuevas al mes."
+      },
+      {
+        "q": "¿Hay descuento en el plan anual?",
+        "a": "Sí. Pagas 999 SEK en lugar de 1.308 SEK: ahorras 309 SEK, casi 3 meses gratis."
+      },
+      {
+        "q": "¿Puedo pasar del plan mensual al anual?",
+        "a": "Sí, cuando quieras en Ajustes → Plan."
+      }
+    ]
   },
   "limit": {
     "title": "Has usado tus 2 análisis gratuitos",
