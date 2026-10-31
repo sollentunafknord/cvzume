@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="/brand/cvzume-mark.svg" type="image/svg+xml">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>CVzume Rehberli Akış</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap">
+<style>
+/* Layout: solda açıklama paneli (akış haritası + ekran notu), sağda telefon çerçevesinde tıklanabilir uygulama. Dar ekranda alt alta. */
+:root {
+  --bg: #EEF2F7; --panel: #FFFFFF; --ink: #0D1B2A; --muted: #5B6B80; --line: #DCE3EC;
+  --blue: #1A56DB; --blue-soft: #E8EFFD; --sky: #93C5FD;
+  --phone: #FFFFFF; --phone-edge: #0D1B2A; --field: #F6F8FB;
+  --ok: #0E8A5F; --ok-soft: #E3F5EE; --warn: #B7791F; --warn-soft: #FDF3E1; --bad: #C2410C; --bad-soft: #FDECE4;
+  --display: 'DM Serif Display', Georgia, serif; --body: 'DM Sans', system-ui, -apple-system, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0A1320; --panel: #111D2E; --ink: #E7EEF7; --muted: #9AABC0; --line: #23344A;
+  --blue: #5B8DEF; --blue-soft: #16294A; --sky: #93C5FD; --phone: #0F1A29; --phone-edge: #2A3B52; --field: #16243A;
+  --ok: #4FC79A; --ok-soft: #12332A; --warn: #E3B05B; --warn-soft: #33290F; --bad: #F08A5D; --bad-soft: #3A1E12; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0A1320; --panel: #111D2E; --ink: #E7EEF7; --muted: #9AABC0; --line: #23344A;
+  --blue: #5B8DEF; --blue-soft: #16294A; --sky: #93C5FD; --phone: #0F1A29; --phone-edge: #2A3B52; --field: #16243A;
+  --ok: #4FC79A; --ok-soft: #12332A; --warn: #E3B05B; --warn-soft: #33290F; --bad: #F08A5D; --bad-soft: #3A1E12; color-scheme: dark }
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 40px; }
+.wrap { max-width: 1120px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr) 400px; gap: 40px; align-items: start; }
+@media (max-width: 900px) { .wrap { grid-template-columns: minmax(0, 1fr); } .phone-col { order: -1; } }
+
+/* ── Açıklama paneli ── */
+.brand { display: flex; align-items: center; gap: 10px; font-family: var(--display); font-size: 24px; }
+.brand b { color: var(--blue); font-weight: 400; }
+.intro { color: var(--muted); max-width: 60ch; margin: 10px 0 22px; }
+.note { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; margin-bottom: 18px; }
+.note .eyebrow { font-size: 11px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--blue); font-weight: 700; }
+.note h2 { font-family: var(--display); font-weight: 400; font-size: 24px; margin: 4px 0 8px; text-wrap: balance; }
+.note p { margin: 0 0 8px; color: var(--muted); max-width: 62ch; }
+.note ul { margin: 6px 0 0; padding-left: 18px; color: var(--muted); }
+.map { display: grid; gap: 14px; }
+.lane h3 { font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; font-weight: 700; }
+.steps { display: flex; flex-wrap: wrap; gap: 6px; }
+.steps button { font: inherit; font-size: 13px; border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 999px; padding: 5px 11px; cursor: pointer; }
+.steps button:hover { border-color: var(--blue); }
+.steps button[aria-current="true"] { background: var(--blue); border-color: var(--blue); color: #fff; }
+.legend { font-size: 13px; color: var(--muted); margin-top: 14px; }
+
+/* ── Telefon ── */
+.phone-col { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); }
+.phone { width: 100%; max-width: 390px; margin: 0 auto; height: 760px; max-height: calc(100vh - 60px); min-height: 560px;
+  border: 10px solid var(--phone-edge); border-radius: 42px; background: var(--phone); overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 30px 60px -30px rgba(13,27,42,.45); }
+@media (max-width: 900px) { .phone-col { position: static; } .phone { height: 720px; max-height: none; } }
+.bar { display: flex; align-items: center; gap: 10px; padding: 14px 18px 10px; }
+.bar .back { border: 0; background: none; color: var(--muted); font: inherit; font-size: 20px; cursor: pointer; padding: 2px 6px; border-radius: 8px; }
+.bar .back:disabled { visibility: hidden; }
+.progress { flex: 1; height: 6px; background: var(--line); border-radius: 99px; overflow: hidden; }
+.progress i { display: block; height: 100%; background: var(--blue); border-radius: 99px; transition: width .3s; }
+.bar .count { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; min-width: 34px; text-align: right; }
+.screen { flex: 1; overflow-y: auto; padding: 8px 22px 22px; display: flex; flex-direction: column; gap: 14px; }
+.foot { padding: 12px 22px 18px; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 8px; }
+.q { font-family: var(--display); font-size: 27px; line-height: 1.15; margin: 6px 0 0; text-wrap: balance; font-weight: 400; }
+.hint { color: var(--muted); margin: 0; font-size: 14px; }
+label.f { display: flex; flex-direction: column; gap: 5px; font-size: 13px; font-weight: 600; color: var(--muted); }
+input.t, textarea.t, select.t { font: inherit; font-size: 16px; color: var(--ink); background: var(--field); border: 1.5px solid var(--line); border-radius: 12px; padding: 12px 14px; width: 100%; }
+textarea.t { min-height: 120px; resize: vertical; }
+input.t:focus, textarea.t:focus, select.t:focus { outline: none; border-color: var(--blue); }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.btn { font: inherit; font-weight: 600; font-size: 16px; border-radius: 14px; padding: 14px 16px; cursor: pointer; border: 1.5px solid transparent; width: 100%; }
+.btn.primary { background: var(--blue); color: #fff; }
+.btn.ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+.btn.link { background: none; color: var(--muted); font-weight: 500; padding: 6px; }
+.btn:focus-visible, .choice:focus-visible, .chip:focus-visible, .steps button:focus-visible { outline: 3px solid var(--sky); outline-offset: 2px; }
+.choice { display: flex; gap: 14px; align-items: center; text-align: left; font: inherit; color: var(--ink); background: var(--panel); border: 1.5px solid var(--line); border-radius: 16px; padding: 18px; cursor: pointer; width: 100%; }
+.choice:hover { border-color: var(--blue); }
+.choice .ic { width: 44px; height: 44px; border-radius: 12px; background: var(--blue-soft); color: var(--blue); display: grid; place-items: center; font-size: 22px; flex-shrink: 0; }
+.choice strong { display: block; font-size: 16px; }
+.choice span { color: var(--muted); font-size: 13px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font: inherit; font-size: 14px; border: 1.5px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 999px; padding: 7px 13px; cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--blue-soft); border-color: var(--blue); color: var(--blue); font-weight: 600; }
+.drop { border: 2px dashed var(--line); border-radius: 18px; padding: 34px 18px; text-align: center; color: var(--muted); cursor: pointer; background: var(--field); font: inherit; width: 100%; }
+.drop strong { display: block; color: var(--ink); font-size: 16px; margin-bottom: 4px; }
+.ai { background: var(--blue-soft); border-radius: 14px; padding: 14px 16px; font-size: 14px; }
+.ai .lbl { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; font-weight: 700; color: var(--blue); margin-bottom: 6px; }
+.ai ul { margin: 0; padding-left: 18px; }
+.mic { display: inline-flex; align-items: center; gap: 6px; font: inherit; font-size: 13px; font-weight: 600; color: var(--blue); background: var(--blue-soft); border: 0; border-radius: 999px; padding: 6px 12px; cursor: pointer; align-self: flex-start; }
+.sec { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+.sec summary { padding: 13px 16px; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; list-style: none; }
+.sec summary::-webkit-details-marker { display: none; }
+.sec summary span { color: var(--muted); font-weight: 500; font-size: 13px; }
+.sec .in { padding: 0 16px 14px; display: flex; flex-direction: column; gap: 10px; }
+.loading { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; flex: 1; color: var(--muted); text-align: center; }
+.spin { width: 38px; height: 38px; border-radius: 50%; border: 4px solid var(--line); border-top-color: var(--blue); animation: s 0.9s linear infinite; }
+@keyframes s { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .spin { animation: none; } .progress i { transition: none; } }
+
+/* CV kağıdı (standart şablon) — kağıt her temada beyaz */
+.paper { background: #fff; color: #1E293B; border-radius: 6px; box-shadow: 0 6px 24px -10px rgba(13,27,42,.35); padding: 18px 18px 12px; font-size: 9.5px; line-height: 1.45; border: 1px solid #E2E8F0; }
+.paper .ph { display: flex; justify-content: space-between; gap: 10px; align-items: center; }
+.paper .nm { font-family: var(--display); font-size: 19px; color: #0D1B2A; line-height: 1.1; }
+.paper .tt { color: #1A56DB; font-size: 11px; }
+.paper .ct { color: #64748B; font-size: 8.5px; margin-top: 2px; }
+.paper .pic { width: 52px; height: 52px; border-radius: 4px; background: linear-gradient(160deg, #93C5FD, #1A56DB); flex-shrink: 0; display: grid; place-items: center; color: #fff; font-family: var(--display); font-size: 20px; }
+.paper h4 { font-size: 8px; letter-spacing: 1px; text-transform: uppercase; color: #1A56DB; border-bottom: 1px solid #CBD5E1; margin: 10px 0 4px; padding-bottom: 2px; }
+.paper p { margin: 0 0 4px; } .paper ul { margin: 2px 0 4px; padding-left: 12px; }
+.paper .mark { background: #FEF3C7; border-radius: 2px; }
+.paper .wm { text-align: center; color: #A0AEC0; font-size: 7.5px; margin-top: 10px; }
+.letter { font-size: 10px; line-height: 1.6; }
+
+/* Uyum */
+.score { display: flex; gap: 16px; align-items: center; padding: 16px; border-radius: 16px; }
+.score.g { background: var(--ok-soft); } .score.y { background: var(--warn-soft); } .score.r { background: var(--bad-soft); }
+.ring { width: 74px; height: 74px; flex-shrink: 0; }
+.score strong { font-size: 17px; display: block; }
+.score span { font-size: 13px; color: var(--muted); }
+.req { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; padding: 8px 0; border-bottom: 1px solid var(--line); }
+.req:last-child { border-bottom: 0; }
+.req .d { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 700; flex-shrink: 0; color: #fff; }
+.d.ok { background: var(--ok); } .d.no { background: var(--bad); } .d.add { background: var(--blue); }
+.ask { background: var(--field); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; }
+.ask .btns { display: flex; gap: 8px; } .ask .btns .btn { padding: 9px 10px; font-size: 14px; }
+.demo { display: flex; gap: 6px; align-items: center; font-size: 12px; color: var(--muted); flex-wrap: wrap; }
+.demo button { font: inherit; font-size: 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--panel); color: var(--ink); padding: 3px 10px; cursor: pointer; }
+.demo button[aria-pressed="true"] { border-color: var(--blue); color: var(--blue); font-weight: 600; }
+.toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 10px 16px; border-radius: 12px; font-size: 14px; }
+.done { text-align: center; align-items: center; }
+.done .big { font-size: 54px; }
+.list { border: 1px solid var(--line); border-radius: 14px; padding: 4px 14px; width: 100%; text-align: left; }
+.list div { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+.list div:last-child { border-bottom: 0; }
+.list em { font-style: normal; color: var(--ok); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <section>
+    <div class="brand">
+      <svg width="34" height="34" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="15" fill="#0D1B2A"/><rect x="14" y="16" width="22" height="30" rx="3.5" fill="#93C5FD" transform="rotate(-10 25 31)"/><rect x="27" y="17" width="22" height="30" rx="3.5" fill="#fff" transform="rotate(8 38 32)"/><g transform="rotate(8 38 32)" fill="#1A56DB"><rect x="31" y="24" width="12" height="2.8" rx="1.4"/><rect x="31" y="30" width="14" height="2.8" rx="1.4"/><rect x="31" y="36" width="9" height="2.8" rx="1.4"/></g></svg>
+      <span>CV<b>zume</b> · rehberli akış taslağı</span>
+    </div>
+    <p class="intro">Telefondaki ekranlara tıklayarak akışı baştan sona gezebilirsiniz. Aşağıdaki haritadan istediğiniz ekrana atlayın; o ekranda ne olduğu ve neyi konuşmamız gerektiği hemen altında yazıyor. Örnek kullanıcı: Ayşe, hasta bakım personeli ilanına başvuruyor.</p>
+
+    <div class="note" id="note" aria-live="polite"></div>
+
+    <div class="note">
+      <div class="eyebrow">Akış haritası</div>
+      <div class="map" id="map"></div>
+      <p class="legend">Butonlar telefonda o ekrana gider. "CV'm yok" yolu soru-cevapla CV oluşturur; "CV'm var" yolu dosyayı okur. İki yol aynı kontrol paneline çıkar.</p>
+    </div>
+  </section>
+
+  <div class="phone-col">
+    <div class="phone" role="region" aria-label="Uygulama taslağı">
+      <div class="bar">
+        <button class="back" id="back" aria-label="Geri">←</button>
+        <div class="progress" aria-hidden="true"><i id="prog"></i></div>
+        <span class="count" id="count"></span>
+      </div>
+      <div class="screen" id="screen"></div>
+      <div class="foot" id="foot"></div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+const S = {
+  path: 'none', job: 0, match: 'y', answers: {}, askState: {}, chips: { lang: ['Türkçe · ana dil'], skills: ['Hasta bakımı', 'İlaç takibi'] },
+  worked: null, moreJobs: 0, licence: null, photo: false, history: [],
+};
+const AD = `Hasta Bakım Personeli — Özel Çankaya Hastanesi, Ankara
+Aranan nitelikler:
+• Hasta bakım alanında en az 2 yıl deneyim
+• Vardiyalı çalışmaya uygun
+• Hasta kayıtlarını dijital sistemde tutabilen
+• Temel ilk yardım sertifikası
+• B sınıfı ehliyet tercih sebebi`;
+
+// Ekranlar: id → { lane, label, note, render(), foot() }
+const SCREENS = {};
+const def = (id, o) => (SCREENS[id] = { id, ...o });
+const go = (id, push = true) => { if (push && S.cur) S.history.push(S.cur); S.cur = id; render(); };
+const back = () => { const p = S.history.pop(); if (p) { S.cur = p; render(); } };
+const toast = msg => { const t = document.getElementById('toast'); t.textContent = msg; t.hidden = false; clearTimeout(toast.h); toast.h = setTimeout(() => (t.hidden = true), 2200); };
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+const val = (k, d = '') => esc(S.answers[k] ?? d);
+const field = (k, label, ph = '', d = '') => `<label class="f">${label}<input class="t" id="f-${k}" data-k="${k}" placeholder="${ph}" value="${val(k, d)}"></label>`;
+const btn = (txt, to, cls = 'primary') => `<button class="btn ${cls}" data-go="${to}">${txt}</button>`;
+
+// Sıra (ilerleme çubuğu için)
+const ORDER_NO = ['welcome', 'hasCv', 'q-name', 'q-contact', 'q-photo', 'q-target', 'q-worked', 'q-job', 'q-jobai', 'q-edu', 'q-lang', 'q-licence', 'q-skills', 'building', 'panel', 'preview', 'ad', 'analyzing', 'match', 'tailored', 'letter', 'done'];
+const ORDER_YES = ['welcome', 'hasCv', 'upload', 'reading', 'panel', 'preview', 'ad', 'analyzing', 'match', 'tailored', 'letter', 'done'];
+
+def('welcome', { lane: 'Başlangıç', label: 'Karşılama',
+  note: ['İlk giriş', 'Kullanıcı giriş yaptıktan sonra ilk gördüğü ekran. Tek mesaj: önce CV bir kez hazırlanır, sonra her ilan için kullanılır.', ['CV daha önce kaydedildiyse bu ekran ve CV adımları atlanır, doğrudan "Hangi ilana başvuruyorsunuz?" ekranı açılır.', 'Menü yok: üstte sadece ilerleme çubuğu ve geri butonu.']],
+  render: () => `<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:14px">
+    <p class="hint">Merhaba Ayşe 👋</p>
+    <h1 class="q">Başvurunuzu birlikte hazırlayalım.</h1>
+    <p class="hint">Önce CV'nizi bir kez hazırlıyoruz. Sonra her ilan için CV'nizi ilana uyarlayıp kişisel mektubunuzu yazıyoruz.</p>
+    <div class="list"><div>1. CV'niz<span>≈ 5 dk</span></div><div>2. İlan ve karşılaştırma<span>≈ 1 dk</span></div><div>3. CV + mektup PDF<span>≈ 2 dk</span></div></div></div>`,
+  foot: () => btn('Başlayalım', 'hasCv') });
+
+def('hasCv', { lane: 'Başlangıç', label: 'Hazır CV var mı?',
+  note: ['Yol ayrımı', 'Akışın tek büyük sorusu. Cevaba göre iki yoldan biri açılır, ikisi de aynı kontrol paneline çıkar.', ['Evet: PDF veya Word yükler, biz okuyup kendi formatımıza çeviririz.', 'Hayır: 10 kısa soruyla CV\'yi birlikte oluştururuz.']],
+  render: () => `<h1 class="q">Elinizde hazır bir CV var mı?</h1><p class="hint">PDF veya Word olabilir. Yoksa sorun değil, birkaç soruyla birlikte oluştururuz.</p>
+    <button class="choice" data-path="yes" data-go="upload"><span class="ic">📄</span><span><strong>Evet, yüklemek istiyorum</strong><span>PDF veya Word dosyası</span></span></button>
+    <button class="choice" data-path="no" data-go="q-name"><span class="ic">✍️</span><span><strong>Hayır, birlikte oluşturalım</strong><span>≈ 10 kısa soru, 5 dakika</span></span></button>`,
+  foot: () => '' });
+
+def('upload', { lane: 'CV\'m var', label: 'Dosya yükle',
+  note: ['CV yükleme', 'Dosyayı seçer seçmez okumaya başlıyoruz. Taranmış (resim) PDF okunamazsa kullanıcıya soru-cevap yolunu öneriyoruz.', ['Desteklenen: PDF, Word (.docx), en fazla 5 MB.', 'Bu zaten sitede çalışıyor; sadece bu ekrana taşınacak.']],
+  render: () => `<h1 class="q">CV'nizi yükleyin</h1><p class="hint">Bilgilerinizi okuyup sizin için düzenli bir CV'ye çeviriyoruz. Sonra kontrol edip düzeltebilirsiniz.</p>
+    <button class="drop" data-go="reading"><strong>Dosya seçin</strong>veya buraya sürükleyin<br><small>PDF, Word · en fazla 5 MB</small></button>
+    <p class="hint" style="font-size:13px">Taslakta dosya seçmek yerine kutuya tıklayın.</p>`,
+  foot: () => `<button class="btn link" data-go="q-name" data-path="no">Dosyam yok, sorularla oluşturalım</button>` });
+
+def('reading', { lane: 'CV\'m var', label: 'Okunuyor',
+  note: ['Okuma', 'Birkaç saniye süren bekleme ekranı. Gerçekte ≈ 5–10 saniye.', []],
+  render: () => `<div class="loading"><div class="spin"></div><strong>CV'niz okunuyor…</strong><span>Deneyimler, eğitim ve beceriler ayrılıyor</span></div>`,
+  foot: () => '', auto: ['panel', 1400] });
+
+def('q-name', { lane: 'CV\'m yok', label: '1 · Ad soyad',
+  note: ['Soru 1 · Ad soyad', 'Her ekranda tek soru. Cevaplar otomatik kaydedilir; kullanıcı yarıda bırakırsa kaldığı yerden devam eder.', []],
+  render: () => `<h1 class="q">Adınız ve soyadınız?</h1>${field('first', 'Ad', 'Ayşe', 'Ayşe')}${field('last', 'Soyad', 'Öztürk', 'Öztürk')}`,
+  foot: () => btn('Devam', 'q-contact') });
+
+def('q-contact', { lane: 'CV\'m yok', label: '2 · İletişim + adres',
+  note: ['Soru 2 · İletişim', 'Kararımız: tam adres soruluyor. E-posta giriş bilgisinden otomatik gelir.', ['İleride: adresin CV\'de görünüp görünmeyeceği için küçük bir anahtar eklenebilir.']],
+  render: () => `<h1 class="q">Size nasıl ulaşılsın?</h1>${field('phone', 'Telefon', '0532 123 45 67', '0532 123 45 67')}${field('email', 'E-posta', '', 'ayse@ornek.com')}${field('street', 'Adres', 'Sokak, no, daire', 'Atatürk Cad. No: 12 D: 4')}<div class="row2">${field('zip', 'Posta kodu', '', '06420')}${field('city', 'Şehir', '', 'Çankaya / Ankara')}</div>`,
+  foot: () => btn('Devam', 'q-photo') });
+
+def('q-photo', { lane: 'CV\'m yok', label: '3 · Fotoğraf',
+  note: ['Soru 3 · Fotoğraf', 'İsteğe bağlı. Profil resmi varsa önerilir; Ayarlar\'daki "CV fotoğrafı" seçeneğiyle aynı mantık.', ['Ülkeye göre kısa öneri gösterilebilir (Almanya\'da yaygın, İsveç\'te isteğe bağlı).']],
+  render: () => `<h1 class="q">CV'nize fotoğraf ekleyelim mi?</h1><p class="hint">Zorunlu değil. Türkiye'de CV'lerde fotoğraf yaygındır.</p>
+    <button class="choice" data-photo="1" data-go="q-target"><span class="ic">🖼️</span><span><strong>Fotoğraf yükle</strong><span>JPG veya PNG, en fazla 2 MB</span></span></button>
+    <button class="choice" data-photo="0" data-go="q-target"><span class="ic">—</span><span><strong>Fotoğrafsız devam et</strong><span>Sonra Ayarlar'dan ekleyebilirsiniz</span></span></button>`,
+  foot: () => '' });
+
+def('q-target', { lane: 'CV\'m yok', label: '4 · Aranan iş',
+  note: ['Soru 4 · Aranan iş', 'Bu cevap sonraki soruları yönlendirir: beceri önerileri ve profil yazısı buna göre hazırlanır.', []],
+  render: () => `<h1 class="q">Ne tür bir iş arıyorsunuz?</h1><p class="hint">Birkaç kelime yeter.</p>${field('target', 'Unvan veya alan', 'Örn. Hasta bakım personeli', 'Hasta bakım personeli')}
+    <div class="chips">${['Hasta bakım personeli', 'Yaşlı bakımı', 'Hemşire yardımcısı'].map(c => `<button class="chip" data-set="target" data-v="${c}">${c}</button>`).join('')}</div>`,
+  foot: () => btn('Devam', 'q-worked') });
+
+def('q-worked', { lane: 'CV\'m yok', label: '5 · Çalıştınız mı?',
+  note: ['Soru 5 · İş deneyimi', 'Evet derse her iş için kısa bir döngü başlar. Hayır derse staj, gönüllü çalışma veya okul projesi sorulur; kimse "boş" CV ile kalmaz.', []],
+  render: () => `<h1 class="q">Daha önce bir işte çalıştınız mı?</h1><p class="hint">Yarı zamanlı, stajyer veya gönüllü işler de sayılır.</p>
+    <button class="choice" data-go="q-job"><span class="ic">💼</span><span><strong>Evet</strong><span>Son işinizden başlayalım</span></span></button>
+    <button class="choice" data-go="q-edu"><span class="ic">🌱</span><span><strong>Hayır, henüz değil</strong><span>Staj, gönüllü iş veya okul projesi sorarız</span></span></button>`,
+  foot: () => '' });
+
+def('q-job', { lane: 'CV\'m yok', label: '5a · İş bilgisi',
+  note: ['İş deneyimi · serbest anlatım', 'Kararımız: yapı kart kart, ama "Neler yaptınız?" sorusunda kullanıcı kendi cümleleriyle yazar ya da mikrofonla anlatır. Yapay zekâ bir sonraki ekranda bunu CV maddelerine çevirir.', ['Tarihler ay/yıl seçici olur; "hâlâ çalışıyorum" kutusu.']],
+  render: () => `<h1 class="q">${S.moreJobs ? 'Bir önceki işiniz?' : 'Son işiniz neydi?'}</h1>${field('jrole', 'Unvan', '', S.moreJobs ? 'Hasta bakım personeli' : 'Yaşlı bakım personeli')}${field('jco', 'Kurum / şirket', '', S.moreJobs ? 'Özel Ankara Hastanesi' : 'Huzur Evi Bakım Merkezi')}
+    <div class="row2">${field('jfrom', 'Başlangıç', 'Ay / yıl', S.moreJobs ? '01/2019' : '03/2022')}${field('jto', 'Bitiş', 'Ay / yıl', S.moreJobs ? '02/2022' : 'Devam ediyor')}</div>
+    <label class="f">Orada neler yaptınız? Kendi cümlelerinizle anlatın.<textarea class="t" id="f-jdesc" data-k="jdesc">${val('jdesc', 'Yaşlılara bakıyordum, yemeklerine ve temizliklerine yardım ediyordum. İlaçlarını saatinde veriyordum, her vardiya sonunda raporları bilgisayara giriyordum.')}</textarea></label>
+    <button class="mic" data-toast="Taslakta mikrofon çalışmaz; gerçek sitede konuşarak anlatılabilecek">🎙️ Konuşarak anlat</button>`,
+  foot: () => btn('Devam', 'q-jobai') });
+
+def('q-jobai', { lane: 'CV\'m yok', label: '5b · AI maddeleri',
+  note: ['Yapay zekâ önerisi', 'Kullanıcının anlattığı, CV diline çevrilir. Sadece söylediği şeyler; uydurma yok. Onaylamadan CV\'ye girmez.', ['"Düzelt" seçeneğiyle maddeleri tek tek değiştirebilir.']],
+  render: () => `<h1 class="q">Böyle yazalım mı?</h1><p class="hint">Anlattıklarınızı CV diline çevirdik. Yanlış veya eksik bir şey varsa düzeltin.</p>
+    <div class="ai"><div class="lbl">CV'nizde böyle görünecek</div><ul><li>Yaşlı bakımı: günlük kişisel bakım, beslenme ve hijyen desteği</li><li>İlaçların saatinde ve doğru dozda verilmesi</li><li>Vardiya raporlarının dijital sisteme girilmesi</li></ul></div>
+    <button class="btn ghost" data-toast="Taslakta: maddeler düzenlenebilir alanlara dönüşür">Düzelt</button>`,
+  foot: () => `${btn('Evet, başka bir iş ekle', 'q-job', 'ghost').replace('data-go', 'data-more="1" data-go')}${btn('Evet, devam', 'q-edu')}` });
+
+def('q-edu', { lane: 'CV\'m yok', label: '6 · Eğitim',
+  note: ['Soru 6 · Eğitim', 'En son mezun olunan okul. "Başka bir okul ekle" ile birden fazla girilebilir.', []],
+  render: () => `<h1 class="q">Eğitiminiz?</h1>${field('school', 'Okul', '', 'Ankara Sağlık Meslek Lisesi')}${field('field', 'Bölüm', '', 'Hasta ve Yaşlı Hizmetleri')}<div class="row2">${field('eyear', 'Mezuniyet yılı', '', '2018')}<label class="f">Durum<select class="t" id="f-estat"><option>Mezun</option><option>Hâlâ okuyorum</option></select></label></div>`,
+  foot: () => btn('Devam', 'q-lang') });
+
+def('q-lang', { lane: 'CV\'m yok', label: '7 · Diller',
+  note: ['Soru 7 · Diller', 'Tıklayarak dil ve seviye seçilir. Serbest metin yazdırmıyoruz: hem hızlı hem tutarlı.', []],
+  render: () => `<h1 class="q">Hangi dilleri konuşuyorsunuz?</h1><p class="hint">Seviyesiyle birlikte seçin.</p>
+    <div class="chips">${['Türkçe · ana dil', 'İngilizce · temel', 'İngilizce · iyi', 'Almanca · temel', 'Arapça · iyi'].map(c => `<button class="chip" data-chip="lang" data-v="${c}" aria-pressed="${S.chips.lang.includes(c)}">${c}</button>`).join('')}</div>
+    <button class="btn ghost" data-toast="Taslakta: dil listesi ve seviye seçici açılır">+ Başka dil</button>`,
+  foot: () => btn('Devam', 'q-licence') });
+
+def('q-licence', { lane: 'CV\'m yok', label: '8 · Ehliyet',
+  note: ['Soru 8 · Ehliyet', 'Bakım, lojistik ve saha işlerinde ilanlarda sık isteniyor. Evet derse sınıfı sorulur.', []],
+  render: () => `<h1 class="q">Ehliyetiniz var mı?</h1>
+    <button class="choice" data-lic="B" data-go="q-skills"><span class="ic">🚗</span><span><strong>Evet, B sınıfı</strong><span>Başka sınıf varsa sonra eklenir</span></span></button>
+    <button class="choice" data-lic="" data-go="q-skills"><span class="ic">—</span><span><strong>Hayır</strong></span></button>`,
+  foot: () => '' });
+
+def('q-skills', { lane: 'CV\'m yok', label: '9 · Beceriler',
+  note: ['Soru 9 · Beceriler', 'Öneriler 4. sorudaki işe ve anlatılan deneyime göre hazırlanır. Kullanıcı sadece gerçekten yapabildiklerini seçer.', ['10. "soru" yok: profil yazısını yapay zekâ cevaplardan yazar, kullanıcı panelde düzeltir.']],
+  render: () => `<h1 class="q">Bunlardan hangilerini yapabiliyorsunuz?</h1><p class="hint">"Hasta bakım personeli" için önerilenler. Sadece size uyanları seçin.</p>
+    <div class="chips">${['Hasta bakımı', 'İlaç takibi', 'Yaşlı bakımı', 'Hasta kayıt sistemi', 'Vardiyalı çalışma', 'İlk yardım', 'Yara bakımı', 'Hijyen ve enfeksiyon kontrolü', 'Hasta yakınlarıyla iletişim'].map(c => `<button class="chip" data-chip="skills" data-v="${c}" aria-pressed="${S.chips.skills.includes(c)}">${c}</button>`).join('')}</div>
+    <button class="btn ghost" data-toast="Taslakta: serbest beceri ekleme alanı açılır">+ Kendim ekleyeyim</button>`,
+  foot: () => btn('CV\'mi oluştur', 'building') });
+
+def('building', { lane: 'CV\'m yok', label: 'Oluşturuluyor',
+  note: ['CV oluşturma', 'Yapay zekâ cevaplardan profil yazısını yazar ve CV\'yi standart formata yerleştirir.', []],
+  render: () => `<div class="loading"><div class="spin"></div><strong>CV'niz hazırlanıyor…</strong><span>Profil yazınız cevaplarınızdan oluşturuluyor</span></div>`,
+  foot: () => '', auto: ['panel', 1400] });
+
+const P = () => ({ name: `${S.answers.first ?? 'Ayşe'} ${S.answers.last ?? 'Öztürk'}`, addr: `${S.answers.street ?? 'Atatürk Cad. No: 12 D: 4'}, ${S.answers.zip ?? '06420'} ${S.answers.city ?? 'Çankaya / Ankara'}` });
+
+def('panel', { lane: 'Ortak', label: 'Kontrol paneli',
+  note: ['Kontrol paneli', 'İki yol burada birleşir. Bölümler açılır-kapanır; kullanıcı istediğini düzeltir ve Kaydet\'e basar. Kaydedince standart görünüm açılır.', ['Yüklenen CV\'de okunamayan alanlar sarı işaretlenebilir: "Bunu kontrol edin".', 'Kaydedilen CV her başvuruda tekrar kullanılır; "CV\'m" menüsünden sonra da düzenlenir.']],
+  render: () => `<h1 class="q">CV'nizi kontrol edin</h1><p class="hint">${S.path === 'yes' ? 'Dosyanızdan okuduklarımız.' : 'Cevaplarınızdan oluşturduk.'} Bir şey yanlışsa düzeltin.</p>
+    <details class="sec" open><summary>Kişisel bilgiler <span>Düzenle</span></summary><div class="in">${field('first', 'Ad', '', 'Ayşe')}${field('street', 'Adres', '', 'Atatürk Cad. No: 12 D: 4')}</div></details>
+    <details class="sec"><summary>Profil yazısı <span>AI yazdı</span></summary><div class="in"><textarea class="t" id="f-sum" data-k="sum">${val('sum', '4 yıllık deneyime sahip, yaşlı ve hasta bakımında güvenilir, özenli bir bakım personeliyim. İlaç takibi ve dijital kayıt konusunda deneyimliyim; vardiyalı çalışmaya alışkınım.')}</textarea></div></details>
+    <details class="sec"><summary>İş deneyimi <span>2 iş</span></summary><div class="in"><p class="hint">Yaşlı bakım personeli · Huzur Evi Bakım Merkezi · 2022–</p><p class="hint">Hasta bakım personeli · Özel Ankara Hastanesi · 2019–2022</p></div></details>
+    <details class="sec"><summary>Eğitim <span>1</span></summary><div class="in"><p class="hint">Hasta ve Yaşlı Hizmetleri · Ankara Sağlık Meslek Lisesi · 2018</p></div></details>
+    <details class="sec"><summary>Beceriler ve diller <span>${S.chips.skills.length + S.chips.lang.length}</span></summary><div class="in"><div class="chips">${S.chips.skills.concat(S.chips.lang).map(c => `<span class="chip" aria-pressed="true">${c}</span>`).join('')}</div></div></details>`,
+  foot: () => btn('Kaydet', 'preview') });
+
+const cvPaper = (tailored = false) => `<div class="paper"><div class="ph"><div><div class="nm">${esc(P().name)}</div><div class="tt">Hasta Bakım Personeli</div><div class="ct">${esc(P().addr)}<br>0532 123 45 67 · ayse@ornek.com</div></div>${S.photo ? '<div class="pic">A</div>' : ''}</div>
+  <h4>Profil</h4><p>${tailored ? '<span class="mark">Hastanelerde ve bakım evlerinde 4 yıllık deneyime sahip</span>' : '4 yıllık deneyime sahip'}, yaşlı ve hasta bakımında güvenilir, özenli bir bakım personeliyim. İlaç takibi ve <span class="${tailored ? 'mark' : ''}">dijital hasta kaydı</span> konusunda deneyimliyim; vardiyalı çalışmaya alışkınım.</p>
+  <h4>İş deneyimi</h4><p><b>Yaşlı bakım personeli</b> — Huzur Evi Bakım Merkezi · 03/2022 – devam</p><ul><li>Günlük kişisel bakım, beslenme ve hijyen desteği</li><li>İlaçların saatinde ve doğru dozda verilmesi</li><li>${tailored ? '<span class="mark">Vardiya raporlarının dijital hasta kayıt sistemine girilmesi</span>' : 'Vardiya raporlarının dijital sisteme girilmesi'}</li></ul>
+  <p><b>Hasta bakım personeli</b> — Özel Ankara Hastanesi · 01/2019 – 02/2022</p><ul><li>${tailored ? '<span class="mark">Gece ve hafta sonu dahil vardiyalı çalışma</span>' : 'Servis hastalarının günlük bakımı'}</li><li>Hasta yakınlarıyla iletişim</li></ul>
+  <h4>Eğitim</h4><p>Hasta ve Yaşlı Hizmetleri — Ankara Sağlık Meslek Lisesi · 2018</p>
+  ${S.askState.firstaid === 'yes' ? '<h4>Sertifikalar</h4><p><span class="mark">Temel İlk Yardım Sertifikası</span></p>' : ''}
+  <h4>Beceriler</h4><p>${(tailored ? ['Vardiyalı çalışma', 'Hasta kayıt sistemi'] : []).concat(S.chips.skills).filter((v, i, a) => a.indexOf(v) === i).join(' · ')}</p>
+  <h4>Diller · Ehliyet</h4><p>${S.chips.lang.join(' · ')}${S.licence ? ' · B sınıfı ehliyet' : ''}</p>
+  <div class="wm">CVzume ile oluşturuldu · cvzume.com</div></div>`;
+
+def('preview', { lane: 'Ortak', label: 'Standart görünüm',
+  note: ['Standart CV görünümü', 'Tek ve standart şablon (karar). Fotoğraf sağ üstte; yoksa alan boş kalır. Ücretsiz planda en altta küçük gri "CVzume ile oluşturuldu" ibaresi; Pro\'da yok.', ['İleride: Pro kullanıcılara 2–3 şablon (yapılacaklar listesinde).']],
+  render: () => `<h1 class="q" style="font-size:23px">CV'niz hazır ✓</h1>${cvPaper()}`,
+  foot: () => `<div class="row2"><button class="btn ghost" data-toast="Taslak: CV PDF olarak indirildi">PDF indir</button>${btn('Düzenle', 'panel', 'ghost')}</div>${btn('Şimdi bir ilana başvuralım →', 'ad')}` });
+
+def('ad', { lane: 'Başvuru', label: 'İlanı yapıştır',
+  note: ['İlan', 'Link veya metin. Link yapıştırılırsa sayfayı biz okuruz; okunamazsa metni yapıştırması istenir. CV kayıtlı kullanıcılar her yeni başvuruya buradan başlar.', ['Uygulama içi iş arama (Platsbanken vb.) buraya "ilan bul" bağlantısı olarak kalabilir.']],
+  render: () => `<h1 class="q">Hangi ilana başvuruyorsunuz?</h1><p class="hint">İlanın linkini veya metnini yapıştırın.</p>${field('adurl', 'İlan linki', 'https://…', '')}<label class="f">veya ilan metni<textarea class="t" id="f-ad" data-k="ad" style="min-height:170px">${val('ad', AD)}</textarea></label>`,
+  foot: () => btn('Karşılaştır', 'analyzing') });
+
+def('analyzing', { lane: 'Başvuru', label: 'Karşılaştırılıyor',
+  note: ['Karşılaştırma', 'CV ile ilan karşılaştırılıyor. Bu adım ücretsiz planın ayda 2 hakkından birini kullanır.', []],
+  render: () => `<div class="loading"><div class="spin"></div><strong>İlan ile CV'niz karşılaştırılıyor…</strong><span>İlandaki şartlar tek tek kontrol ediliyor</span></div>`,
+  foot: () => '', auto: ['match', 1400] });
+
+const MATCH = { g: { pct: 82, cls: 'g', color: 'var(--ok)', t: 'Bu iş size uygun görünüyor', s: 'İlandaki şartların çoğu CV\'nizde var.' },
+  y: { pct: 58, cls: 'y', color: 'var(--warn)', t: 'Bazı eksikler var', s: 'Başvurabilirsiniz; ama birkaç şart CV\'nizde görünmüyor.' },
+  r: { pct: 31, cls: 'r', color: 'var(--bad)', t: 'Bu ilan şu an zor görünüyor', s: 'İstenen şartların çoğu CV\'nizde yok.' } };
+const ring = (pct, color) => `<svg class="ring" viewBox="0 0 74 74"><circle cx="37" cy="37" r="31" fill="none" stroke="var(--line)" stroke-width="8"/><circle cx="37" cy="37" r="31" fill="none" stroke="${color}" stroke-width="8" stroke-linecap="round" stroke-dasharray="${(pct / 100 * 194.8).toFixed(1)} 194.8" transform="rotate(-90 37 37)"/><text x="37" y="43" text-anchor="middle" font-size="17" font-weight="700" fill="var(--ink)" font-family="DM Sans, sans-serif">${pct}%</text></svg>`;
+const askRow = (k, text, q) => {
+  const st = S.askState[k];
+  if (st === 'yes') return `<div class="req"><span class="d add">+</span><span>${text}<br><small style="color:var(--ok)">CV'nize eklendi</small></span></div>`;
+  if (st === 'no') return `<div class="req"><span class="d no">!</span><span>${text}<br><small style="color:var(--muted)">Eksik olarak kaldı</small></span></div>`;
+  return `<div class="ask"><div style="display:flex;gap:10px"><span class="d no" style="width:22px;height:22px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:12px;font-weight:700;flex-shrink:0">!</span><span style="font-size:14px"><b>${text}</b><br>${q}</span></div><div class="btns"><button class="btn primary" data-ask="${k}" data-v="yes">Evet, var</button><button class="btn ghost" data-ask="${k}" data-v="no">Hayır</button></div></div>`;
+};
+def('match', { lane: 'Başvuru', label: 'Uyum sonucu',
+  note: ['Uyum sonucu', 'Trafik ışığı: 🟢 %70+, 🟡 %40–69, 🔴 %40 altı. Asla engellemiyoruz; dürüstçe söylüyoruz. Eksik her şart için "Bu deneyiminiz var mı ama CV\'ye yazmadınız mı?" diye soruyoruz: evet derse gerçek bilgi CV\'ye eklenir.', ['Üstteki küçük düğmelerle üç durumu da görebilirsiniz.', 'Kırmızıda "Vazgeç" ana buton olur, "Yine de başvur" ikincil.']],
+  render: () => { const m = MATCH[S.match]; return `
+    <div class="demo">Taslak görünümü: ${['g', 'y', 'r'].map(k => `<button data-match="${k}" aria-pressed="${S.match === k}">${{ g: 'yeşil', y: 'sarı', r: 'kırmızı' }[k]}</button>`).join('')}</div>
+    <div class="score ${m.cls}">${ring(m.pct, m.color)}<div><strong>${m.t}</strong><span>${m.s}</span></div></div>
+    <div><p class="hint" style="font-weight:600;color:var(--ink);margin-bottom:4px">İlanda istenenler</p>
+      <div class="req"><span class="d ok">✓</span><span>Hasta bakım alanında en az 2 yıl deneyim</span></div>
+      <div class="req"><span class="d ok">✓</span><span>Hasta kayıtlarını dijital sistemde tutabilme</span></div>
+      ${S.match !== 'r' ? '<div class="req"><span class="d ok">✓</span><span>Vardiyalı çalışmaya uygun</span></div>' : askRow('shift', 'Vardiyalı çalışma', 'Gece veya hafta sonu çalıştınız mı?')}
+      ${askRow('firstaid', 'Temel ilk yardım sertifikası', 'Böyle bir sertifikanız var mı?')}
+      ${S.match === 'g' ? '<div class="req"><span class="d ok">✓</span><span>B sınıfı ehliyet</span></div>' : askRow('lic', 'B sınıfı ehliyet', 'Ehliyetiniz var mı?')}
+    </div>`; },
+  foot: () => S.match === 'r'
+    ? `${btn('Vazgeç, başka ilan bakayım', 'ad')}${btn('Yine de başvur', 'tailored', 'ghost')}`
+    : `${btn(S.match === 'g' ? 'CV\'mi bu ilana uyarla' : 'Yine de başvur — CV\'mi uyarla', 'tailored')}${btn('Vazgeç', 'ad', 'link')}` });
+
+def('tailored', { lane: 'Başvuru', label: 'Uyarlanmış CV',
+  note: ['İlana uyarlanmış CV', 'Sarı işaretli yerler bu ilan için değişen kısımlar. Unvan, şirket ve tarihler asla değişmez; sadece vurgu ve sıralama.', ['Kullanıcı "Düzenle" ile son kez değiştirebilir.']],
+  render: () => `<h1 class="q" style="font-size:23px">CV'niz bu ilana uyarlandı</h1><p class="hint">Sarı yerler bu ilan için değişenler. Göndermeden önce bir kez okuyun.</p>${cvPaper(true)}`,
+  foot: () => `<div class="row2"><button class="btn ghost" data-toast="Taslak: uyarlanmış CV PDF olarak indirildi">PDF indir</button>${btn('Düzenle', 'panel', 'ghost')}</div>${btn('Kişisel mektubu yaz →', 'letter')}` });
+
+def('letter', { lane: 'Başvuru', label: 'Kişisel mektup',
+  note: ['Kişisel mektup', 'CV\'deki gerçeklere dayanarak ilana özel yazılır. Düzenlenebilir; PDF\'te aynı başlık ve aynı küçük ibare.', ['"Mektup istemiyorum" seçeneği: bazı ilanlar istemiyor.']],
+  render: () => `<h1 class="q" style="font-size:23px">Kişisel mektubunuz</h1>
+    <div class="paper letter"><div class="nm" style="font-size:15px">${esc(P().name)}</div><div class="ct">${esc(P().addr)} · 0532 123 45 67</div><br>
+    <p>Sayın Yetkili,</p><p>Özel Çankaya Hastanesi'nde açılan hasta bakım personeli pozisyonu için başvuruyorum. Son dört yıldır hastanede ve bakım evinde, hastaların günlük bakımında, ilaçlarının takibinde ve kayıtlarının dijital sisteme girilmesinde çalışıyorum.</p>
+    <p>Özel Ankara Hastanesi'nde gece ve hafta sonu vardiyalarında çalıştım; bu yüzden vardiyalı düzene alışkınım. Hastalara ve yakınlarına sakin ve saygılı davranmayı işimin en önemli parçası olarak görüyorum.</p>
+    <p>Ekibinize katılmaktan mutluluk duyarım. Görüşme için uygun olduğunuz bir zamanda sizinle konuşmak isterim.</p><p>Saygılarımla,<br>${esc(P().name)}</p>
+    <div class="wm">CVzume ile oluşturuldu · cvzume.com</div></div>`,
+  foot: () => `<div class="row2"><button class="btn ghost" data-toast="Taslak: mektup PDF olarak indirildi">PDF indir</button><button class="btn ghost" data-toast="Taslakta: mektup düzenlenebilir alana dönüşür">Düzenle</button></div>${btn('Bitir', 'done')}<button class="btn link" data-go="done">Bu ilan mektup istemiyor, atla</button>` });
+
+def('done', { lane: 'Başvuru', label: 'Bitti',
+  note: ['Bitti', 'Başvuru "Başvurularım"a kaydedilir. Kullanıcı durumunu (gönderdim / mülakat / ret) oradan günceller. Mülakat hazırlığı oradan açılır.', ['Ücretsiz planda kalan hak burada gösterilir: "Bu ay 1 başvuru hakkınız kaldı".']],
+  render: () => `<div class="loading done"><div class="big">🎉</div><h1 class="q" style="margin:0">Başvurunuz hazır!</h1><p class="hint">İki dosyayı da indirip ilandaki adrese gönderin.</p>
+    <div class="list"><div>CV — Hasta Bakım Personeli.pdf<em>✓</em></div><div>Kişisel mektup.pdf<em>✓</em></div><div>Başvurularım'a kaydedildi<em>✓</em></div></div>
+    <p class="hint" style="font-size:13px">Bu ay 1 ücretsiz başvuru hakkınız kaldı.</p></div>`,
+  foot: () => `${btn('Yeni bir ilana başvur', 'ad')}<button class="btn link" data-toast="Taslak: Başvurularım listesi açılır">Başvurularıma git</button>` });
+
+const LANES = ['Başlangıç', 'CV\'m var', 'CV\'m yok', 'Ortak', 'Başvuru'];
+
+function render() {
+  const sc = SCREENS[S.cur];
+  const order = S.path === 'yes' ? ORDER_YES : ORDER_NO;
+  const idx = Math.max(0, order.indexOf(S.cur));
+  document.getElementById('prog').style.width = `${Math.round((idx / (order.length - 1)) * 100)}%`;
+  document.getElementById('count').textContent = `${idx + 1}/${order.length}`;
+  document.getElementById('back').disabled = !S.history.length;
+  document.getElementById('screen').innerHTML = sc.render();
+  document.getElementById('foot').innerHTML = sc.foot();
+  document.getElementById('foot').hidden = !sc.foot();
+  document.getElementById('screen').scrollTop = 0;
+  const [title, body, bullets] = sc.note;
+  document.getElementById('note').innerHTML = `<div class="eyebrow">${sc.lane} · ${sc.label}</div><h2>${title}</h2><p>${body}</p>${bullets.length ? `<ul>${bullets.map(b => `<li>${b}</li>`).join('')}</ul>` : ''}`;
+  document.getElementById('map').innerHTML = LANES.map(l => `<div class="lane"><h3>${l}</h3><div class="steps">${Object.values(SCREENS).filter(s => s.lane === l).map(s => `<button data-jump="${s.id}" aria-current="${s.id === S.cur}">${s.label}</button>`).join('')}</div></div>`).join('');
+  clearTimeout(render.t);
+  if (sc.auto) render.t = setTimeout(() => go(sc.auto[0]), sc.auto[1]);
+  try { localStorage.setItem('cvz-proto', S.cur); } catch (e) { /* depolama yok */ }
+}
+
+document.addEventListener('click', e => {
+  const t = e.target.closest('button'); if (!t) return;
+  if (t.id === 'back') return back();
+  if (t.dataset.path) S.path = t.dataset.path;
+  if (t.dataset.photo) S.photo = t.dataset.photo === '1';
+  if (t.dataset.lic !== undefined) S.licence = !!t.dataset.lic;
+  if (t.dataset.more) S.moreJobs++;
+  if (t.dataset.toast) toast(t.dataset.toast);
+  if (t.dataset.set) { S.answers[t.dataset.set] = t.dataset.v; render(); return; }
+  if (t.dataset.chip) { const a = S.chips[t.dataset.chip]; const i = a.indexOf(t.dataset.v); i < 0 ? a.push(t.dataset.v) : a.splice(i, 1); render(); return; }
+  if (t.dataset.match) { S.match = t.dataset.match; S.askState = {}; render(); return; }
+  if (t.dataset.ask) { S.askState[t.dataset.ask] = t.dataset.v; render(); return; }
+  if (t.dataset.jump) { if (['upload', 'reading'].includes(t.dataset.jump)) S.path = 'yes'; if (t.dataset.jump.startsWith('q-') || t.dataset.jump === 'building') S.path = 'no'; S.history = []; go(t.dataset.jump, false); return; }
+  if (t.dataset.go) go(t.dataset.go);
+});
+document.addEventListener('input', e => { const k = e.target.dataset.k; if (k) S.answers[k] = e.target.value; });
+
+let start = 'welcome';
+try { const saved = localStorage.getItem('cvz-proto'); if (saved && SCREENS[saved] && !SCREENS[saved].auto) start = saved; } catch (e) { /* yok */ }
+S.cur = start; render();
+</script>
+</body>
+</html>
