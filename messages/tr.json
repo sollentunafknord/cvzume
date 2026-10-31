@@ -876,5 +876,232 @@
       "interview": "Mülakat",
       "rejected": "Kapananlar"
     }
+  },
+  "akis": {
+    "next": "Devam",
+    "back": "Geri",
+    "yes": "Evet",
+    "skip": "Atla",
+    "add": "Ekle",
+    "remove": "Kaldır",
+    "edit": "Düzenle",
+    "pdf": "PDF indir",
+    "word": "Word indir",
+    "footer": "CVzume ile oluşturuldu · cvzume.com",
+    "errors": {
+      "ai": "Yapay zekâ şu an cevap vermedi. Lütfen birkaç saniye sonra tekrar deneyin."
+    },
+    "welcome": {
+      "hi": "Merhaba {name} 👋",
+      "title": "Başvurunuzu birlikte hazırlayalım.",
+      "text": "Önce CV'nizi bir kez hazırlıyoruz. Sonra her ilan için CV'nizi ilana uyarlayıp kişisel mektubunuzu yazıyoruz.",
+      "s1": "CV'niz",
+      "s2": "İlan ve karşılaştırma",
+      "s3": "CV + mektup PDF",
+      "start": "Başlayalım"
+    },
+    "hasCv": {
+      "title": "Elinizde hazır bir CV var mı?",
+      "text": "PDF veya Word olabilir. Yoksa sorun değil, birkaç soruyla birlikte oluştururuz.",
+      "yes": "Evet, yüklemek istiyorum",
+      "yes_sub": "PDF veya Word dosyası",
+      "no": "Hayır, birlikte oluşturalım",
+      "no_sub": "≈ 10 kısa soru, 5 dakika"
+    },
+    "upload": {
+      "title": "CV'nizi yükleyin",
+      "text": "Bilgilerinizi okuyup sizin için düzenli bir CV'ye çeviriyoruz. Sonra kontrol edip düzeltebilirsiniz.",
+      "pick": "Dosya seçin",
+      "formats": "PDF veya Word (.docx) · en fazla 5 MB",
+      "no_file": "Dosyam yok, sorularla oluşturalım",
+      "reading": "CV'niz okunuyor…",
+      "reading_sub": "Deneyimler, eğitim ve beceriler ayrılıyor"
+    },
+    "name": {
+      "title": "Adınız ve soyadınız?",
+      "first": "Ad",
+      "last": "Soyad"
+    },
+    "contact": {
+      "title": "Size nasıl ulaşılsın?",
+      "phone": "Telefon",
+      "email": "E-posta",
+      "street": "Adres (sokak, no, daire)",
+      "zip": "Posta kodu",
+      "city": "Şehir",
+      "address": "Adres"
+    },
+    "photo": {
+      "title": "CV'nize fotoğraf ekleyelim mi?",
+      "text": "Zorunlu değil. Sonra Ayarlar'dan da ekleyebilir veya değiştirebilirsiniz.",
+      "upload": "Fotoğraf yükleyin",
+      "change": "Başka bir fotoğraf seçin",
+      "formats": "JPG, PNG veya WebP · en fazla 2 MB",
+      "keep": "Bu fotoğrafla devam edin",
+      "skip": "Fotoğrafsız devam edin",
+      "skip_sub": "CV'nizde fotoğraf alanı boş kalır",
+      "too_large": "Fotoğraf en fazla 2 MB olabilir.",
+      "failed": "Fotoğraf yüklenemedi. Lütfen tekrar deneyin."
+    },
+    "target": {
+      "title": "Ne tür bir iş arıyorsunuz?",
+      "text": "Birkaç kelime yeter. Sonraki sorular buna göre hazırlanır.",
+      "label": "Unvan veya alan",
+      "ph": "Örn. Hasta bakım personeli"
+    },
+    "worked": {
+      "title": "Daha önce bir işte çalıştınız mı?",
+      "more": "Başka bir işte de çalıştınız mı?",
+      "text": "Yarı zamanlı, stajyer veya gönüllü işler de sayılır.",
+      "yes_sub": "Son işinizden başlayalım",
+      "no": "Hayır, henüz değil",
+      "no_sub": "Staj, gönüllü iş veya okul projesi soracağız",
+      "done": "Hayır, hepsi bu kadar"
+    },
+    "nowork": {
+      "title": "Staj, gönüllü iş veya okul projesi yaptınız mı?",
+      "text": "Bunlar da CV'de deneyim olarak görünür.",
+      "no": "Hayır, eğitimime geçelim"
+    },
+    "job": {
+      "title": "Son işiniz neydi?",
+      "title_prev": "Bir önceki işiniz?",
+      "title_intern": "Ne yaptınız?",
+      "role": "Unvan",
+      "company": "Kurum / şirket",
+      "start": "Başlangıç",
+      "end": "Bitiş",
+      "date_ph": "Ay / yıl, örn. 03/2022",
+      "current": "Hâlâ burada çalışıyorum",
+      "what": "Orada neler yaptınız? Kendi cümlelerinizle anlatın.",
+      "what_ph": "Örn. Yaşlılara bakıyordum, ilaçlarını saatinde veriyordum, raporları bilgisayara giriyordum…",
+      "voice": "İpucu: telefonunuzun klavyesindeki mikrofon tuşuyla konuşarak da yazabilirsiniz."
+    },
+    "jobai": {
+      "title": "Böyle yazalım mı?",
+      "text": "Anlattıklarınızı CV diline çevirdik. Yanlış veya eksik bir şey varsa düzeltin.",
+      "label": "CV'nizde böyle görünecek",
+      "edit_hint": "Her satır bir madde olur.",
+      "loading": "Anlattıklarınız CV diline çevriliyor…",
+      "another": "Evet, başka bir iş ekleyelim",
+      "ok": "Evet, devam"
+    },
+    "edu": {
+      "title": "Eğitiminiz?",
+      "school": "Okul",
+      "field": "Bölüm",
+      "year": "Mezuniyet yılı",
+      "studying": "Hâlâ okuyorum",
+      "ongoing": "devam ediyor"
+    },
+    "lang": {
+      "title": "Hangi dilleri konuşuyorsunuz?",
+      "text": "Her dil için seviyenizi seçip ekleyin.",
+      "name": "Dil",
+      "name_ph": "Örn. Türkçe",
+      "level": "Seviye",
+      "add": "Dili ekle",
+      "levels": {
+        "native": "ana dil",
+        "fluent": "akıcı",
+        "good": "iyi",
+        "basic": "temel"
+      }
+    },
+    "licence": {
+      "title": "Ehliyetiniz var mı?",
+      "yes": "Evet, B sınıfı",
+      "no": "Hayır",
+      "skill": "B sınıfı ehliyet"
+    },
+    "skills": {
+      "title": "Bunlardan hangilerini yapabiliyorsunuz?",
+      "text": "\"{target}\" için önerilenler. Sadece size uyanları seçin.",
+      "loading": "Öneriler hazırlanıyor…",
+      "custom": "Kendiniz ekleyin",
+      "build": "CV'mi oluştur"
+    },
+    "building": {
+      "title": "CV'niz hazırlanıyor…",
+      "sub": "Profil yazınız cevaplarınızdan oluşturuluyor"
+    },
+    "panel": {
+      "title": "Unvan",
+      "text_upload": "Dosyanızdan okuduklarımız. Bir şey yanlışsa düzeltin.",
+      "text_built": "Cevaplarınızdan oluşturduk. Bir şey yanlışsa düzeltin.",
+      "personal": "Kişisel bilgiler",
+      "edit": "Düzenle",
+      "empty": "Boş",
+      "duties": "Görevler (her satır bir madde)",
+      "new_job": "Yeni iş",
+      "new_edu": "Yeni okul",
+      "add_job": "İş ekle",
+      "add_edu": "Okul ekle",
+      "save": "Kaydet"
+    },
+    "preview": {
+      "title": "CV'niz hazır ✓",
+      "next": "Şimdi bir ilana başvuralım →"
+    },
+    "ad": {
+      "title": "Hangi ilana başvuruyorsunuz?",
+      "text": "İlanın linkini veya metnini yapıştırın.",
+      "or_text": "veya ilan metni",
+      "your_cv": "CV'niz: {name}",
+      "compare": "Karşılaştır"
+    },
+    "analyzing": {
+      "title": "İlan ile CV'niz karşılaştırılıyor…",
+      "sub": "İlandaki şartlar tek tek kontrol ediliyor"
+    },
+    "match": {
+      "g_title": "Bu iş size uygun görünüyor",
+      "g_text": "İlandaki şartların çoğu CV'nizde var.",
+      "y_title": "Bazı eksikler var",
+      "y_text": "Başvurabilirsiniz; ama birkaç şart CV'nizde görünmüyor.",
+      "r_title": "Bu ilan şu an zor görünüyor",
+      "r_text": "İstenen şartların çoğu CV'nizde yok. Yine de başvurmak isteyip istemediğinize siz karar verin.",
+      "reqs": "İlanda istenenler",
+      "ask": "Bu deneyiminiz var mı ama CV'nize yazmadınız mı?",
+      "yes": "Evet, var",
+      "no": "Hayır",
+      "how": "Kısaca yazın, CV'nize ekleyelim",
+      "how_ph": "Örn. Kızılay temel ilk yardım sertifikası, 2021",
+      "missing": "Eksik olarak kaldı",
+      "tips": "İpuçları",
+      "recheck": "{n} bilgiyi ekleyip tekrar karşılaştır",
+      "tailor": "CV'mi bu ilana uyarla",
+      "tailor_anyway": "Yine de başvur — CV'mi uyarla",
+      "give_up": "Vazgeç, başka bir ilana bakayım",
+      "apply_anyway": "Yine de başvur",
+      "cancel": "Vazgeç"
+    },
+    "tailored": {
+      "title": "CV'niz bu ilana uyarlandı",
+      "text": "Göndermeden önce bir kez okuyun. Unvan, şirket ve tarihler değişmez.",
+      "letter": "Kişisel mektubu yaz →",
+      "edit_title": "Uyarlanmış CV'yi düzenleyin",
+      "edit_text": "Buradaki değişiklikler sadece bu başvuruya ait; kayıtlı CV'niz aynı kalır."
+    },
+    "letter": {
+      "title": "Kişisel mektubunuz",
+      "loading": "Mektubunuz yazılıyor…",
+      "finish": "Bitir",
+      "skip": "Bu ilan mektup istemiyor, atla"
+    },
+    "done": {
+      "title": "Başvurunuz hazır!",
+      "text": "Dosyaları indirip ilandaki adrese gönderin.",
+      "cv": "İlana uyarlanmış CV",
+      "letter": "Kişisel mektup",
+      "saved": "Başvurularım'a kaydedildi",
+      "new": "Yeni bir ilana başvur",
+      "mine": "Başvurularıma git"
+    },
+    "limit": {
+      "title": "Bu ayki ücretsiz başvuru hakkınız doldu",
+      "text": "Ücretsiz planda ayda 2 başvuru hazırlayabilirsiniz. Pro ile sınırsız başvuru yapabilirsiniz.",
+      "upgrade": "Pro'ya geçin"
+    }
   }
 }

@@ -880,5 +880,232 @@
       "interview": "Gespräch",
       "rejected": "Abgeschlossen"
     }
+  },
+  "akis": {
+    "next": "Continue",
+    "back": "Back",
+    "yes": "Yes",
+    "skip": "Skip",
+    "add": "Add",
+    "remove": "Remove",
+    "edit": "Edit",
+    "pdf": "Download PDF",
+    "word": "Download Word",
+    "footer": "Made with CVzume · cvzume.com",
+    "errors": {
+      "ai": "The AI service didn't respond just now. Please try again in a few seconds."
+    },
+    "welcome": {
+      "hi": "Hi {name} 👋",
+      "title": "Let's put your application together.",
+      "text": "First we make your resume, once. Then for every job ad we tailor it and write your cover letter.",
+      "s1": "Your resume",
+      "s2": "Job ad and match",
+      "s3": "Resume + letter as PDF",
+      "start": "Get started"
+    },
+    "hasCv": {
+      "title": "Do you already have a resume?",
+      "text": "PDF or Word is fine. If you don't have one, we'll make it together with a few questions.",
+      "yes": "Yes, I'll upload it",
+      "yes_sub": "PDF or Word file",
+      "no": "No, let's make one together",
+      "no_sub": "≈ 10 short questions, 5 minutes"
+    },
+    "upload": {
+      "title": "Upload your resume",
+      "text": "We read your details and turn them into a clean resume. Then you can check and fix it.",
+      "pick": "Choose a file",
+      "formats": "PDF or Word (.docx) · up to 5 MB",
+      "no_file": "I don't have a file, let's do the questions",
+      "reading": "Reading your resume…",
+      "reading_sub": "Sorting experience, education and skills"
+    },
+    "name": {
+      "title": "What's your name?",
+      "first": "First name",
+      "last": "Last name"
+    },
+    "contact": {
+      "title": "How can employers reach you?",
+      "phone": "Phone",
+      "email": "Email",
+      "street": "Street address",
+      "zip": "ZIP code",
+      "city": "City",
+      "address": "Address"
+    },
+    "photo": {
+      "title": "Add a photo to your resume?",
+      "text": "It's optional. You can also add or change it later in Settings.",
+      "upload": "Upload a photo",
+      "change": "Choose a different photo",
+      "formats": "JPG, PNG or WebP · up to 2 MB",
+      "keep": "Continue with this photo",
+      "skip": "Continue without a photo",
+      "skip_sub": "Your resume will have no photo",
+      "too_large": "The photo can be at most 2 MB.",
+      "failed": "The photo couldn't be uploaded. Please try again."
+    },
+    "target": {
+      "title": "What kind of job are you looking for?",
+      "text": "A few words are enough. The next questions adapt to it.",
+      "label": "Job title or field",
+      "ph": "E.g. Nursing assistant"
+    },
+    "worked": {
+      "title": "Have you had a job before?",
+      "more": "Have you had other jobs?",
+      "text": "Part-time jobs, internships and volunteering count too.",
+      "yes_sub": "Let's start with your latest job",
+      "no": "No, not yet",
+      "no_sub": "We'll ask about internships, volunteering or school projects",
+      "done": "No, that's all"
+    },
+    "nowork": {
+      "title": "Have you done an internship, volunteer work or a school project?",
+      "text": "These count as experience on a resume too.",
+      "no": "No, let's move on to education"
+    },
+    "job": {
+      "title": "What was your latest job?",
+      "title_prev": "And the job before that?",
+      "title_intern": "What did you do?",
+      "role": "Job title",
+      "company": "Employer",
+      "start": "From",
+      "end": "To",
+      "date_ph": "Month / year, e.g. 03/2022",
+      "current": "I still work here",
+      "what": "What did you do there? Tell us in your own words.",
+      "what_ph": "E.g. I looked after elderly residents, gave them their medicine on time and typed up reports…",
+      "voice": "Tip: you can also dictate with the microphone key on your phone's keyboard."
+    },
+    "jobai": {
+      "title": "Shall we write it like this?",
+      "text": "We turned what you said into resume language. Fix anything that's wrong or missing.",
+      "label": "How it will look on your resume",
+      "edit_hint": "Each line becomes a bullet point.",
+      "loading": "Turning your words into resume language…",
+      "another": "Yes, add another job",
+      "ok": "Yes, continue"
+    },
+    "edu": {
+      "title": "What's your education?",
+      "school": "School",
+      "field": "Program / major",
+      "year": "Graduation year",
+      "studying": "I'm still studying",
+      "ongoing": "in progress"
+    },
+    "lang": {
+      "title": "Which languages do you speak?",
+      "text": "Pick a level for each language and add it.",
+      "name": "Language",
+      "name_ph": "E.g. English",
+      "level": "Level",
+      "add": "Add language",
+      "levels": {
+        "native": "native",
+        "fluent": "fluent",
+        "good": "good",
+        "basic": "basic"
+      }
+    },
+    "licence": {
+      "title": "Do you have a driver's license?",
+      "yes": "Yes, a regular car license",
+      "no": "No",
+      "skill": "Driver's license (car)"
+    },
+    "skills": {
+      "title": "Which of these can you do?",
+      "text": "Suggestions for \"{target}\". Pick only the ones that fit you.",
+      "loading": "Getting suggestions…",
+      "custom": "Add your own",
+      "build": "Build my resume"
+    },
+    "building": {
+      "title": "Building your resume…",
+      "sub": "Writing your profile from your answers"
+    },
+    "panel": {
+      "title": "Title",
+      "text_upload": "This is what we read from your file. Fix anything that's wrong.",
+      "text_built": "We built this from your answers. Fix anything that's wrong.",
+      "personal": "Personal details",
+      "edit": "Edit",
+      "empty": "Empty",
+      "duties": "Duties (one line per bullet)",
+      "new_job": "New job",
+      "new_edu": "New school",
+      "add_job": "Add job",
+      "add_edu": "Add school",
+      "save": "Save"
+    },
+    "preview": {
+      "title": "Your resume is ready ✓",
+      "next": "Now let's apply for a job →"
+    },
+    "ad": {
+      "title": "Which job are you applying for?",
+      "text": "Paste the link to the job ad or the ad text.",
+      "or_text": "or the ad text",
+      "your_cv": "Your resume: {name}",
+      "compare": "Compare"
+    },
+    "analyzing": {
+      "title": "Comparing the job ad with your resume…",
+      "sub": "Checking each requirement in the ad"
+    },
+    "match": {
+      "g_title": "This job looks like a good fit",
+      "g_text": "Most of the requirements are on your resume.",
+      "y_title": "A few things are missing",
+      "y_text": "You can apply, but some requirements don't show on your resume.",
+      "r_title": "This one looks hard right now",
+      "r_text": "Most of the requirements aren't on your resume. It's your call whether to apply anyway.",
+      "reqs": "What the ad asks for",
+      "ask": "Do you have this experience but left it off your resume?",
+      "yes": "Yes, I do",
+      "no": "No",
+      "how": "Write it briefly and we'll add it to your resume",
+      "how_ph": "E.g. Red Cross first aid certificate, 2021",
+      "missing": "Still missing",
+      "tips": "Tips",
+      "recheck": "Add {n} details and compare again",
+      "tailor": "Tailor my resume to this job",
+      "tailor_anyway": "Apply anyway — tailor my resume",
+      "give_up": "Skip it, I'll look at another job",
+      "apply_anyway": "Apply anyway",
+      "cancel": "Skip"
+    },
+    "tailored": {
+      "title": "Your resume is tailored to the job",
+      "text": "Read it once before you send it. Titles, employers and dates never change.",
+      "letter": "Write the cover letter →",
+      "edit_title": "Edit the tailored resume",
+      "edit_text": "Changes here apply only to this application; your saved resume stays the same."
+    },
+    "letter": {
+      "title": "Your cover letter",
+      "loading": "Writing your letter…",
+      "finish": "Finish",
+      "skip": "This job doesn't ask for a letter, skip"
+    },
+    "done": {
+      "title": "Your application is ready!",
+      "text": "Download the files and send them as the ad says.",
+      "cv": "Resume tailored to the job",
+      "letter": "Cover letter",
+      "saved": "Saved in My applications",
+      "new": "Apply for another job",
+      "mine": "Go to My applications"
+    },
+    "limit": {
+      "title": "You've used this month's free applications",
+      "text": "The free plan includes 2 applications a month. Pro is unlimited.",
+      "upgrade": "Upgrade to Pro"
+    }
   }
 }

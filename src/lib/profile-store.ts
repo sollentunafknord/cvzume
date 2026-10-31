@@ -140,3 +140,18 @@ export async function saveCvPhotoChoice(choice: string, locale: string): Promise
     return false
   }
 }
+
+/** Profil resmini kaydeder (yükleme uploadPhoto ile): yerel kopya + kullanıcının tüm profil satırları. */
+export async function saveAvatarUrl(url: string, locale: string): Promise<void> {
+  localStorage.setItem('cvita_avatar', url)
+  window.dispatchEvent(new CustomEvent('cvita_profile_updated'))
+  const { token, user } = session()
+  if (!token || !user.id) return
+  const base = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/profiles`
+  const headers = { 'Content-Type': 'application/json', apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, Authorization: 'Bearer ' + token }
+  const res = await fetch(`${base}?id=eq.${user.id}`, { method: 'PATCH', headers: { ...headers, Prefer: 'return=representation' }, body: JSON.stringify({ avatar_url: url }) }).catch(() => null)
+  const rows = res?.ok ? await res.json().catch(() => []) : []
+  if (!Array.isArray(rows) || !rows.length) {
+    await fetch(base, { method: 'POST', headers: { ...headers, Prefer: 'resolution=merge-duplicates' }, body: JSON.stringify({ id: user.id, locale, avatar_url: url, updated_at: new Date().toISOString() }) }).catch(() => {})
+  }
+}

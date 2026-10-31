@@ -7,7 +7,7 @@ import { useTranslations } from 'next-intl';
 import styles from './ny.module.css';
 import { descLines, period, type ExportCv, type ExportPerson } from '@/lib/export-docs';
 
-export default function PrintDocument({ kind, person, cv, letter }: { kind: 'cv' | 'letter'; person: ExportPerson; cv?: ExportCv | null; letter?: string }) {
+export default function PrintDocument({ kind, person, cv, letter, footer }: { kind: 'cv' | 'letter'; person: ExportPerson; cv?: ExportCv | null; letter?: string; footer?: string }) {
   const t = useTranslations('ny');
   return createPortal(
     <div className={`${styles.printArea} cvzume-print`}>
@@ -41,6 +41,7 @@ export default function PrintDocument({ kind, person, cv, letter }: { kind: 'cv'
       ) : (
         <div className={styles.pLetter}>{(letter || '').split(/\n{2,}/).map((par, i) => <p key={i}>{par}</p>)}</div>
       )}
+      {footer && <div className={styles.pFooter}>{footer}</div>}
     </div>,
     document.body,
   );

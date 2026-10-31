@@ -2,7 +2,7 @@
 // Gerçekler sunucuda korunur: unvan/şirket/tarih orijinal CV'den gelir, yapay zeka sadece deneyim
 // açıklamalarını yeniden yazar ve sıralar; beceriler sadece yeniden sıralanır (yeni beceri eklenemez).
 import { NextResponse } from 'next/server'
-import { checkCredit, getRequestUser, rateLimit, recordCredit } from '@/lib/server-auth'
+import { checkCredit, creditToken, getRequestUser, rateLimit, recordCredit } from '@/lib/server-auth'
 import { callAIJson, ADDRESS_RULE, COUNTRY_RULE, LANG_NAMES } from '@/lib/ai'
 
 export const maxDuration = 60
@@ -52,12 +52,15 @@ export async function POST(request: Request) {
   const user = await getRequestUser(request)
   if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
   if (!rateLimit(`ai:${user.id}`, 40)) return NextResponse.json({ error: 'rate_limited' }, { status: 429 })
-  const credit = await checkCredit(user)
-  if (!credit.allowed) return NextResponse.json({ error: 'limit' }, { status: 402 })
-  const body = await request.json().catch(() => null) as { jobAd?: string; cv?: Cv; locale?: string } | null
+  const body = await request.json().catch(() => null) as { jobAd?: string; cv?: Cv; locale?: string; creditToken?: string } | null
   const jobAd = str(body?.jobAd, 8000)
   const cv = body?.cv
   if (jobAd.length < 80 || !cv) return NextResponse.json({ error: 'bad_request' }, { status: 400 })
+  // Aynı ilanın yeniden karşılaştırması (eksik bilgi eklendi) hak yemez
+  const token = creditToken(user.id, jobAd)
+  const recheck = body?.creditToken === token
+  const credit = recheck ? { allowed: true, pro: true } : await checkCredit(user)
+  if (!credit.allowed) return NextResponse.json({ error: 'limit' }, { status: 402 })
   const lang = LANG_NAMES[body?.locale || 'sv'] || 'Swedish'
 
   const exps = (cv.experiences || []).slice(0, 15)
@@ -165,6 +168,7 @@ Return ONLY JSON: {"items":[{"k":0,"text":""}]}`
 
     if (!credit.pro) await recordCredit(user).catch(e => console.error('recordCredit', e))
     return NextResponse.json({
+      creditToken: token,
       role: str(data.role, 150),
       matchScore: typeof data.matchScore === 'number' ? Math.max(0, Math.min(100, Math.round(data.matchScore))) : null,
       requirements: reqs,

@@ -3,6 +3,8 @@
 // docx kütüphanesi sadece tıklanınca yüklenir (sayfa paketi küçük kalsın).
 
 export type ExportPerson = { name: string; email?: string; phone?: string; location?: string; title?: string; photo?: string }
+/** Ücretsiz planda belgenin en altındaki küçük ibare (Pro'da boş). */
+export type ExportOptions = { footer?: string }
 export type ExportExperience = { role?: string; company?: string; start?: string; end?: string; desc?: string }
 export type ExportEducation = { school?: string; degree?: string; field?: string; years?: string }
 export type ExportCv = { summary: string; experiences: ExportExperience[]; educations: ExportEducation[]; skills: string[]; languages: string[] }
@@ -40,6 +42,11 @@ async function photoJpeg(url: string): Promise<Uint8Array | null> {
   }
 }
 
+type DocxMod = typeof import('docx')
+function footerLine(text: string, Paragraph: DocxMod['Paragraph'], TextRun: DocxMod['TextRun']) {
+  return new Paragraph({ alignment: 'center', spacing: { before: 480 }, children: [new TextRun({ text, size: 15, color: 'A0AEC0' })] })
+}
+
 function download(blob: Blob, filename: string) {
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
@@ -51,7 +58,7 @@ function download(blob: Blob, filename: string) {
   setTimeout(() => URL.revokeObjectURL(url), 1000)
 }
 
-export async function exportCvDocx(person: ExportPerson, cv: ExportCv, labels: CvLabels, filename: string) {
+export async function exportCvDocx(person: ExportPerson, cv: ExportCv, labels: CvLabels, filename: string, opts: ExportOptions = {}) {
   const d = await import('docx')
   const { Document, Packer, Paragraph, TextRun, BorderStyle, ImageRun, Table, TableRow, TableCell, WidthType, VerticalAlign } = d
   const photo = person.photo ? await photoJpeg(person.photo) : null
@@ -117,6 +124,7 @@ export async function exportCvDocx(person: ExportPerson, cv: ExportCv, labels: C
   }
   if (cv.skills.length) children.push(heading(labels.skills), new Paragraph({ children: [new TextRun({ text: cv.skills.join('  ·  '), size: 21 })] }))
   if (cv.languages.length) children.push(heading(labels.languages), new Paragraph({ children: [new TextRun({ text: cv.languages.join('  ·  '), size: 21 })] }))
+  if (opts.footer) children.push(footerLine(opts.footer, Paragraph, TextRun))
 
   const doc = new Document({
     styles: { default: { document: { run: { font: 'Calibri' } } } },
@@ -125,7 +133,7 @@ export async function exportCvDocx(person: ExportPerson, cv: ExportCv, labels: C
   download(await Packer.toBlob(doc), `${filename}.docx`)
 }
 
-export async function exportLetterDocx(person: ExportPerson, letter: string, filename: string) {
+export async function exportLetterDocx(person: ExportPerson, letter: string, filename: string, opts: ExportOptions = {}) {
   const { Document, Packer, Paragraph, TextRun } = await import('docx')
   const contact = [person.email, person.phone, person.location].filter(Boolean).join('  ·  ')
   const children = [
@@ -135,6 +143,7 @@ export async function exportLetterDocx(person: ExportPerson, letter: string, fil
       spacing: { after: 200 },
       children: par.split('\n').flatMap((line, i) => [...(i ? [new TextRun({ break: 1 })] : []), new TextRun({ text: line, size: 22 })]),
     })),
+    ...(opts.footer ? [footerLine(opts.footer, Paragraph, TextRun)] : []),
   ]
   const doc = new Document({
     styles: { default: { document: { run: { font: 'Calibri' } } } },

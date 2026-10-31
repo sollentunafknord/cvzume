@@ -852,5 +852,232 @@
       "interview": "Intervju",
       "rejected": "Avslutade"
     }
+  },
+  "akis": {
+    "next": "Fortsätt",
+    "back": "Tillbaka",
+    "yes": "Ja",
+    "skip": "Hoppa över",
+    "add": "Lägg till",
+    "remove": "Ta bort",
+    "edit": "Redigera",
+    "pdf": "Ladda ner PDF",
+    "word": "Ladda ner Word",
+    "footer": "Skapad med CVzume · cvzume.com",
+    "errors": {
+      "ai": "AI-tjänsten svarade inte just nu. Försök igen om några sekunder."
+    },
+    "welcome": {
+      "hi": "Hej {name} 👋",
+      "title": "Vi tar fram din ansökan tillsammans.",
+      "text": "Först gör vi ditt CV, en gång. Sedan anpassar vi det till varje annons och skriver ditt personliga brev.",
+      "s1": "Ditt CV",
+      "s2": "Annons och matchning",
+      "s3": "CV + brev som PDF",
+      "start": "Kom igång"
+    },
+    "hasCv": {
+      "title": "Har du ett färdigt CV?",
+      "text": "PDF eller Word går bra. Har du inget gör vi ett tillsammans med några frågor.",
+      "yes": "Ja, jag laddar upp det",
+      "yes_sub": "PDF- eller Word-fil",
+      "no": "Nej, vi gör ett tillsammans",
+      "no_sub": "≈ 10 korta frågor, 5 minuter"
+    },
+    "upload": {
+      "title": "Ladda upp ditt CV",
+      "text": "Vi läser dina uppgifter och gör om dem till ett snyggt CV. Sedan kan du kontrollera och rätta.",
+      "pick": "Välj fil",
+      "formats": "PDF eller Word (.docx) · max 5 MB",
+      "no_file": "Jag har ingen fil, vi tar frågorna",
+      "reading": "Ditt CV läses…",
+      "reading_sub": "Erfarenheter, utbildning och kompetenser sorteras"
+    },
+    "name": {
+      "title": "Vad heter du?",
+      "first": "Förnamn",
+      "last": "Efternamn"
+    },
+    "contact": {
+      "title": "Hur når man dig?",
+      "phone": "Telefon",
+      "email": "E-post",
+      "street": "Gatuadress",
+      "zip": "Postnummer",
+      "city": "Ort",
+      "address": "Adress"
+    },
+    "photo": {
+      "title": "Vill du ha ett foto på CV:t?",
+      "text": "Det är frivilligt. Du kan också lägga till eller byta senare under Inställningar.",
+      "upload": "Ladda upp foto",
+      "change": "Välj ett annat foto",
+      "formats": "JPG, PNG eller WebP · max 2 MB",
+      "keep": "Fortsätt med det här fotot",
+      "skip": "Fortsätt utan foto",
+      "skip_sub": "CV:t blir utan foto",
+      "too_large": "Fotot får vara högst 2 MB.",
+      "failed": "Fotot kunde inte laddas upp. Försök igen."
+    },
+    "target": {
+      "title": "Vilket slags jobb söker du?",
+      "text": "Några ord räcker. Nästa frågor anpassas efter det.",
+      "label": "Yrke eller område",
+      "ph": "T.ex. Undersköterska"
+    },
+    "worked": {
+      "title": "Har du jobbat tidigare?",
+      "more": "Har du haft fler jobb?",
+      "text": "Deltid, praktik och ideellt arbete räknas också.",
+      "yes_sub": "Vi börjar med ditt senaste jobb",
+      "no": "Nej, inte än",
+      "no_sub": "Vi frågar om praktik, ideellt arbete eller skolprojekt",
+      "done": "Nej, det var allt"
+    },
+    "nowork": {
+      "title": "Har du gjort praktik, ideellt arbete eller ett skolprojekt?",
+      "text": "Det räknas också som erfarenhet på CV:t.",
+      "no": "Nej, vi går vidare till utbildning"
+    },
+    "job": {
+      "title": "Vad var ditt senaste jobb?",
+      "title_prev": "Jobbet innan dess?",
+      "title_intern": "Vad gjorde du?",
+      "role": "Titel",
+      "company": "Arbetsgivare",
+      "start": "Från",
+      "end": "Till",
+      "date_ph": "Månad / år, t.ex. 03/2022",
+      "current": "Jag jobbar kvar här",
+      "what": "Vad gjorde du där? Berätta med egna ord.",
+      "what_ph": "T.ex. Jag tog hand om äldre, gav mediciner på rätt tid och skrev rapporter i datorn…",
+      "voice": "Tips: du kan också prata in texten med mikrofonknappen på mobilens tangentbord."
+    },
+    "jobai": {
+      "title": "Ska vi skriva så här?",
+      "text": "Vi har gjort om det du berättade till CV-språk. Rätta om något är fel eller saknas.",
+      "label": "Så här blir det på ditt CV",
+      "edit_hint": "Varje rad blir en punkt.",
+      "loading": "Det du berättade görs om till CV-språk…",
+      "another": "Ja, lägg till ett jobb till",
+      "ok": "Ja, fortsätt"
+    },
+    "edu": {
+      "title": "Vad har du för utbildning?",
+      "school": "Skola",
+      "field": "Program / inriktning",
+      "year": "Examensår",
+      "studying": "Jag studerar fortfarande",
+      "ongoing": "pågående"
+    },
+    "lang": {
+      "title": "Vilka språk talar du?",
+      "text": "Välj nivå för varje språk och lägg till.",
+      "name": "Språk",
+      "name_ph": "T.ex. Svenska",
+      "level": "Nivå",
+      "add": "Lägg till språket",
+      "levels": {
+        "native": "modersmål",
+        "fluent": "flytande",
+        "good": "god",
+        "basic": "grundläggande"
+      }
+    },
+    "licence": {
+      "title": "Har du körkort?",
+      "yes": "Ja, B-körkort",
+      "no": "Nej",
+      "skill": "B-körkort"
+    },
+    "skills": {
+      "title": "Vilka av de här kan du?",
+      "text": "Förslag för \"{target}\". Välj bara det som stämmer.",
+      "loading": "Förslagen tas fram…",
+      "custom": "Lägg till egen",
+      "build": "Skapa mitt CV"
+    },
+    "building": {
+      "title": "Ditt CV skapas…",
+      "sub": "Din profiltext skrivs utifrån dina svar"
+    },
+    "panel": {
+      "title": "Titel",
+      "text_upload": "Det här läste vi i din fil. Rätta om något är fel.",
+      "text_built": "Det här skapade vi av dina svar. Rätta om något är fel.",
+      "personal": "Personuppgifter",
+      "edit": "Redigera",
+      "empty": "Tom",
+      "duties": "Arbetsuppgifter (en rad per punkt)",
+      "new_job": "Nytt jobb",
+      "new_edu": "Ny utbildning",
+      "add_job": "Lägg till jobb",
+      "add_edu": "Lägg till utbildning",
+      "save": "Spara"
+    },
+    "preview": {
+      "title": "Ditt CV är klart ✓",
+      "next": "Nu söker vi ett jobb →"
+    },
+    "ad": {
+      "title": "Vilken annons söker du?",
+      "text": "Klistra in länken till annonsen eller annonstexten.",
+      "or_text": "eller annonstexten",
+      "your_cv": "Ditt CV: {name}",
+      "compare": "Jämför"
+    },
+    "analyzing": {
+      "title": "Annonsen jämförs med ditt CV…",
+      "sub": "Kraven i annonsen kontrolleras ett i taget"
+    },
+    "match": {
+      "g_title": "Det här jobbet passar dig",
+      "g_text": "De flesta kraven i annonsen finns i ditt CV.",
+      "y_title": "Några saker saknas",
+      "y_text": "Du kan söka, men några krav syns inte i ditt CV.",
+      "r_title": "Den här annonsen ser svår ut just nu",
+      "r_text": "De flesta kraven finns inte i ditt CV. Du bestämmer själv om du vill söka ändå.",
+      "reqs": "Det här efterfrågas",
+      "ask": "Har du den här erfarenheten men inte skrivit den i CV:t?",
+      "yes": "Ja, det har jag",
+      "no": "Nej",
+      "how": "Skriv kort, så lägger vi till det i ditt CV",
+      "how_ph": "T.ex. Grundkurs i HLR, Röda Korset 2021",
+      "missing": "Saknas fortfarande",
+      "tips": "Tips",
+      "recheck": "Lägg till {n} uppgifter och jämför igen",
+      "tailor": "Anpassa mitt CV till annonsen",
+      "tailor_anyway": "Sök ändå — anpassa mitt CV",
+      "give_up": "Avstå, jag tittar på en annan annons",
+      "apply_anyway": "Sök ändå",
+      "cancel": "Avstå"
+    },
+    "tailored": {
+      "title": "Ditt CV är anpassat till annonsen",
+      "text": "Läs igenom innan du skickar. Titlar, arbetsgivare och datum ändras aldrig.",
+      "letter": "Skriv personligt brev →",
+      "edit_title": "Redigera det anpassade CV:t",
+      "edit_text": "Ändringarna gäller bara den här ansökan; ditt sparade CV är oförändrat."
+    },
+    "letter": {
+      "title": "Ditt personliga brev",
+      "loading": "Ditt brev skrivs…",
+      "finish": "Klar",
+      "skip": "Annonsen vill inte ha brev, hoppa över"
+    },
+    "done": {
+      "title": "Din ansökan är klar!",
+      "text": "Ladda ner filerna och skicka dem enligt annonsen.",
+      "cv": "CV anpassat till annonsen",
+      "letter": "Personligt brev",
+      "saved": "Sparad i Mina ansökningar",
+      "new": "Sök ett nytt jobb",
+      "mine": "Till Mina ansökningar"
+    },
+    "limit": {
+      "title": "Månadens gratisansökningar är slut",
+      "text": "Med gratisplanen kan du ta fram 2 ansökningar i månaden. Med Pro är det obegränsat.",
+      "upgrade": "Uppgradera till Pro"
+    }
   }
 }

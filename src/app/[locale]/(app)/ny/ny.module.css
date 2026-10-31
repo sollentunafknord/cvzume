@@ -84,6 +84,7 @@
   .pExp { margin-bottom: 10px; break-inside: avoid; }
   .pEdu { margin-bottom: 4px; }
   .pPeriod { font-size: 9pt; color: #64748B; }
+  .pFooter { text-align: center; color: #A0AEC0; font-size: 7.5pt; margin-top: 18px; }
   .pLetter { margin-top: 24px; font-size: 11pt; line-height: 1.6; }
   .pLetter p { margin-bottom: 12px; white-space: pre-wrap; }
   @page { margin: 16mm 16mm; }

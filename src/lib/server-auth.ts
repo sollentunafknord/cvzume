@@ -1,6 +1,7 @@
 // Sunucu tarafı kimlik, Pro ve ücretsiz kota kontrolü. Eskiden Pro durumu ve kota tarayıcıda
 // (localStorage + kullanıcının kendi yazabildiği usage_limits) tutuluyordu; artık karar burada.
 import { createClient, type User } from '@supabase/supabase-js'
+import { createHash, createHmac } from 'crypto'
 import { isAdminEmail } from './admin'
 import { hasActiveSubscription } from './stripe-plan'
 
@@ -76,3 +77,11 @@ export function rateLimit(key: string, max: number, windowMs = 3600_000): boolea
 /** İstemci IP'si (Vercel x-forwarded-for'u kendisi yazar). */
 export const clientIp = (request: Request) =>
   request.headers.get('x-real-ip') || request.headers.get('x-forwarded-for')?.split(',')[0].trim() || 'unknown'
+
+/** Aynı ilan için yeniden karşılaştırma (kullanıcı eksik bilgi ekledi) hak yemesin: ilk uyarlama
+ *  bu ayın, bu kullanıcının, bu ilanın imzasını döner; aynı imzayla gelen istek kotadan düşmez. */
+export function creditToken(userId: string, jobAd: string): string {
+  const ad = createHash('sha256').update(jobAd.trim()).digest('hex')
+  return createHmac('sha256', process.env.SUPABASE_SERVICE_ROLE_KEY || '')
+    .update(`credit:${userId}:${ad}:${new Date().toISOString().slice(0, 7)}`).digest('hex')
+}
