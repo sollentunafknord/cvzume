@@ -267,11 +267,8 @@ export default function AuthClient() {
         <div className={styles.leftTestimonial}>
           <div className={styles.testimonialQuote}>"{t('testimonial_quote')}"</div>
           <div className={styles.testimonialAuthor}>
-            <div className={styles.testimonialAvatar}>AL</div>
-            <div>
-              <div className={styles.testimonialName}>{t('testimonial_name')}</div>
-              <div className={styles.testimonialRole}>{t('testimonial_role')}</div>
-            </div>
+            <div className={styles.testimonialAvatar}>A</div>
+            <div className={styles.testimonialName}>{t('testimonial_name')}</div>
           </div>
         </div>
       </div>
