@@ -72,8 +72,6 @@ CV kayıtlıysa sonraki başvurular doğrudan 3. adımdan başlar.
       - Yükseltme sayfasındaki özellik listesi gerçekle uyumlu (2026-10-31 düzeltildi)
 - [x] Sosyal medya: facebook.com/cvzume ve instagram.com/cvzume açıldı, sitenin altında linkleri var; ilk 5 gönderi hazır (docs/sosyal-medya-gonderiler.md)
 - [ ] Sosyal medya: Instagram'ı Facebook sayfasına bağla, gönderileri paylaş; sonra Meta API ile otomatik paylaşım
-- [ ] (eski madde) Facebook ve Instagram hesapları (hazırlık: docs/sosyal-medya.md, görseller public/brand/social/);
-      hesaplar açılınca sitenin altına bağlantılarını ekle
 - [ ] LinkedIn (sonra): şirket sayfası + entegrasyon fikirleri — "LinkedIn ile giriş", LinkedIn profilinden CV'yi içe aktarma,
       hazırlanan başvuruyu/ilanı LinkedIn'de paylaşma; LinkedIn API izinleri ve kuralları önce incelenmeli
 - [ ] Yeni akışın İspanyolca ve Almanca metinleri (test sürümünde İngilizce yedek kullanılıyor)
