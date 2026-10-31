@@ -4,7 +4,7 @@
 
 export type ExportPerson = { name: string; email?: string; phone?: string; location?: string; title?: string; photo?: string }
 /** Ücretsiz planda belgenin en altındaki küçük ibare (Pro'da boş). */
-export type ExportOptions = { footer?: string }
+export type ExportOptions = { footer?: string; accent?: string; ink?: string }
 export type ExportExperience = { role?: string; company?: string; start?: string; end?: string; desc?: string }
 export type ExportEducation = { school?: string; degree?: string; field?: string; years?: string }
 export type ExportCv = { summary: string; experiences: ExportExperience[]; educations: ExportEducation[]; skills: string[]; languages: string[] }
@@ -63,16 +63,17 @@ export async function exportCvDocx(person: ExportPerson, cv: ExportCv, labels: C
   const { Document, Packer, Paragraph, TextRun, BorderStyle, ImageRun, Table, TableRow, TableCell, WidthType, VerticalAlign } = d
   const photo = person.photo ? await photoJpeg(person.photo) : null
 
+  const BLUE_ = opts.accent ?? BLUE, NAVY_ = opts.ink ?? NAVY
   const heading = (text: string) => new Paragraph({
     spacing: { before: 280, after: 100 },
     border: { bottom: { style: BorderStyle.SINGLE, size: 6, color: 'CBD5E1', space: 2 } },
-    children: [new TextRun({ text: text.toUpperCase(), bold: true, size: 20, color: BLUE, characterSpacing: 20 })],
+    children: [new TextRun({ text: text.toUpperCase(), bold: true, size: 20, color: BLUE_, characterSpacing: 20 })],
   })
   const contact = [person.email, person.phone, person.location].filter(Boolean).join('  ·  ')
 
   const head = [
-    new Paragraph({ children: [new TextRun({ text: person.name, bold: true, size: 40, color: NAVY })] }),
-    ...(person.title ? [new Paragraph({ spacing: { after: 40 }, children: [new TextRun({ text: person.title, size: 24, color: BLUE })] })] : []),
+    new Paragraph({ children: [new TextRun({ text: person.name, bold: true, size: 40, color: NAVY_ })] }),
+    ...(person.title ? [new Paragraph({ spacing: { after: 40 }, children: [new TextRun({ text: person.title, size: 24, color: BLUE_ })] })] : []),
     ...(contact ? [new Paragraph({ spacing: { after: 120 }, children: [new TextRun({ text: contact, size: 18, color: GREY })] })] : []),
   ]
   // Fotoğraf varsa başlık iki sütun: solda ad/iletişim, sağda fotoğraf (çerçevesiz tablo)

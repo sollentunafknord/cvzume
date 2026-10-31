@@ -43,6 +43,13 @@ CV kayıtlıysa sonraki başvurular doğrudan 3. adımdan başlar.
 - Sitenin genel görünümü telefon akışındaki mantıkla: tek sütun, tek soru, büyük butonlar.
   Bilgisayarda alanlar daha büyük ve ekrana oturan (ortalanmış geniş sütun), menü kalabalığı yok.
 
+## Görsel kimlik (2026-10-31)
+- Yazı tipi: Lexend (okumayı kolaylaştırmak için tasarlanmış; ilk dili farklı iş arayanlar için de rahat)
+- Mat pastel renkler, keskin renk yok; fosforlu kalem/vurgu işaretleri yok
+- Paletler: 1 Nane (ücretsiz plan, varsayılan) · 2 Gökyüzü · 3 Kayısı — Pro kullanıcı üçü arasından seçer
+  (uygulama renkleri + CV/PDF başlık rengi)
+- Önizleme: https://claude.ai/artifact/C3y7PRVEwE1joqBY76JfAJ
+
 ## Test ve yayın
 - Taslak: https://www.cvzume.com/yedek/akis.html (gizli, noindex)
 - Gerçek akış önce gizli bir test adresinde canlıya çıkar (/<dil>/akis), gerçek hesaplarla test edilir;
@@ -54,4 +61,5 @@ CV kayıtlıysa sonraki başvurular doğrudan 3. adımdan başlar.
 - [ ] Gerçek akış: /<dil>/akis test adresinde
 - [ ] Site bittiğinde: robots.txt ve sitemap'i gözden geçir (/yedek/ ve /<dil>/akis kurallarını kaldır,
       yeni sayfaları ekle, eski /dashboard vb. kurallarını temizle), /yedek/ klasörünü sil
+- [ ] Palet seçimini profile kaydet (şimdilik tarayıcıda) ve Ayarlar'a da koy; ücretsiz kullanıcıya kilitli önizleme (Pro tanıtımı)
 - [ ] Yeni akışın İspanyolca ve Almanca metinleri (test sürümünde İngilizce yedek kullanılıyor)

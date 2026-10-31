@@ -73,13 +73,13 @@
   /* intervju.module.css'in print stili body * { visibility: hidden } yapıyor — burada geçersiz kıl */
   .printArea, .printArea * { visibility: visible !important; }
   .printArea { display: block; font-family: 'DM Sans', Arial, sans-serif; color: #1E293B; font-size: 10.5pt; line-height: 1.5; padding: 0; }
-  .printArea h3 { font-size: 9.5pt; letter-spacing: 1.2px; text-transform: uppercase; color: #1A56DB; border-bottom: 1px solid #CBD5E1; padding-bottom: 3px; margin: 16px 0 8px; }
+  .printArea h3 { font-size: 9.5pt; letter-spacing: 1.2px; text-transform: uppercase; color: var(--accent, #1A56DB); border-bottom: 1px solid #CBD5E1; padding-bottom: 3px; margin: 16px 0 8px; }
   .printArea p { margin: 0 0 8px; }
   .printArea ul { margin: 4px 0 0; padding-left: 16px; }
   .pHead { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
   .pPhoto { width: 30mm; height: 30mm; object-fit: cover; border-radius: 4px; flex-shrink: 0; }
-  .pName { font-size: 22pt; font-weight: 700; color: #0D1B2A; }
-  .pTitle { font-size: 12pt; color: #1A56DB; }
+  .pName { font-size: 22pt; font-weight: 700; color: var(--ink, #0D1B2A); }
+  .pTitle { font-size: 12pt; color: var(--accent, #1A56DB); }
   .pContact { font-size: 9pt; color: #64748B; margin: 2px 0 6px; }
   .pExp { margin-bottom: 10px; break-inside: avoid; }
   .pEdu { margin-bottom: 4px; }

@@ -7,10 +7,10 @@ import { useTranslations } from 'next-intl';
 import styles from './ny.module.css';
 import { descLines, period, type ExportCv, type ExportPerson } from '@/lib/export-docs';
 
-export default function PrintDocument({ kind, person, cv, letter, footer }: { kind: 'cv' | 'letter'; person: ExportPerson; cv?: ExportCv | null; letter?: string; footer?: string }) {
+export default function PrintDocument({ kind, person, cv, letter, footer, style }: { kind: 'cv' | 'letter'; person: ExportPerson; cv?: ExportCv | null; letter?: string; footer?: string; style?: React.CSSProperties }) {
   const t = useTranslations('ny');
   return createPortal(
-    <div className={`${styles.printArea} cvzume-print`}>
+    <div className={`${styles.printArea} cvzume-print`} style={style}>
       <div className={styles.pHead}>
         <div>
           <div className={styles.pName}>{person.name}</div>

@@ -6,6 +6,7 @@
 // Taslak localStorage'da tutulur; kullanıcı kaldığı yerden devam eder.
 /* eslint-disable @next/next/no-img-element */
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { Lexend } from 'next/font/google';
 import { useLocale, useTranslations } from 'next-intl';
 import styles from './akis.module.css';
 import LogoMark from '@/components/LogoMark';
@@ -29,6 +30,16 @@ type Result = { role: string; matchScore: number | null; requirements: Req[]; ti
 type State = { screen: Screen; history: Screen[]; path: 'yes' | 'no' | ''; draft: Draft; ad: string; role: string; result: Result | null; letter: string; asks: Record<number, 'yes' | 'no' | ''>; notes: Record<number, string>; saved: boolean };
 
 const STORE = 'cvzume_akis_v1';
+const lexend = Lexend({ subsets: ['latin', 'latin-ext'], weight: ['300', '400', '500', '600', '700'], variable: '--font-lexend', display: 'swap' });
+
+// Paletler (PLAN.md): ücretsiz planda Nane; Pro üçü arasından seçer. Uygulama + CV/PDF başlık rengi.
+type Palette = 'mint' | 'sky' | 'apricot';
+const PALETTES: Record<Palette, { swatch: string; ink: string; back: string; strong: string }> = {
+  mint: { swatch: '#A7D7C5', ink: '#23343A', back: '#FBE3A6', strong: '#3E7F6C' },
+  sky: { swatch: '#B9CEF3', ink: '#24304A', back: '#FFD9C4', strong: '#4B6FB5' },
+  apricot: { swatch: '#F6CDB3', ink: '#3A2E33', back: '#DCD0F4', strong: '#B86E4B' },
+};
+const PALETTE_KEY = 'cvzume_palette';
 const NEW_JOB: Job = { role: '', company: '', start: '', end: '', current: false, text: '', bullets: [] };
 const NEW_DRAFT: Draft = { first: '', last: '', phone: '', street: '', zip: '', city: '', target: '', jobs: [], job: NEW_JOB, intern: false, school: '', field: '', year: '', studying: false, langs: [], licence: null, skills: [], suggestions: [] };
 const ORDER_NO: Screen[] = ['welcome', 'hasCv', 'name', 'contact', 'photo', 'target', 'worked', 'job', 'jobai', 'edu', 'lang', 'licence', 'skills', 'building', 'panel', 'preview', 'ad', 'analyzing', 'match', 'tailored', 'letter', 'done'];
@@ -71,7 +82,7 @@ function Panel({ cv, set, names, setNames, t, tn }: { cv: Profile; set: (p: Prof
             <Field id="p-first" label={t('name.first')} value={names.first} onChange={v => setNames({ ...names, first: v })} />
             <Field id="p-last" label={t('name.last')} value={names.last} onChange={v => setNames({ ...names, last: v })} />
           </div>}
-          <Field id="p-title" label={t('panel.title')} value={cv.title} onChange={v => set({ ...cv, title: v })} />
+          <Field id="p-title" label={t('panel.job_title')} value={cv.title} onChange={v => set({ ...cv, title: v })} />
           <Field id="p-phone" label={t('contact.phone')} value={cv.phone} onChange={v => set({ ...cv, phone: v })} />
           <Field id="p-addr" label={t('contact.address')} value={cv.location} onChange={v => set({ ...cv, location: v })} />
         </div>
@@ -169,6 +180,10 @@ export default function AkisClient() {
   const [email, setEmail] = useState('');
   const [photo, setPhoto] = useState('');
   const [isPro, setIsPro] = useState(false);
+  // İlk çizim yükleme ekranı (paletsiz), bu yüzden sunucu/istemci farkı hidrasyon sorunu yaratmaz
+  const [chosen, setChosen] = useState<Palette>(() => {
+    try { const v = typeof window !== 'undefined' ? localStorage.getItem(PALETTE_KEY) : null; return v && v in PALETTES ? (v as Palette) : 'mint'; } catch { return 'mint'; }
+  });
   const [busy, setBusy] = useState('');
   const [error, setError] = useState('');
   const [printing, setPrinting] = useState<'' | 'cv' | 'letter'>('');
@@ -211,6 +226,10 @@ export default function AkisClient() {
   const fullName = [names.first, names.last].filter(Boolean).join(' ') || email;
   const person = (cv: Profile): ExportPerson => ({ name: fullName, email, phone: cv.phone, location: cv.location, title: cv.title, photo });
   const footer = isPro ? '' : t('footer');
+  const palette: Palette = isPro ? chosen : 'mint';
+  const pal = PALETTES[palette];
+  const pickPalette = (v: Palette) => { setChosen(v); try { localStorage.setItem(PALETTE_KEY, v); } catch { /* yok */ } };
+  const docColors = { accent: pal.strong.slice(1), ink: pal.ink.slice(1) };
   const cvLabels = { profile: tn('cv.profile'), experience: tn('cv.experience'), education: tn('cv.education'), skills: tn('cv.skills'), languages: tn('cv.languages'), present: tn('cv.present') };
 
   // ── Yapay zeka çağrıları ──
@@ -366,17 +385,17 @@ export default function AkisClient() {
 
   function exportCv(cv: Profile, format: 'pdf' | 'docx') {
     const name = safeFileName(fullName, 'CV', s?.result?.role || cv.title || '');
-    if (format === 'docx') exportCvDocx(person(cv), cv, cvLabels, name, { footer });
+    if (format === 'docx') exportCvDocx(person(cv), cv, cvLabels, name, { footer, ...docColors });
     else { setPrinting('cv'); printPortal(name).finally(() => setPrinting('')); }
   }
   function exportLetter(format: 'pdf' | 'docx') {
     if (!s) return;
     const name = safeFileName(fullName, tn('letter_file'), s.result?.role || '');
-    if (format === 'docx') exportLetterDocx(person(profile), s.letter, name, { footer });
+    if (format === 'docx') exportLetterDocx(person(profile), s.letter, name, { footer, ...docColors });
     else { setPrinting('letter'); printPortal(name).finally(() => setPrinting('')); }
   }
 
-  if (!s) return <div className={styles.page}><div className={styles.loading}><span className={styles.spin} /></div></div>;
+  if (!s) return <div className={`${styles.page} ${lexend.variable}`}><div className={styles.loading}><span className={styles.spin} /></div></div>;
   const d = s.draft;
   const order = s.path === 'yes' ? ORDER_YES : ORDER_NO;
   const idx = Math.max(0, order.indexOf(s.screen === 'nowork' ? 'job' : s.screen === 'tailoredEdit' ? 'tailored' : s.screen));
@@ -388,9 +407,9 @@ export default function AkisClient() {
 
   const band = (n: number | null) => (n == null ? 'y' : n >= 70 ? 'g' : n >= 40 ? 'y' : 'r');
   const ring = (pct: number, color: string) => (
-    <svg className={styles.ring} viewBox="0 0 84 84" aria-hidden><circle cx="42" cy="42" r="35" fill="none" stroke="#DCE3EC" strokeWidth="9" />
+    <svg className={styles.ring} viewBox="0 0 84 84" aria-hidden><circle cx="42" cy="42" r="35" fill="none" stroke="#E3E8E4" strokeWidth="9" />
       <circle cx="42" cy="42" r="35" fill="none" stroke={color} strokeWidth="9" strokeLinecap="round" strokeDasharray={`${(pct / 100) * 219.9} 219.9`} transform="rotate(-90 42 42)" />
-      <text x="42" y="49" textAnchor="middle" fontSize="19" fontWeight="700" fill="#0D1B2A">{pct}%</text></svg>
+      <text x="42" y="49" textAnchor="middle" fontSize="19" fontWeight="700" fill="currentColor">{pct}%</text></svg>
   );
 
   let body: React.ReactNode = null;
@@ -402,7 +421,7 @@ export default function AkisClient() {
         <p className={styles.hint}>{t('welcome.hi', { name: names.first || '' })}</p>
         <h1 className={styles.q}>{t('welcome.title')}</h1>
         <p className={styles.hint}>{t('welcome.text')}</p>
-        <div className={styles.list}><div>1. {t('welcome.s1')}<span>≈ 5 min</span></div><div>2. {t('welcome.s2')}<span>≈ 1 min</span></div><div>3. {t('welcome.s3')}<span>≈ 2 min</span></div></div>
+        <div className={styles.list}><div>1. {t('welcome.s1')}<span>{t('welcome.min', { n: 5 })}</span></div><div>2. {t('welcome.s2')}<span>{t('welcome.min', { n: 1 })}</span></div><div>3. {t('welcome.s3')}<span>{t('welcome.min', { n: 2 })}</span></div></div>
       </>;
       foot = <Next onClick={() => go('hasCv')} label={t('welcome.start')} />;
       break;
@@ -532,7 +551,7 @@ export default function AkisClient() {
     case 'match': {
       const r = s.result!;
       const b = band(r.matchScore);
-      const color = { g: '#0E8A5F', y: '#B7791F', r: '#C2410C' }[b];
+      const color = { g: '#6FBF98', y: '#E9B866', r: '#E99A86' }[b];
       const added = Object.entries(s.asks).filter(([k, v]) => v === 'yes' && (s.notes[Number(k)] || '').trim()).length;
       body = <>
         <div className={`${styles.score} ${styles[b]}`}>{ring(r.matchScore ?? 0, color)}<div><strong>{t(`match.${b}_title`)}</strong><span className={styles.small}>{t(`match.${b}_text`)}</span></div></div>
@@ -589,11 +608,12 @@ export default function AkisClient() {
   }
 
   return (
-    <div className={styles.page}>
+    <div className={`${styles.page} ${lexend.variable}`} data-palette={palette}>
       <header className={styles.top}>
-        <a className={styles.logo} href={`/${locale}/ny`} aria-label="CVzume"><LogoMark size={28} /><span>CV<span>zume</span></span></a>
+        <a className={styles.logo} href={`/${locale}/ny`} aria-label="CVzume"><LogoMark size={28} colors={{ ink: pal.ink, back: pal.back, lines: pal.strong }} /><span>CVzume</span></a>
         <div className={styles.progress} aria-hidden><i style={{ width: `${Math.round((idx / (order.length - 1)) * 100)}%` }} /></div>
         <span className={styles.count}>{idx + 1}/{order.length}</span>
+        {isPro && <div className={styles.palettes} role="group" aria-label={t('palette')}>{(Object.keys(PALETTES) as Palette[]).map(k => <button key={k} style={{ background: PALETTES[k].swatch }} aria-label={t(`palettes.${k}`)} aria-pressed={palette === k} onClick={() => pickPalette(k)} />)}</div>}
       </header>
       <main className={styles.card}>
         <div className={styles.body}>
@@ -602,7 +622,7 @@ export default function AkisClient() {
         </div>
         {foot && <div className={styles.foot}>{foot}</div>}
       </main>
-      {printing && <PrintDocument kind={printing} person={person(printCv)} cv={printCv} letter={s.letter} footer={footer} />}
+      {printing && <PrintDocument kind={printing} person={person(printCv)} cv={printCv} letter={s.letter} footer={footer} style={{ fontFamily: lexend.style.fontFamily, '--accent': pal.strong, '--ink': pal.ink } as React.CSSProperties} />}
     </div>
   );
 }

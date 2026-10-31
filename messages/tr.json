@@ -898,7 +898,8 @@
       "s1": "CV'niz",
       "s2": "İlan ve karşılaştırma",
       "s3": "CV + mektup PDF",
-      "start": "Başlayalım"
+      "start": "Başlayalım",
+      "min": "≈ {n} dk"
     },
     "hasCv": {
       "title": "Elinizde hazır bir CV var mı?",
@@ -1026,7 +1027,7 @@
       "sub": "Profil yazınız cevaplarınızdan oluşturuluyor"
     },
     "panel": {
-      "title": "Unvan",
+      "title": "CV'nizi kontrol edin",
       "text_upload": "Dosyanızdan okuduklarımız. Bir şey yanlışsa düzeltin.",
       "text_built": "Cevaplarınızdan oluşturduk. Bir şey yanlışsa düzeltin.",
       "personal": "Kişisel bilgiler",
@@ -1037,7 +1038,8 @@
       "new_edu": "Yeni okul",
       "add_job": "İş ekle",
       "add_edu": "Okul ekle",
-      "save": "Kaydet"
+      "save": "Kaydet",
+      "job_title": "Unvan"
     },
     "preview": {
       "title": "CV'niz hazır ✓",
@@ -1102,6 +1104,12 @@
       "title": "Bu ayki ücretsiz başvuru hakkınız doldu",
       "text": "Ücretsiz planda ayda 2 başvuru hazırlayabilirsiniz. Pro ile sınırsız başvuru yapabilirsiniz.",
       "upgrade": "Pro'ya geçin"
+    },
+    "palette": "Renk paleti",
+    "palettes": {
+      "mint": "Nane",
+      "sky": "Gökyüzü",
+      "apricot": "Kayısı"
     }
   }
 }

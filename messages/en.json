@@ -874,7 +874,8 @@
       "s1": "Your resume",
       "s2": "Job ad and match",
       "s3": "Resume + letter as PDF",
-      "start": "Get started"
+      "start": "Get started",
+      "min": "≈ {n} min"
     },
     "hasCv": {
       "title": "Do you already have a resume?",
@@ -1002,7 +1003,7 @@
       "sub": "Writing your profile from your answers"
     },
     "panel": {
-      "title": "Title",
+      "title": "Check your resume",
       "text_upload": "This is what we read from your file. Fix anything that's wrong.",
       "text_built": "We built this from your answers. Fix anything that's wrong.",
       "personal": "Personal details",
@@ -1013,7 +1014,8 @@
       "new_edu": "New school",
       "add_job": "Add job",
       "add_edu": "Add school",
-      "save": "Save"
+      "save": "Save",
+      "job_title": "Job title"
     },
     "preview": {
       "title": "Your resume is ready ✓",
@@ -1078,6 +1080,12 @@
       "title": "You've used this month's free applications",
       "text": "The free plan includes 2 applications a month. Pro is unlimited.",
       "upgrade": "Upgrade to Pro"
+    },
+    "palette": "Color palette",
+    "palettes": {
+      "mint": "Mint",
+      "sky": "Sky",
+      "apricot": "Apricot"
     }
   }
 }

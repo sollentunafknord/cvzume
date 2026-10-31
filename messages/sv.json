@@ -874,7 +874,8 @@
       "s1": "Ditt CV",
       "s2": "Annons och matchning",
       "s3": "CV + brev som PDF",
-      "start": "Kom igång"
+      "start": "Kom igång",
+      "min": "≈ {n} min"
     },
     "hasCv": {
       "title": "Har du ett färdigt CV?",
@@ -1002,7 +1003,7 @@
       "sub": "Din profiltext skrivs utifrån dina svar"
     },
     "panel": {
-      "title": "Titel",
+      "title": "Kontrollera ditt CV",
       "text_upload": "Det här läste vi i din fil. Rätta om något är fel.",
       "text_built": "Det här skapade vi av dina svar. Rätta om något är fel.",
       "personal": "Personuppgifter",
@@ -1013,7 +1014,8 @@
       "new_edu": "Ny utbildning",
       "add_job": "Lägg till jobb",
       "add_edu": "Lägg till utbildning",
-      "save": "Spara"
+      "save": "Spara",
+      "job_title": "Titel"
     },
     "preview": {
       "title": "Ditt CV är klart ✓",
@@ -1078,6 +1080,12 @@
       "title": "Månadens gratisansökningar är slut",
       "text": "Med gratisplanen kan du ta fram 2 ansökningar i månaden. Med Pro är det obegränsat.",
       "upgrade": "Uppgradera till Pro"
+    },
+    "palette": "Färgpalett",
+    "palettes": {
+      "mint": "Mint",
+      "sky": "Himmel",
+      "apricot": "Aprikos"
     }
   }
 }
