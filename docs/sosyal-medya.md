@@ -1,5 +1,7 @@
 # CVzume sosyal medya hesapları
 
+Hesaplar: https://www.facebook.com/cvzume · https://www.instagram.com/cvzume (hello@cvzume.com ile açıldı)
+
 Görseller: `public/brand/social/` (canlıda https://www.cvzume.com/brand/social/…)
 - `profile-1080.png`: Facebook ve Instagram profil resmi (iki platform da daire kırpar; simge ortada)
 - `facebook-cover-sv.png` / `-tr` / `-en`: Facebook kapak (1640×624)
