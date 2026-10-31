@@ -2,7 +2,7 @@
 // yapılır: tüm dillerin karakterleri doğru basılır ve ekrandaki düzenle aynı görünür.
 // docx kütüphanesi sadece tıklanınca yüklenir (sayfa paketi küçük kalsın).
 
-export type ExportPerson = { name: string; email?: string; phone?: string; location?: string; title?: string }
+export type ExportPerson = { name: string; email?: string; phone?: string; location?: string; title?: string; photo?: string }
 export type ExportExperience = { role?: string; company?: string; start?: string; end?: string; desc?: string }
 export type ExportEducation = { school?: string; degree?: string; field?: string; years?: string }
 export type ExportCv = { summary: string; experiences: ExportExperience[]; educations: ExportEducation[]; skills: string[]; languages: string[] }
@@ -22,6 +22,24 @@ export const period = (start?: string, end?: string, present = '') =>
 export const descLines = (desc?: string) =>
   (desc || '').split('\n').map(l => l.replace(/^[-•·]\s*/, '').trim()).filter(Boolean)
 
+// Fotoğrafı kare kırpıp JPEG'e çevirir (Word webp'yi göstermez). Yüklenemezse null → fotoğrafsız CV.
+async function photoJpeg(url: string): Promise<Uint8Array | null> {
+  try {
+    const img = new Image()
+    img.crossOrigin = 'anonymous'
+    img.src = url
+    await img.decode()
+    const side = Math.min(img.naturalWidth, img.naturalHeight)
+    const canvas = document.createElement('canvas')
+    canvas.width = canvas.height = Math.min(side, 400)
+    canvas.getContext('2d')!.drawImage(img, (img.naturalWidth - side) / 2, (img.naturalHeight - side) / 2, side, side, 0, 0, canvas.width, canvas.height)
+    const blob = await new Promise<Blob | null>(r => canvas.toBlob(r, 'image/jpeg', 0.9))
+    return blob ? new Uint8Array(await blob.arrayBuffer()) : null
+  } catch {
+    return null
+  }
+}
+
 function download(blob: Blob, filename: string) {
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
@@ -35,7 +53,8 @@ function download(blob: Blob, filename: string) {
 
 export async function exportCvDocx(person: ExportPerson, cv: ExportCv, labels: CvLabels, filename: string) {
   const d = await import('docx')
-  const { Document, Packer, Paragraph, TextRun, BorderStyle } = d
+  const { Document, Packer, Paragraph, TextRun, BorderStyle, ImageRun, Table, TableRow, TableCell, WidthType, VerticalAlign } = d
+  const photo = person.photo ? await photoJpeg(person.photo) : null
 
   const heading = (text: string) => new Paragraph({
     spacing: { before: 280, after: 100 },
@@ -44,11 +63,24 @@ export async function exportCvDocx(person: ExportPerson, cv: ExportCv, labels: C
   })
   const contact = [person.email, person.phone, person.location].filter(Boolean).join('  ·  ')
 
-  const children = [
+  const head = [
     new Paragraph({ children: [new TextRun({ text: person.name, bold: true, size: 40, color: NAVY })] }),
     ...(person.title ? [new Paragraph({ spacing: { after: 40 }, children: [new TextRun({ text: person.title, size: 24, color: BLUE })] })] : []),
     ...(contact ? [new Paragraph({ spacing: { after: 120 }, children: [new TextRun({ text: contact, size: 18, color: GREY })] })] : []),
   ]
+  // Fotoğraf varsa başlık iki sütun: solda ad/iletişim, sağda fotoğraf (çerçevesiz tablo)
+  const none = { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' }
+  const noBorders = { top: none, bottom: none, left: none, right: none, insideHorizontal: none, insideVertical: none }
+  const children: (InstanceType<typeof Paragraph> | InstanceType<typeof Table>)[] = photo ? [new Table({
+    width: { size: 100, type: WidthType.PERCENTAGE },
+    borders: noBorders,
+    rows: [new TableRow({ children: [
+      new TableCell({ borders: noBorders, verticalAlign: VerticalAlign.CENTER, width: { size: 80, type: WidthType.PERCENTAGE }, children: head }),
+      new TableCell({ borders: noBorders, verticalAlign: VerticalAlign.CENTER, width: { size: 20, type: WidthType.PERCENTAGE }, children: [
+        new Paragraph({ alignment: 'right', children: [new ImageRun({ type: 'jpg', data: photo, transformation: { width: 96, height: 96 } })] }),
+      ] }),
+    ] })],
+  })] : head
 
   if (cv.summary.trim()) {
     children.push(heading(labels.profile), new Paragraph({ spacing: { after: 80 }, children: [new TextRun({ text: cv.summary.trim(), size: 21 })] }))
@@ -109,4 +141,15 @@ export async function exportLetterDocx(person: ExportPerson, letter: string, fil
     sections: [{ properties: { page: { margin: { top: 1200, bottom: 1200, left: 1300, right: 1300 } } }, children }],
   })
   download(await Packer.toBlob(doc), `${filename}.docx`)
+}
+
+/** PrintDocument portalı çizildikten ve fotoğrafı yüklendikten sonra yazdırma penceresini açar. */
+export async function printPortal(title: string) {
+  await new Promise(r => setTimeout(r, 50))
+  const imgs = Array.from(document.querySelectorAll<HTMLImageElement>('.cvzume-print img'))
+  await Promise.race([Promise.all(imgs.map(i => i.decode().catch(() => {}))), new Promise(r => setTimeout(r, 3000))])
+  const old = document.title
+  document.title = title
+  window.print()
+  document.title = old
 }

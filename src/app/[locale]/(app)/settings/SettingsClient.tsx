@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { authFetch } from '@/lib/auth-client';
 import styles from './settings.module.css';
 import PersonalTab from './PersonalTab';
+import CvPhotoCard from './CvPhotoCard';
 import PasswordTab from './PasswordTab';
 import PlanTab from './PlanTab';
 import LanguageTab from './LanguageTab';
@@ -166,6 +167,7 @@ export default function SettingsClient() {
           t={t}
         />
       )}
+      {activeTab === 'personal' && <CvPhotoCard avatarUrl={avatarUrl} onToast={showToastMsg} />}
       {activeTab === 'password' && <PasswordTab onToast={showToastMsg} />}
       {activeTab === 'plan' && <PlanTab planInfo={planInfo} planLoading={planLoading} />}
       {activeTab === 'language' && <LanguageTab />}

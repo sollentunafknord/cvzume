@@ -206,7 +206,17 @@
     "manage_subscription": "Manage subscription",
     "manage_subscription_loading": "Opening…",
     "manage_subscription_hint": "Cancel, change card or see receipts via Stripe.",
-    "manage_subscription_error": "Couldn't open the subscription page. Email info@cvzume.com and we'll help you."
+    "manage_subscription_error": "Couldn't open the subscription page. Email info@cvzume.com and we'll help you.",
+    "cv_photo_title": "Photo on your CV",
+    "cv_photo_desc": "Choose which picture appears on the CVs you download",
+    "cv_photo_profile": "Use my profile picture",
+    "cv_photo_profile_none": "You don't have a profile picture yet, so your CV will have no photo",
+    "cv_photo_custom": "Separate CV photo",
+    "cv_photo_upload": "Upload CV photo",
+    "cv_photo_off": "No photo on my CV",
+    "cv_photo_empty": "No photo",
+    "cv_photo_saved": "CV photo saved",
+    "cv_photo_error": "Couldn't save. Please try again."
   },
   "upgrade": {
     "title": "Get the job you deserve",

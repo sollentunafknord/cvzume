@@ -11,8 +11,8 @@ import styles from './ny.module.css';
 import PrintDocument from './PrintDocument';
 import AdLinkInput, { isLoneUrl } from '../../AdLinkInput';
 import CvImport, { type ImportedCv } from '../CvImport';
-import { hasCvContent, loadProfile, saveProfile, type Profile } from '@/lib/profile-store';
-import { descLines, exportCvDocx, exportLetterDocx, period, safeFileName, type ExportCv, type ExportPerson } from '@/lib/export-docs';
+import { hasCvContent, loadProfile, saveProfile, type Profile, loadCvPhoto } from '@/lib/profile-store';
+import { descLines, exportCvDocx, exportLetterDocx, period, safeFileName, type ExportCv, type ExportPerson, printPortal } from '@/lib/export-docs';
 
 type Step = 1 | 2 | 3 | 4;
 type Requirement = { text: string; met: boolean };
@@ -54,9 +54,9 @@ export default function NyAnsokanClient({ onNavigate }: { onNavigate: (seg: stri
     if (draft.ad) { setAd(draft.ad); setRole(draft.role || ''); }
     /* eslint-enable react-hooks/set-state-in-effect */
     const user = JSON.parse(localStorage.getItem('cvita_user') || '{}');
-    loadProfile(locale).then(p => {
+    Promise.all([loadProfile(locale), loadCvPhoto()]).then(([p, photo]) => {
       setProfile(p);
-      setPerson({ name: [user.firstName, user.lastName].filter(Boolean).join(' ') || user.email || '', email: user.email, phone: p.phone, location: p.location, title: p.title });
+      setPerson({ name: [user.firstName, user.lastName].filter(Boolean).join(' ') || user.email || '', email: user.email, phone: p.phone, location: p.location, title: p.title, photo });
     });
   }, [locale]);
 
@@ -176,13 +176,7 @@ export default function NyAnsokanClient({ onNavigate }: { onNavigate: (seg: stri
   // PDF: tarayıcının "PDF olarak kaydet" yazdırması; sadece .printArea görünür (ny.module.css @media print)
   function printDoc(kind: 'cv' | 'letter', title: string) {
     setPrinting(kind);
-    const old = document.title;
-    setTimeout(() => {
-      document.title = title;
-      window.print();
-      document.title = old;
-      setPrinting('');
-    }, 50);
+    printPortal(title).finally(() => setPrinting(''));
   }
 
   function startOver() {
@@ -248,9 +242,13 @@ export default function NyAnsokanClient({ onNavigate }: { onNavigate: (seg: stri
             {profile && hasCvContent(profile) && (
               <>
                 <p className={styles.lead}>{t('step2.have_cv')}</p>
-                <div className={styles.cvSummaryBox}>
-                  <div className={styles.cvName}>{person.name}</div>
-                  <div className={styles.cvMeta}>{[profile.title, t('step2.counts', { exp: profile.experiences.length, edu: profile.educations.length, skills: profile.skills.length })].filter(Boolean).join(' · ')}</div>
+                <div className={styles.cvSummaryBox} style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  {person.photo && <img className={styles.cvPhoto} src={person.photo} alt="" />}
+                  <div>
+                    <div className={styles.cvName}>{person.name}</div>
+                    <div className={styles.cvMeta}>{[profile.title, t('step2.counts', { exp: profile.experiences.length, edu: profile.educations.length, skills: profile.skills.length })].filter(Boolean).join(' · ')}</div>
+                  </div>
                 </div>
                 {limitHit ? <LimitBox t={t} onUpgrade={() => onNavigate('upgrade')} /> : (
                   <div className={styles.actions}>

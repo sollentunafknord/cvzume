@@ -206,7 +206,17 @@
     "manage_subscription": "Aboneliği yönet",
     "manage_subscription_loading": "Açılıyor…",
     "manage_subscription_hint": "Stripe üzerinden iptal edin, kartınızı değiştirin veya makbuzlarınızı görün.",
-    "manage_subscription_error": "Abonelik sayfası açılamadı. info@cvzume.com adresine yazın, yardımcı olalım."
+    "manage_subscription_error": "Abonelik sayfası açılamadı. info@cvzume.com adresine yazın, yardımcı olalım.",
+    "cv_photo_title": "CV fotoğrafı",
+    "cv_photo_desc": "İndirdiğiniz CV'lerde hangi resmin görüneceğini seçin",
+    "cv_photo_profile": "Profil resmimi kullan",
+    "cv_photo_profile_none": "Henüz profil resminiz yok; CV'niz fotoğrafsız olacak",
+    "cv_photo_custom": "CV için ayrı fotoğraf",
+    "cv_photo_upload": "CV fotoğrafı yükleyin",
+    "cv_photo_off": "CV'de fotoğraf olmasın",
+    "cv_photo_empty": "Fotoğraf yok",
+    "cv_photo_saved": "CV fotoğrafı kaydedildi",
+    "cv_photo_error": "Kaydedilemedi. Lütfen tekrar deneyin."
   },
   "upgrade": {
     "title": "Hak ettiğin işe kavuş",

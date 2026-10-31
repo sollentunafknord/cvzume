@@ -11,9 +11,15 @@ export default function PrintDocument({ kind, person, cv, letter }: { kind: 'cv'
   const t = useTranslations('ny');
   return createPortal(
     <div className={`${styles.printArea} cvzume-print`}>
-      <div className={styles.pName}>{person.name}</div>
-      {kind === 'cv' && person.title && <div className={styles.pTitle}>{person.title}</div>}
-      <div className={styles.pContact}>{[person.email, person.phone, person.location].filter(Boolean).join('  ·  ')}</div>
+      <div className={styles.pHead}>
+        <div>
+          <div className={styles.pName}>{person.name}</div>
+          {kind === 'cv' && person.title && <div className={styles.pTitle}>{person.title}</div>}
+          <div className={styles.pContact}>{[person.email, person.phone, person.location].filter(Boolean).join('  ·  ')}</div>
+        </div>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        {kind === 'cv' && person.photo && <img className={styles.pPhoto} src={person.photo} alt="" />}
+      </div>
       {kind === 'cv' && cv ? (
         <>
           {cv.summary && (<><h3>{t('cv.profile')}</h3><p>{cv.summary}</p></>)}

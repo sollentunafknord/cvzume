@@ -206,7 +206,17 @@
     "manage_subscription": "Hantera prenumeration",
     "manage_subscription_loading": "Öppnar…",
     "manage_subscription_hint": "Avsluta, byt kort eller se kvitton via Stripe.",
-    "manage_subscription_error": "Kunde inte öppna prenumerationssidan. Mejla info@cvzume.com så hjälper vi dig."
+    "manage_subscription_error": "Kunde inte öppna prenumerationssidan. Mejla info@cvzume.com så hjälper vi dig.",
+    "cv_photo_title": "Foto på CV:t",
+    "cv_photo_desc": "Välj vilken bild som visas på CV:n du laddar ner",
+    "cv_photo_profile": "Använd profilbilden",
+    "cv_photo_profile_none": "Du har ingen profilbild än – då blir CV:t utan foto",
+    "cv_photo_custom": "Separat CV-foto",
+    "cv_photo_upload": "Ladda upp CV-foto",
+    "cv_photo_off": "Inget foto på CV:t",
+    "cv_photo_empty": "Inget foto",
+    "cv_photo_saved": "CV-fotot har sparats",
+    "cv_photo_error": "Kunde inte spara. Försök igen."
   },
   "upgrade": {
     "title": "Få jobbet du förtjänar",

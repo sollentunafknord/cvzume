@@ -76,6 +76,8 @@
   .printArea h3 { font-size: 9.5pt; letter-spacing: 1.2px; text-transform: uppercase; color: #1A56DB; border-bottom: 1px solid #CBD5E1; padding-bottom: 3px; margin: 16px 0 8px; }
   .printArea p { margin: 0 0 8px; }
   .printArea ul { margin: 4px 0 0; padding-left: 16px; }
+  .pHead { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+  .pPhoto { width: 30mm; height: 30mm; object-fit: cover; border-radius: 4px; flex-shrink: 0; }
   .pName { font-size: 22pt; font-weight: 700; color: #0D1B2A; }
   .pTitle { font-size: 12pt; color: #1A56DB; }
   .pContact { font-size: 9pt; color: #64748B; margin: 2px 0 6px; }
@@ -86,3 +88,5 @@
   .pLetter p { margin-bottom: 12px; white-space: pre-wrap; }
   @page { margin: 16mm 16mm; }
 }
+
+.cvPhoto { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }

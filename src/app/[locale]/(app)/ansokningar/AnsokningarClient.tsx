@@ -7,8 +7,8 @@ import { useEffect, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import styles from '../ny/ny.module.css';
 import PrintDocument from '../ny/PrintDocument';
-import { loadProfile } from '@/lib/profile-store';
-import { exportCvDocx, exportLetterDocx, safeFileName, type ExportCv, type ExportPerson } from '@/lib/export-docs';
+import { loadCvPhoto, loadProfile } from '@/lib/profile-store';
+import { exportCvDocx, exportLetterDocx, printPortal, safeFileName, type ExportCv, type ExportPerson } from '@/lib/export-docs';
 
 type App = {
   id: string; role: string; status: string; created_at: string; match_score: number | null
@@ -29,11 +29,10 @@ export default function AnsokningarClient({ onNavigate }: { onNavigate: (seg: st
   const [printing, setPrinting] = useState<{ kind: 'cv' | 'letter'; app: App } | null>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem('cvita_token');
     const user = JSON.parse(localStorage.getItem('cvita_user') || '{}');
     authFetch('/api/applications').then(r => r.json()).then(d => setApps(d.applications || [])).catch(() => setApps([]));
-    loadProfile(locale).then(p => {
-      setPerson({ name: [user.firstName, user.lastName].filter(Boolean).join(' ') || user.email || '', email: user.email, phone: p.phone, location: p.location, title: p.title });
+    Promise.all([loadProfile(locale), loadCvPhoto()]).then(([p, photo]) => {
+      setPerson({ name: [user.firstName, user.lastName].filter(Boolean).join(' ') || user.email || '', email: user.email, phone: p.phone, location: p.location, title: p.title, photo });
       setFallbackCv({ summary: p.summary, experiences: p.experiences, educations: p.educations, skills: p.skills, languages: p.languages });
     });
   }, [locale]);
@@ -72,8 +71,7 @@ export default function AnsokningarClient({ onNavigate }: { onNavigate: (seg: st
       return;
     }
     setPrinting({ kind, app: a });
-    const old = document.title;
-    setTimeout(() => { document.title = name; window.print(); document.title = old; setPrinting(null); }, 50);
+    printPortal(name).finally(() => setPrinting(null));
   }
 
   const shown = (apps || []).filter(a => filter === 'all' || a.status === filter || (filter === 'draft' && !STATUSES.includes(a.status as typeof STATUSES[number])));

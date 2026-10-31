@@ -206,7 +206,17 @@
     "manage_subscription": "Abonnement verwalten",
     "manage_subscription_loading": "Wird geöffnet …",
     "manage_subscription_hint": "Kündigen, Karte ändern oder Belege ansehen – über Stripe.",
-    "manage_subscription_error": "Die Abonnementseite konnte nicht geöffnet werden. Schreiben Sie an info@cvzume.com, wir helfen Ihnen gern."
+    "manage_subscription_error": "Die Abonnementseite konnte nicht geöffnet werden. Schreiben Sie an info@cvzume.com, wir helfen Ihnen gern.",
+    "cv_photo_title": "Foto im Lebenslauf",
+    "cv_photo_desc": "Wählen Sie, welches Bild in Ihren heruntergeladenen Lebensläufen erscheint",
+    "cv_photo_profile": "Mein Profilbild verwenden",
+    "cv_photo_profile_none": "Sie haben noch kein Profilbild – der Lebenslauf bleibt dann ohne Foto",
+    "cv_photo_custom": "Separates Bewerbungsfoto",
+    "cv_photo_upload": "Bewerbungsfoto hochladen",
+    "cv_photo_off": "Kein Foto im Lebenslauf",
+    "cv_photo_empty": "Kein Foto",
+    "cv_photo_saved": "Bewerbungsfoto gespeichert",
+    "cv_photo_error": "Speichern fehlgeschlagen. Bitte versuchen Sie es erneut."
   },
   "upgrade": {
     "title": "Holen Sie sich den Job, den Sie verdienen",

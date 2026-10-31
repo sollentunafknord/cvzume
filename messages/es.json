@@ -206,7 +206,17 @@
     "manage_subscription": "Gestionar suscripción",
     "manage_subscription_loading": "Abriendo…",
     "manage_subscription_hint": "Cancela, cambia de tarjeta o consulta tus recibos a través de Stripe.",
-    "manage_subscription_error": "No se pudo abrir la página de suscripción. Escribe a info@cvzume.com y te ayudaremos."
+    "manage_subscription_error": "No se pudo abrir la página de suscripción. Escribe a info@cvzume.com y te ayudaremos.",
+    "cv_photo_title": "Foto en tu CV",
+    "cv_photo_desc": "Elige qué imagen aparece en los CV que descargas",
+    "cv_photo_profile": "Usar mi foto de perfil",
+    "cv_photo_profile_none": "Aún no tienes foto de perfil, así que tu CV saldrá sin foto",
+    "cv_photo_custom": "Foto aparte para el CV",
+    "cv_photo_upload": "Subir foto para el CV",
+    "cv_photo_off": "Sin foto en el CV",
+    "cv_photo_empty": "Sin foto",
+    "cv_photo_saved": "Foto del CV guardada",
+    "cv_photo_error": "No se pudo guardar. Inténtalo de nuevo."
   },
   "upgrade": {
     "title": "Consigue el trabajo que mereces",
