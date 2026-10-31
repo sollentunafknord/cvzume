@@ -15,7 +15,7 @@
     "cheerio": "^1.2.0",
     "docx": "^9.15.0",
     "mammoth": "^1.13.0",
-    "next": "16.1.6",
+    "next": "16.4.3",
     "next-intl": "^4.8.3",
     "pdf-parse": "^2.4.5",
     "react": "19.2.3",
@@ -29,7 +29,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.1.6",
+    "eslint-config-next": "16.4.3",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

@@ -1,9 +1,12 @@
 // src/app/api/auth/signup/route.ts
 import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
+import { clientIp, rateLimit } from '@/lib/server-auth'
 import { internalHeaders } from '@/lib/internal'
 
 export async function POST(request: Request) {
+  // Supabase'in IP başına sınırı Vercel'in IP'sini görür; saldırgana karşı fren burada
+  if (!rateLimit(`signup:${clientIp(request)}`, 5)) return NextResponse.json({ error: 'rate_limited' }, { status: 429 })
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 

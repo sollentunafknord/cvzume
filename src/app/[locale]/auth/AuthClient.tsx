@@ -99,7 +99,7 @@ export default function AuthClient() {
         const err = data.error || '';
         let msg = t('error_invalid');
         if (err.includes('Email not confirmed')) msg = t('error_not_confirmed');
-        else if (err.includes('Too many requests')) msg = t('error_too_many');
+        else if (err.includes('Too many requests') || err === 'rate_limited') msg = t('error_too_many');
         else if (err.includes('User not found')) msg = t('error_user_not_found');
         setLoginError(msg);
         return;
@@ -160,6 +160,7 @@ export default function AuthClient() {
         let msg = t('error_generic');
         if (err.includes('already registered') || err.includes('already exists')) msg = t('error_already_registered');
         else if (err.includes('Password should be')) msg = t('error_password_short');
+        else if (err === 'rate_limited') msg = t('error_too_many');
         setRegError(msg);
         return;
       }

@@ -1,7 +1,10 @@
 import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
+import { clientIp, rateLimit } from '@/lib/server-auth'
 
 export async function POST(request: Request) {
+  // Supabase'in IP başına sınırı Vercel'in IP'sini görür; saldırgana karşı fren burada
+  if (!rateLimit(`refresh:${clientIp(request)}`, 60)) return NextResponse.json({ error: 'rate_limited' }, { status: 429 })
   const { refresh_token } = await request.json()
   if (!refresh_token) return NextResponse.json({ error: 'refresh_token required' }, { status: 400 })
 

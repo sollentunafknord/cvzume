@@ -72,3 +72,7 @@ export function rateLimit(key: string, max: number, windowMs = 3600_000): boolea
   if (hits.size > 10_000) hits.clear()
   return true
 }
+
+/** İstemci IP'si (Vercel x-forwarded-for'u kendisi yazar). */
+export const clientIp = (request: Request) =>
+  request.headers.get('x-real-ip') || request.headers.get('x-forwarded-for')?.split(',')[0].trim() || 'unknown'

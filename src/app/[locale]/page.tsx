@@ -124,7 +124,7 @@ export default async function LocalePage({ params, searchParams }: Props) {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd(locale, messages.landing.faq.items)) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd(locale, messages.landing.faq.items)).replace(/</g, '\\u003c') }}
       />
       <LandingClient market={market} />
     </>
