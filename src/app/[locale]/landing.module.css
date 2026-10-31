@@ -152,6 +152,7 @@
 .footerLangs button { display: inline-flex; align-items: center; gap: 5px; font-family: inherit; font-size: 12px; font-weight: 600; color: var(--slate); background: white; border: 1px solid var(--border); border-radius: 6px; padding: 4px 8px; cursor: pointer; }
 .footerLangs button.langActive { color: white; background: var(--blue); border-color: var(--blue); }
 .footerCol { display: flex; flex-direction: column; gap: 10px; }
+.footerSocial { display: inline-flex; align-items: center; gap: 7px; }
 .footerHead { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--navy); margin-bottom: 4px; }
 .footerCol a { font-size: 14px; color: var(--slate); text-decoration: none; transition: color 0.2s; }
 .footerCol a:hover { color: var(--blue); }

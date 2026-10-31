@@ -62,7 +62,15 @@ CV kayıtlıysa sonraki başvurular doğrudan 3. adımdan başlar.
 - [ ] Site bittiğinde: robots.txt ve sitemap'i gözden geçir (/yedek/ ve /<dil>/akis kurallarını kaldır,
       yeni sayfaları ekle, eski /dashboard vb. kurallarını temizle), /yedek/ klasörünü sil
 - [ ] Palet seçimini profile kaydet (şimdilik tarayıcıda) ve Ayarlar'a da koy; ücretsiz kullanıcıya kilitli önizleme (Pro tanıtımı)
-- [ ] Sosyal medya: Facebook ve Instagram hesapları açılacak (hazırlık: docs/sosyal-medya.md, görseller public/brand/social/);
+- [ ] **ÖDEME (öncelikli, reklam/tanıtımdan önce): Stripe'ı canlı moda al**
+      - Stripe hesabını etkinleştir (işletme bilgileri, banka hesabı, kimlik); şirket yoksa enskild firma/kişisel satıcı durumu netleşmeli
+      - Canlı ürün/fiyatlar: Pro 109 SEK/ay, Pro Yıllık 999 SEK/yıl → STRIPE_PRICE_ID / STRIPE_YEARLY_PRICE_ID
+      - Canlı anahtarlar Vercel'e: STRIPE_SECRET_KEY (sk_live), webhook uç noktası /api/stripe/webhook + STRIPE_WEBHOOK_SECRET (şu an tanımlı değil)
+      - Müşteri portalı (iptal, kart değiştirme) canlı modda yapılandır; KDV/moms (İsveç %25, Stripe Tax?) ve faturada görünecek bilgiler
+      - Ödeme sonrası dönüş adresi şu an /sv/dashboard sabit → kullanıcının dili ve yeni sayfa
+      - Uçtan uca test: gerçek kartla küçük ödeme, Pro açılıyor mu, onay e-postası, iptal, iade
+      - Yükseltme sayfasındaki özellik listesi gerçekle uyumlu (2026-10-31 düzeltildi)
+- [ ] Sosyal medya: Facebook (facebook.com/cvzume, açıldı) ve Instagram hesapları (hazırlık: docs/sosyal-medya.md, görseller public/brand/social/);
       hesaplar açılınca sitenin altına bağlantılarını ekle
 - [ ] LinkedIn (sonra): şirket sayfası + entegrasyon fikirleri — "LinkedIn ile giriş", LinkedIn profilinden CV'yi içe aktarma,
       hazırlanan başvuruyu/ilanı LinkedIn'de paylaşma; LinkedIn API izinleri ve kuralları önce incelenmeli
