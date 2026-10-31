@@ -62,4 +62,8 @@ CV kayıtlıysa sonraki başvurular doğrudan 3. adımdan başlar.
 - [ ] Site bittiğinde: robots.txt ve sitemap'i gözden geçir (/yedek/ ve /<dil>/akis kurallarını kaldır,
       yeni sayfaları ekle, eski /dashboard vb. kurallarını temizle), /yedek/ klasörünü sil
 - [ ] Palet seçimini profile kaydet (şimdilik tarayıcıda) ve Ayarlar'a da koy; ücretsiz kullanıcıya kilitli önizleme (Pro tanıtımı)
+- [ ] Sosyal medya: Facebook ve Instagram hesapları açılacak (hazırlık: docs/sosyal-medya.md, görseller public/brand/social/);
+      hesaplar açılınca sitenin altına bağlantılarını ekle
+- [ ] LinkedIn (sonra): şirket sayfası + entegrasyon fikirleri — "LinkedIn ile giriş", LinkedIn profilinden CV'yi içe aktarma,
+      hazırlanan başvuruyu/ilanı LinkedIn'de paylaşma; LinkedIn API izinleri ve kuralları önce incelenmeli
 - [ ] Yeni akışın İspanyolca ve Almanca metinleri (test sürümünde İngilizce yedek kullanılıyor)
