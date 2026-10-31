@@ -36,8 +36,8 @@ CV kayıtlıysa sonraki başvurular doğrudan 3. adımdan başlar.
 - [x] İlk girişte sıra: önce CV (bir kerelik), sonra ilan
 - [x] Adres: tam adres sorulur
 - [x] Şablon: şimdilik tek standart şablon
-- [ ] Soru tarzı: kart kart mı, sohbet mi? — konuşulacak
-- [x] Ücretsiz plan: ayda 2 başvuru; ücretsiz CV/mektup PDF'lerinde küçük "CVzume ile oluşturuldu" ibaresi, Pro'da yok
+- [x] Soru tarzı: kart kart; sadece "o işte neler yaptın?" serbest anlatım (yazı veya mikrofon) → AI CV maddesine çevirir, kullanıcı onaylar
+- [x] Ücretsiz plan: ayda 2 başvuru; CV ve mektubun en altında ortada küçük açık gri "Skapad med CVzume · cvzume.com" (dile göre), Pro'da yok; Word'de silinebilir, kabul
 
 ## Yapılacaklar (sonra)
 - [ ] 2–3 CV şablonu, Pro kullanıcılara sunulacak — birlikte düşünülecek
