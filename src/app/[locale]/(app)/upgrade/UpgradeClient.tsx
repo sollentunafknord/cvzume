@@ -62,11 +62,10 @@ export default function UpgradeClient() {
     setMonthlyDisabled(true); setYearlyDisabled(true);
 
     try {
-      const user = JSON.parse(localStorage.getItem('cvita_user') || '{}');
       const res = await authFetch('/api/stripe/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: user.email, yearly }),
+        body: JSON.stringify({ yearly, locale }),
       });
       const data = await res.json();
       if (data.url) {
