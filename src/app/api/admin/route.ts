@@ -1,13 +1,13 @@
 // src/app/api/admin/route.ts
+import { getStripe, priceId as monthlyPriceOf } from '@/lib/stripe-plan';
+const monthlyPrice = () => monthlyPriceOf(false);
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { isAdminEmail } from '@/lib/admin';
-import Stripe from 'stripe';
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-const getStripe = () => new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 
 async function verifyAdmin(token: string): Promise<boolean> {
@@ -156,7 +156,7 @@ export async function POST(req: NextRequest) {
         name: 'Admin Grant'
       });
 
-      const priceId = process.env.STRIPE_PRICE_ID!;
+      const priceId = monthlyPrice();
       const subscription = await getStripe().subscriptions.create({
         customer: customerId,
         items: [{ price: priceId }],

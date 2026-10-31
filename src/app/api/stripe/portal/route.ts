@@ -1,9 +1,9 @@
 // Stripe kundportal: kullanıcı aboneliğini kendisi iptal eder, kartını değiştirir, faturalarını görür.
-import Stripe from 'stripe'
+import type Stripe from 'stripe'
+import { getStripe } from '@/lib/stripe-plan'
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
-const getStripe = () => new Stripe(process.env.STRIPE_SECRET_KEY!)
 
 // Portal, hesapta varsayılan bir konfigürasyon ister. Yoksa (yeni hesap / test modu)
 // burada bir kez oluşturuyoruz; sonraki çağrılar mevcut olanı kullanır.

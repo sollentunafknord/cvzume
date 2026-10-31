@@ -1,9 +1,9 @@
 // src/app/api/stripe/webhook/route.ts
-import Stripe from 'stripe'
+import type Stripe from 'stripe'
+import { getStripe } from '@/lib/stripe-plan'
 import { NextResponse } from 'next/server'
 import { internalHeaders } from '@/lib/internal'
 
-const getStripe = () => new Stripe(process.env.STRIPE_SECRET_KEY!)
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.cvzume.com'
 

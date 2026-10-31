@@ -1,9 +1,8 @@
 // src/app/api/stripe/checkout/route.ts
-import Stripe from 'stripe'
+import { getStripe, priceId } from '@/lib/stripe-plan'
 import { NextResponse } from 'next/server'
 import { getRequestUser } from '@/lib/server-auth'
 
-const getStripe = () => new Stripe(process.env.STRIPE_SECRET_KEY!)
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.cvzume.com'
 const LOCALES = ['sv', 'en', 'es', 'tr', 'de'] as const
 type Locale = (typeof LOCALES)[number]
@@ -26,9 +25,6 @@ export async function POST(request: Request) {
   const loc = (LOCALES as readonly string[]).includes(locale) ? (locale as Locale) : 'sv'
   try {
     const stripe = getStripe()
-    const priceId = yearly && process.env.STRIPE_YEARLY_PRICE_ID
-      ? process.env.STRIPE_YEARLY_PRICE_ID
-      : process.env.STRIPE_PRICE_ID!
     // Aynı e-postaya her ödemede yeni müşteri açılmasın: varsa mevcut müşteriyi kullan
     const existing = await stripe.customers.list({ email, limit: 1 })
     const customer = existing.data[0]?.id
@@ -36,7 +32,7 @@ export async function POST(request: Request) {
     const session = await stripe.checkout.sessions.create({
       mode: 'subscription',
       ...(customer ? { customer } : { customer_email: email }),
-      line_items: [{ price: priceId, quantity: 1 }],
+      line_items: [{ price: priceId(!!yearly), quantity: 1 }],
       locale: loc,
       allow_promotion_codes: true,
       // Cayma hakkı: hizmet ödemeden hemen sonra başlar (koşullarda yazılı); ödeme düğmesinin altında kısa bilgi

@@ -2,7 +2,17 @@
 // her ödemede aynı e-postaya yeni bir müşteri açabiliyor; sadece ilkine bakmak Pro'yu 'free' gösteriyordu.
 import Stripe from 'stripe'
 
-export const getStripe = () => new Stripe(process.env.STRIPE_SECRET_KEY!)
+// Canlı ödeme: sadece canlı sitede (VERCEL_ENV=production) ve STRIPE_LIVE_SECRET_KEY tanımlıysa.
+// Önizleme ve yerel geliştirme test anahtarlarıyla (STRIPE_SECRET_KEY) çalışmaya devam eder.
+export const stripeLive = () => process.env.VERCEL_ENV === 'production' && !!process.env.STRIPE_LIVE_SECRET_KEY
+export const getStripe = () => new Stripe((stripeLive() ? process.env.STRIPE_LIVE_SECRET_KEY : process.env.STRIPE_SECRET_KEY)!)
+
+// Canlı fiyatlar (gizli değil): CVzume Pro, prod_VXqzYaZ3qpvZcB
+const LIVE_PRICES = { monthly: 'price_1UWlHRGnK5c1KgO9lQJFbPgF', yearly: 'price_1UWlHSGnK5c1KgO9ct1koSx2' }
+export function priceId(yearly: boolean): string {
+  if (stripeLive()) return yearly ? LIVE_PRICES.yearly : LIVE_PRICES.monthly
+  return (yearly && process.env.STRIPE_YEARLY_PRICE_ID) ? process.env.STRIPE_YEARLY_PRICE_ID : process.env.STRIPE_PRICE_ID!
+}
 
 const PRO_STATUSES = new Set(['active', 'trialing', 'past_due'])
 
