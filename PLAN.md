@@ -39,6 +39,19 @@ CV kayıtlıysa sonraki başvurular doğrudan 3. adımdan başlar.
 - [x] Soru tarzı: kart kart; sadece "o işte neler yaptın?" serbest anlatım (yazı veya mikrofon) → AI CV maddesine çevirir, kullanıcı onaylar
 - [x] Ücretsiz plan: ayda 2 başvuru; CV ve mektubun en altında ortada küçük açık gri "Skapad med CVzume · cvzume.com" (dile göre), Pro'da yok; Word'de silinebilir, kabul
 
+## Tasarım kararı
+- Sitenin genel görünümü telefon akışındaki mantıkla: tek sütun, tek soru, büyük butonlar.
+  Bilgisayarda alanlar daha büyük ve ekrana oturan (ortalanmış geniş sütun), menü kalabalığı yok.
+
+## Test ve yayın
+- Taslak: https://www.cvzume.com/yedek/akis.html (gizli, noindex)
+- Gerçek akış önce gizli bir test adresinde canlıya çıkar (/<dil>/akis), gerçek hesaplarla test edilir;
+  onaydan sonra giriş sonrası açılan sayfa olarak devreye alınır. Ana sayfaya doğrudan konmaz.
+
 ## Yapılacaklar (sonra)
 - [ ] 2–3 CV şablonu, Pro kullanıcılara sunulacak — birlikte düşünülecek
-- [ ] Tıklanabilir taslak (prototip) → birlikte üzerinden geçilecek → sonra kodlama
+- [x] Tıklanabilir taslak (prototip)
+- [ ] Gerçek akış: /<dil>/akis test adresinde
+- [ ] Site bittiğinde: robots.txt ve sitemap'i gözden geçir (/yedek/ ve /<dil>/akis kurallarını kaldır,
+      yeni sayfaları ekle, eski /dashboard vb. kurallarını temizle), /yedek/ klasörünü sil
+- [ ] Yeni akışın İspanyolca ve Almanca metinleri (test sürümünde İngilizce yedek kullanılıyor)
