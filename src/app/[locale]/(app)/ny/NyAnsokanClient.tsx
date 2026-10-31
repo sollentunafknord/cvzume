@@ -10,6 +10,8 @@ import { useLocale, useTranslations } from 'next-intl';
 import styles from './ny.module.css';
 import PrintDocument from './PrintDocument';
 import AdLinkInput, { isLoneUrl } from '../../AdLinkInput';
+import JobSearchButton from '../../JobSearchButton';
+import { RETURN_KEY } from '@/lib/market';
 import CvImport, { type ImportedCv } from '../CvImport';
 import { hasCvContent, loadProfile, saveProfile, type Profile, loadCvPhoto } from '@/lib/profile-store';
 import { cvText, descLines, docLang, exportCvDocx, exportLetterDocx, freeFooter, letterMeta, period, safeFileName, type ExportCv, type ExportPerson, printPortal } from '@/lib/export-docs';
@@ -40,6 +42,8 @@ export default function NyAnsokanClient({ onNavigate }: { onNavigate: (seg: stri
 
   // Taslak + uygulama içi aramadan / landing demosundan gelen ilan
   useEffect(() => {
+    // Rehberli akıştan kalmış "oraya dön" işareti burada geçersiz: iş aramadan Ny ansökan'a dönülsün
+    try { localStorage.removeItem(RETURN_KEY); } catch { /* yok */ }
     let draft: { role?: string; ad?: string } = {};
     try { draft = JSON.parse(sessionStorage.getItem(DRAFT_KEY) || '{}'); } catch { /* yok */ }
     try {
@@ -213,7 +217,7 @@ export default function NyAnsokanClient({ onNavigate }: { onNavigate: (seg: stri
           <section className={styles.card}>
             <h2>{t('step1.title')}</h2>
             <p className={styles.lead}>{t('step1.lead')}</p>
-            <AdLinkInput pastedUrl={pastedUrl} generic onFetched={a => { setRole([a.title, a.company].filter(Boolean).join(' — ')); setAd(a.text); }} />
+            <AdLinkInput pastedUrl={pastedUrl} generic aside={<JobSearchButton />} onFetched={a => { setRole([a.title, a.company].filter(Boolean).join(' — ')); setAd(a.text); }} />
             <label className={styles.label}>{t('step1.role')}</label>
             <input className={styles.input} value={role} onChange={e => setRole(e.target.value)} placeholder={t('step1.role_ph')} />
             <label className={styles.label}>{t('step1.ad')}</label>
@@ -231,7 +235,6 @@ export default function NyAnsokanClient({ onNavigate }: { onNavigate: (seg: stri
             />
             <div className={styles.actions}>
               <button className={styles.primary} disabled={ad.trim().length < 80} onClick={() => setStep(2)}>{t('next')} →</button>
-              <button className={styles.linkBtn} onClick={() => onNavigate('applications')}>🔍 {t('step1.search')}</button>
             </div>
           </section>
         )}

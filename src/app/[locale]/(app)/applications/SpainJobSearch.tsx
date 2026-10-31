@@ -3,6 +3,7 @@
 // İspanya ilan araması (/api/jobs/spain: InfoJobs, yoksa Adzuna). Yapı GermanJobSearch ile aynı:
 // "Analiz et" tam ilan metnini çeker ve "Ny ansökan" penceresini doldurulmuş açar.
 // InfoJobs'ta il listesi, Adzuna'da serbest şehir alanı. Hiçbiri yoksa infojobs.net linki.
+import { applyPath } from '@/lib/market';
 import { useEffect, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
@@ -83,7 +84,7 @@ export default function SpainJobSearch() {
         role: [ad.title, ad.company].filter(Boolean).join(' — '),
         description: `${head}\n\n${ad.text}`.slice(0, 6000),
       }));
-      router.push(`/${locale}/ny`);
+      router.push(applyPath(locale));
     } catch {
       setError(t('error_detail'));
       setAnalyzing('');

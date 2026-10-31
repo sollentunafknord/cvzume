@@ -788,7 +788,8 @@
       "rate_limited": "Çok fazla deneme. Biraz bekleyip tekrar deneyin."
     },
     "placeholderGeneric": "https://…",
-    "hintGeneric": "Çoğu kariyer sitesiyle çalışır."
+    "hintGeneric": "Çoğu kariyer sitesiyle çalışır.",
+    "search_in": "Açık ilanlarda arayın: {name}"
   },
   "ba": {
     "title": "Almanya'da iş arayın",

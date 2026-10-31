@@ -3,6 +3,7 @@
 // "Länk eller text": ilanı herhangi bir siteden (Indeed, LinkedIn, şirket sayfası…) link ya da metin
 // olarak yapıştır; CVzume okur ve "Ny ansökan" penceresini doldurulmuş açar. Indeed/LinkedIn'in açık
 // API'si olmadığı için onları ayrıca listelemiyoruz — bu ekran onların yerine geçer.
+import { applyPath } from '@/lib/market';
 import { useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
@@ -20,7 +21,7 @@ export default function LinkJobSearch() {
   function analyze() {
     if (ad.trim().length < 80) return;
     localStorage.setItem('cvita_prefill_job', JSON.stringify({ role: role.trim(), description: ad.slice(0, 6000) }));
-    router.push(`/${locale}/ny`);
+    router.push(applyPath(locale));
   }
 
   return (

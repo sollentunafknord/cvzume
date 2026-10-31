@@ -1,4 +1,5 @@
 // Platsbanken ilanından "Ny ansökan" akışını başlat (JobCard ve favoriler kullanır)
+import { applyPath } from '@/lib/market';
 import type { Job } from './types';
 
 export function startApplication(job: Job, locale: string) {
@@ -8,5 +9,5 @@ export function startApplication(job: Job, locale: string) {
     role: [job.headline, job.employer?.name].filter(Boolean).join(' — '),
     description: `${head}\n\n${text}`.slice(0, 8000),
   }));
-  window.location.assign(`/${locale}/ny`);
+  window.location.assign(applyPath(locale));
 }

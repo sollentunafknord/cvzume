@@ -792,7 +792,8 @@
       "rate_limited": "Demasiados intentos. Espera un momento e inténtalo de nuevo."
     },
     "placeholderGeneric": "https://…",
-    "hintGeneric": "Funciona con la mayoría de páginas de empleo."
+    "hintGeneric": "Funciona con la mayoría de páginas de empleo.",
+    "search_in": "Buscar ofertas: {name}"
   },
   "ba": {
     "title": "Buscar empleo en Alemania",

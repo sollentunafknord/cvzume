@@ -10,12 +10,14 @@ export type FetchedAd = { title: string; company: string; location: string; text
 
 export const isLoneUrl = (s: string) => /^https?:\/\/\S+$/i.test(s.trim());
 
-export default function AdLinkInput({ onFetched, pastedUrl, generic = false }: {
+export default function AdLinkInput({ onFetched, pastedUrl, generic = false, aside }: {
   onFetched: (ad: FetchedAd) => void;
   // Utanför Sverige: nämn inte Platsbanken i exempel/hint
   generic?: boolean;
   // Metin kutusuna tek başına bir link yapıştırılırsa üst bileşen bunu buraya iletir
   pastedUrl?: string;
+  // Etiketin hemen yanında gösterilecek öğe (ör. "Açık ilanlarda arayın")
+  aside?: React.ReactNode;
 }) {
   const t = useTranslations('adlink');
   const [url, setUrl] = useState('');
@@ -56,7 +58,7 @@ export default function AdLinkInput({ onFetched, pastedUrl, generic = false }: {
 
   return (
     <div className={styles.wrap}>
-      <label htmlFor="ad-link" className={styles.label}>{t('label')}</label>
+      <div className={styles.labelRow}><label htmlFor="ad-link" className={styles.label}>{t('label')}</label>{aside}</div>
       <div className={styles.row}>
         <input
           id="ad-link"

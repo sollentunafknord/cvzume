@@ -11,6 +11,8 @@ import { useLocale, useTranslations } from 'next-intl';
 import styles from './akis.module.css';
 import LogoMark from '@/components/LogoMark';
 import AdLinkInput, { type FetchedAd } from '../AdLinkInput';
+import JobSearchButton from '../JobSearchButton';
+import { RETURN_KEY } from '@/lib/market';
 import PrintDocument from '../(app)/ny/PrintDocument';
 import { authFetch } from '@/lib/auth-client';
 import { EMPTY_PROFILE, hasCvContent, loadCvPhoto, loadProfile, saveAvatarUrl, saveProfile, uploadPhoto, type Profile } from '@/lib/profile-store';
@@ -204,7 +206,12 @@ export default function AkisClient() {
       setPhoto(ph);
       setNames({ first: user.firstName || '', last: user.lastName || '' });
       setEmail(user.email || '');
-      if (saved?.screen && !AUTO.includes(saved.screen)) setS(saved);
+      // İş aramadan "Analiz et" ile gelindiyse ilan doldurulmuş olarak ilan ekranında başla
+      let prefill: { role?: string; description?: string } | null = null;
+      try { prefill = JSON.parse(localStorage.getItem('cvita_prefill_job') || 'null'); localStorage.removeItem('cvita_prefill_job'); localStorage.removeItem(RETURN_KEY); } catch { /* yok */ }
+      if (prefill?.description && saved) setS({ ...saved, screen: 'ad', ad: prefill.description, role: prefill.role || '', result: null, letter: '', saved: false, asks: {}, notes: {} });
+      else if (prefill?.description) setS({ screen: hasCvContent(p) ? 'ad' : 'welcome', history: [], path: '', draft: { ...NEW_DRAFT, first: user.firstName || '', last: user.lastName || '' }, ad: prefill.description, role: prefill.role || '', result: null, letter: '', asks: {}, notes: {}, saved: false });
+      else if (saved?.screen && !AUTO.includes(saved.screen)) setS(saved);
       else setS({ screen: hasCvContent(p) ? 'ad' : 'welcome', history: [], path: '', draft: { ...NEW_DRAFT, first: user.firstName || '', last: user.lastName || '' }, ad: '', role: '', result: null, letter: '', asks: {}, notes: {}, saved: false });
     });
     authFetch('/api/stripe/subscription').then(r => r.json()).then(d => setIsPro(d.plan === 'pro')).catch(() => {});
@@ -543,7 +550,7 @@ export default function AkisClient() {
       break;
     case 'ad':
       body = <><h1 className={styles.q}>{t('ad.title')}</h1><p className={styles.hint}>{t('ad.text')}</p>
-        <AdLinkInput generic onFetched={(a: FetchedAd) => up({ ad: a.text, role: [a.title, a.company].filter(Boolean).join(' — ') })} />
+        <AdLinkInput generic aside={<JobSearchButton from="akis" />} onFetched={(a: FetchedAd) => up({ ad: a.text, role: [a.title, a.company].filter(Boolean).join(' — ') })} />
         <label className={styles.f} htmlFor="ad-text">{t('ad.or_text')}<textarea id="ad-text" className={styles.textarea} style={{ minHeight: 220 }} value={s.ad} onChange={e => up({ ad: e.target.value, result: null })} /></label>
         {error && <p className={styles.err}>{error}</p>}
         {hasCvContent(profile) && <p className={styles.small}>{t('ad.your_cv', { name: fullName })} · <button className={styles.rm} style={{ color: 'var(--blue)' }} onClick={() => go('panel')}>{t('edit')}</button></p>}</>;

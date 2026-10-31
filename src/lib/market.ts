@@ -36,3 +36,45 @@ export function readCountryCookie(): string {
   const m = document.cookie.match(new RegExp(`(?:^|; )${COUNTRY_COOKIE}=([A-Z]{2})`));
   return m ? m[1] : '';
 }
+
+// "Açık ilanlarda ara" düğmesi: ziyaretçinin ülkesindeki kamu iş kurumu. Uygulama içinde aranabilenler
+// (inApp) iş arama sayfasında ilgili sekmeyi açar; diğerleri kurumun sitesini yeni sekmede açar,
+// kullanıcı ilanı bulup linkini yapıştırır.
+export type JobAgency = { name: string; inApp?: JobSource; url?: string }
+
+const EURES = 'https://europa.eu/eures/portal/jv-se/home'
+const AGENCIES: Record<string, JobAgency> = {
+  SE: { name: 'Arbetsförmedlingen', inApp: 'platsbanken' },
+  TR: { name: 'İŞKUR', inApp: 'iskur' },
+  DE: { name: 'Bundesagentur für Arbeit', inApp: 'arbeitsagentur' },
+  ES: { name: 'España', inApp: 'infojobs' },
+  AT: { name: 'AMS', url: 'https://jobs.ams.at/public/emps/' },
+  CH: { name: 'Job-Room', url: 'https://www.job-room.ch' },
+  NO: { name: 'NAV', url: 'https://arbeidsplassen.nav.no/stillinger' },
+  DK: { name: 'Jobnet', url: 'https://job.jobnet.dk/CV/FindWork' },
+  FI: { name: 'Työmarkkinatori', url: 'https://tyomarkkinatori.fi' },
+  GB: { name: 'Find a job (GOV.UK)', url: 'https://findajob.dwp.gov.uk' },
+  IE: { name: 'JobsIreland', url: 'https://jobsireland.ie' },
+  US: { name: 'CareerOneStop', url: 'https://www.careeronestop.org/Toolkit/Jobs/find-jobs.aspx' },
+  FR: { name: 'France Travail', url: 'https://candidat.francetravail.fr/offres/recherche' },
+  NL: { name: 'werk.nl', url: 'https://www.werk.nl/werkzoekenden/vacatures/' },
+  PL: { name: 'praca.gov.pl', url: 'https://oferty.praca.gov.pl' },
+  MX: { name: 'Portal del Empleo', url: 'https://www.empleo.gob.mx' },
+}
+const EU = ['BE', 'BG', 'CY', 'CZ', 'EE', 'GR', 'HR', 'HU', 'IS', 'IT', 'LI', 'LT', 'LU', 'LV', 'MT', 'PT', 'RO', 'SI', 'SK']
+
+export function jobAgency(country: string, locale: string): JobAgency | null {
+  if (AGENCIES[country]) return AGENCIES[country]
+  if (EU.includes(country)) return { name: 'EURES', url: EURES }
+  if (country) return null
+  // Ülke bilinmiyor: dile göre (eski davranış)
+  return locale === 'sv' ? AGENCIES.SE : locale === 'tr' ? AGENCIES.TR : locale === 'de' ? AGENCIES.DE : null
+}
+
+/** İş aramadan "Analiz et" denince dönülecek sayfa: rehberli akıştan gelindiyse oraya, yoksa "Ny ansökan". */
+export const RETURN_KEY = 'cvzume_return'
+export function applyPath(locale: string): string {
+  let target = 'ny'
+  try { if (localStorage.getItem(RETURN_KEY) === 'akis') target = 'akis' } catch { /* yok */ }
+  return `/${locale}/${target}`
+}

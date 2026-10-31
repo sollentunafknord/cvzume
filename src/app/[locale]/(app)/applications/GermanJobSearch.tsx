@@ -2,6 +2,7 @@
 
 // Bundesagentur für Arbeit (Almanya) ilan araması. "Analiz et" ilanın tam metnini çeker
 // ve "Ny ansökan" akışını o ilanla açar (cvita_prefill_job).
+import { applyPath } from '@/lib/market';
 import { useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
@@ -65,7 +66,7 @@ export default function GermanJobSearch() {
         role: [ad.title, ad.company].filter(Boolean).join(' — '),
         description: `${head}\n\n${ad.text}`.slice(0, 6000),
       }));
-      router.push(`/${locale}/ny`);
+      router.push(applyPath(locale));
     } catch {
       setError(t('error_detail'));
       setAnalyzing('');

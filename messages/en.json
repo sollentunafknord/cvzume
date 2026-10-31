@@ -764,7 +764,8 @@
       "rate_limited": "Too many attempts. Please wait a moment and try again."
     },
     "placeholderGeneric": "https://…",
-    "hintGeneric": "Works with most career sites."
+    "hintGeneric": "Works with most career sites.",
+    "search_in": "Search open jobs: {name}"
   },
   "ba": {
     "title": "Job search Germany",

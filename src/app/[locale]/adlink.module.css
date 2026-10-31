@@ -9,3 +9,7 @@
 .hint { font-size: 12px; color: var(--muted); }
 .ok { font-size: 13px; color: #047857; }
 .err { font-size: 13px; color: #B91C1C; }
+
+.labelRow { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 14px; }
+.search { font-size: 14px; font-weight: 600; color: var(--strong, var(--blue, #1A56DB)); text-decoration: none; white-space: nowrap; }
+.search:hover { text-decoration: underline; }

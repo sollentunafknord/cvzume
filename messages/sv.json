@@ -764,7 +764,8 @@
       "rate_limited": "För många försök. Vänta en stund och försök igen."
     },
     "placeholderGeneric": "https://…",
-    "hintGeneric": "Fungerar med de flesta karriärsidor."
+    "hintGeneric": "Fungerar med de flesta karriärsidor.",
+    "search_in": "Sök lediga jobb: {name}"
   },
   "ba": {
     "title": "Sök jobb i Tyskland",

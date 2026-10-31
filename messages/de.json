@@ -792,7 +792,8 @@
       "rate_limited": "Zu viele Versuche. Bitte warten Sie einen Moment und versuchen Sie es erneut."
     },
     "placeholderGeneric": "https://…",
-    "hintGeneric": "Funktioniert mit den meisten Karriereseiten."
+    "hintGeneric": "Funktioniert mit den meisten Karriereseiten.",
+    "search_in": "Offene Stellen suchen: {name}"
   },
   "ba": {
     "title": "Jobsuche Deutschland",
