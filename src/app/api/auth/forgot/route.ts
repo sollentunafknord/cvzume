@@ -1,8 +1,9 @@
-// "Şifremi unuttum": Supabase'in şifre sıfırlama e-postasını gönderir. Link /<dil>/auth?mode=reset'e döner.
+// "Şifremi unuttum": sıfırlama linkini Supabase'ten alır, e-postayı kendimiz (noreply@cvzume.com) göndeririz.
+// Link /<dil>/auth?mode=reset'e döner.
 // Hesap var mı yok mu belli olmasın diye her zaman { ok: true } döner.
-import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
-import { clientIp, rateLimit } from '@/lib/server-auth'
+import { clientIp, rateLimit, serviceClient } from '@/lib/server-auth'
+import { sendResetEmail } from '@/lib/reset-email'
 
 const LOCALES = ['sv', 'en', 'es', 'tr', 'de']
 
@@ -14,8 +15,9 @@ export async function POST(request: Request) {
   if (!rateLimit(`forgot:${mail}`, 3)) return NextResponse.json({ ok: true })
   const loc = LOCALES.includes(locale) ? locale : 'sv'
   const site = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.cvzume.com'
-  const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, { auth: { persistSession: false } })
-  const { error } = await supabase.auth.resetPasswordForEmail(mail, { redirectTo: `${site}/${loc}/auth?mode=reset` })
-  if (error) console.error('forgot password', error.message)
+  const { data, error } = await serviceClient().auth.admin.generateLink({ type: 'recovery', email: mail, options: { redirectTo: `${site}/${loc}/auth?mode=reset` } })
+  // Hesap yoksa generateLink hata verir; dışarıya yine "tamam" deriz
+  if (error || !data?.properties?.action_link) { if (error && !/not found/i.test(error.message)) console.error('forgot password', error.message); return NextResponse.json({ ok: true }) }
+  await sendResetEmail(mail, data.properties.action_link, loc)
   return NextResponse.json({ ok: true })
 }
