@@ -62,14 +62,15 @@ CV kayıtlıysa sonraki başvurular doğrudan 3. adımdan başlar.
 - [ ] Site bittiğinde: robots.txt ve sitemap'i gözden geçir (/yedek/ ve /<dil>/akis kurallarını kaldır,
       yeni sayfaları ekle, eski /dashboard vb. kurallarını temizle), /yedek/ klasörünü sil
 - [ ] Palet seçimini profile kaydet (şimdilik tarayıcıda) ve Ayarlar'a da koy; ücretsiz kullanıcıya kilitli önizleme (Pro tanıtımı)
-- [ ] **ÖDEME (öncelikli, reklam/tanıtımdan önce): Stripe'ı canlı moda al**
-      - Stripe hesabını etkinleştir (işletme bilgileri, banka hesabı, kimlik); şirket yoksa enskild firma/kişisel satıcı durumu netleşmeli
-      - Canlı ürün/fiyatlar: Pro 109 SEK/ay, Pro Yıllık 999 SEK/yıl → STRIPE_PRICE_ID / STRIPE_YEARLY_PRICE_ID
-      - Canlı anahtarlar Vercel'e: STRIPE_SECRET_KEY (sk_live), webhook uç noktası /api/stripe/webhook + STRIPE_WEBHOOK_SECRET (şu an tanımlı değil)
-      - Müşteri portalı (iptal, kart değiştirme) canlı modda yapılandır; KDV/moms (İsveç %25, Stripe Tax?) ve faturada görünecek bilgiler
-      - Ödeme sonrası dönüş adresi şu an /sv/dashboard sabit → kullanıcının dili ve yeni sayfa
-      - Uçtan uca test: gerçek kartla küçük ödeme, Pro açılıyor mu, onay e-postası, iptal, iade
-      - Yükseltme sayfasındaki özellik listesi gerçekle uyumlu (2026-10-31 düzeltildi)
+- [ ] **ÖDEME — Stripe canlıda (2026-11-01)**
+      - [x] Stripe hesabı live (Individual), Radar Standard, vergi: "not selling yet"
+      - [x] Canlı ürün/fiyatlar: CVzume Pro prod_VXqzYaZ3qpvZcB · 109 SEK/ay price_1UWlHRGnK5c1KgO9lQJFbPgF · 999 SEK/yıl price_1UWlHSGnK5c1KgO9ct1koSx2 (kodda: src/lib/stripe-plan.ts)
+      - [x] Webhook https://www.cvzume.com/api/stripe/webhook (checkout.session.completed, customer.subscription.deleted); STRIPE_WEBHOOK_SECRET + STRIPE_LIVE_SECRET_KEY sadece Production'da; önizleme test anahtarında
+      - [x] Ödeme sayfası müşterinin dilinde, doğru sayfaya dönüş, cayma hakkı notu, mevcut müşteriyi kullanma
+      - [ ] Gerçek kartla uçtan uca test: ücretsiz test hesabı → Pro 109 SEK → Pro açılıyor mu + onay e-postası → portaldan iptal → Stripe'tan iade
+      - [ ] F-skatt (skatteverket.se/verksamt.se, ücretsiz) — gerçek müşteriden para almadan önce
+      - [ ] Moms durumu (muafiyet sınırı 2026'da yükseltildi, güncel rakamı Skatteverket'ten kontrol et); gerekirse Stripe Tax
+      - [ ] Yasal metinlere satıcı bilgisi (ad, adres, organisationsnummer = personnummer)
 - [x] Sosyal medya: facebook.com/cvzume ve instagram.com/cvzume açıldı, sitenin altında linkleri var; ilk 5 gönderi hazır (docs/sosyal-medya-gonderiler.md)
 - [ ] Sosyal medya: Instagram'ı Facebook sayfasına bağla, gönderileri paylaş; sonra Meta API ile otomatik paylaşım
 - [ ] LinkedIn (sonra): şirket sayfası + entegrasyon fikirleri — "LinkedIn ile giriş", LinkedIn profilinden CV'yi içe aktarma,
