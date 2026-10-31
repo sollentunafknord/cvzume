@@ -9,13 +9,11 @@ import { alertIfBroken, checkSources } from '@/lib/source-health'
 export const dynamic = 'force-dynamic'
 
 export async function GET(request: Request) {
-  // Vercel cron, CRON_SECRET tanımlıysa Authorization header'ı ekler.
+  // Vercel cron, CRON_SECRET ile Authorization header'ı ekler. Şifre yoksa da uç kapalı
+  // (eskiden açıktı: herkes kaynak kontrolünü ve uyarı e-postasını tetikleyebiliyordu).
   const secret = process.env.CRON_SECRET
-  if (secret) {
-    const auth = request.headers.get('authorization')
-    if (auth !== `Bearer ${secret}`) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
+  if (!secret || request.headers.get('authorization') !== `Bearer ${secret}`) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
   // Client'ı handler içinde oluştur — modül seviyesinde oluşturmak
