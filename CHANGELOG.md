@@ -1,5 +1,9 @@
 # CVzume Changelog
 
+## v4.2 — 2026-11-01
+- Sosyal medya: her gün 07:00 UTC'de Facebook sayfası ve Instagram'a o günün dilinde iş arama ipucu (21 ipucu × 5 dil, otomatik kart görseli)
+- Her sabah hello@cvzume.com'a gruplar için 5 dilde hazır metin ve önerilen grup listesi
+
 ## v4.1 — 2026-11-01
 - Admin: Google Analytics, Vercel Analytics, Stripe ve Supabase panellerine tek tıkla bağlantılar
 
