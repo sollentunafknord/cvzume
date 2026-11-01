@@ -1,7 +1,7 @@
 // Juridiska sidor. Svenska är originalet; en/tr/es/de är översättningar (formellt tilltal på turkiska och tyska).
 // Uppdatera UPDATED när innehållet ändras.
 
-export const UPDATED = '2026-10-30';
+export const UPDATED = '2026-11-01';
 export const CONTACT = 'info@cvzume.com';
 
 export type LegalSlug = 'privacy' | 'cookies' | 'terms';
@@ -19,7 +19,7 @@ const sv: Record<LegalSlug, LegalDoc> = {
         'Profil och CV: de uppgifter du själv fyller i eller laddar upp, till exempel arbetslivserfarenhet, utbildning, kompetenser, språk och profilbild.',
         'Ansökningar: jobbannonser du klistrar in eller sparar, genererade CV-texter och personliga brev, status på dina ansökningar och sparade favoritjobb.',
         'Betalning: om du köper Pro hanterar Stripe dina kortuppgifter. Vi får bara veta e-postadress, vilken plan du har och om betalningen gått igenom.',
-        'Teknisk information: anonym besöksstatistik (Vercel Web Analytics, utan cookies) och serverloggar som behövs för att driva tjänsten säkert.',
+        'Teknisk information: anonym besöksstatistik (Vercel Web Analytics, utan cookies) och serverloggar som behövs för att driva tjänsten säkert. Om du godkänner statistikcookies använder vi även Google Analytics (se Cookies).',
       ] },
       { h: 'Varför vi behandlar uppgifterna', p: [
         'För att leverera tjänsten du har bett om — skapa och spara CV, brev och ansökningar (rättslig grund: avtal).',
@@ -46,7 +46,7 @@ const sv: Record<LegalSlug, LegalDoc> = {
   },
   cookies: {
     title: 'Cookies',
-    lead: 'CVzume använder inga cookies för reklam eller spårning. Här är det som faktiskt sparas i din webbläsare.',
+    lead: 'CVzume använder inga cookies för reklam. Statistikcookies från Google Analytics sätts bara om du godkänner dem. Här är det som sparas i din webbläsare.',
     sections: [
       { h: 'Nödvändiga cookies och lagring', p: [
         'NEXT_LOCALE — kommer ihåg vilket språk du har valt (1 år).',
@@ -55,12 +55,13 @@ const sv: Record<LegalSlug, LegalDoc> = {
       ] },
       { h: 'Besöksstatistik', p: [
         'Vi använder Vercel Web Analytics för anonym statistik över sidvisningar. Den använder inga cookies och identifierar inte enskilda besökare.',
+        'Om du godkänner i cookie-rutan använder vi även Google Analytics för att förstå hur sidan används. Det sätter cookies (_ga, _ga_*, upp till 14 månader). IP-adresser lagras inte, och Googles reklamfunktioner (Google-signaler och annonsanpassning) är avstängda. Google Ireland behandlar uppgifterna för vår räkning; viss överföring till USA kan ske enligt EU-U.S. Data Privacy Framework.',
       ] },
       { h: 'Betalning', p: [
         'När du betalar för Pro skickas du till Stripe, som kan sätta egna cookies för att förhindra bedrägerier. Läs mer i Stripes integritetspolicy.',
       ] },
       { h: 'Samtycke', p: [
-        'Eftersom vi bara använder lagring som är nödvändig för att tjänsten ska fungera behöver vi inget cookie-samtycke enligt lagen om elektronisk kommunikation. Om vi någon gång lägger till cookies som inte är nödvändiga kommer vi att be om ditt samtycke först.',
+        'Statistikcookies från Google Analytics sätts bara efter att du har klickat på ”Godkänn” i cookie-rutan. Avböjer du laddas Google Analytics inte alls. Du kan ändra ditt val när som helst via länken ”Cookie-inställningar” längst ner på sidan. Övrig lagring ovan är nödvändig för att tjänsten ska fungera och kräver inget samtycke.',
       ] },
     ],
   },
@@ -109,7 +110,7 @@ const en: Record<LegalSlug, LegalDoc> = {
         'Profile and CV: the information you enter or upload, such as work experience, education, skills, languages and profile photo.',
         'Applications: job ads you paste or save, generated CV texts and cover letters, application status and saved favorite jobs.',
         'Payment: if you buy Pro, Stripe handles your card details. We only learn your email address, your plan and whether the payment succeeded.',
-        'Technical information: anonymous visitor statistics (Vercel Web Analytics, without cookies) and server logs needed to run the service securely.',
+        'Technical information: anonymous visitor statistics (Vercel Web Analytics, without cookies) and server logs needed to run the service securely. If you accept statistics cookies, we also use Google Analytics (see Cookies).',
       ] },
       { h: 'Why we process it', p: [
         'To provide the service you asked for — creating and saving CVs, letters and applications (legal basis: contract).',
@@ -136,7 +137,7 @@ const en: Record<LegalSlug, LegalDoc> = {
   },
   cookies: {
     title: 'Cookies',
-    lead: 'CVzume does not use cookies for advertising or tracking. This is what is actually stored in your browser.',
+    lead: 'CVzume does not use advertising cookies. Statistics cookies from Google Analytics are set only if you accept them. This is what is stored in your browser.',
     sections: [
       { h: 'Necessary cookies and storage', p: [
         'NEXT_LOCALE — remembers the language you chose (1 year).',
@@ -145,12 +146,13 @@ const en: Record<LegalSlug, LegalDoc> = {
       ] },
       { h: 'Visitor statistics', p: [
         'We use Vercel Web Analytics for anonymous page-view statistics. It uses no cookies and does not identify individual visitors.',
+        'If you accept in the cookie banner, we also use Google Analytics to understand how the site is used. It sets cookies (_ga, _ga_*, up to 14 months). IP addresses are not stored, and Google\'s advertising features (Google signals and ad personalization) are turned off. Google Ireland processes the data on our behalf; some transfer to the US may take place under the EU-U.S. Data Privacy Framework.',
       ] },
       { h: 'Payment', p: [
         'When you pay for Pro you are sent to Stripe, which may set its own cookies to prevent fraud. See Stripe\'s privacy policy for details.',
       ] },
       { h: 'Consent', p: [
-        'Because we only use storage that is necessary for the service to work, no cookie consent is required under Swedish law. If we ever add non-essential cookies, we will ask for your consent first.',
+        'Statistics cookies from Google Analytics are set only after you click “Accept” in the cookie banner. If you decline, Google Analytics is not loaded at all. You can change your choice at any time via the “Cookie settings” link at the bottom of the page. The other storage above is necessary for the service to work and needs no consent.',
       ] },
     ],
   },
@@ -200,7 +202,7 @@ const tr: Record<LegalSlug, LegalDoc> = {
         'Profil ve CV: iş deneyimi, eğitim, yetkinlikler, diller ve profil fotoğrafı gibi kendi girdiğiniz ya da yüklediğiniz bilgiler.',
         'Başvurular: yapıştırdığınız ya da kaydettiğiniz iş ilanları, oluşturulan CV metinleri ve ön yazılar, başvurularınızın durumu ve favori ilanlarınız.',
         'Ödeme: Pro satın alırsanız kart bilgilerinizi Stripe işler. Biz yalnızca e-posta adresinizi, planınızı ve ödemenin başarılı olup olmadığını öğreniriz.',
-        'Teknik bilgiler: anonim ziyaret istatistikleri (çerezsiz Vercel Web Analytics) ve hizmeti güvenli şekilde sunmak için gereken sunucu kayıtları.',
+        'Teknik bilgiler: anonim ziyaret istatistikleri (çerezsiz Vercel Web Analytics) ve hizmeti güvenli şekilde sunmak için gereken sunucu kayıtları. İstatistik çerezlerini kabul ederseniz Google Analytics de kullanırız (bkz. Çerezler).',
       ] },
       { h: 'Verileri neden işliyoruz', p: [
         'Talep ettiğiniz hizmeti sunmak için — CV, ön yazı ve başvuru oluşturmak ve kaydetmek (hukuki dayanak: sözleşme).',
@@ -227,7 +229,7 @@ const tr: Record<LegalSlug, LegalDoc> = {
   },
   cookies: {
     title: 'Çerezler',
-    lead: 'CVzume reklam veya takip amaçlı çerez kullanmaz. Tarayıcınızda gerçekte saklananlar şunlardır.',
+    lead: 'CVzume reklam çerezi kullanmaz. Google Analytics istatistik çerezleri yalnızca siz kabul ederseniz yerleştirilir. Tarayıcınızda saklananlar şunlardır.',
     sections: [
       { h: 'Zorunlu çerezler ve depolama', p: [
         'NEXT_LOCALE — seçtiğiniz dili hatırlar (1 yıl).',
@@ -236,12 +238,13 @@ const tr: Record<LegalSlug, LegalDoc> = {
       ] },
       { h: 'Ziyaret istatistikleri', p: [
         'Sayfa görüntülemelerine ait anonim istatistikler için Vercel Web Analytics kullanıyoruz. Çerez kullanmaz ve ziyaretçileri tek tek tanımlamaz.',
+        'Çerez kutusunda kabul ederseniz sitenin nasıl kullanıldığını anlamak için Google Analytics de kullanırız. Bu, çerezler yerleştirir (_ga, _ga_*, en fazla 14 ay). IP adresleri saklanmaz ve Google\'ın reklam özellikleri (Google sinyalleri ve reklam kişiselleştirme) kapalıdır. Veriler bizim adımıza Google Ireland tarafından işlenir; bir kısmı AB-ABD Veri Gizliliği Çerçevesi kapsamında ABD\'ye aktarılabilir.',
       ] },
       { h: 'Ödeme', p: [
         'Pro için ödeme yaptığınızda Stripe\'a yönlendirilirsiniz; Stripe dolandırıcılığı önlemek için kendi çerezlerini kullanabilir. Ayrıntılar için Stripe\'ın gizlilik politikasına bakın.',
       ] },
       { h: 'Onay', p: [
-        'Yalnızca hizmetin çalışması için zorunlu olan depolamayı kullandığımızdan çerez onayı gerekmez. İleride zorunlu olmayan çerezler eklersek önce onayınızı isteyeceğiz.',
+        'Google Analytics istatistik çerezleri yalnızca çerez kutusunda “Kabul et”e tıkladıktan sonra yerleştirilir. Reddederseniz Google Analytics hiç yüklenmez. Seçiminizi sayfanın altındaki “Çerez ayarları” bağlantısından istediğiniz zaman değiştirebilirsiniz. Yukarıdaki diğer depolama hizmetin çalışması için zorunludur ve onay gerektirmez.',
       ] },
     ],
   },
@@ -290,7 +293,7 @@ const es: Record<LegalSlug, LegalDoc> = {
         'Perfil y CV: la información que tú introduces o subes, como experiencia laboral, formación, competencias, idiomas y foto de perfil.',
         'Solicitudes: ofertas de empleo que pegas o guardas, textos de CV y cartas generados, el estado de tus solicitudes y tus ofertas favoritas.',
         'Pago: si compras Pro, Stripe gestiona los datos de tu tarjeta. Nosotros solo conocemos tu correo electrónico, tu plan y si el pago se ha completado.',
-        'Información técnica: estadísticas de visitas anónimas (Vercel Web Analytics, sin cookies) y registros del servidor necesarios para prestar el servicio de forma segura.',
+        'Información técnica: estadísticas de visitas anónimas (Vercel Web Analytics, sin cookies) y registros del servidor necesarios para prestar el servicio de forma segura. Si aceptas las cookies de estadística, también usamos Google Analytics (ver Cookies).',
       ] },
       { h: 'Por qué tratamos los datos', p: [
         'Para prestar el servicio que has solicitado: crear y guardar CV, cartas y solicitudes (base jurídica: contrato).',
@@ -317,7 +320,7 @@ const es: Record<LegalSlug, LegalDoc> = {
   },
   cookies: {
     title: 'Cookies',
-    lead: 'CVzume no usa cookies publicitarias ni de seguimiento. Esto es lo que realmente se guarda en tu navegador.',
+    lead: 'CVzume no usa cookies publicitarias. Las cookies de estadística de Google Analytics solo se instalan si las aceptas. Esto es lo que se guarda en tu navegador.',
     sections: [
       { h: 'Cookies y almacenamiento necesarios', p: [
         'NEXT_LOCALE: recuerda el idioma que has elegido (1 año).',
@@ -326,12 +329,13 @@ const es: Record<LegalSlug, LegalDoc> = {
       ] },
       { h: 'Estadísticas de visitas', p: [
         'Usamos Vercel Web Analytics para obtener estadísticas anónimas de páginas vistas. No usa cookies ni identifica a visitantes individuales.',
+        'Si aceptas en el aviso de cookies, también usamos Google Analytics para entender cómo se usa el sitio. Instala cookies (_ga, _ga_*, hasta 14 meses). No se guardan direcciones IP y las funciones publicitarias de Google (señales de Google y personalización de anuncios) están desactivadas. Google Ireland trata los datos por cuenta nuestra; puede haber transferencias a EE. UU. en el marco del EU-U.S. Data Privacy Framework.',
       ] },
       { h: 'Pago', p: [
         'Cuando pagas Pro, se te redirige a Stripe, que puede usar sus propias cookies para prevenir el fraude. Consulta la política de privacidad de Stripe para más información.',
       ] },
       { h: 'Consentimiento', p: [
-        'Como solo usamos el almacenamiento necesario para que el servicio funcione, no se requiere consentimiento de cookies. Si alguna vez añadimos cookies no necesarias, te pediremos tu consentimiento antes.',
+        'Las cookies de estadística de Google Analytics solo se instalan después de que pulses «Aceptar» en el aviso de cookies. Si rechazas, Google Analytics no se carga. Puedes cambiar tu elección en cualquier momento con el enlace «Configuración de cookies» al final de la página. El resto del almacenamiento indicado arriba es necesario para que el servicio funcione y no requiere consentimiento.',
       ] },
     ],
   },
@@ -380,7 +384,7 @@ const de: Record<LegalSlug, LegalDoc> = {
         'Profil und Lebenslauf: die Angaben, die Sie selbst eingeben oder hochladen, etwa Berufserfahrung, Ausbildung, Kompetenzen, Sprachen und Profilfoto.',
         'Bewerbungen: Stellenanzeigen, die Sie einfügen oder speichern, erstellte Lebenslauftexte und Anschreiben, der Status Ihrer Bewerbungen und gespeicherte Favoriten.',
         'Zahlung: Wenn Sie Pro kaufen, verarbeitet Stripe Ihre Kartendaten. Wir erfahren nur Ihre E-Mail-Adresse, Ihren Tarif und ob die Zahlung erfolgreich war.',
-        'Technische Daten: anonyme Besuchsstatistiken (Vercel Web Analytics, ohne Cookies) und Serverprotokolle, die für den sicheren Betrieb erforderlich sind.',
+        'Technische Daten: anonyme Besuchsstatistiken (Vercel Web Analytics, ohne Cookies) und Serverprotokolle, die für den sicheren Betrieb erforderlich sind. Wenn Sie Statistik-Cookies zustimmen, nutzen wir zusätzlich Google Analytics (siehe Cookies).',
       ] },
       { h: 'Warum wir die Daten verarbeiten', p: [
         'Um den von Ihnen gewünschten Dienst zu erbringen — Lebensläufe, Anschreiben und Bewerbungen erstellen und speichern (Rechtsgrundlage: Vertrag, Art. 6 Abs. 1 lit. b DSGVO).',
@@ -407,7 +411,7 @@ const de: Record<LegalSlug, LegalDoc> = {
   },
   cookies: {
     title: 'Cookies',
-    lead: 'CVzume verwendet keine Cookies für Werbung oder Tracking. Das wird tatsächlich in Ihrem Browser gespeichert.',
+    lead: 'CVzume verwendet keine Werbe-Cookies. Statistik-Cookies von Google Analytics werden nur gesetzt, wenn Sie zustimmen. Das wird in Ihrem Browser gespeichert.',
     sections: [
       { h: 'Notwendige Cookies und Speicher', p: [
         'NEXT_LOCALE — merkt sich die von Ihnen gewählte Sprache (1 Jahr).',
@@ -416,12 +420,13 @@ const de: Record<LegalSlug, LegalDoc> = {
       ] },
       { h: 'Besuchsstatistik', p: [
         'Wir nutzen Vercel Web Analytics für anonyme Statistiken zu Seitenaufrufen. Es verwendet keine Cookies und identifiziert keine einzelnen Besucher.',
+        'Wenn Sie im Cookie-Hinweis zustimmen, nutzen wir zusätzlich Google Analytics, um zu verstehen, wie die Seite genutzt wird. Dabei werden Cookies gesetzt (_ga, _ga_*, bis zu 14 Monate). IP-Adressen werden nicht gespeichert, und die Werbefunktionen von Google (Google-Signale und Anzeigenpersonalisierung) sind deaktiviert. Google Ireland verarbeitet die Daten in unserem Auftrag; eine Übermittlung in die USA kann im Rahmen des EU-U.S. Data Privacy Framework erfolgen.',
       ] },
       { h: 'Zahlung', p: [
         'Wenn Sie für Pro bezahlen, werden Sie zu Stripe weitergeleitet; Stripe kann eigene Cookies zur Betrugsprävention setzen. Näheres in der Datenschutzerklärung von Stripe.',
       ] },
       { h: 'Einwilligung', p: [
-        'Da wir nur Speicher verwenden, der für den Betrieb des Dienstes notwendig ist, ist keine Cookie-Einwilligung erforderlich. Sollten wir einmal nicht notwendige Cookies einführen, bitten wir vorher um Ihre Einwilligung.',
+        'Statistik-Cookies von Google Analytics werden erst gesetzt, nachdem Sie im Cookie-Hinweis auf „Akzeptieren“ geklickt haben. Lehnen Sie ab, wird Google Analytics gar nicht geladen. Sie können Ihre Wahl jederzeit über den Link „Cookie-Einstellungen“ unten auf der Seite ändern. Der übrige oben beschriebene Speicher ist für den Betrieb notwendig und erfordert keine Einwilligung.',
       ] },
     ],
   },

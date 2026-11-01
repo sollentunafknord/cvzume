@@ -1154,5 +1154,13 @@
     },
     "menu": "Menu",
     "upgraded": "Your Pro account is active. You can now prepare unlimited applications."
+  },
+  "consent": {
+    "title": "Cookies for statistics",
+    "text": "We'd like to use Google Analytics to understand how the site is used. It sets statistics cookies, but only if you accept. No advertising cookies.",
+    "more": "Learn more",
+    "accept": "Accept",
+    "reject": "Decline",
+    "settings": "Cookie settings"
   }
 }

@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { Analytics } from "@vercel/analytics/next";
+import CookieConsent from "./CookieConsent";
 
 export default async function LocaleLayout({
   children,
@@ -18,6 +19,7 @@ export default async function LocaleLayout({
       <body style={{ margin: 0, padding: 0 }}>
         <NextIntlClientProvider locale={locale} messages={messages}>
           {children}
+          <CookieConsent />
         </NextIntlClientProvider>
         <Analytics />
       </body>

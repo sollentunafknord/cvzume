@@ -1182,5 +1182,13 @@
       "text": "Der kostenlose Plan umfasst 2 Bewerbungen pro Monat. Mit Pro sind es unbegrenzt viele.",
       "upgrade": "Zu Pro wechseln"
     }
+  },
+  "consent": {
+    "title": "Statistik-Cookies",
+    "text": "Wir möchten Google Analytics nutzen, um zu verstehen, wie die Seite verwendet wird. Dabei werden Statistik-Cookies gesetzt, aber nur, wenn Sie zustimmen. Keine Werbe-Cookies.",
+    "more": "Mehr erfahren",
+    "accept": "Akzeptieren",
+    "reject": "Ablehnen",
+    "settings": "Cookie-Einstellungen"
   }
 }

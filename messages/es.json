@@ -1182,5 +1182,13 @@
       "text": "El plan gratis incluye 2 solicitudes al mes. Con Pro son ilimitadas.",
       "upgrade": "Pasar a Pro"
     }
+  },
+  "consent": {
+    "title": "Cookies de estadística",
+    "text": "Queremos usar Google Analytics para entender cómo se usa el sitio. Instala cookies de estadística, pero solo si las aceptas. Sin cookies de publicidad.",
+    "more": "Más información",
+    "accept": "Aceptar",
+    "reject": "Rechazar",
+    "settings": "Configuración de cookies"
   }
 }

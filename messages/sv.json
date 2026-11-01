@@ -1154,5 +1154,13 @@
     },
     "menu": "Meny",
     "upgraded": "Ditt Pro-konto är aktivt. Nu kan du ta fram obegränsat med ansökningar."
+  },
+  "consent": {
+    "title": "Cookies för statistik",
+    "text": "Vi vill använda Google Analytics för att förstå hur sidan används. Det sätter statistikcookies, men bara om du godkänner. Inga cookies för reklam.",
+    "more": "Läs mer",
+    "accept": "Godkänn",
+    "reject": "Avböj",
+    "settings": "Cookie-inställningar"
   }
 }

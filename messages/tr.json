@@ -1178,5 +1178,13 @@
     },
     "menu": "Menü",
     "upgraded": "Pro hesabınız aktif. Sınırsız başvuru hazırlayabilirsiniz."
+  },
+  "consent": {
+    "title": "İstatistik çerezleri",
+    "text": "Sitenin nasıl kullanıldığını anlamak için Google Analytics kullanmak istiyoruz. Bu, istatistik çerezleri yerleştirir; ama sadece siz kabul ederseniz. Reklam çerezi yok.",
+    "more": "Daha fazla bilgi",
+    "accept": "Kabul et",
+    "reject": "Reddet",
+    "settings": "Çerez ayarları"
   }
 }

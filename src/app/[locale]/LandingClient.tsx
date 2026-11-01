@@ -2,6 +2,7 @@
 
 import { flowPath } from '@/lib/flow-path';
 import LogoMark from '@/components/LogoMark';
+import { CookieSettingsLink } from './CookieConsent';
 import { useEffect, useState } from 'react';
 import { useLocale, useTranslations, useMessages } from 'next-intl';
 import { useRouter, usePathname } from 'next/navigation';
@@ -402,6 +403,7 @@ export default function LandingClient({ market }: { market: Market }) {
             <div className={styles.footerHead}>{t('footer.legal')}</div>
             <a href={legal('privacy')}>{t('footer.privacy')}</a>
             <a href={legal('cookies')}>{t('footer.cookies')}</a>
+            <CookieSettingsLink />
             <a href={legal('terms')}>{t('footer.terms')}</a>
           </div>
           <div className={styles.footerCol}>
