@@ -1,4 +1,5 @@
 // src/app/api/stripe/checkout/route.ts
+import { flowPath } from '@/lib/flow-path'
 import { getStripe, priceId } from '@/lib/stripe-plan'
 import { NextResponse } from 'next/server'
 import { getRequestUser } from '@/lib/server-auth'
@@ -37,7 +38,7 @@ export async function POST(request: Request) {
       allow_promotion_codes: true,
       // Cayma hakkı: hizmet ödemeden hemen sonra başlar (koşullarda yazılı); ödeme düğmesinin altında kısa bilgi
       custom_text: { submit: { message: SUBMIT_NOTE[loc] } },
-      success_url: `${SITE_URL}/${loc}/akis?upgraded=true`,
+      success_url: `${SITE_URL}${flowPath(loc)}?upgraded=true`,
       cancel_url: `${SITE_URL}/${loc}/upgrade`,
       metadata: { email, locale: loc },
       subscription_data: { metadata: { email } },

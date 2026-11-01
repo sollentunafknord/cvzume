@@ -1,5 +1,6 @@
 'use client';
 
+import { flowPath } from '@/lib/flow-path';
 import LogoMark from '@/components/LogoMark';
 import { useEffect, useState } from 'react';
 import ForgotPassword from './ForgotPassword';
@@ -135,7 +136,7 @@ export default function AuthClient() {
         localStorage.setItem('cvita_language', selectedLang);
       }
       ['cvita_active_page','cvita_profile','cvita_last_result','cvita_pdf_count','cvita_avatar','cvita_open_app','cvita_plan_label','cvita_is_pro'].forEach(k => localStorage.removeItem(k));
-      router.push(`/${locale}/akis`);
+      router.push(flowPath(locale));
     } catch {
       setLoginError(t('error_generic'));
     } finally {
@@ -290,7 +291,7 @@ export default function AuthClient() {
               <div className={styles.successIcon}>✅</div>
               <h2 className={styles.successTitle}>{t('success_title')}</h2>
               <p className={styles.successSub}>{t('success_sub').replace('{name}', successName)}</p>
-              <button className={styles.btnSubmit} onClick={() => router.push(`/${locale}/akis`)}>
+              <button className={styles.btnSubmit} onClick={() => router.push(flowPath(locale))}>
                 {t('go_dashboard')}
               </button>
             </div>

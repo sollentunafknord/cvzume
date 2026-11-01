@@ -1,5 +1,6 @@
 'use client';
 
+import { authFetch } from '@/lib/auth-client';
 import { useState, useEffect, useCallback } from 'react';
 import { useLocale } from 'next-intl';
 import styles from './admin.module.css';
@@ -52,14 +53,12 @@ export default function AdminClient() {
     setTimeout(() => setToast(''), 3500);
   };
 
-  const getToken = () => localStorage.getItem('cvita_token') || '';
 
   const loadData = useCallback(async () => {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch('/api/admin', {
-        headers: { Authorization: 'Bearer ' + getToken() },
+      const res = await authFetch('/api/admin', {
       });
       const data = await res.json();
       if (!res.ok) {
@@ -84,9 +83,9 @@ export default function AdminClient() {
       const body: Record<string, string> = { action, userId: user.id, email: user.email || '' };
       if (user.isPro && user.stripe_sub_id) body.subId = user.stripe_sub_id;
 
-      const res = await fetch('/api/admin', {
+      const res = await authFetch('/api/admin', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getToken() },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       });
       if (!res.ok) {
@@ -106,9 +105,9 @@ export default function AdminClient() {
     if (!confirm(`Send password reset email to ${user.email}?`)) return;
     setActionLoading(user.id + '_reset');
     try {
-      const res = await fetch('/api/admin/reset', {
+      const res = await authFetch('/api/admin/reset', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + getToken() },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: user.email }),
       });
       if (!res.ok) throw new Error('Failed');

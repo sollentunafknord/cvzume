@@ -1,8 +1,9 @@
 'use client';
 
+import { flowPath } from '@/lib/flow-path';
 import { useState, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { authFetch } from '@/lib/auth-client';
+import { authFetch, keepTokenFresh } from '@/lib/auth-client';
 import { useLocale } from 'next-intl';
 import Sidebar from './Sidebar';
 import styles from './sidebar.module.css';
@@ -33,6 +34,9 @@ export default function AppShell() {
     setPage(seg);
   }, [pathname]);
 
+  // Giriş anahtarı 1 saatte doluyor; uygulama açıkken taze tut
+  useEffect(() => keepTokenFresh(), []);
+
   // Check pro status on app load and notify components
   useEffect(() => {
     const email = (() => { try { return JSON.parse(localStorage.getItem('cvita_user') || '{}').email || ''; } catch { return ''; } })();
@@ -47,8 +51,8 @@ export default function AppShell() {
       .catch(() => {});
   }, []);
 
-  // Yeni başvuru artık rehberli akışta (/<dil>/akis, kenar çubuğu olmayan ayrı sayfa)
-  useEffect(() => { if (page === 'ny') window.location.replace(`/${locale}/akis`); }, [page, locale]);
+  // Yeni başvuru artık rehberli akışta (flowPath: /tr/basvuru, /sv/ansok …)
+  useEffect(() => { if (page === 'ny') window.location.replace(flowPath(locale)); }, [page, locale]);
 
   function navigate(seg: string) {
     setPage(seg);                              // instant — React state, no waiting

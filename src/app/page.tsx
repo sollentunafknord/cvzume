@@ -1,5 +1,6 @@
 'use client';
 
+import { flowPath } from '@/lib/flow-path';
 import { useEffect } from 'react';
 
 export default function Home() {
@@ -21,7 +22,7 @@ export default function Home() {
     const token = localStorage.getItem('cvita_token');
     const user = localStorage.getItem('cvita_user');
     if (token && user) {
-      window.location.replace(`/${locale}/akis`);
+      window.location.replace(flowPath(locale));
     } else {
       window.location.replace(`/${locale}`);
     }

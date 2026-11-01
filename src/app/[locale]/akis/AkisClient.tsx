@@ -15,7 +15,7 @@ import AdLinkInput, { type FetchedAd } from '../AdLinkInput';
 import JobSearchButton from '../JobSearchButton';
 import { RETURN_KEY } from '@/lib/market';
 import PrintDocument from '../(app)/ny/PrintDocument';
-import { authFetch } from '@/lib/auth-client';
+import { authFetch, keepTokenFresh } from '@/lib/auth-client';
 import { EMPTY_PROFILE, hasCvContent, loadCvPhoto, loadProfile, saveAvatarUrl, saveProfile, uploadPhoto, type Profile } from '@/lib/profile-store';
 import { cvText, descLines, docLang, exportCvDocx, exportLetterDocx, freeFooter, letterMeta, period, printPortal, safeFileName, type ExportPerson } from '@/lib/export-docs';
 
@@ -228,6 +228,9 @@ export default function AkisClient() {
       window.history.replaceState(null, '', window.location.pathname);
     }
   }, [locale]);
+
+  // Giriş anahtarı 1 saatte doluyor; sayfa açıkken taze tut
+  useEffect(() => keepTokenFresh(), []);
 
   useEffect(() => { if (s) try { localStorage.setItem(STORE, JSON.stringify(s)); } catch { /* özel mod */ } }, [s]);
 

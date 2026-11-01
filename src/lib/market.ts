@@ -1,3 +1,4 @@
+import { flowPath } from './flow-path'
 // Pazar: ziyaretçinin ülkesine göre içerik (dil değil — dili locale belirler).
 // Ülke Vercel'in x-vercel-ip-country header'ından gelir; middleware bunu cvz_country
 // çerezine de yazar ki client bileşenler (uygulama içi iş arama) okuyabilsin.
@@ -74,7 +75,6 @@ export function jobAgency(country: string, locale: string): JobAgency | null {
 /** İş aramadan "Analiz et" denince dönülecek sayfa: rehberli akış (ana sayfa); eski "Ny ansökan"dan gelindiyse oraya. */
 export const RETURN_KEY = 'cvzume_return'
 export function applyPath(locale: string): string {
-  let target = 'akis'
-  try { if (localStorage.getItem(RETURN_KEY) === 'ny') target = 'ny' } catch { /* yok */ }
-  return `/${locale}/${target}`
+  try { if (localStorage.getItem(RETURN_KEY) === 'ny') return `/${locale}/ny` } catch { /* yok */ }
+  return flowPath(locale)
 }

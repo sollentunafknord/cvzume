@@ -1,5 +1,6 @@
 'use client';
 
+import { flowPath } from '@/lib/flow-path';
 import LogoMark from '@/components/LogoMark';
 import { useEffect, useState } from 'react';
 import { useLocale, useTranslations, useMessages } from 'next-intl';
@@ -97,7 +98,7 @@ export default function LandingClient({ market }: { market: Market }) {
     const token = localStorage.getItem('cvita_token');
     const user = localStorage.getItem('cvita_user');
     if (token && user) {
-      router.replace(`/${locale}/akis`);
+      router.replace(flowPath(locale));
       return;
     }
 

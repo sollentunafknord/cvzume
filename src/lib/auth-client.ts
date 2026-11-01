@@ -49,3 +49,13 @@ export function signOut() {
     sessionStorage.clear()
   } catch { /* yok */ }
 }
+
+/** Uygulama açıkken erişim anahtarını taze tutar: hemen ve 5 dakikada bir, süresi dolmak üzereyse yeniler.
+ *  Anahtarı doğrudan localStorage'dan okuyan eski kodlar da (admin, başvuru güncelleme, profil) böylece çalışır. */
+export function keepTokenFresh(): () => void {
+  getValidToken().catch(() => {})
+  const id = setInterval(() => { getValidToken().catch(() => {}) }, 5 * 60 * 1000)
+  const onFocus = () => { getValidToken().catch(() => {}) }
+  window.addEventListener('focus', onFocus)
+  return () => { clearInterval(id); window.removeEventListener('focus', onFocus) }
+}
