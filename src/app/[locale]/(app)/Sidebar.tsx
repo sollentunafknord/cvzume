@@ -126,13 +126,14 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
   return (
     <>
       {open && <div className={styles.overlay} onClick={() => setOpen(false)} />}
-      {/* Üst çubuk: logo (yeni başvuru) + menü düğmesi; menü sağdan açılır */}
+      {/* Telefonda üst çubuk (logo + menü düğmesi); bilgisayarda menü solda hep açık */}
       <header className={styles.topbar}>
         <button className={styles.sidebarLogo} onClick={() => nav('ny')}><LogoMark size={30} /><span>CVzume</span></button>
         <button className={styles.menuToggle} aria-label={t('akis.menu')} aria-expanded={open} onClick={() => setOpen(o => !o)}>☰</button>
       </header>
 
-      <aside className={`${styles.sidebar} ${open ? styles.sidebarOpen : ''}`} aria-hidden={!open}>
+      <aside className={`${styles.sidebar} ${open ? styles.sidebarOpen : ''}`}>
+        <div className={styles.asideLogo}><button className={styles.sidebarLogo} onClick={() => nav('ny')}><LogoMark size={30} /><span>CVzume</span></button></div>
         <nav className={styles.sidebarNav}>
           <div className={styles.sidebarSection}>{t('nav.main_menu')}</div>
           {/* Sade menü: ana akış "Ny ansökan"; iş arama, mülakat vb. akışın içinden açılır */}

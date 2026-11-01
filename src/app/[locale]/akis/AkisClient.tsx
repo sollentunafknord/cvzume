@@ -9,12 +9,13 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Lexend } from 'next/font/google';
 import { useLocale, useTranslations } from 'next-intl';
 import styles from './akis.module.css';
-import LogoMark from '@/components/LogoMark';
+import Sidebar from '../(app)/Sidebar';
+import layout from '../(app)/sidebar.module.css';
 import AdLinkInput, { type FetchedAd } from '../AdLinkInput';
 import JobSearchButton from '../JobSearchButton';
 import { RETURN_KEY } from '@/lib/market';
 import PrintDocument from '../(app)/ny/PrintDocument';
-import { authFetch, signOut } from '@/lib/auth-client';
+import { authFetch } from '@/lib/auth-client';
 import { EMPTY_PROFILE, hasCvContent, loadCvPhoto, loadProfile, saveAvatarUrl, saveProfile, uploadPhoto, type Profile } from '@/lib/profile-store';
 import { cvText, descLines, docLang, exportCvDocx, exportLetterDocx, freeFooter, letterMeta, period, printPortal, safeFileName, type ExportPerson } from '@/lib/export-docs';
 
@@ -174,7 +175,6 @@ function Sheet({ cv, name, email, photo, footer, tn }: { cv: Profile; name: stri
 export default function AkisClient() {
   const t = useTranslations('akis');
   const tn = useTranslations('ny');
-  const tnav = useTranslations('nav');
   const ti = useTranslations('cvimport');
   const locale = useLocale();
   const [s, setS] = useState<State | null>(null);
@@ -629,22 +629,16 @@ export default function AkisClient() {
   }
 
   return (
+    <div className={layout.layout}>
+    <Sidebar activePage="ny" onNavigate={seg => {
+      if (seg === 'ny') go(hasCvContent(profile) ? 'ad' : 'welcome', { ad: '', role: '', result: null, letter: '', saved: false, asks: {}, notes: {} });
+      else window.location.assign(`/${locale}/${seg}`);
+    }} />
+    <div className={layout.content}>
     <div className={`${styles.page} ${lexend.variable}`} data-palette={palette}>
       <header className={styles.top}>
-        <a className={styles.logo} href={`/${locale}/akis`} aria-label="CVzume"><LogoMark size={28} colors={{ ink: pal.ink, back: pal.back, lines: pal.strong }} /><span>CVzume</span></a>
         <div className={styles.progress} aria-hidden><i style={{ width: `${Math.round((idx / (order.length - 1)) * 100)}%` }} /></div>
         <span className={styles.count}>{idx + 1}/{order.length}</span>
-        <details className={styles.menu}>
-          <summary aria-label={t('menu')}>☰</summary>
-          <nav className={styles.menuList}>
-            <button onClick={e => { (e.currentTarget.closest('details') as HTMLDetailsElement).open = false; go(hasCvContent(profile) ? 'ad' : 'welcome', { ad: '', role: '', result: null, letter: '', saved: false, asks: {}, notes: {} }); }}>➕ {tnav('ny')}</button>
-            <a href={`/${locale}/ansokningar`}>📂 {tnav('mina')}</a>
-            <button onClick={e => { (e.currentTarget.closest('details') as HTMLDetailsElement).open = false; go('panel'); }}>🪪 {tnav('cv')}</button>
-            <a href={`/${locale}/settings`}>⚙️ {tnav('settings')}</a>
-            {!isPro && <a href={`/${locale}/upgrade`}>⚡ {tnav('upgrade')}</a>}
-            <button onClick={() => { signOut(); window.location.assign(`/${locale}/auth`); }}>⏻ {tnav('logout')}</button>
-          </nav>
-        </details>
         {isPro && <div className={styles.palettes} role="group" aria-label={t('palette')}>{(Object.keys(PALETTES) as Palette[]).map(k => <button key={k} style={{ background: PALETTES[k].swatch }} aria-label={t(`palettes.${k}`)} aria-pressed={palette === k} onClick={() => pickPalette(k)} />)}</div>}
       </header>
       <main className={styles.card}>
@@ -656,6 +650,8 @@ export default function AkisClient() {
         {foot && <div className={styles.foot}>{foot}</div>}
       </main>
       {printing && <PrintDocument kind={printing} person={person(printCv)} cv={printCv} letter={s.letter} meta={printing === 'letter' ? meta() : undefined} footer={printing === 'letter' ? footerFor(s.letter) : footerFor(cvText(printCv))} style={{ fontFamily: lexend.style.fontFamily, '--accent': pal.strong, '--ink': pal.ink } as React.CSSProperties} />}
+    </div>
+    </div>
     </div>
   );
 }

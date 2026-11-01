@@ -21,8 +21,11 @@
   --error: #B4432B;
   --error-light: #FCE9E3;
   --sun: #FBE3A6;           /* logodaki arka belge, sıcak vurgu */
-  --sidebar-w: 0px;         /* kenar menüsü yok; menü üst çubuktan açılıyor */
+  --app-top: 0px;          /* sayfa içi yapışkan başlıkların üst boşluğu (telefonda üst çubuk var) */
+  --sidebar-w: 248px;       /* sol menü genişliği (telefonda menü soldan açılır) */
 }
+
+@media (max-width: 900px) { :root { --app-top: 60px; } }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }

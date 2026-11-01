@@ -2,7 +2,7 @@
 .page { font-family: 'Lexend', system-ui, sans-serif; background: #F1F5F9; min-height: 100vh; color: #1a1a2e; }
 
 /* ── TOOLBAR ── */
-.toolbar { background: white; border-bottom: 1px solid #E2E8F0; padding: 12px 32px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 64px; z-index: 100; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+.toolbar { background: white; border-bottom: 1px solid #E2E8F0; padding: 12px 32px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: var(--app-top); z-index: 100; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
 .toolbarLeft { display: flex; align-items: center; gap: 12px; }
 .backBtn { display: flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 8px; background: white; border: 1.5px solid #E2E8F0; font-family: 'Lexend', system-ui, sans-serif; font-size: 13px; font-weight: 500; color: #475569; cursor: pointer; text-decoration: none; transition: all 0.15s; }
 .backBtn:hover { border-color: var(--blue); color: var(--blue); }
@@ -71,7 +71,7 @@
 /* ── MODAL ── */
 .modalOverlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 999; display: flex; align-items: center; justify-content: center; padding: 20px; }
 .modalContent { background: white; border-radius: 12px; width: 100%; max-width: 860px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
-.modalHeader { padding: 16px 24px; border-bottom: 1px solid #E2E8F0; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 64px; background: white; z-index: 1; }
+.modalHeader { padding: 16px 24px; border-bottom: 1px solid #E2E8F0; display: flex; align-items: center; justify-content: space-between; position: sticky; top: var(--app-top); background: white; z-index: 1; }
 .modalTitle { font-size: 16px; font-weight: 600; color: var(--navy); }
 .modalClose { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; background: #F1F5F9; font-size: 16px; color: #475569; }
 .modalClose:hover { background: #E2E8F0; }
