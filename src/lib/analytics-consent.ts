@@ -1,6 +1,9 @@
 // Google Analytics (GA4) — sadece ziyaretçi onay verirse yüklenir. Kimlik boşsa onay çubuğu da gösterilmez.
 // Vercel Web Analytics çerezsiz olduğu için onaydan bağımsız çalışmaya devam eder.
-export const GA_ID = process.env.NEXT_PUBLIC_GA_ID || ''
+// Ölçüm Kimliği gizli değil (her ziyaretçinin tarayıcısına gider). Sadece gerçek sitede ve Vercel önizlemelerinde
+// çalışır; yerel geliştirme/testler istatistiklere karışmaz (bkz. gaAllowedHere).
+export const GA_ID = process.env.NEXT_PUBLIC_GA_ID || 'G-E9M4LF3KLL'
+export const gaAllowedHere = () => typeof window !== 'undefined' && /(^|\.)cvzume\.com$|\.vercel\.app$/.test(window.location.hostname)
 export const CONSENT_KEY = 'cvz_consent' // 'granted' | 'denied'
 export const OPEN_CONSENT_EVENT = 'cvz-open-consent'
 
@@ -11,7 +14,7 @@ export function readConsent(): 'granted' | 'denied' | '' {
 }
 
 export function loadGoogleAnalytics() {
-  if (!GA_ID || typeof window === 'undefined' || document.getElementById('ga4-src')) return
+  if (!GA_ID || !gaAllowedHere() || document.getElementById('ga4-src')) return
   const w = window as W
   w.dataLayer = w.dataLayer || []
   w.gtag = function gtag() { (w.dataLayer as unknown[]).push(arguments) } // eslint-disable-line prefer-rest-params

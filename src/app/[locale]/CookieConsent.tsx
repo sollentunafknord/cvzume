@@ -4,7 +4,7 @@
 // Seçim sitenin altındaki "Çerez ayarları" bağlantısıyla değiştirilebilir.
 import { useEffect, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { CONSENT_KEY, GA_ID, OPEN_CONSENT_EVENT, clearGoogleAnalyticsCookies, loadGoogleAnalytics, readConsent } from '@/lib/analytics-consent';
+import { CONSENT_KEY, GA_ID, OPEN_CONSENT_EVENT, clearGoogleAnalyticsCookies, gaAllowedHere, loadGoogleAnalytics, readConsent } from '@/lib/analytics-consent';
 
 export default function CookieConsent() {
   const t = useTranslations('consent');
@@ -12,7 +12,7 @@ export default function CookieConsent() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    if (!GA_ID) return;
+    if (!GA_ID || !gaAllowedHere()) return;
     const c = readConsent();
     if (c === 'granted') loadGoogleAnalytics();
     // eslint-disable-next-line react-hooks/set-state-in-effect
