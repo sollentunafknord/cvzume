@@ -11,21 +11,18 @@ APP_ID="$1"
 [ -z "$APP_ID" ] && { echo "Kullanım: scripts/setup-meta.sh <APP_ID>"; exit 1; }
 G=https://graph.facebook.com/v23.0
 
-wait_clip() { # $1 = açıklama, $2 = desen (grep -E)
-  echo "→ Şimdi $1 kopyalayın (3 dakika bekliyorum)..." >&2
-  local before; before=$(pbpaste)
-  for i in $(seq 1 180); do
-    c=$(pbpaste | tr -d '[:space:]')
-    if [ "$c" != "$before" ] && echo "$c" | grep -Eq "$2"; then printf '%s' "$c"; return 0; fi
-    sleep 1
-  done
-  return 1
-}
-
-SECRET=$(wait_clip "App Secret'ı" '^[0-9a-f]{32}$') || { echo "✗ Panoda App Secret görmedim (32 karakterlik harf/rakam)."; exit 1; }
-echo "✓ App Secret alındı."
-SHORT=$(wait_clip "Graph API Explorer'daki User access token'ı" '^EAA') || { echo "✗ Panoda anahtar görmedim (EAA… ile başlamalı)."; exit 1; }
-echo "✓ Kullanıcı anahtarı alındı."
+# Panoyu 5 dakika izler; App Secret (32 hex) ve kullanıcı anahtarını (EAA…) hangi sırayla kopyalanırsa alır.
+echo "→ App Secret'ı ve Graph API Explorer'daki Access Token'ı kopyalayın, sıra fark etmez (5 dakika bekliyorum)..."
+SECRET=""; SHORT=""
+for i in $(seq 1 300); do
+  c=$(pbpaste | tr -d '[:space:]')
+  if [ -z "$SECRET" ] && echo "$c" | grep -Eq '^[0-9a-f]{32}$'; then SECRET="$c"; echo "✓ App Secret alındı."; fi
+  if [ -z "$SHORT" ] && echo "$c" | grep -Eq '^EAA'; then SHORT="$c"; echo "✓ Access Token alındı."; fi
+  [ -n "$SECRET" ] && [ -n "$SHORT" ] && break
+  sleep 1
+done
+[ -z "$SECRET" ] && { echo "✗ App Secret gelmedi (32 karakter, harf/rakam). Tekrar çalıştırın."; exit 1; }
+[ -z "$SHORT" ] && { echo "✗ Access Token gelmedi (EAA… ile başlar). Tekrar çalıştırın."; exit 1; }
 printf '' | pbcopy
 
 LONG=$(curl -s "$G/oauth/access_token?grant_type=fb_exchange_token&client_id=$APP_ID&client_secret=$SECRET&fb_exchange_token=$SHORT" \
