@@ -20,7 +20,7 @@ function formatDate(dateStr: string, locale: string) {
 
 function ScoreBadge({ score }: { score: number }) {
   const bg = score >= 80 ? '#DCFCE7' : score >= 60 ? '#FEF9C3' : '#FEE2E2';
-  const color = score >= 80 ? '#15803D' : score >= 60 ? '#854D0E' : '#991B1B';
+  const color = score >= 80 ? '#2F8F6B' : score >= 60 ? '#854D0E' : '#991B1B';
   return <span style={{ padding: '3px 10px', borderRadius: 20, fontSize: 12, fontWeight: 600, background: bg, color, flexShrink: 0 }}>{score}%</span>;
 }
 
@@ -89,7 +89,7 @@ export default function ArchiveClient({ onNavigate }: { onNavigate?: (seg: strin
           <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--navy)', marginBottom: 6 }}>{t('empty_title')}</div>
           <div style={{ fontSize: 13, color: 'var(--slate)' }}>
             {t('empty_sub_pre')}{' '}
-            <button onClick={() => goTo('skickade')} style={{ background: 'none', border: 'none', color: 'var(--blue)', fontSize: 13, cursor: 'pointer', textDecoration: 'underline', fontFamily: 'DM Sans, sans-serif', padding: 0 }}>
+            <button onClick={() => goTo('skickade')} style={{ background: 'none', border: 'none', color: 'var(--blue)', fontSize: 13, cursor: 'pointer', textDecoration: 'underline', fontFamily: 'inherit', padding: 0 }}>
               {t('empty_sub_link')}
             </button>
             {' '}{t('empty_sub_post')}
@@ -108,7 +108,7 @@ export default function ArchiveClient({ onNavigate }: { onNavigate?: (seg: strin
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
                 <ScoreBadge score={app.match_score || 0} />
-                <button onClick={() => restoreApp(app.id)} style={{ ...actionBtn, background: '#EFF6FF', borderColor: '#BFDBFE', color: '#1A56DB', padding: '0 10px', width: 'auto', fontSize: 12, fontWeight: 600, fontFamily: 'DM Sans, sans-serif', whiteSpace: 'nowrap' }}>
+                <button onClick={() => restoreApp(app.id)} style={{ ...actionBtn, background: '#E4F3ED', borderColor: '#CFE8DD', color: '#3E7F6C', padding: '0 10px', width: 'auto', fontSize: 12, fontWeight: 600, fontFamily: 'inherit', whiteSpace: 'nowrap' }}>
                   {t('restore_btn')}
                 </button>
                 <button onClick={() => deleteApp(app.id, app.role)} style={{ ...actionBtn, color: '#EF4444' }}>🗑️</button>

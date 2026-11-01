@@ -89,7 +89,7 @@ export default function AuthClient() {
   function pwLabelColor() {
     if (pwStrength <= 1) return '#EF4444';
     if (pwStrength === 2) return '#F59E0B';
-    return '#059669';
+    return '#2F8F6B';
   }
 
   async function hashEmail(email: string) {

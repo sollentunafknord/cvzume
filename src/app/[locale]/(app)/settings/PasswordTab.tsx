@@ -32,7 +32,7 @@ export default function PasswordTab({ onToast }: {
     { w: '40%', color: '#F97316', label: t('auth.strength_weak') },
     { w: '60%', color: '#EAB308', label: t('auth.strength_medium') },
     { w: '80%', color: '#22C55E', label: t('auth.strength_strong') },
-    { w: '100%', color: '#059669', label: t('auth.strength_strong') },
+    { w: '100%', color: '#2F8F6B', label: t('auth.strength_strong') },
   ];
   const strengthLevel = pwStrength > 0 ? strengthLevels[Math.min(pwStrength - 1, 4)] : null;
 

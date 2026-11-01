@@ -35,12 +35,12 @@ export async function POST(request: Request) {
     <tr><td align="center">
       <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
 
-        <tr><td style="background:#0D1B2A;border-radius:16px 16px 0 0;padding:36px 48px;text-align:center;">
-          <div style="font-family:Georgia,serif;font-size:28px;font-weight:700;color:white;"><img src="https://www.cvzume.com/brand/cvzume-mark-on-dark-96.png" width="40" height="40" alt="" style="display:inline-block;vertical-align:middle;margin-right:10px;border:0;"><span style="vertical-align:middle;">CV<span style="color:#93C5FD;">zume</span></span></div>
+        <tr><td style="background:#23343A;border-radius:16px 16px 0 0;padding:36px 48px;text-align:center;">
+          <div style="font-family:'Segoe UI',Arial,sans-serif;font-size:26px;font-weight:700;color:white;"><img src="https://www.cvzume.com/brand/cvzume-mark-on-dark-96.png" width="40" height="40" alt="" style="display:inline-block;vertical-align:middle;margin-right:10px;border:0;"><span style="vertical-align:middle;">CV<span style="color:#A7D7C5;">zume</span></span></div>
         </td></tr>
 
         <tr><td style="background:white;padding:48px;border-radius:0 0 16px 16px;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
-          <h1 style="margin:0 0 16px;font-size:24px;font-weight:700;color:#0D1B2A;">Dina 2 gratis CV-analyser är använda 📊</h1>
+          <h1 style="margin:0 0 16px;font-size:24px;font-weight:700;color:#23343A;">Dina 2 gratis CV-analyser är använda 📊</h1>
           <p style="margin:0 0 24px;font-size:16px;color:#475569;line-height:1.7;">Hej ${name}! Med gratis-planen ingår 2 CV-analyser totalt. Du har nu använt båda. Uppgradera till Pro för att fortsätta utan begränsningar.</p>
 
           <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
@@ -51,23 +51,23 @@ export async function POST(request: Request) {
           </table>
 
           <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:32px;">
-            <tr><td style="background:#EFF6FF;border:1.5px solid #BFDBFE;border-radius:12px;padding:24px;">
-              <p style="margin:0 0 12px;font-size:14px;font-weight:700;color:#1E40AF;">Med Pro får du:</p>
-              <p style="margin:0 0 8px;font-size:14px;color:#1E3A8A;">⚡ Obegränsade CV-analyser</p>
-              <p style="margin:0 0 8px;font-size:14px;color:#1E3A8A;">⚡ Obegränsade personliga brev</p>
-              <p style="margin:0 0 8px;font-size:14px;color:#1E3A8A;">⚡ PDF-export i HD</p>
-              <p style="margin:0 0 16px;font-size:14px;color:#1E3A8A;">⚡ Prioriterad AI</p>
-              <p style="margin:0;font-size:14px;font-weight:600;color:#1E40AF;">Från 109 kr/mån · Avsluta när som helst</p>
+            <tr><td style="background:#E4F3ED;border:1.5px solid #CFE8DD;border-radius:12px;padding:24px;">
+              <p style="margin:0 0 12px;font-size:14px;font-weight:700;color:#3E7F6C;">Med Pro får du:</p>
+              <p style="margin:0 0 8px;font-size:14px;color:#23343A;">⚡ Obegränsade CV-analyser</p>
+              <p style="margin:0 0 8px;font-size:14px;color:#23343A;">⚡ Obegränsade personliga brev</p>
+              <p style="margin:0 0 8px;font-size:14px;color:#23343A;">⚡ PDF-export i HD</p>
+              <p style="margin:0 0 16px;font-size:14px;color:#23343A;">⚡ Prioriterad AI</p>
+              <p style="margin:0;font-size:14px;font-weight:600;color:#3E7F6C;">Från 109 kr/mån · Avsluta när som helst</p>
             </td></tr>
           </table>
 
           <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:32px;">
             <tr><td align="center">
-              <a href="https://www.cvzume.com/uppgradera.html" style="display:inline-block;background:#1A56DB;color:white;font-size:16px;font-weight:600;padding:16px 40px;border-radius:10px;text-decoration:none;">Uppgradera till Pro →</a>
+              <a href="https://www.cvzume.com/uppgradera.html" style="display:inline-block;background:#3E7F6C;color:white;font-size:16px;font-weight:600;padding:16px 40px;border-radius:10px;text-decoration:none;">Uppgradera till Pro →</a>
             </td></tr>
           </table>
 
-          <p style="margin:0;font-size:13px;color:#94A3B8;text-align:center;">Frågor? <a href="mailto:info@cvzume.com" style="color:#1A56DB;">info@cvzume.com</a></p>
+          <p style="margin:0;font-size:13px;color:#94A3B8;text-align:center;">Frågor? <a href="mailto:info@cvzume.com" style="color:#3E7F6C;">info@cvzume.com</a></p>
         </td></tr>
 
         <tr><td style="padding:24px;text-align:center;">

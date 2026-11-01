@@ -3,7 +3,7 @@
 export type LogoColors = { ink: string; back: string; lines: string };
 
 export default function LogoMark({ size = 28, onDark = false, colors }: { size?: number; onDark?: boolean; colors?: LogoColors }) {
-  const c = colors ?? { ink: '#0D1B2A', back: '#93C5FD', lines: '#1A56DB' };
+  const c = colors ?? { ink: '#23343A', back: '#FBE3A6', lines: '#3E7F6C' };
   return (
     <svg width={size} height={size} viewBox="0 0 64 64" aria-hidden="true" style={{ flexShrink: 0, display: 'block' }}>
       <rect x={onDark ? 1 : 0} y={onDark ? 1 : 0} width={onDark ? 62 : 64} height={onDark ? 62 : 64} rx="15" fill={c.ink}

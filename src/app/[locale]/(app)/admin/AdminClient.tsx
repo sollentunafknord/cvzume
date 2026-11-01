@@ -167,11 +167,11 @@ export default function AdminClient() {
             <div className={styles.statLabel}>Free Users</div>
           </div>
           <div className={styles.statCard}>
-            <div className={styles.statValue} style={{ color: '#1A56DB' }}>{stats.newThisMonth}</div>
+            <div className={styles.statValue} style={{ color: '#3E7F6C' }}>{stats.newThisMonth}</div>
             <div className={styles.statLabel}>New This Month</div>
           </div>
           <div className={styles.statCard}>
-            <div className={styles.statValue} style={{ color: '#059669' }}>{stats.mrr} kr</div>
+            <div className={styles.statValue} style={{ color: '#2F8F6B' }}>{stats.mrr} kr</div>
             <div className={styles.statLabel}>Est. MRR</div>
           </div>
         </div>

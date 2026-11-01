@@ -191,7 +191,7 @@ export default function NyAnsokanClient({ onNavigate }: { onNavigate: (seg: stri
   }
 
   const score = result?.matchScore;
-  const scoreColor = score == null ? 'var(--blue)' : score >= 75 ? '#059669' : score >= 50 ? '#D97706' : '#DC2626';
+  const scoreColor = score == null ? 'var(--blue)' : score >= 75 ? '#2F8F6B' : score >= 50 ? '#D97706' : '#DC2626';
   const steps = [t('steps.ad'), t('steps.cv'), t('steps.result'), t('steps.letter')];
 
   return (

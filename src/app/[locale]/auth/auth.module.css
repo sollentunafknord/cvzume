@@ -3,7 +3,7 @@
   grid-template-columns: 1fr 1fr;
   min-height: 100vh;
   background: var(--off-white);
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Lexend', system-ui, sans-serif;
   color: var(--navy);
 }
 
@@ -22,8 +22,8 @@
   content: '';
   position: absolute; inset: 0;
   background:
-    radial-gradient(ellipse 70% 50% at 20% 80%, rgba(26,86,219,0.3) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 40% at 80% 20%, rgba(26,86,219,0.15) 0%, transparent 60%);
+    radial-gradient(ellipse 70% 50% at 20% 80%, rgba(62,127,108,0.3) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 80% 20%, rgba(62,127,108,0.15) 0%, transparent 60%);
 }
 .leftPanel::after {
   content: '';
@@ -38,24 +38,24 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  font-family: 'DM Serif Display', serif;
+  font-family: 'Lexend', sans-serif; font-weight: 600; letter-spacing: -0.02em;
   font-size: 26px;
   color: white;
   text-decoration: none;
   letter-spacing: -0.3px;
   margin-bottom: 64px;
 }
-.leftLogo span { color: #93C5FD; }
+.leftLogo span { color: var(--border-focus); }
 
 .leftHeadline {
-  font-family: 'DM Serif Display', serif;
+  font-family: 'Lexend', sans-serif; font-weight: 600; letter-spacing: -0.02em;
   font-size: clamp(32px, 3vw, 44px);
   color: white;
   line-height: 1.15;
   letter-spacing: -0.8px;
   margin-bottom: 20px;
 }
-.leftHeadline em { font-style: italic; color: #93C5FD; }
+.leftHeadline em { font-style: italic; color: var(--border-focus); }
 
 .leftSub {
   font-size: 16px;
@@ -159,7 +159,7 @@
 }
 
 .authTitle {
-  font-family: 'DM Serif Display', serif;
+  font-family: 'Lexend', sans-serif; font-weight: 600; letter-spacing: -0.02em;
   font-size: 30px;
   color: var(--navy);
   letter-spacing: -0.5px;
@@ -184,7 +184,7 @@
 .authTab {
   flex: 1; padding: 9px;
   border: none; background: none;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Lexend', system-ui, sans-serif;
   font-size: 14px; font-weight: 500;
   color: var(--muted);
   border-radius: 7px;
@@ -195,7 +195,7 @@
   background: white;
   color: var(--navy);
   font-weight: 600;
-  box-shadow: 0 1px 4px rgba(13,27,42,0.1);
+  box-shadow: 0 1px 4px rgba(35,52,58,0.1);
 }
 
 /* Form */
@@ -209,7 +209,7 @@
   color: var(--navy);
 }
 .formInput {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Lexend', system-ui, sans-serif;
   font-size: 14px;
   color: var(--navy);
   background: var(--off-white);
@@ -224,7 +224,7 @@
 .formInput:focus {
   border-color: var(--blue);
   background: white;
-  box-shadow: 0 0 0 3px rgba(26,86,219,0.08);
+  box-shadow: 0 0 0 3px rgba(62,127,108,0.08);
 }
 
 /* Password field */
@@ -265,16 +265,16 @@
 
 /* Submit button */
 .btnSubmit {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Lexend', system-ui, sans-serif;
   font-size: 15px; font-weight: 600;
   color: white; background: var(--blue);
   border: none; padding: 13px;
   border-radius: 10px; cursor: pointer;
   width: 100%;
-  box-shadow: 0 2px 8px rgba(26,86,219,0.3);
+  box-shadow: 0 2px 8px rgba(62,127,108,0.3);
   transition: all 0.2s;
 }
-.btnSubmit:hover:not(:disabled) { background: var(--blue-hover); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(26,86,219,0.35); }
+.btnSubmit:hover:not(:disabled) { background: var(--blue-hover); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(62,127,108,0.35); }
 .btnSubmit:active { transform: translateY(0); }
 .btnSubmit:disabled { opacity: 0.7; cursor: not-allowed; }
 
@@ -289,7 +289,7 @@
 /* Social buttons */
 .socialButtons { display: flex; flex-direction: column; gap: 10px; }
 .btnSocial {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Lexend', system-ui, sans-serif;
   font-size: 14px; font-weight: 500;
   color: var(--navy); background: white;
   border: 1.5px solid var(--border);
@@ -350,7 +350,7 @@
   font-weight: 500;
   cursor: pointer;
   font-size: 13px;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Lexend', system-ui, sans-serif;
   transition: all 0.2s;
 }
 .langBtn.selected {
@@ -387,7 +387,7 @@
   font-size: 28px;
 }
 .successTitle {
-  font-family: 'DM Serif Display', serif;
+  font-family: 'Lexend', sans-serif; font-weight: 600; letter-spacing: -0.02em;
   font-size: 24px; color: var(--navy);
 }
 .successSub { font-size: 14px; color: var(--slate); line-height: 1.6; }

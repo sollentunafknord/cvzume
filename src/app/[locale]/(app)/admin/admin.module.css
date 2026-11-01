@@ -36,7 +36,7 @@
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Lexend', system-ui, sans-serif;
   transition: background 0.15s;
 }
 .refreshBtn:hover { background: var(--bg); }
@@ -90,7 +90,7 @@
   border-radius: 8px;
   border: 1.5px solid var(--border);
   font-size: 14px;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Lexend', system-ui, sans-serif;
   color: var(--navy);
   outline: none;
   transition: border-color 0.15s;
@@ -215,7 +215,7 @@
   font-size: 11px;
   font-weight: 600;
 }
-.statusConfirmed { background: #DCFCE7; color: #16A34A; }
+.statusConfirmed { background: #DCFCE7; color: #2F8F6B; }
 .statusPending { background: #FEF9C3; color: #CA8A04; }
 
 .actions {
@@ -231,7 +231,7 @@
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Lexend', system-ui, sans-serif;
   transition: opacity 0.15s;
   white-space: nowrap;
 }
@@ -249,7 +249,7 @@
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Lexend', system-ui, sans-serif;
   color: var(--navy);
   transition: background 0.15s;
   white-space: nowrap;

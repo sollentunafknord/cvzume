@@ -126,10 +126,13 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
   return (
     <>
       {open && <div className={styles.overlay} onClick={() => setOpen(false)} />}
-      <button className={styles.menuToggle} onClick={() => setOpen(o => !o)}>☰</button>
+      {/* Üst çubuk: logo (yeni başvuru) + menü düğmesi; menü sağdan açılır */}
+      <header className={styles.topbar}>
+        <button className={styles.sidebarLogo} onClick={() => nav('ny')}><LogoMark size={30} /><span>CVzume</span></button>
+        <button className={styles.menuToggle} aria-label={t('akis.menu')} aria-expanded={open} onClick={() => setOpen(o => !o)}>☰</button>
+      </header>
 
-      <aside className={`${styles.sidebar} ${open ? styles.sidebarOpen : ''}`}>
-        <button className={styles.sidebarLogo} onClick={() => nav('ny')}><LogoMark size={30} onDark /><span style={{ color: 'inherit' }}>CV<span>zume</span></span></button>
+      <aside className={`${styles.sidebar} ${open ? styles.sidebarOpen : ''}`} aria-hidden={!open}>
         <nav className={styles.sidebarNav}>
           <div className={styles.sidebarSection}>{t('nav.main_menu')}</div>
           {/* Sade menü: ana akış "Ny ansökan"; iş arama, mülakat vb. akışın içinden açılır */}
@@ -195,13 +198,13 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               <button
                 onClick={() => { setLangGateTarget(null); nav('upgrade'); }}
-                style={{ padding: '12px', borderRadius: 10, border: 'none', background: 'var(--blue)', color: 'white', fontSize: 14, fontWeight: 700, fontFamily: 'DM Sans, sans-serif', cursor: 'pointer' }}
+                style={{ padding: '12px', borderRadius: 10, border: 'none', background: 'var(--blue)', color: 'white', fontSize: 14, fontWeight: 700, fontFamily: 'inherit', cursor: 'pointer' }}
               >
                 {t('onboarding.upgrade_btn')}
               </button>
               <button
                 onClick={() => setLangGateTarget(null)}
-                style={{ padding: '12px', borderRadius: 10, border: '1.5px solid var(--border)', background: 'white', color: 'var(--slate)', fontSize: 14, fontWeight: 500, fontFamily: 'DM Sans, sans-serif', cursor: 'pointer' }}
+                style={{ padding: '12px', borderRadius: 10, border: '1.5px solid var(--border)', background: 'white', color: 'var(--slate)', fontSize: 14, fontWeight: 500, fontFamily: 'inherit', cursor: 'pointer' }}
               >
                 {t('onboarding.upgrade_cancel', { lang: LANGS.find(l => l.code === defaultLocale)?.label || defaultLocale })}
               </button>

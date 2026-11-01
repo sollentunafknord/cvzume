@@ -50,6 +50,11 @@ CV kayıtlıysa sonraki başvurular doğrudan 3. adımdan başlar.
   (uygulama renkleri + CV/PDF başlık rengi)
 - Önizleme: https://claude.ai/artifact/C3y7PRVEwE1joqBY76JfAJ
 
+## Site geneli yeni görünüm (2026-11-01)
+- globals.css: Lexend + Nane paleti (eski değişken adları --navy/--blue… yeni değerlerle); sayfa dosyalarındaki eski mavi/yeşil kodlar çevrildi
+- Uygulama: koyu kenar menüsü yerine üst çubuk (logo + ☰) ve sağdan açılan açık menü; içerik ortada
+- Logo, simgeler, e-postalar, paylaşım görseli ve Word/PDF varsayılan renkleri yeni palette
+
 ## Test ve yayın
 - Taslak: https://www.cvzume.com/yedek/akis.html (gizli, noindex)
 - Gerçek akış önce gizli bir test adresinde canlıya çıkar (/<dil>/akis), gerçek hesaplarla test edilir;

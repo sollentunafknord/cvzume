@@ -102,7 +102,7 @@ export default function OnboardingModal({ onComplete }: Props) {
                   border: `2px solid ${isSelected ? 'var(--blue)' : 'var(--border)'}`,
                   borderRadius: 12,
                   background: isSelected ? 'var(--blue-light)' : 'white',
-                  cursor: 'pointer', fontFamily: 'DM Sans, sans-serif',
+                  cursor: 'pointer', fontFamily: 'inherit',
                   textAlign: 'left', width: '100%', transition: 'all 0.15s',
                 }}
               >
@@ -138,7 +138,7 @@ export default function OnboardingModal({ onComplete }: Props) {
             style={{
               width: '100%', padding: '13px', borderRadius: 10, border: 'none',
               background: 'var(--blue)', color: 'white', fontSize: 15, fontWeight: 700,
-              fontFamily: 'DM Sans, sans-serif', cursor: 'pointer',
+              fontFamily: 'inherit', cursor: 'pointer',
             }}
           >
             {active.confirm}

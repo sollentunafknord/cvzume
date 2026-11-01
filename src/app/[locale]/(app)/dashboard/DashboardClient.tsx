@@ -186,7 +186,7 @@ export default function DashboardClient({ onNavigate }: { onNavigate?: (seg: str
                     ? <div className={styles.noActivity}>{t('dashboard.no_events_hint')}</div>
                     : events.map(e => (
                       <div key={e.id} className={styles.activityItem}>
-                        <span className={styles.activityDot} style={{ background: e.type === 'favorite' ? '#F59E0B' : '#1A56DB' }} />
+                        <span className={styles.activityDot} style={{ background: e.type === 'favorite' ? '#F59E0B' : '#3E7F6C' }} />
                         <span style={{ flex: 1 }}>
                           <span style={{ fontSize: 12, color: '#94A3B8', marginRight: 6 }}>
                             {e.type === 'favorite' ? '★' : '📋'}

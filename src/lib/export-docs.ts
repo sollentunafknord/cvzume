@@ -10,8 +10,8 @@ export type ExportEducation = { school?: string; degree?: string; field?: string
 export type ExportCv = { summary: string; experiences: ExportExperience[]; educations: ExportEducation[]; skills: string[]; languages: string[] }
 export type CvLabels = { profile: string; experience: string; education: string; skills: string; languages: string; present: string }
 
-const BLUE = '1A56DB'
-const NAVY = '0D1B2A'
+const BLUE = '3E7F6C'
+const NAVY = '23343A'
 const GREY = '64748B'
 
 export function safeFileName(...parts: string[]): string {

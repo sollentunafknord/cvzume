@@ -21,7 +21,7 @@ function formatDate(dateStr: string, locale: string) {
 
 function ScoreBadge({ score }: { score: number }) {
   const bg = score >= 80 ? '#DCFCE7' : score >= 60 ? '#FEF9C3' : '#FEE2E2';
-  const color = score >= 80 ? '#15803D' : score >= 60 ? '#854D0E' : '#991B1B';
+  const color = score >= 80 ? '#2F8F6B' : score >= 60 ? '#854D0E' : '#991B1B';
   return <span style={{ padding: '3px 10px', borderRadius: 20, fontSize: 12, fontWeight: 600, background: bg, color, flexShrink: 0 }}>{score}%</span>;
 }
 

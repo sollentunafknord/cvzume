@@ -149,7 +149,7 @@ export default function LandingClient({ market }: { market: Market }) {
   ];
 
   return (
-    <div style={{ fontFamily: "'DM Sans', sans-serif", color: 'var(--navy)', background: 'white', overflowX: 'hidden' }}>
+    <div style={{ fontFamily: "inherit", color: 'var(--navy)', background: 'white', overflowX: 'hidden' }}>
 
       {/* NAV */}
       <nav className={styles.nav}>
@@ -339,7 +339,7 @@ export default function LandingClient({ market }: { market: Market }) {
               <div className={`${styles.pricingPrice} ${key === 'year' ? styles.pricingPriceGreen : ''}`}>{plan.price} <sup>{t('pricing.currency')}</sup></div>
               <div className={styles.pricingPeriod}>
                 {plan.period}
-                {plan.save && <> · <strong style={{ color: '#059669' }}>{plan.save}</strong></>}
+                {plan.save && <> · <strong style={{ color: '#2F8F6B' }}>{plan.save}</strong></>}
               </div>
               {plan.billed && <div className={styles.pricingBilled}>{plan.billed}</div>}
               <ul className={styles.pricingFeatures}>
@@ -491,7 +491,7 @@ function DemoSection({ locale, registerUrl, sub, generic, sample }: {
   }
 
   const score = result?.matchScore;
-  const scoreColor = score == null ? 'var(--blue)' : score >= 75 ? '#059669' : score >= 50 ? '#D97706' : '#DC2626';
+  const scoreColor = score == null ? 'var(--blue)' : score >= 75 ? '#2F8F6B' : score >= 50 ? '#D97706' : '#DC2626';
 
   return (
     <section id="testa" className={styles.demoSection}>

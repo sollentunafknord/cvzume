@@ -1,15 +1,15 @@
 .main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
-.topbar { background: white; border-bottom: 1px solid var(--border); padding: 0 36px; height: 60px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 40; }
+.topbar { background: white; border-bottom: 1px solid var(--border); padding: 0 36px; height: 60px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 64px; z-index: 40; }
 .topbarTitle { font-size: 16px; font-weight: 600; color: var(--navy); }
-.content { padding: 28px 36px 60px; max-width: 900px; width: 100%; box-sizing: border-box; }
+.content { padding: 28px 36px 60px; max-width: 900px; width: 100%; box-sizing: border-box;; margin: 0 auto; width: 100%; box-sizing: border-box; }
 
 .stepper { display: flex; gap: 8px; list-style: none; padding: 0; margin: 0 0 24px; flex-wrap: wrap; }
 .stepper li { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--muted); padding: 6px 14px 6px 6px; border-radius: 100px; background: white; border: 1px solid var(--border); }
 .stepper li span { width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; background: var(--border); color: var(--slate); font-size: 12px; }
 .stepActive { color: var(--blue) !important; border-color: var(--blue) !important; }
 .stepActive span { background: var(--blue) !important; color: white !important; }
-.stepDone { color: #047857 !important; }
-.stepDone span { background: #D1FAE5 !important; color: #047857 !important; }
+.stepDone { color: #276F55 !important; }
+.stepDone span { background: #D1FAE5 !important; color: #276F55 !important; }
 
 .card { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 24px 26px; margin-bottom: 18px; display: flex; flex-direction: column; gap: 10px; }
 .card h2 { font-size: 18px; color: var(--navy); margin: 0; }
@@ -46,7 +46,7 @@
 .roleName { font-size: 18px; font-weight: 600; color: var(--navy); }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .chip { font-size: 13px; padding: 5px 11px; border-radius: 100px; border: 1px solid; }
-.chipOk { background: #ECFDF5; color: #047857; border-color: #A7F3D0; }
+.chipOk { background: #E6F4EC; color: #276F55; border-color: #A7F3D0; }
 .chipMiss { background: #FFFBEB; color: #B45309; border-color: #FDE68A; }
 .tips { margin: 4px 0 0; padding-left: 20px; font-size: 14px; color: var(--slate); line-height: 1.6; }
 
@@ -74,14 +74,14 @@
   .printArea, .printArea * { visibility: visible !important; }
   /* Sayfa kenar boşluğu 0: tarayıcı başlık/altbilgisini (tarih, sayfa adı, adres) bu boşluğa basar; 0 olunca basmaz.
      Boşluğu belgenin içinde veriyoruz; 'clone' her sayfada tekrarlanmasını sağlar. */
-  .printArea { display: block; font-family: 'DM Sans', Arial, sans-serif; color: #1E293B; font-size: 10.5pt; line-height: 1.5; padding: 15mm 17mm; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
-  .printArea h3 { font-size: 9.5pt; letter-spacing: 1.2px; text-transform: uppercase; color: var(--accent, #1A56DB); border-bottom: 1px solid #CBD5E1; padding-bottom: 3px; margin: 16px 0 8px; }
+  .printArea { display: block; font-family: 'Lexend', system-ui, sans-serif; color: #1E293B; font-size: 10.5pt; line-height: 1.5; padding: 15mm 17mm; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+  .printArea h3 { font-size: 9.5pt; letter-spacing: 1.2px; text-transform: uppercase; color: var(--accent, var(--blue)); border-bottom: 1px solid #CBD5E1; padding-bottom: 3px; margin: 16px 0 8px; }
   .printArea p { margin: 0 0 8px; }
   .printArea ul { margin: 4px 0 0; padding-left: 16px; }
   .pHead { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
   .pPhoto { width: 30mm; height: 30mm; object-fit: cover; border-radius: 4px; flex-shrink: 0; }
-  .pName { font-size: 22pt; font-weight: 700; color: var(--ink, #0D1B2A); }
-  .pTitle { font-size: 12pt; color: var(--accent, #1A56DB); }
+  .pName { font-size: 22pt; font-weight: 700; color: var(--ink, var(--navy)); }
+  .pTitle { font-size: 12pt; color: var(--accent, var(--blue)); }
   .pContact { font-size: 9pt; color: #64748B; margin: 2px 0 6px; }
   .pExp { margin-bottom: 10px; break-inside: avoid; }
   .pEdu { margin-bottom: 4px; }
@@ -89,10 +89,10 @@
   /* Sayfanın en altında küçük ibare (fixed: her sayfada aynı yerde) */
   .pFooter { position: fixed; left: 0; right: 0; bottom: 7mm; text-align: center; color: #A0AEC0; font-size: 7.5pt; }
   .lHead { border-bottom: 1px solid #D5DAD6; padding-bottom: 8px; }
-  .lName { font-size: 15pt; font-weight: 600; color: var(--ink, #0D1B2A); }
+  .lName { font-size: 15pt; font-weight: 600; color: var(--ink, var(--navy)); }
   .lDate { text-align: right; color: #64748B; font-size: 10pt; margin: 14px 0 16px; }
   .lTo { margin-bottom: 10px; }
-  .lSubject { font-weight: 700; font-size: 12pt; color: var(--accent, #1A56DB); margin-bottom: 16px; }
+  .lSubject { font-weight: 700; font-size: 12pt; color: var(--accent, var(--blue)); margin-bottom: 16px; }
   .pLetter { margin-top: 8px; font-size: 11pt; line-height: 1.6; }
   .pLetter p { margin-bottom: 12px; white-space: pre-wrap; }
   @page { margin: 0; }

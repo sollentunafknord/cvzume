@@ -35,12 +35,12 @@ export async function POST(request: Request) {
     <tr><td align="center">
       <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
 
-        <tr><td style="background:#0D1B2A;border-radius:16px 16px 0 0;padding:36px 48px;text-align:center;">
-          <div style="font-family:Georgia,serif;font-size:28px;font-weight:700;color:white;"><img src="https://www.cvzume.com/brand/cvzume-mark-on-dark-96.png" width="40" height="40" alt="" style="display:inline-block;vertical-align:middle;margin-right:10px;border:0;"><span style="vertical-align:middle;">CV<span style="color:#93C5FD;">zume</span></span></div>
+        <tr><td style="background:#23343A;border-radius:16px 16px 0 0;padding:36px 48px;text-align:center;">
+          <div style="font-family:'Segoe UI',Arial,sans-serif;font-size:26px;font-weight:700;color:white;"><img src="https://www.cvzume.com/brand/cvzume-mark-on-dark-96.png" width="40" height="40" alt="" style="display:inline-block;vertical-align:middle;margin-right:10px;border:0;"><span style="vertical-align:middle;">CV<span style="color:#A7D7C5;">zume</span></span></div>
         </td></tr>
 
         <tr><td style="background:white;padding:48px;border-radius:0 0 16px 16px;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
-          <h1 style="margin:0 0 16px;font-size:24px;font-weight:700;color:#0D1B2A;">Vi är ledsna att se dig gå, ${name} 😔</h1>
+          <h1 style="margin:0 0 16px;font-size:24px;font-weight:700;color:#23343A;">Vi är ledsna att se dig gå, ${name} 😔</h1>
           <p style="margin:0 0 24px;font-size:16px;color:#475569;line-height:1.7;">Din Pro-prenumeration har avslutats. Du har fortfarande tillgång till Pro-funktionerna fram till periodens slut.</p>
 
           <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
@@ -52,7 +52,7 @@ export async function POST(request: Request) {
 
           <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:32px;">
             <tr><td style="background:#F8FAFC;border-radius:12px;padding:24px;">
-              <p style="margin:0 0 12px;font-size:14px;font-weight:600;color:#0D1B2A;">Efter avslutad prenumeration:</p>
+              <p style="margin:0 0 12px;font-size:14px;font-weight:600;color:#23343A;">Efter avslutad prenumeration:</p>
               <p style="margin:0 0 8px;font-size:14px;color:#475569;">• Tillbaka till gratis-planen (2 CV-analyser totalt)</p>
               <p style="margin:0 0 8px;font-size:14px;color:#475569;">• Dina sparade CV:n och brev finns kvar</p>
               <p style="margin:0;font-size:14px;color:#475569;">• Du kan uppgradera igen när som helst</p>
@@ -61,12 +61,12 @@ export async function POST(request: Request) {
 
           <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:16px;">
             <tr><td align="center">
-              <a href="https://www.cvzume.com/uppgradera.html" style="display:inline-block;background:#1A56DB;color:white;font-size:16px;font-weight:600;padding:16px 40px;border-radius:10px;text-decoration:none;">Ångra — Behåll Pro →</a>
+              <a href="https://www.cvzume.com/uppgradera.html" style="display:inline-block;background:#3E7F6C;color:white;font-size:16px;font-weight:600;padding:16px 40px;border-radius:10px;text-decoration:none;">Ångra — Behåll Pro →</a>
             </td></tr>
           </table>
 
           <p style="margin:0 0 32px;font-size:13px;color:#94A3B8;text-align:center;">Klicka ovan för att återaktivera din prenumeration</p>
-          <p style="margin:0;font-size:13px;color:#94A3B8;text-align:center;">Frågor? <a href="mailto:info@cvzume.com" style="color:#1A56DB;">info@cvzume.com</a></p>
+          <p style="margin:0;font-size:13px;color:#94A3B8;text-align:center;">Frågor? <a href="mailto:info@cvzume.com" style="color:#3E7F6C;">info@cvzume.com</a></p>
         </td></tr>
 
         <tr><td style="padding:24px;text-align:center;">

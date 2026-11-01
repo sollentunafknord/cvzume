@@ -144,10 +144,10 @@ export default function UpgradeClient() {
 
           {/* PRO YEARLY */}
           <div className={`${styles.pricingCard} ${styles.pricingCardGreen}`}>
-            <div className={styles.popularBadge} style={{ background: '#059669' }}>{tu('best')}</div>
-            <div className={styles.planName} style={{ color: '#059669' }}>{tu('yearly')}</div>
+            <div className={styles.popularBadge} style={{ background: '#2F8F6B' }}>{tu('best')}</div>
+            <div className={styles.planName} style={{ color: '#2F8F6B' }}>{tu('yearly')}</div>
             <div className={styles.planPrice}>
-              <span className={styles.priceAmount} style={{ color: '#059669' }}>83</span>
+              <span className={styles.priceAmount} style={{ color: '#2F8F6B' }}>83</span>
               <span className={styles.pricePeriod}>{tu('per_month')}</span>
             </div>
             <div className={`${styles.priceYearly} ${styles.priceYearlyHighlight}`}>{tu('yearly_note')}</div>

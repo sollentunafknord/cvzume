@@ -13,7 +13,7 @@ const TITLES: Record<string, { headline: string; sub: string }> = {
   de: { headline: 'Lebenslauf mit KI erstellen', sub: 'Für jede Stellenanzeige angepasst · Kostenlos starten' },
 };
 
-const MARK = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect x="1" y="1" width="62" height="62" rx="15" fill="#0D1B2A" stroke="rgba(255,255,255,0.22)" stroke-width="2"/><rect x="14" y="16" width="22" height="30" rx="3.5" fill="#93C5FD" transform="rotate(-10 25 31)"/><rect x="27" y="17" width="22" height="30" rx="3.5" fill="#fff" transform="rotate(8 38 32)"/><g transform="rotate(8 38 32)" fill="#1A56DB"><rect x="31" y="24" width="12" height="2.8" rx="1.4"/><rect x="31" y="30" width="14" height="2.8" rx="1.4"/><rect x="31" y="36" width="9" height="2.8" rx="1.4"/></g></svg>`;
+const MARK = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect x="1" y="1" width="62" height="62" rx="15" fill="#23343A" stroke="rgba(255,255,255,0.22)" stroke-width="2"/><rect x="14" y="16" width="22" height="30" rx="3.5" fill="#FBE3A6" transform="rotate(-10 25 31)"/><rect x="27" y="17" width="22" height="30" rx="3.5" fill="#fff" transform="rotate(8 38 32)"/><g transform="rotate(8 38 32)" fill="#3E7F6C"><rect x="31" y="24" width="12" height="2.8" rx="1.4"/><rect x="31" y="30" width="14" height="2.8" rx="1.4"/><rect x="31" y="36" width="9" height="2.8" rx="1.4"/></g></svg>`;
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -31,7 +31,7 @@ export default async function Image({ params }: Props) {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          background: 'linear-gradient(135deg, #0D1B2A 0%, #1a3a5c 60%, #1a56db 100%)',
+          background: 'linear-gradient(135deg, #23343A 0%, #2E4A47 55%, #3E7F6C 100%)',
           fontFamily: 'sans-serif',
           position: 'relative',
         }}
@@ -48,7 +48,7 @@ export default async function Image({ params }: Props) {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={`data:image/svg+xml;utf8,${encodeURIComponent(MARK)}`} width={68} height={68} alt="" style={{ marginRight: 18 }} />
           <span style={{ fontSize: 52, fontWeight: 800, color: 'white', letterSpacing: -2 }}>
-            CV<span style={{ color: '#93C5FD' }}>zume</span>
+            CV<span style={{ color: '#A7D7C5' }}>zume</span>
           </span>
         </div>
 
@@ -79,12 +79,12 @@ export default async function Image({ params }: Props) {
         {/* badge */}
         <div style={{
           marginTop: 48,
-          background: 'rgba(26,86,219,0.4)',
+          background: 'rgba(62,127,108,0.4)',
           border: '1px solid rgba(147,197,253,0.3)',
           borderRadius: 50,
           padding: '12px 32px',
           fontSize: 22,
-          color: '#93C5FD',
+          color: '#A7D7C5',
           fontWeight: 600,
         }}>
           cvzume.com

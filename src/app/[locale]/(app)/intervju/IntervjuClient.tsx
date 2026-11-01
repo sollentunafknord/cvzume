@@ -26,21 +26,21 @@ function formatDate(dateStr: string, locale: string) {
 }
 
 const CATEGORY_COLORS: Record<string, { bg: string; color: string }> = {
-  Teknisk:    { bg: '#EFF6FF', color: '#1A56DB' },
-  Beteende:   { bg: '#F0FDF4', color: '#16A34A' },
+  Teknisk:    { bg: '#E4F3ED', color: '#3E7F6C' },
+  Beteende:   { bg: '#F0FDF4', color: '#2F8F6B' },
   Situation:  { bg: '#FFF7ED', color: '#C2410C' },
   Personlig:  { bg: '#FDF4FF', color: '#9333EA' },
   Företag:    { bg: '#FFFBEB', color: '#D97706' },
-  Technical:  { bg: '#EFF6FF', color: '#1A56DB' },
-  Behavioral: { bg: '#F0FDF4', color: '#16A34A' },
+  Technical:  { bg: '#E4F3ED', color: '#3E7F6C' },
+  Behavioral: { bg: '#F0FDF4', color: '#2F8F6B' },
   Situational:{ bg: '#FFF7ED', color: '#C2410C' },
   Personal:   { bg: '#FDF4FF', color: '#9333EA' },
   Company:    { bg: '#FFFBEB', color: '#D97706' },
-  Técnica:    { bg: '#EFF6FF', color: '#1A56DB' },
-  Conducta:   { bg: '#F0FDF4', color: '#16A34A' },
+  Técnica:    { bg: '#E4F3ED', color: '#3E7F6C' },
+  Conducta:   { bg: '#F0FDF4', color: '#2F8F6B' },
   Empresa:    { bg: '#FFFBEB', color: '#D97706' },
-  Teknik:     { bg: '#EFF6FF', color: '#1A56DB' },
-  Davranış:   { bg: '#F0FDF4', color: '#16A34A' },
+  Teknik:     { bg: '#E4F3ED', color: '#3E7F6C' },
+  Davranış:   { bg: '#F0FDF4', color: '#2F8F6B' },
   Şirket:     { bg: '#FFFBEB', color: '#D97706' },
 };
 

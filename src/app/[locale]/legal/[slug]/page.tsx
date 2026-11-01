@@ -62,14 +62,14 @@ export default async function LegalPage({ params }: Props) {
 }
 
 const s: Record<string, CSSProperties> = {
-  main: { maxWidth: 760, margin: '0 auto', padding: '40px 20px 80px', fontFamily: "'DM Sans', system-ui, Arial, sans-serif", color: '#1E293B', lineHeight: 1.7 },
-  link: { color: '#2563EB', textDecoration: 'none', fontSize: 14 },
+  main: { maxWidth: 760, margin: '0 auto', padding: '40px 20px 80px', fontFamily: "'Lexend', system-ui, sans-serif", color: '#1E293B', lineHeight: 1.7 },
+  link: { color: '#3E7F6C', textDecoration: 'none', fontSize: 14 },
   tabs: { display: 'flex', gap: 8, flexWrap: 'wrap', margin: '24px 0 8px' },
   tab: { fontSize: 13, fontWeight: 600, color: '#475569', textDecoration: 'none', border: '1px solid #E2E8F0', borderRadius: 100, padding: '5px 12px' },
-  tabActive: { color: 'white', background: '#2563EB', borderColor: '#2563EB' },
-  h1: { fontFamily: "'DM Serif Display', serif", fontSize: 38, lineHeight: 1.2, color: '#0D1B2A', margin: '20px 0 4px', fontWeight: 400 },
+  tabActive: { color: 'white', background: '#3E7F6C', borderColor: '#3E7F6C' },
+  h1: { fontFamily: "'Lexend', sans-serif", fontSize: 38, lineHeight: 1.2, color: '#23343A', margin: '20px 0 4px', fontWeight: 400 },
   meta: { fontSize: 13, color: '#94A3B8', margin: '0 0 20px' },
   lead: { fontSize: 18, color: '#334155' },
-  h2: { fontSize: 20, color: '#0D1B2A', margin: '32px 0 8px' },
+  h2: { fontSize: 20, color: '#23343A', margin: '32px 0 8px' },
   p: { margin: '0 0 12px', fontSize: 15 },
 };

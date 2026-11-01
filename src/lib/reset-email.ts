@@ -15,13 +15,13 @@ function html(c: (typeof T)[L], link: string, locale: L) {
 <body style="margin:0;padding:0;background:#F8FAFC;font-family:'Segoe UI',Arial,sans-serif;">
 <table width="100%" cellpadding="0" cellspacing="0" style="background:#F8FAFC;padding:40px 20px;"><tr><td align="center">
 <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
-<tr><td style="background:#0D1B2A;border-radius:16px 16px 0 0;padding:32px 48px;text-align:center;">
-  <div style="font-family:Georgia,serif;font-size:28px;font-weight:700;color:white;letter-spacing:-0.5px;"><img src="https://www.cvzume.com/brand/cvzume-mark-on-dark-96.png" width="40" height="40" alt="" style="display:inline-block;vertical-align:middle;margin-right:10px;border:0;"><span style="vertical-align:middle;">CV<span style="color:#93C5FD;">zume</span></span></div>
+<tr><td style="background:#23343A;border-radius:16px 16px 0 0;padding:32px 48px;text-align:center;">
+  <div style="font-family:'Segoe UI',Arial,sans-serif;font-size:26px;font-weight:700;color:white;letter-spacing:-0.5px;"><img src="https://www.cvzume.com/brand/cvzume-mark-on-dark-96.png" width="40" height="40" alt="" style="display:inline-block;vertical-align:middle;margin-right:10px;border:0;"><span style="vertical-align:middle;">CV<span style="color:#A7D7C5;">zume</span></span></div>
 </td></tr>
 <tr><td style="background:white;padding:44px 48px;border-radius:0 0 16px 16px;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
-  <h1 style="margin:0 0 16px;font-size:24px;font-weight:700;color:#0D1B2A;">${c.title}</h1>
+  <h1 style="margin:0 0 16px;font-size:24px;font-weight:700;color:#23343A;">${c.title}</h1>
   <p style="margin:0 0 28px;font-size:16px;color:#475569;line-height:1.7;">${c.text}</p>
-  <table cellpadding="0" cellspacing="0" style="margin:0 0 28px;"><tr><td style="background:#1A56DB;border-radius:10px;">
+  <table cellpadding="0" cellspacing="0" style="margin:0 0 28px;"><tr><td style="background:#3E7F6C;border-radius:10px;">
     <a href="${link}" style="display:inline-block;padding:14px 28px;font-size:16px;font-weight:600;color:white;text-decoration:none;">${c.button}</a>
   </td></tr></table>
   <p style="margin:0 0 8px;font-size:14px;color:#64748B;line-height:1.6;">${c.note}</p>
