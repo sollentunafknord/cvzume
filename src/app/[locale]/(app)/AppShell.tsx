@@ -45,8 +45,10 @@ export default function AppShell() {
       .then(r => r.json())
       .then(data => {
         const isPro = data.plan === 'pro';
+        const admin = data.admin === true;
         localStorage.setItem('cvita_is_pro', isPro ? 'true' : 'false');
-        window.dispatchEvent(new CustomEvent('cvita_pro_updated', { detail: { isPro } }));
+        localStorage.setItem('cvita_is_admin', admin ? 'true' : 'false');
+        window.dispatchEvent(new CustomEvent('cvita_pro_updated', { detail: { isPro, admin } }));
       })
       .catch(() => {});
   }, []);

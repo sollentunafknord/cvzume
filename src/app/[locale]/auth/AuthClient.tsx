@@ -30,11 +30,30 @@ export default function AuthClient() {
 
   const [tab, setTab] = useState<Tab>('login');
   // Şifre sıfırlama: 'request' = link iste, 'reset' = e-postadaki linkten gelindi (yeni şifre)
+  const [confirmState, setConfirmState] = useState<'' | 'working' | 'expired'>('');
   const [forgot, setForgot] = useState<{ mode: 'request' | 'reset'; token?: string; expired?: boolean } | null>(null);
 
   useEffect(() => {
     const hash = new URLSearchParams(window.location.hash.slice(1));
     const query = new URLSearchParams(window.location.search);
+    // Kayıt doğrulama linkinden dönüş: oturumu aç ve akışa geç
+    if (hash.get('type') === 'signup' || query.get('mode') === 'confirmed') {
+      const at = hash.get('access_token'), rt = hash.get('refresh_token'), exp = Number(hash.get('expires_in') || 3600);
+      window.history.replaceState(null, '', window.location.pathname);
+      if (!at || !rt) { setConfirmState('expired'); return; } // eslint-disable-line react-hooks/set-state-in-effect
+      setConfirmState('working');
+      fetch('/api/auth/session', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ access_token: at }) })
+        .then(r => (r.ok ? r.json() : Promise.reject()))
+        .then(u => {
+          localStorage.setItem('cvita_token', at);
+          localStorage.setItem('cvita_refresh_token', rt);
+          localStorage.setItem('cvita_token_expiry', String(Date.now() + exp * 1000));
+          localStorage.setItem('cvita_user', JSON.stringify({ id: u.id, email: u.email, firstName: u.firstName, lastName: u.lastName }));
+          window.location.replace(flowPath(locale));
+        })
+        .catch(() => setConfirmState('expired'));
+      return;
+    }
     const recovery = hash.get('type') === 'recovery' || query.get('mode') === 'reset';
     if (!recovery) return;
     const token = hash.get('access_token') || undefined;
@@ -115,6 +134,7 @@ export default function AuthClient() {
 
       if (!res.ok) {
         const err = data.error || '';
+        setConfirmState('');
         let msg = t('error_invalid');
         if (err.includes('Email not confirmed')) msg = t('error_not_confirmed');
         else if (err.includes('Too many requests') || err === 'rate_limited') msg = t('error_too_many');
@@ -169,7 +189,7 @@ export default function AuthClient() {
       const res = await fetch('/api/auth/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: regEmail, password: regPw, firstName: regFname, lastName: regLname }),
+        body: JSON.stringify({ email: regEmail, password: regPw, firstName: regFname, lastName: regLname, locale }),
       });
       const data = await res.json();
 
@@ -284,7 +304,9 @@ export default function AuthClient() {
         </a>
 
         <div className={styles.authBox}>
-          {forgot ? (
+          {confirmState === 'working' ? (
+            <div className={styles.successMessage}><div className={styles.successIcon}>⏳</div><h2 className={styles.successTitle}>{t('confirm_working')}</h2></div>
+          ) : forgot ? (
             <ForgotPassword mode={forgot.mode} token={forgot.token} expired={forgot.expired} initialEmail={loginEmail} onDone={() => { setForgot(null); setTab('login'); }} />
           ) : success ? (
             <div className={styles.successMessage}>
@@ -317,6 +339,7 @@ export default function AuthClient() {
 
               {tab === 'login' ? (
                 <div className={styles.authForm}>
+                  {confirmState === 'expired' && !loginError && <div className={styles.errorMsg}>{t('confirm_expired')}</div>}
                   {loginError && <div className={styles.errorMsg}>{loginError}</div>}
                   <div className={styles.formGroup}>
                     <label className={styles.formLabel}>{t('email_label')}</label>

@@ -1,48 +1,30 @@
-// src/app/api/auth/signup/route.ts
-import { createClient } from '@supabase/supabase-js'
+// Kayıt: kullanıcıyı oluşturur ve doğrulama e-postasını kendimiz göndeririz (noreply@cvzume.com, kullanıcının dilinde).
+// Link /<dil>/auth?mode=confirmed#access_token=… adresine döner; AuthClient oturumu açar.
 import { NextResponse } from 'next/server'
-import { clientIp, rateLimit } from '@/lib/server-auth'
-import { internalHeaders } from '@/lib/internal'
+import { clientIp, rateLimit, serviceClient } from '@/lib/server-auth'
+import { sendConfirmEmail } from '@/lib/confirm-email'
+
+const LOCALES = ['sv', 'en', 'es', 'tr', 'de']
 
 export async function POST(request: Request) {
   // Supabase'in IP başına sınırı Vercel'in IP'sini görür; saldırgana karşı fren burada
   if (!rateLimit(`signup:${clientIp(request)}`, 5)) return NextResponse.json({ error: 'rate_limited' }, { status: 429 })
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  const { email, password, firstName, lastName, locale } = await request.json().catch(() => ({}))
+  if (typeof email !== 'string' || !/^\S+@\S+\.\S+$/.test(email.trim()) || typeof password !== 'string') return NextResponse.json({ error: 'bad_request' }, { status: 400 })
+  if (password.length < 8) return NextResponse.json({ error: 'Password should be at least 8 characters' }, { status: 400 })
+  const loc = LOCALES.includes(locale) ? locale : 'sv'
+  const site = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.cvzume.com'
+  const first = typeof firstName === 'string' ? firstName.trim().slice(0, 60) : ''
+  const last = typeof lastName === 'string' ? lastName.trim().slice(0, 60) : ''
 
-  if (!supabaseUrl || !supabaseKey) {
-    return NextResponse.json({ error: 'Server configuration error' }, { status: 500 })
-  }
-
-  const supabase = createClient(supabaseUrl, supabaseKey)
-  const { email, password, firstName, lastName } = await request.json()
-
-  const { data, error } = await supabase.auth.signUp({
-    email,
-    password,
-    options: {
-      data: {
-        first_name: firstName,
-        last_name: lastName,
-      }
-    }
+  const { data, error } = await serviceClient().auth.admin.generateLink({
+    type: 'signup', email: email.trim().toLowerCase(), password,
+    options: { data: { first_name: first, last_name: last }, redirectTo: `${site}/${loc}/auth?mode=confirmed` },
   })
-
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 400 })
+  if (error) return NextResponse.json({ error: error.message }, { status: 400 })
+  const link = data.properties?.action_link
+  if (!link || !(await sendConfirmEmail(email.trim(), link, loc, first))) {
+    return NextResponse.json({ error: 'email_failed' }, { status: 502 })
   }
-
-  // Hoş geldin emaili gönder
-  try {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.cvzume.com'
-    await fetch(`${baseUrl}/api/email/welcome`, {
-      method: 'POST',
-      headers: internalHeaders(),
-      body: JSON.stringify({ email, firstName })
-    })
-  } catch (e) {
-    console.warn('Welcome email gönderilemedi:', e)
-  }
-
-  return NextResponse.json({ user: data.user }, { status: 200 })
+  return NextResponse.json({ user: { id: data.user?.id } }, { status: 200 })
 }

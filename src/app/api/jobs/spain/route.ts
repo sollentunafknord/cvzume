@@ -2,6 +2,7 @@
 // InfoJobs yeni uygulama kaydını kapattığı için (2026-10) geçici olarak Adzuna; InfoJobs anahtarları
 // Vercel'e eklendiği anda kod değişmeden InfoJobs'a geçer. Yardımcılar: src/lib/infojobs.ts, adzuna.ts
 import { NextResponse } from 'next/server'
+import { clientIp, rateLimit } from '@/lib/server-auth'
 import { ijDetail, ijProvinces, ijSearch, infojobsConfigured, infojobsSearchUrl } from '@/lib/infojobs'
 import { AdzunaError, adzunaConfigured, adzunaSearch } from '@/lib/adzuna'
 import { fetchAdFromUrl } from '@/lib/fetch-ad'
@@ -13,6 +14,8 @@ function providers(): Provider[] {
 }
 
 export async function GET(request: Request) {
+  // Herkese açık iş arama: dış servis kotasını korumak için IP başına saatlik sınır
+  if (!rateLimit(`jobs:${clientIp(request)}`, 60)) return NextResponse.json({ error: 'rate_limited' }, { status: 429 })
   const sp = new URL(request.url).searchParams
   const q = (sp.get('q') || '').trim().slice(0, 100)
   const list = providers()

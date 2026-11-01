@@ -176,7 +176,9 @@
     "reset_mismatch": "Şifreler aynı değil.",
     "reset_short": "Şifre en az 8 karakter olmalı.",
     "reset_weak": "Bu şifre çok zayıf veya sızdırılmış şifreler arasında. Başka bir şifre seçin.",
-    "reset_failed": "Şifre kaydedilemedi. Lütfen tekrar deneyin."
+    "reset_failed": "Şifre kaydedilemedi. Lütfen tekrar deneyin.",
+    "confirm_working": "Hesabınız onaylanıyor…",
+    "confirm_expired": "Onay linkinin süresi dolmuş ya da daha önce kullanılmış. E-postanız onaylandıysa şifrenizle giriş yapabilirsiniz."
   },
   "settings": {
     "title": "Ayarlar",

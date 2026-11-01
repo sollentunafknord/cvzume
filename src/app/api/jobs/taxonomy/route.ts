@@ -1,3 +1,5 @@
+import { NextResponse } from 'next/server'
+import { clientIp, rateLimit } from '@/lib/server-auth'
 import { NextRequest } from 'next/server';
 
 const GQL = 'https://taxonomy.api.jobtechdev.se/v1/taxonomy/graphql';
@@ -16,6 +18,8 @@ async function gql(query: string) {
 }
 
 export async function GET(req: NextRequest) {
+  // Herkese açık iş arama: dış servis kotasını korumak için IP başına saatlik sınır
+  if (!rateLimit(`jobs:${clientIp(req)}`, 120)) return NextResponse.json({ error: 'rate_limited' }, { status: 429 })
   const { searchParams } = new URL(req.url);
   const type = searchParams.get('type') || '';
 

@@ -1,9 +1,12 @@
 // Bundesagentur für Arbeit araması ve ilan detayı. Sürüm yedekleri: src/lib/arbeitsagentur.ts
 import { NextResponse } from 'next/server'
+import { clientIp, rateLimit } from '@/lib/server-auth'
 import { baDetail, baSearch, searchUrl } from '@/lib/arbeitsagentur'
 import { fetchAdFromUrl } from '@/lib/fetch-ad'
 
 export async function GET(request: Request) {
+  // Herkese açık iş arama: dış servis kotasını korumak için IP başına saatlik sınır
+  if (!rateLimit(`jobs:${clientIp(request)}`, 90)) return NextResponse.json({ error: 'rate_limited' }, { status: 429 })
   const sp = new URL(request.url).searchParams
 
   // Tek ilan: analiz için tam metin

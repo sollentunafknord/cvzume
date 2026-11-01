@@ -176,7 +176,9 @@
     "reset_mismatch": "Las contraseñas no coinciden.",
     "reset_short": "La contraseña debe tener al menos 8 caracteres.",
     "reset_weak": "Esta contraseña es demasiado débil o aparece en filtraciones. Elige otra.",
-    "reset_failed": "No se pudo guardar la contraseña. Inténtalo de nuevo."
+    "reset_failed": "No se pudo guardar la contraseña. Inténtalo de nuevo.",
+    "confirm_working": "Confirmando tu cuenta…",
+    "confirm_expired": "El enlace de confirmación ha caducado o ya se usó. Si tu correo ya está confirmado, puedes iniciar sesión con tu contraseña."
   },
   "settings": {
     "title": "Configuración",

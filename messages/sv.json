@@ -176,7 +176,9 @@
     "reset_mismatch": "Lösenorden är inte likadana.",
     "reset_short": "Lösenordet måste ha minst 8 tecken.",
     "reset_weak": "Lösenordet är för svagt eller finns bland läckta lösenord. Välj ett annat.",
-    "reset_failed": "Lösenordet kunde inte sparas. Försök igen."
+    "reset_failed": "Lösenordet kunde inte sparas. Försök igen.",
+    "confirm_working": "Ditt konto bekräftas…",
+    "confirm_expired": "Bekräftelselänken har gått ut eller redan använts. Om din e-post redan är bekräftad kan du logga in med ditt lösenord."
   },
   "settings": {
     "title": "Inställningar",

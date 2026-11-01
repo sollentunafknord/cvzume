@@ -1,5 +1,18 @@
 # CVzume Changelog
 
+## v4.0 — 2026-11-01
+Yeni görünüm ve rehberli başvuru akışı.
+- Rehberli akış girişten sonraki ana sayfa: hazır CV yükle ya da soru-cevapla oluştur → ilan → uyum (eksikleri sor) → uyarlanmış CV → mektup; adres dile göre (/tr/basvuru, /sv/ansok, /en/apply, /es/solicitud, /de/bewerbung)
+- Görsel kimlik: Lexend + mat Nane paleti tüm sitede; açık renkli sol menü; yeni logo renkleri
+- Başvurularım baştan tasarlandı; CV'm akıştaki CV görünümünü açıyor; Ayarlar yeni tasarımda
+- PDF/Word: tarayıcı başlık/altbilgisi yok, mektup biçimi, ücretsiz planda belgenin dilinde küçük CVzume ibaresi; PDF yükleme Vercel'de düzeltildi (unpdf)
+- Ödeme: Stripe canlı (109 SEK/ay, 999 SEK/yıl), ödeme sayfası müşterinin dilinde, cayma hakkı notu
+- Şifre sıfırlama ve kayıt doğrulama e-postaları noreply@cvzume.com'dan, kullanıcının dilinde; yanıtlar hello@cvzume.com'a
+- Admin: Aktivite istatistikleri (kayıt, başvuru, mektup, huni, günlük grafikler)
+- Google Analytics çerez onayıyla; çerez ve gizlilik metinleri güncellendi
+- Güvenlik: e-posta doğrulaması, şifre sıfırlama sadece sıfırlama linkiyle, admin listesi istemci kodundan çıkarıldı, iş arama uçlarına sınır, oturum anahtarı otomatik yenileniyor
+- Yükseltme sayfası 5 dilde, 3 paket yan yana; iş arama düğmesi ülkenin kurumuna bağlı; sosyal medya bağlantıları
+
 ## v3.4 — 2026-04-23
 - Admin paneli: kullanıcı yönetimi, plan değiştirme, şifre sıfırlama (sadece cyesil@gmail.com)
 - Onboarding modal: tüm diller kendi kartında gösteriliyor, gerçek bayrak görselleri

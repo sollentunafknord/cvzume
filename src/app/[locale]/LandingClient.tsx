@@ -92,6 +92,10 @@ export default function LandingClient({ market }: { market: Market }) {
 
   useEffect(() => {
     // Şifre sıfırlama linki (Supabase izin listesinde yoksa) site köküne dönebilir → giriş sayfasına taşı
+    if (/type=signup/.test(window.location.hash)) {
+      window.location.replace(`/${locale}/auth?mode=confirmed${window.location.hash}`);
+      return;
+    }
     if (/type=recovery|error_code=otp_expired/.test(window.location.hash)) {
       window.location.replace(`/${locale}/auth?mode=reset${window.location.hash}`);
       return;

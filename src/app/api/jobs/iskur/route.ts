@@ -1,3 +1,5 @@
+import { NextResponse } from 'next/server'
+import { clientIp, rateLimit } from '@/lib/server-auth'
 import { NextRequest } from 'next/server';
 import * as cheerio from 'cheerio';
 import { PROVINCES, DISTRICTS } from './data';
@@ -126,6 +128,8 @@ async function searchJobs(ilValue: string, ilceValue: string): Promise<{ jobs: I
 }
 
 export async function GET(req: NextRequest) {
+  // Herkese açık iş arama: dış servis kotasını korumak için IP başına saatlik sınır
+  if (!rateLimit(`jobs:${clientIp(req)}`, 60)) return NextResponse.json({ error: 'rate_limited' }, { status: 429 })
   const { searchParams } = new URL(req.url);
   const action = searchParams.get('action');
   const il = searchParams.get('il') || '';

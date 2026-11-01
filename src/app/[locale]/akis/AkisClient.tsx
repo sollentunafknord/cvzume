@@ -226,7 +226,8 @@ export default function AkisClient() {
     authFetch('/api/stripe/subscription').then(r => r.json()).then(d => {
       const pro = d.plan === 'pro';
       setIsPro(pro);
-      try { localStorage.setItem('cvita_is_pro', pro ? 'true' : 'false'); } catch { /* yok */ }
+      try { localStorage.setItem('cvita_is_pro', pro ? 'true' : 'false'); localStorage.setItem('cvita_is_admin', d.admin === true ? 'true' : 'false'); } catch { /* yok */ }
+      window.dispatchEvent(new CustomEvent('cvita_pro_updated', { detail: { isPro: pro, admin: d.admin === true } }));
     }).catch(() => {});
     if (new URLSearchParams(window.location.search).get('upgraded') === 'true') {
       // Adres sadece tarayıcıda okunur; tek seferlik mesaj

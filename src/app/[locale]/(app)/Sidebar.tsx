@@ -6,7 +6,6 @@ import { useTranslations, useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { authFetch } from '@/lib/auth-client';
 import { APP_VERSION, RELEASE_DATE } from '@/version';
-import { isAdminEmail } from '@/lib/admin';
 import { signOut } from '@/lib/auth-client';
 import styles from './sidebar.module.css';
 
@@ -36,14 +35,13 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
   useEffect(() => {
     const proStatus = localStorage.getItem('cvita_is_pro') === 'true';
     setPlanLabel(proStatus ? t('dashboard.pro_plan') : t('dashboard.free_plan'));
-    try {
-      const user = JSON.parse(localStorage.getItem('cvita_user') || '{}');
-      setIsAdmin(isAdminEmail(user.email));
-    } catch { /* silent */ }
+    // Admin bağlantısı: sunucunun söylediği (AppShell/akış abonelik kontrolünden); istemcide admin listesi yok
+    setIsAdmin(localStorage.getItem('cvita_is_admin') === 'true');
 
     const proHandler = (e: Event) => {
       const pro = (e as CustomEvent).detail.isPro;
       setIsPro(pro);
+      setIsAdmin((e as CustomEvent).detail.admin === true);
       setPlanLabel(pro ? t('dashboard.pro_plan') : t('dashboard.free_plan'));
     };
     window.addEventListener('cvita_pro_updated', proHandler);

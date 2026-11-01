@@ -176,7 +176,9 @@
     "reset_mismatch": "The passwords don't match.",
     "reset_short": "The password must be at least 8 characters.",
     "reset_weak": "This password is too weak or has appeared in a data leak. Choose another one.",
-    "reset_failed": "The password couldn't be saved. Please try again."
+    "reset_failed": "The password couldn't be saved. Please try again.",
+    "confirm_working": "Confirming your account…",
+    "confirm_expired": "The confirmation link has expired or was already used. If your email is already confirmed, you can sign in with your password."
   },
   "settings": {
     "title": "Settings",
