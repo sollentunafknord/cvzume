@@ -1,0 +1,38 @@
+/* Admin → Aktivite. Grafik rengi #2F8F6B (palet doğrulayıcısından geçti: açıklık, doygunluk, kontrast);
+   metinler her zaman metin renginde, seri renginde değil. */
+.wrap { display: flex; flex-direction: column; gap: 16px; margin: 8px 0 32px; font-family: 'Lexend', system-ui, sans-serif; color: var(--navy); }
+.h2 { font-size: 20px; font-weight: 600; margin: 0; }
+.tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 900px) { .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.tile, .panel, .chart { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 16px 18px; min-width: 0; }
+.tileLabel { font-size: 13px; color: var(--slate); }
+.tileValue { font-size: 34px; font-weight: 600; letter-spacing: -0.5px; margin: 4px 0 2px; font-variant-numeric: tabular-nums; }
+.tileSub { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+.chartTitle { font-size: 15px; font-weight: 600; display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+.chartTitle span { font-size: 12px; font-weight: 400; color: var(--muted); }
+.funnel { display: flex; flex-direction: column; gap: 10px; }
+.fRow { display: grid; grid-template-columns: 150px minmax(0, 1fr) 70px; gap: 12px; align-items: center; }
+@media (max-width: 560px) { .fRow { grid-template-columns: 110px minmax(0, 1fr) 60px; } }
+.fLabel { font-size: 14px; color: var(--slate); }
+.fTrack { height: 14px; background: var(--off-white); border-radius: 4px; overflow: hidden; }
+.fBar { height: 100%; background: #2F8F6B; border-radius: 0 4px 4px 0; min-width: 2px; }
+.fNum { font-size: 15px; font-weight: 600; text-align: right; font-variant-numeric: tabular-nums; }
+.fNum span { display: block; font-size: 11px; font-weight: 400; color: var(--muted); }
+
+.charts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 900px) { .charts { grid-template-columns: minmax(0, 1fr); } }
+.plot { position: relative; }
+.plot svg { width: 100%; height: auto; display: block; overflow: visible; }
+.axis { stroke: #E3E8E4; stroke-width: 1; }
+.tick { font-size: 11px; fill: var(--muted); font-family: 'Lexend', sans-serif; }
+.bar { fill: #2F8F6B; }
+.barOn { fill: #23343A; }
+.zero { fill: #E3E8E4; }
+.tip { position: absolute; top: -4px; transform: translate(-50%, -100%); background: var(--navy); color: white; font-size: 12px; padding: 5px 9px; border-radius: 8px; white-space: nowrap; pointer-events: none; font-variant-numeric: tabular-nums; }
+.table summary { cursor: pointer; font-size: 13px; color: var(--blue); }
+.table table { margin-top: 10px; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
+.table th, .table td { padding: 4px 14px 4px 0; text-align: left; border-bottom: 1px solid var(--border); }
+.table th { color: var(--slate); font-weight: 600; }
+.loading, .err { font-size: 14px; color: var(--muted); margin: 8px 0 24px; }
+.err { color: var(--error); }

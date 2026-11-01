@@ -4,6 +4,7 @@ import { authFetch } from '@/lib/auth-client';
 import { useState, useEffect, useCallback } from 'react';
 import { useLocale } from 'next-intl';
 import styles from './admin.module.css';
+import AdminInsights from './AdminInsights';
 
 interface AdminUser {
   id: string;
@@ -158,11 +159,11 @@ export default function AdminClient() {
             <div className={styles.statLabel}>Total Users</div>
           </div>
           <div className={styles.statCard}>
-            <div className={styles.statValue} style={{ color: '#F59E0B' }}>{stats.proUsers}</div>
+            <div className={styles.statValue} style={{ color: '#B7791F' }}>{stats.proUsers}</div>
             <div className={styles.statLabel}>Pro Users</div>
           </div>
           <div className={styles.statCard}>
-            <div className={styles.statValue} style={{ color: '#22C55E' }}>{stats.freeUsers}</div>
+            <div className={styles.statValue} style={{ color: '#2F8F6B' }}>{stats.freeUsers}</div>
             <div className={styles.statLabel}>Free Users</div>
           </div>
           <div className={styles.statCard}>
@@ -175,6 +176,8 @@ export default function AdminClient() {
           </div>
         </div>
       )}
+
+      <AdminInsights />
 
       <div className={styles.tableCard}>
         <div className={styles.tableHeader}>
