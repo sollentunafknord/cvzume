@@ -47,6 +47,9 @@ export default function AppShell() {
       .catch(() => {});
   }, []);
 
+  // Yeni başvuru artık rehberli akışta (/<dil>/akis, kenar çubuğu olmayan ayrı sayfa)
+  useEffect(() => { if (page === 'ny') window.location.replace(`/${locale}/akis`); }, [page, locale]);
+
   function navigate(seg: string) {
     setPage(seg);                              // instant — React state, no waiting
     router.push(`/${locale}/${seg}`);          // async — updates URL in background

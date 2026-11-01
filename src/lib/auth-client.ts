@@ -41,3 +41,11 @@ export async function authFetch(url: string, init: RequestInit = {}): Promise<Re
   const fresh = await refreshToken()
   return fresh ? send(fresh) : res
 }
+
+/** Çıkış: oturum ve bu tarayıcıda tutulan kişisel veriler (CV, taslaklar) silinir — ortak bilgisayarda kalmasın. */
+export function signOut() {
+  try {
+    for (const k of Object.keys(localStorage)) if (k.startsWith('cvita_') || k.startsWith('cvzume_')) localStorage.removeItem(k)
+    sessionStorage.clear()
+  } catch { /* yok */ }
+}

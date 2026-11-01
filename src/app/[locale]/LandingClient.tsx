@@ -97,7 +97,7 @@ export default function LandingClient({ market }: { market: Market }) {
     const token = localStorage.getItem('cvita_token');
     const user = localStorage.getItem('cvita_user');
     if (token && user) {
-      router.replace(`/${locale}/ny`);
+      router.replace(`/${locale}/akis`);
       return;
     }
 

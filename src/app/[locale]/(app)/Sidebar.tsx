@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { authFetch } from '@/lib/auth-client';
 import { APP_VERSION, RELEASE_DATE } from '@/version';
 import { isAdminEmail } from '@/lib/admin';
+import { signOut } from '@/lib/auth-client';
 import styles from './sidebar.module.css';
 
 interface SidebarProps {
@@ -111,8 +112,7 @@ export default function Sidebar({ activePage, onNavigate }: SidebarProps) {
   }
 
   function handleLogout() {
-    localStorage.removeItem('cvita_token');
-    localStorage.removeItem('cvita_user');
+    signOut();
     router.push(`/${locale}/auth`);
   }
 

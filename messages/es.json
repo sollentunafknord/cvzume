@@ -945,238 +945,240 @@
     }
   },
   "akis": {
-    "next": "Continue",
-    "back": "Back",
-    "yes": "Yes",
-    "skip": "Skip",
-    "add": "Add",
-    "remove": "Remove",
-    "edit": "Edit",
-    "pdf": "Download PDF",
-    "word": "Download Word",
-    "footer": "Made with CVzume · cvzume.com",
+    "next": "Continuar",
+    "back": "Atrás",
+    "yes": "Sí",
+    "skip": "Omitir",
+    "add": "Añadir",
+    "remove": "Quitar",
+    "edit": "Editar",
+    "pdf": "Descargar PDF",
+    "word": "Descargar Word",
+    "footer": "Creado con CVzume · cvzume.com",
+    "menu": "Menú",
+    "upgraded": "Tu cuenta Pro está activa. Ya puedes preparar solicitudes ilimitadas.",
+    "palette": "Paleta de colores",
+    "palettes": {
+      "mint": "Menta",
+      "sky": "Cielo",
+      "apricot": "Albaricoque"
+    },
     "errors": {
-      "ai": "The AI service didn't respond just now. Please try again in a few seconds."
+      "ai": "El servicio de IA no ha respondido. Inténtalo de nuevo en unos segundos."
     },
     "welcome": {
-      "hi": "Hi {name} 👋",
-      "title": "Let's put your application together.",
-      "text": "First we make your resume, once. Then for every job ad we tailor it and write your cover letter.",
-      "s1": "Your resume",
-      "s2": "Job ad and match",
-      "s3": "Resume + letter as PDF",
-      "start": "Get started",
+      "hi": "Hola {name} 👋",
+      "title": "Preparemos tu solicitud juntos.",
+      "text": "Primero preparamos tu CV, una sola vez. Después lo adaptamos a cada oferta y escribimos tu carta de presentación.",
+      "s1": "Tu CV",
+      "s2": "Oferta y comparación",
+      "s3": "CV + carta en PDF",
+      "start": "Empezar",
       "min": "≈ {n} min"
     },
     "hasCv": {
-      "title": "Do you already have a resume?",
-      "text": "PDF or Word is fine. If you don't have one, we'll make it together with a few questions.",
-      "yes": "Yes, I'll upload it",
-      "yes_sub": "PDF or Word file",
-      "no": "No, let's make one together",
-      "no_sub": "≈ 10 short questions, 5 minutes"
+      "title": "¿Ya tienes un CV?",
+      "text": "Puede ser PDF o Word. Si no tienes, lo creamos juntos con unas preguntas.",
+      "yes": "Sí, quiero subirlo",
+      "yes_sub": "Archivo PDF o Word",
+      "no": "No, creémoslo juntos",
+      "no_sub": "≈ 10 preguntas cortas, 5 minutos"
     },
     "upload": {
-      "title": "Upload your resume",
-      "text": "We read your details and turn them into a clean resume. Then you can check and fix it.",
-      "pick": "Choose a file",
-      "formats": "PDF or Word (.docx) · up to 5 MB",
-      "no_file": "I don't have a file, let's do the questions",
-      "reading": "Reading your resume…",
-      "reading_sub": "Sorting experience, education and skills"
+      "title": "Sube tu CV",
+      "text": "Leemos tus datos y los convertimos en un CV ordenado. Después puedes revisarlo y corregirlo.",
+      "pick": "Elige un archivo",
+      "formats": "PDF o Word (.docx) · máx. 5 MB",
+      "no_file": "No tengo archivo, hagamos las preguntas",
+      "reading": "Leyendo tu CV…",
+      "reading_sub": "Separando experiencia, formación y habilidades"
     },
     "name": {
-      "title": "What's your name?",
-      "first": "First name",
-      "last": "Last name"
+      "title": "¿Cómo te llamas?",
+      "first": "Nombre",
+      "last": "Apellidos"
     },
     "contact": {
-      "title": "How can employers reach you?",
-      "phone": "Phone",
-      "email": "Email",
-      "street": "Street address",
-      "zip": "ZIP code",
-      "city": "City",
-      "address": "Address"
+      "title": "¿Cómo pueden contactarte?",
+      "phone": "Teléfono",
+      "email": "Correo electrónico",
+      "street": "Dirección (calle, número, piso)",
+      "zip": "Código postal",
+      "city": "Ciudad",
+      "address": "Dirección"
     },
     "photo": {
-      "title": "Add a photo to your resume?",
-      "text": "It's optional. You can also add or change it later in Settings.",
-      "upload": "Upload a photo",
-      "change": "Choose a different photo",
-      "formats": "JPG, PNG or WebP · up to 2 MB",
-      "keep": "Continue with this photo",
-      "skip": "Continue without a photo",
-      "skip_sub": "Your resume will have no photo",
-      "too_large": "The photo can be at most 2 MB.",
-      "failed": "The photo couldn't be uploaded. Please try again."
+      "title": "¿Añadimos una foto a tu CV?",
+      "text": "Es opcional. También puedes añadirla o cambiarla después en Ajustes.",
+      "upload": "Subir foto",
+      "change": "Elegir otra foto",
+      "formats": "JPG, PNG o WebP · máx. 2 MB",
+      "keep": "Continuar con esta foto",
+      "skip": "Continuar sin foto",
+      "skip_sub": "Tu CV no tendrá foto",
+      "too_large": "La foto puede tener como máximo 2 MB.",
+      "failed": "No se pudo subir la foto. Inténtalo de nuevo."
     },
     "target": {
-      "title": "What kind of job are you looking for?",
-      "text": "A few words are enough. The next questions adapt to it.",
-      "label": "Job title or field",
-      "ph": "E.g. Nursing assistant"
+      "title": "¿Qué tipo de trabajo buscas?",
+      "text": "Bastan unas palabras. Las siguientes preguntas se adaptan a ello.",
+      "label": "Puesto o sector",
+      "ph": "P. ej. Auxiliar de enfermería"
     },
     "worked": {
-      "title": "Have you had a job before?",
-      "more": "Have you had other jobs?",
-      "text": "Part-time jobs, internships and volunteering count too.",
-      "yes_sub": "Let's start with your latest job",
-      "no": "No, not yet",
-      "no_sub": "We'll ask about internships, volunteering or school projects",
-      "done": "No, that's all"
+      "title": "¿Has trabajado antes?",
+      "more": "¿Has tenido otros trabajos?",
+      "text": "Cuentan también los trabajos a media jornada, las prácticas y el voluntariado.",
+      "yes_sub": "Empecemos por tu último trabajo",
+      "no": "No, todavía no",
+      "no_sub": "Te preguntaremos por prácticas, voluntariado o proyectos escolares",
+      "done": "No, eso es todo"
     },
     "nowork": {
-      "title": "Have you done an internship, volunteer work or a school project?",
-      "text": "These count as experience on a resume too.",
-      "no": "No, let's move on to education"
+      "title": "¿Has hecho prácticas, voluntariado o un proyecto escolar?",
+      "text": "También cuentan como experiencia en el CV.",
+      "no": "No, pasemos a la formación"
     },
     "job": {
-      "title": "What was your latest job?",
-      "title_prev": "And the job before that?",
-      "title_intern": "What did you do?",
-      "role": "Job title",
-      "company": "Employer",
-      "start": "From",
-      "end": "To",
-      "date_ph": "Month / year, e.g. 03/2022",
-      "current": "I still work here",
-      "what": "What did you do there? Tell us in your own words.",
-      "what_ph": "E.g. I looked after elderly residents, gave them their medicine on time and typed up reports…",
-      "voice": "Tip: you can also dictate with the microphone key on your phone's keyboard."
+      "title": "¿Cuál fue tu último trabajo?",
+      "title_prev": "¿Y el trabajo anterior?",
+      "title_intern": "¿Qué hiciste?",
+      "role": "Puesto",
+      "company": "Empresa",
+      "start": "Desde",
+      "end": "Hasta",
+      "date_ph": "Mes / año, p. ej. 03/2022",
+      "current": "Sigo trabajando aquí",
+      "what": "¿Qué hacías allí? Cuéntalo con tus palabras.",
+      "what_ph": "P. ej. Cuidaba a personas mayores, les daba la medicación a tiempo y anotaba los informes en el ordenador…",
+      "voice": "Consejo: también puedes dictar con el micrófono del teclado de tu móvil."
     },
     "jobai": {
-      "title": "Shall we write it like this?",
-      "text": "We turned what you said into resume language. Fix anything that's wrong or missing.",
-      "label": "How it will look on your resume",
-      "edit_hint": "Each line becomes a bullet point.",
-      "loading": "Turning your words into resume language…",
-      "another": "Yes, add another job",
-      "ok": "Yes, continue"
+      "title": "¿Lo escribimos así?",
+      "text": "Hemos pasado lo que contaste a lenguaje de CV. Corrige lo que esté mal o falte.",
+      "label": "Así aparecerá en tu CV",
+      "edit_hint": "Cada línea será un punto.",
+      "loading": "Pasando tus palabras a lenguaje de CV…",
+      "another": "Sí, añadir otro trabajo",
+      "ok": "Sí, continuar"
     },
     "edu": {
-      "title": "What's your education?",
-      "school": "School",
-      "field": "Program / major",
-      "year": "Graduation year",
-      "studying": "I'm still studying",
-      "ongoing": "in progress"
+      "title": "¿Qué formación tienes?",
+      "school": "Centro",
+      "field": "Estudios / especialidad",
+      "year": "Año de finalización",
+      "studying": "Sigo estudiando",
+      "ongoing": "en curso"
     },
     "lang": {
-      "title": "Which languages do you speak?",
-      "text": "Pick a level for each language and add it.",
-      "name": "Language",
-      "name_ph": "E.g. English",
-      "level": "Level",
-      "add": "Add language",
+      "title": "¿Qué idiomas hablas?",
+      "text": "Elige el nivel de cada idioma y añádelo.",
+      "name": "Idioma",
+      "name_ph": "P. ej. Español",
+      "level": "Nivel",
+      "add": "Añadir idioma",
       "levels": {
-        "native": "native",
-        "fluent": "fluent",
-        "good": "good",
-        "basic": "basic"
+        "native": "nativo",
+        "fluent": "fluido",
+        "good": "bueno",
+        "basic": "básico"
       }
     },
     "licence": {
-      "title": "Do you have a driver's license?",
-      "yes": "Yes, a regular car license",
+      "title": "¿Tienes carné de conducir?",
+      "yes": "Sí, carné B",
       "no": "No",
-      "skill": "Driver's license (car)"
+      "skill": "Carné de conducir B"
     },
     "skills": {
-      "title": "Which of these can you do?",
-      "text": "Suggestions for \"{target}\". Pick only the ones that fit you.",
-      "loading": "Getting suggestions…",
-      "custom": "Add your own",
-      "build": "Build my resume"
+      "title": "¿Cuáles de estas sabes hacer?",
+      "text": "Sugerencias para \"{target}\". Elige solo las que encajan contigo.",
+      "loading": "Preparando sugerencias…",
+      "custom": "Añade la tuya",
+      "build": "Crear mi CV"
     },
     "building": {
-      "title": "Building your resume…",
-      "sub": "Writing your profile from your answers"
+      "title": "Creando tu CV…",
+      "sub": "Escribiendo tu perfil a partir de tus respuestas"
     },
     "panel": {
-      "title": "Check your resume",
-      "text_upload": "This is what we read from your file. Fix anything that's wrong.",
-      "text_built": "We built this from your answers. Fix anything that's wrong.",
-      "personal": "Personal details",
-      "edit": "Edit",
-      "empty": "Empty",
-      "duties": "Duties (one line per bullet)",
-      "new_job": "New job",
-      "new_edu": "New school",
-      "add_job": "Add job",
-      "add_edu": "Add school",
-      "save": "Save",
-      "job_title": "Job title"
+      "title": "Revisa tu CV",
+      "text_upload": "Esto es lo que leímos de tu archivo. Corrige lo que esté mal.",
+      "text_built": "Lo hemos creado con tus respuestas. Corrige lo que esté mal.",
+      "personal": "Datos personales",
+      "edit": "Editar",
+      "empty": "Vacío",
+      "job_title": "Puesto",
+      "duties": "Tareas (una línea por punto)",
+      "new_job": "Nuevo trabajo",
+      "new_edu": "Nueva formación",
+      "add_job": "Añadir trabajo",
+      "add_edu": "Añadir formación",
+      "save": "Guardar"
     },
     "preview": {
-      "title": "Your resume is ready ✓",
-      "next": "Now let's apply for a job →"
+      "title": "Tu CV está listo ✓",
+      "next": "Ahora solicitemos un empleo →"
     },
     "ad": {
-      "title": "Which job are you applying for?",
-      "text": "Paste the link to the job ad or the ad text.",
-      "or_text": "or the ad text",
-      "your_cv": "Your resume: {name}",
-      "compare": "Compare"
+      "title": "¿A qué oferta te presentas?",
+      "text": "Pega el enlace de la oferta o su texto.",
+      "or_text": "o el texto de la oferta",
+      "your_cv": "Tu CV: {name}",
+      "compare": "Comparar"
     },
     "analyzing": {
-      "title": "Comparing the job ad with your resume…",
-      "sub": "Checking each requirement in the ad"
+      "title": "Comparando la oferta con tu CV…",
+      "sub": "Revisando cada requisito de la oferta"
     },
     "match": {
-      "g_title": "This job looks like a good fit",
-      "g_text": "Most of the requirements are on your resume.",
-      "y_title": "A few things are missing",
-      "y_text": "You can apply, but some requirements don't show on your resume.",
-      "r_title": "This one looks hard right now",
-      "r_text": "Most of the requirements aren't on your resume. It's your call whether to apply anyway.",
-      "reqs": "What the ad asks for",
-      "ask": "Do you have this experience but left it off your resume?",
-      "yes": "Yes, I do",
+      "g_title": "Este trabajo encaja contigo",
+      "g_text": "La mayoría de los requisitos están en tu CV.",
+      "y_title": "Faltan algunas cosas",
+      "y_text": "Puedes presentarte, pero algunos requisitos no aparecen en tu CV.",
+      "r_title": "Esta oferta parece difícil ahora mismo",
+      "r_text": "La mayoría de los requisitos no están en tu CV. Tú decides si te presentas igualmente.",
+      "reqs": "Lo que pide la oferta",
+      "ask": "¿Tienes esta experiencia pero no la pusiste en el CV?",
+      "yes": "Sí, la tengo",
       "no": "No",
-      "how": "Write it briefly and we'll add it to your resume",
-      "how_ph": "E.g. Red Cross first aid certificate, 2021",
-      "missing": "Still missing",
-      "tips": "Tips",
-      "recheck": "Add {n} details and compare again",
-      "tailor": "Tailor my resume to this job",
-      "tailor_anyway": "Apply anyway — tailor my resume",
-      "give_up": "Skip it, I'll look at another job",
-      "apply_anyway": "Apply anyway",
-      "cancel": "Skip"
+      "how": "Escríbelo brevemente y lo añadimos a tu CV",
+      "how_ph": "P. ej. Curso de primeros auxilios, Cruz Roja 2021",
+      "missing": "Sigue faltando",
+      "tips": "Consejos",
+      "recheck": "Añadir {n} datos y comparar de nuevo",
+      "tailor": "Adaptar mi CV a esta oferta",
+      "tailor_anyway": "Presentarme igualmente — adaptar mi CV",
+      "give_up": "Mejor no, miraré otra oferta",
+      "apply_anyway": "Presentarme igualmente",
+      "cancel": "Mejor no"
     },
     "tailored": {
-      "title": "Your resume is tailored to the job",
-      "text": "Read it once before you send it. Titles, employers and dates never change.",
-      "letter": "Write the cover letter →",
-      "edit_title": "Edit the tailored resume",
-      "edit_text": "Changes here apply only to this application; your saved resume stays the same."
+      "title": "Tu CV está adaptado a la oferta",
+      "text": "Léelo una vez antes de enviarlo. Los puestos, empresas y fechas nunca cambian.",
+      "letter": "Escribir la carta →",
+      "edit_title": "Editar el CV adaptado",
+      "edit_text": "Los cambios aquí solo valen para esta solicitud; tu CV guardado no cambia."
     },
     "letter": {
-      "title": "Your cover letter",
-      "loading": "Writing your letter…",
-      "finish": "Finish",
-      "skip": "This job doesn't ask for a letter, skip"
+      "title": "Tu carta de presentación",
+      "loading": "Escribiendo tu carta…",
+      "finish": "Terminar",
+      "skip": "Esta oferta no pide carta, omitir"
     },
     "done": {
-      "title": "Your application is ready!",
-      "text": "Download the files and send them as the ad says.",
-      "cv": "Resume tailored to the job",
-      "letter": "Cover letter",
-      "saved": "Saved in My applications",
-      "new": "Apply for another job",
-      "mine": "Go to My applications"
+      "title": "¡Tu solicitud está lista!",
+      "text": "Descarga los archivos y envíalos como indica la oferta.",
+      "cv": "CV adaptado a la oferta",
+      "letter": "Carta de presentación",
+      "saved": "Guardada en Mis solicitudes",
+      "new": "Solicitar otro empleo",
+      "mine": "Ir a Mis solicitudes"
     },
     "limit": {
-      "title": "You've used this month's free applications",
-      "text": "The free plan includes 2 applications a month. Pro is unlimited.",
-      "upgrade": "Upgrade to Pro"
-    },
-    "palette": "Color palette",
-    "palettes": {
-      "mint": "Mint",
-      "sky": "Sky",
-      "apricot": "Apricot"
+      "title": "Has usado las solicitudes gratis de este mes",
+      "text": "El plan gratis incluye 2 solicitudes al mes. Con Pro son ilimitadas.",
+      "upgrade": "Pasar a Pro"
     }
   }
 }

@@ -37,7 +37,7 @@ export async function POST(request: Request) {
       allow_promotion_codes: true,
       // Cayma hakkı: hizmet ödemeden hemen sonra başlar (koşullarda yazılı); ödeme düğmesinin altında kısa bilgi
       custom_text: { submit: { message: SUBMIT_NOTE[loc] } },
-      success_url: `${SITE_URL}/${loc}/ny?upgraded=true`,
+      success_url: `${SITE_URL}/${loc}/akis?upgraded=true`,
       cancel_url: `${SITE_URL}/${loc}/upgrade`,
       metadata: { email, locale: loc },
       subscription_data: { metadata: { email } },

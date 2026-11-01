@@ -71,10 +71,10 @@ export function jobAgency(country: string, locale: string): JobAgency | null {
   return locale === 'sv' ? AGENCIES.SE : locale === 'tr' ? AGENCIES.TR : locale === 'de' ? AGENCIES.DE : null
 }
 
-/** İş aramadan "Analiz et" denince dönülecek sayfa: rehberli akıştan gelindiyse oraya, yoksa "Ny ansökan". */
+/** İş aramadan "Analiz et" denince dönülecek sayfa: rehberli akış (ana sayfa); eski "Ny ansökan"dan gelindiyse oraya. */
 export const RETURN_KEY = 'cvzume_return'
 export function applyPath(locale: string): string {
-  let target = 'ny'
-  try { if (localStorage.getItem(RETURN_KEY) === 'akis') target = 'akis' } catch { /* yok */ }
+  let target = 'akis'
+  try { if (localStorage.getItem(RETURN_KEY) === 'ny') target = 'ny' } catch { /* yok */ }
   return `/${locale}/${target}`
 }

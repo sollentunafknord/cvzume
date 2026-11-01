@@ -58,7 +58,7 @@ CV kayıtlıysa sonraki başvurular doğrudan 3. adımdan başlar.
 ## Yapılacaklar (sonra)
 - [ ] 2–3 CV şablonu, Pro kullanıcılara sunulacak — birlikte düşünülecek
 - [x] Tıklanabilir taslak (prototip)
-- [ ] Gerçek akış: /<dil>/akis test adresinde
+- [x] Gerçek akış: /<dil>/akis — 2026-11-01 girişten sonra açılan ana sayfa (eski /ny oraya yönlenir)
 - [ ] Site bittiğinde: robots.txt ve sitemap'i gözden geçir (/yedek/ ve /<dil>/akis kurallarını kaldır,
       yeni sayfaları ekle, eski /dashboard vb. kurallarını temizle), /yedek/ klasörünü sil
 - [ ] Palet seçimini profile kaydet (şimdilik tarayıcıda) ve Ayarlar'a da koy; ücretsiz kullanıcıya kilitli önizleme (Pro tanıtımı)
@@ -74,4 +74,4 @@ CV kayıtlıysa sonraki başvurular doğrudan 3. adımdan başlar.
 - [ ] Sosyal medya: Instagram'ı Facebook sayfasına bağla, gönderileri paylaş; sonra Meta API ile otomatik paylaşım
 - [ ] LinkedIn (sonra): şirket sayfası + entegrasyon fikirleri — "LinkedIn ile giriş", LinkedIn profilinden CV'yi içe aktarma,
       hazırlanan başvuruyu/ilanı LinkedIn'de paylaşma; LinkedIn API izinleri ve kuralları önce incelenmeli
-- [ ] Yeni akışın İspanyolca ve Almanca metinleri (test sürümünde İngilizce yedek kullanılıyor)
+- [x] Yeni akışın İspanyolca ve Almanca metinleri

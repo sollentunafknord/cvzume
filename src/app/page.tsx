@@ -21,7 +21,7 @@ export default function Home() {
     const token = localStorage.getItem('cvita_token');
     const user = localStorage.getItem('cvita_user');
     if (token && user) {
-      window.location.replace(`/${locale}/ny`);
+      window.location.replace(`/${locale}/akis`);
     } else {
       window.location.replace(`/${locale}`);
     }
