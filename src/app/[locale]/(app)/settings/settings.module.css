@@ -121,3 +121,23 @@
   .settingsTabs { width: 100%; }
   .tabBtn { flex: 1; text-align: center; padding: 8px 12px; font-size: 13px; }
 }
+/* ── Yeni görünüm (2026-11): ortada tek sütun, büyük başlık, hap sekmeler, yumuşak kartlar, büyük alanlar ── */
+.main { max-width: 880px; width: 100%; margin: 0 auto; padding: 44px 24px 80px; }
+.pageTitle { font-size: 34px; letter-spacing: -0.6px; line-height: 1.1; }
+.pageSubtitle { font-size: 15px; margin-top: 6px; }
+.settingsTabs { border: 0; background: none; padding: 0; gap: 8px; }
+.tabBtn { border: 1.5px solid var(--border); background: white; border-radius: 999px; padding: 8px 16px; color: var(--navy); }
+.tabBtn.active { background: var(--blue-light); color: var(--blue); border-color: var(--blue); box-shadow: none; }
+.tabBtn:hover:not(.active) { background: white; border-color: var(--border-focus); }
+.settingsCard { border: 1px solid var(--border); border-radius: 20px; }
+.cardHeader { padding: 22px 26px; border-bottom: 1px solid var(--border); }
+.cardHeaderIcon { border-radius: 14px; width: 42px; height: 42px; }
+.cardHeaderTitle { font-size: 17px; }
+.cardHeaderDesc { font-size: 14px; }
+.cardBody { padding: 26px; }
+.avatarSection { border-radius: 16px; }
+.formLabel { font-size: 14px; color: var(--slate); }
+.formInput { font-size: 16px; padding: 13px 15px; border-radius: 12px; }
+.btnPrimary { border-radius: 999px !important; padding: 12px 22px !important; font-size: 15px !important; }
+@media (max-width: 640px) { .main { padding: 22px 16px 60px; } .pageTitle { font-size: 28px; } .formGrid { grid-template-columns: 1fr; }
+  .settingsTabs { flex-wrap: nowrap; overflow-x: auto; width: 100%; padding-bottom: 4px; } .tabBtn { white-space: nowrap; flex-shrink: 0; } }

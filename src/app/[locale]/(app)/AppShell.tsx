@@ -52,7 +52,11 @@ export default function AppShell() {
   }, []);
 
   // Yeni başvuru artık rehberli akışta (flowPath: /tr/basvuru, /sv/ansok …)
-  useEffect(() => { if (page === 'ny') window.location.replace(flowPath(locale)); }, [page, locale]);
+  useEffect(() => {
+    if (page === 'ny') window.location.replace(flowPath(locale));
+    // CV'm: yeni akıştaki CV görünümü (eski profil sayfası yerine)
+    if (page === 'profile' || page === 'cv') window.location.replace(`${flowPath(locale)}?cv=1`);
+  }, [page, locale]);
 
   function navigate(seg: string) {
     setPage(seg);                              // instant — React state, no waiting

@@ -914,7 +914,9 @@
       "sent": "Sent",
       "interview": "Interview",
       "rejected": "Closed"
-    }
+    },
+    "count": "{n} applications",
+    "cancel": "Cancel"
   },
   "akis": {
     "next": "Continue",

@@ -942,7 +942,9 @@
       "sent": "Gesendet",
       "interview": "Gespräch",
       "rejected": "Abgeschlossen"
-    }
+    },
+    "count": "{n} Bewerbungen",
+    "cancel": "Abbrechen"
   },
   "akis": {
     "next": "Weiter",

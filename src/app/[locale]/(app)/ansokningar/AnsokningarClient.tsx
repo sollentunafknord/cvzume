@@ -5,7 +5,7 @@
 import { authFetch } from '@/lib/auth-client';
 import { useEffect, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import styles from '../ny/ny.module.css';
+import styles from './ansokningar.module.css';
 import PrintDocument from '../ny/PrintDocument';
 import { loadCvPhoto, loadProfile } from '@/lib/profile-store';
 import { cvText, docLang, exportCvDocx, exportLetterDocx, freeFooter, letterMeta, printPortal, safeFileName, type ExportCv, type ExportPerson } from '@/lib/export-docs';
@@ -27,6 +27,7 @@ export default function AnsokningarClient({ onNavigate }: { onNavigate: (seg: st
   const [person, setPerson] = useState<ExportPerson>({ name: '' });
   const [fallbackCv, setFallbackCv] = useState<ExportCv | null>(null);
   const [printing, setPrinting] = useState<{ kind: 'cv' | 'letter'; app: App } | null>(null);
+  const [confirmDelete, setConfirmDelete] = useState('');
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('cvita_user') || '{}');
@@ -43,20 +44,20 @@ export default function AnsokningarClient({ onNavigate }: { onNavigate: (seg: st
 
   async function setStatus(a: App, status: string) {
     setApps(list => list?.map(x => (x.id === a.id ? { ...x, status } : x)) ?? null);
-    await fetch('/api/applications', {
+    await authFetch('/api/applications', {
       method: 'PATCH',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('cvita_token')}` },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id: a.id, status }),
     }).catch(() => {});
     if (status === 'interview') onNavigate('intervju');
   }
 
   async function remove(a: App) {
-    if (!confirm(t('delete_confirm', { role: a.role }))) return;
+    setConfirmDelete('');
     setApps(list => list?.filter(x => x.id !== a.id) ?? null);
-    await fetch('/api/applications', {
+    await authFetch('/api/applications', {
       method: 'DELETE',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('cvita_token')}` },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id: a.id }),
     }).catch(() => {});
   }
@@ -80,58 +81,86 @@ export default function AnsokningarClient({ onNavigate }: { onNavigate: (seg: st
   const shown = (apps || []).filter(a => filter === 'all' || a.status === filter || (filter === 'draft' && !STATUSES.includes(a.status as typeof STATUSES[number])));
   const dateFmt = (d: string) => { try { return new Date(d).toLocaleDateString(locale === 'sv' ? 'sv-SE' : locale, { day: 'numeric', month: 'short', year: 'numeric' }); } catch { return d; } };
 
+  const counts = (f: Filter) => (apps || []).filter(a => f === 'all' || a.status === f || (f === 'draft' && !STATUSES.includes(a.status as typeof STATUSES[number]))).length;
+  // Uyum halkası: aynı eşikler (akış): %70+ yeşil, %40–69 sarı, altı kırmızı
+  const ring = (n: number) => {
+    const c = n >= 70 ? '#6FBF98' : n >= 40 ? '#E9B866' : '#E99A86';
+    return (
+      <svg className={styles.score} viewBox="0 0 56 56" aria-label={`${n}%`}><circle cx="28" cy="28" r="23" fill="none" stroke="#E3E8E4" strokeWidth="6" />
+        <circle cx="28" cy="28" r="23" fill="none" stroke={c} strokeWidth="6" strokeLinecap="round" strokeDasharray={`${(n / 100) * 144.5} 144.5`} transform="rotate(-90 28 28)" />
+        <text x="28" y="33" textAnchor="middle" fontSize="13" fontWeight="600" fill="#23343A">{n}%</text></svg>
+    );
+  };
+
   return (
-    <main className={styles.main}>
-      <div className={styles.topbar}>
-        <span className={styles.topbarTitle}>{t('title')}</span>
-        <button className={styles.primary} onClick={() => onNavigate('ny')}>+ {t('new')}</button>
+    <main className={styles.page}>
+      <div className={styles.head}>
+        <div>
+          <h1 className={styles.title}>{t('title')}</h1>
+          {apps !== null && <p className={styles.sub}>{t('count', { n: apps.length })}</p>}
+        </div>
+        <button className={styles.newBtn} onClick={() => onNavigate('ny')}>+ {t('new')}</button>
       </div>
-      <div className={styles.content}>
-        <div className={styles.stepper}>
+
+      {apps !== null && apps.length > 0 && (
+        <div className={styles.filters} role="group" aria-label={t('status')}>
           {(['all', ...STATUSES] as Filter[]).map(f => (
-            <li key={f} className={filter === f ? styles.stepActive : ''} style={{ cursor: 'pointer', paddingLeft: 14 }} onClick={() => setFilter(f)}>
-              {t(`filter.${f}`)} ({(apps || []).filter(a => f === 'all' || a.status === f).length})
-            </li>
+            <button key={f} className={styles.filter} aria-pressed={filter === f} onClick={() => setFilter(f)}>{t(`filter.${f}`)}<span>{counts(f)}</span></button>
           ))}
         </div>
+      )}
 
-        {apps === null && <div className={styles.loading}><span className={styles.spinner} /></div>}
-        {apps !== null && shown.length === 0 && (
-          <section className={styles.card}>
-            <p className={styles.lead}>{t('empty')}</p>
-            <div><button className={styles.primary} onClick={() => onNavigate('ny')}>+ {t('new')}</button></div>
-          </section>
-        )}
+      {apps === null && <div className={styles.loading}><span className={styles.spin} /></div>}
+      {apps !== null && shown.length === 0 && (
+        <div className={styles.empty}>
+          <div className={styles.emptyIcon} aria-hidden>📂</div>
+          <p>{t('empty')}</p>
+          <button className={styles.newBtn} onClick={() => onNavigate('ny')}>+ {t('new')}</button>
+        </div>
+      )}
 
-        {shown.map(a => (
-          <section key={a.id} className={styles.card}>
-            <div className={styles.cardHead}>
-              <div>
-                <div className={styles.roleName}>{a.role || '—'}</div>
-                <div className={styles.cvMeta}>{dateFmt(a.created_at)}{a.match_score != null && ` · ${a.match_score}% ${tn('step3.match').toLowerCase()}`}</div>
-              </div>
-              <select className={styles.input} style={{ width: 'auto' }} value={STATUSES.includes(a.status as typeof STATUSES[number]) ? a.status : 'draft'} onChange={e => setStatus(a, e.target.value)} aria-label={t('status')}>
-                {STATUSES.map(s => <option key={s} value={s}>{t(`filter.${s}`)}</option>)}
-              </select>
-            </div>
-            <div className={styles.actions} style={{ marginTop: 0 }}>
-              <div className={styles.exportBtns}>
-                <span>CV:</span>
-                <button onClick={() => download(a, 'cv', 'pdf')}>PDF</button>
-                <button onClick={() => download(a, 'cv', 'docx')}>Word</button>
-              </div>
-              {a.cover_letter && (
-                <div className={styles.exportBtns}>
-                  <span>{tn('letter_file')}:</span>
-                  <button onClick={() => download(a, 'letter', 'pdf')}>PDF</button>
-                  <button onClick={() => download(a, 'letter', 'docx')}>Word</button>
+      <div className={styles.list}>
+        {shown.map(a => {
+          const [title, company] = (a.role || '—').split(' — ');
+          const st = STATUSES.includes(a.status as typeof STATUSES[number]) ? a.status : 'draft';
+          return (
+            <section key={a.id} className={styles.card}>
+              <div className={styles.cardTop}>
+                {a.match_score != null && ring(a.match_score)}
+                <div className={styles.info}>
+                  <h2 className={styles.role}>{title}</h2>
+                  {company && <div className={styles.company}>{company}</div>}
+                  <div className={styles.meta}>{dateFmt(a.created_at)}</div>
                 </div>
-              )}
-              {a.status === 'interview' && <button className={styles.linkBtn} onClick={() => onNavigate('intervju')}>🎯 {t('interview_prep')}</button>}
-              <button className={styles.linkBtn} style={{ color: '#B91C1C', marginLeft: 'auto' }} onClick={() => remove(a)}>{t('delete')}</button>
-            </div>
-          </section>
-        ))}
+                <select className={`${styles.status} ${styles['s_' + st]}`} value={st} onChange={e => setStatus(a, e.target.value)} aria-label={t('status')}>
+                  {STATUSES.map(x => <option key={x} value={x}>{t(`filter.${x}`)}</option>)}
+                </select>
+              </div>
+              <div className={styles.actions}>
+                <span className={styles.group}>CV
+                  <button className={styles.btn} onClick={() => download(a, 'cv', 'pdf')}>PDF</button>
+                  <button className={styles.btn} onClick={() => download(a, 'cv', 'docx')}>Word</button>
+                </span>
+                {a.cover_letter && (
+                  <span className={styles.group}>{tn('letter_file')}
+                    <button className={styles.btn} onClick={() => download(a, 'letter', 'pdf')}>PDF</button>
+                    <button className={styles.btn} onClick={() => download(a, 'letter', 'docx')}>Word</button>
+                  </span>
+                )}
+                {st === 'interview' && <button className={styles.link} onClick={() => onNavigate('intervju')}>🎯 {t('interview_prep')}</button>}
+                {confirmDelete === a.id ? (
+                  <span className={styles.delete} style={{ cursor: 'default' }}>
+                    {t('delete_confirm', { role: title })}{' '}
+                    <button className={styles.link} style={{ color: 'var(--error)' }} onClick={() => remove(a)}>{t('delete')}</button>
+                    <button className={styles.link} onClick={() => setConfirmDelete('')}>{t('cancel')}</button>
+                  </span>
+                ) : (
+                  <button className={styles.delete} onClick={() => setConfirmDelete(a.id)}>{t('delete')}</button>
+                )}
+              </div>
+            </section>
+          );
+        })}
       </div>
 
       {printing && (

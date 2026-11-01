@@ -942,7 +942,9 @@
       "sent": "Enviadas",
       "interview": "Entrevista",
       "rejected": "Cerradas"
-    }
+    },
+    "count": "{n} solicitudes",
+    "cancel": "Cancelar"
   },
   "akis": {
     "next": "Continuar",

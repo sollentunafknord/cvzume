@@ -914,7 +914,9 @@
       "sent": "Skickade",
       "interview": "Intervju",
       "rejected": "Avslutade"
-    }
+    },
+    "count": "{n} ansökningar",
+    "cancel": "Avbryt"
   },
   "akis": {
     "next": "Fortsätt",

@@ -938,7 +938,9 @@
       "sent": "Gönderilenler",
       "interview": "Mülakat",
       "rejected": "Kapananlar"
-    }
+    },
+    "count": "{n} başvuru",
+    "cancel": "Vazgeçin"
   },
   "akis": {
     "next": "Devam",

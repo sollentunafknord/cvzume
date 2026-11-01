@@ -211,7 +211,14 @@ export default function AkisClient() {
       // İş aramadan "Analiz et" ile gelindiyse ilan doldurulmuş olarak ilan ekranında başla
       let prefill: { role?: string; description?: string } | null = null;
       try { prefill = JSON.parse(localStorage.getItem('cvita_prefill_job') || 'null'); localStorage.removeItem('cvita_prefill_job'); localStorage.removeItem(RETURN_KEY); } catch { /* yok */ }
-      if (prefill?.description && saved) setS({ ...saved, screen: 'ad', ad: prefill.description, role: prefill.role || '', result: null, letter: '', saved: false, asks: {}, notes: {} });
+      // Menüdeki "CV'm" (?cv=1): kayıtlı CV'nin standart görünümü; CV yoksa oluşturmaya başla
+      const wantsCv = new URLSearchParams(window.location.search).get('cv') === '1';
+      if (wantsCv) {
+        window.history.replaceState(null, '', window.location.pathname);
+        const base = saved ?? { history: [], path: '', draft: { ...NEW_DRAFT, first: user.firstName || '', last: user.lastName || '' }, ad: '', role: '', result: null, letter: '', asks: {}, notes: {}, saved: false };
+        setS({ ...base, screen: hasCvContent(p) ? 'preview' : 'hasCv', history: [] } as State);
+      }
+      else if (prefill?.description && saved) setS({ ...saved, screen: 'ad', ad: prefill.description, role: prefill.role || '', result: null, letter: '', saved: false, asks: {}, notes: {} });
       else if (prefill?.description) setS({ screen: hasCvContent(p) ? 'ad' : 'welcome', history: [], path: '', draft: { ...NEW_DRAFT, first: user.firstName || '', last: user.lastName || '' }, ad: prefill.description, role: prefill.role || '', result: null, letter: '', asks: {}, notes: {}, saved: false });
       else if (saved?.screen && !AUTO.includes(saved.screen)) setS(saved);
       else setS({ screen: hasCvContent(p) ? 'ad' : 'welcome', history: [], path: '', draft: { ...NEW_DRAFT, first: user.firstName || '', last: user.lastName || '' }, ad: '', role: '', result: null, letter: '', asks: {}, notes: {}, saved: false });
@@ -635,6 +642,7 @@ export default function AkisClient() {
     <div className={layout.layout}>
     <Sidebar activePage="ny" onNavigate={seg => {
       if (seg === 'ny') go(hasCvContent(profile) ? 'ad' : 'welcome', { ad: '', role: '', result: null, letter: '', saved: false, asks: {}, notes: {} });
+      else if (seg === 'profile' || seg === 'cv') go(hasCvContent(profile) ? 'preview' : 'hasCv');
       else window.location.assign(`/${locale}/${seg}`);
     }} />
     <div className={layout.content}>
