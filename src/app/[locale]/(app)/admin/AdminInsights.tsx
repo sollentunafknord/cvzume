@@ -13,6 +13,14 @@ type Data = {
   daily: { signups: Day[]; applications: Day[] };
 };
 
+// Hızlı bağlantılar (yeni sekmede): ziyaretçi istatistikleri ve servis panelleri
+const LINKS = [
+  { label: 'Google Analytics', href: 'https://analytics.google.com/analytics/web/', icon: '📈' },
+  { label: 'Vercel Analytics', href: 'https://vercel.com/cenks-projects-1ef4e8fc/cvzume/analytics', icon: '▲' },
+  { label: 'Stripe', href: 'https://dashboard.stripe.com/dashboard', icon: '💳' },
+  { label: 'Supabase', href: 'https://supabase.com/dashboard/project/soktmgtrejrlfcmbbzae', icon: '🗄️' },
+];
+
 const fmtDay = (d: string) => new Date(d + 'T12:00:00Z').toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' });
 
 function Tile({ label, p }: { label: string; p: Period }) {
@@ -85,6 +93,9 @@ export default function AdminInsights() {
 
   return (
     <section className={s.wrap} aria-labelledby="insights-h">
+      <div className={s.links}>
+        {LINKS.map(l => <a key={l.label} className={s.linkBtn} href={l.href} target="_blank" rel="noopener noreferrer"><span aria-hidden>{l.icon}</span>{l.label} ↗</a>)}
+      </div>
       <h2 id="insights-h" className={s.h2}>Aktivite</h2>
       <div className={s.tiles}>
         <Tile label="Yeni kayıt" p={d.signups} />

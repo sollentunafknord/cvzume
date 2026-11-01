@@ -1,5 +1,8 @@
 # CVzume Changelog
 
+## v4.1 — 2026-11-01
+- Admin: Google Analytics, Vercel Analytics, Stripe ve Supabase panellerine tek tıkla bağlantılar
+
 ## v4.0 — 2026-11-01
 Yeni görünüm ve rehberli başvuru akışı.
 - Rehberli akış girişten sonraki ana sayfa: hazır CV yükle ya da soru-cevapla oluştur → ilan → uyum (eksikleri sor) → uyarlanmış CV → mektup; adres dile göre (/tr/basvuru, /sv/ansok, /en/apply, /es/solicitud, /de/bewerbung)
