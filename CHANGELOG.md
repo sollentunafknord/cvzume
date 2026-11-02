@@ -1,5 +1,10 @@
 # CVzume Changelog
 
+## v4.6 — 2026-11-02
+- Sosyal gönderiler: her ipucunda CVzume'nin o konuda ne yaptığı + 3 adım (ilanı yapıştır → CV yükle → indir); kartta net çağrı şeridi
+- Admin: indirim kodları — oran, süre (ilk ödeme / ilk N ay / her ödeme), son kullanma, kullanım sınırı; oranı listeden değiştir, kapat/aç (Stripe promosyon kodları)
+- Admin: kullanıcı silme — ad soyad yazılarak onay (sunucuda da kontrol); verisi ve fotoğrafları silinir, aktif Pro aboneliği iptal edilir; admin hesabı silinemez
+
 ## v4.5 — 2026-11-02
 - Admin: "Paylaşım hazırlığı" bölümü — her ipucu ve dil (Forum İsveç dahil) için indirilebilir görsel, kopyalanabilir Facebook ve Instagram metni, önerilen gruplar
 - Günlük grup e-postası kaldırıldı (içerik artık admin panelinde)

@@ -128,11 +128,43 @@ export async function POST(req: NextRequest) {
     const { action, userId, email, subId } = body;
     const adminClient = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
 
-    // Delete user
+    // Kullanıcıyı sil: yanlışlıkla silmeye karşı ad-soyad (adı yoksa e-posta) sunucuda da doğrulanır.
+    // Verisi (başvurular, profil, fotoğraflar) silinir; aktif Stripe aboneliği iptal edilir ki ödeme alınmaya devam etmesin.
     if (action === 'delete_user') {
+      const { data: found, error: getErr } = await adminClient.auth.admin.getUserById(userId);
+      if (getErr || !found?.user) return NextResponse.json({ error: 'Kullanıcı bulunamadı' }, { status: 404 });
+      const target = found.user;
+      if (isAdminEmail(target.email || '')) return NextResponse.json({ error: 'Admin hesabı silinemez' }, { status: 400 });
+      const meta = target.user_metadata || {};
+      const first = meta.first_name || meta.given_name || meta.full_name?.split(' ')[0] || '';
+      const last = meta.last_name || meta.family_name || meta.full_name?.split(' ').slice(1).join(' ') || '';
+      const norm = (v: string) => v.toLocaleLowerCase('tr').replace(/\s+/g, ' ').trim();
+      const expected = norm(`${first} ${last}`) || norm(target.email || '');
+      if (!expected || norm(String(body.confirm || '')) !== expected) {
+        return NextResponse.json({ error: 'Onay için yazılan ad soyad eşleşmiyor' }, { status: 400 });
+      }
+
+      let cancelled = 0;
+      if (target.email) {
+        const customers = await getStripe().customers.list({ email: target.email, limit: 10 });
+        for (const c of customers.data) {
+          const subs = await getStripe().subscriptions.list({ customer: c.id, status: 'all', limit: 20 });
+          for (const sub of subs.data) {
+            if (['active', 'trialing', 'past_due', 'unpaid'].includes(sub.status)) { await getStripe().subscriptions.cancel(sub.id); cancelled++; }
+          }
+        }
+      }
+      for (const table of ['applications', 'job_favorites', 'recent_events', 'usage_limits']) {
+        const { error } = await adminClient.from(table).delete().eq('user_id', userId);
+        if (error) console.warn(`admin delete_user: ${table}`, error.message);
+      }
+      await adminClient.from('profiles').delete().eq('id', userId);
+      const { data: files } = await adminClient.storage.from('avatars').list(userId);
+      if (files?.length) await adminClient.storage.from('avatars').remove(files.map(f => `${userId}/${f.name}`));
+
       const { error } = await adminClient.auth.admin.deleteUser(userId);
       if (error) throw error;
-      return NextResponse.json({ success: true });
+      return NextResponse.json({ success: true, cancelledSubscriptions: cancelled });
     }
 
     // Give Pro (create free Stripe subscription)

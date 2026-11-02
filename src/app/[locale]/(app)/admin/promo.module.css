@@ -1,0 +1,23 @@
+/* Admin → İndirim kodları (Nane paleti, Lexend) */
+.wrap { display: flex; flex-direction: column; gap: 12px; margin: 8px 0 32px; font-family: 'Lexend', system-ui, sans-serif; color: var(--navy); }
+.h2 { font-size: 20px; font-weight: 600; margin: 0; }
+.note { font-size: 13px; color: var(--muted); margin: 0; }
+.form { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px 12px; align-items: end; background: white; border: 1px solid var(--border); border-radius: 14px; padding: 16px; }
+.form label { display: flex; flex-direction: column; gap: 5px; font-size: 13px; color: var(--slate); min-width: 0; }
+.form input, .form select { font: inherit; font-size: 14px; color: var(--navy); border: 1px solid var(--border); border-radius: 10px; padding: 9px 11px; background: white; min-width: 0; }
+.primary { font: inherit; font-weight: 600; font-size: 14px; border: 0; border-radius: 999px; padding: 11px 18px; background: var(--blue); color: white; cursor: pointer; }
+.primary:disabled { opacity: 0.6; }
+.ok { color: #2F6B59; font-size: 14px; margin: 0; }
+.err { color: var(--error); font-size: 13px; margin: 4px 0 0; }
+.tableWrap { overflow-x: auto; background: white; border: 1px solid var(--border); border-radius: 14px; }
+.table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.table th, .table td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+.table th { font-size: 12px; color: var(--slate); font-weight: 600; }
+.table tr:last-child td { border-bottom: 0; }
+.off td { color: var(--muted); }
+.code { font-family: ui-monospace, Menlo, monospace; letter-spacing: 0.5px; }
+.tag { margin-left: 8px; font-size: 11px; background: var(--off-white); border: 1px solid var(--border); border-radius: 999px; padding: 2px 8px; }
+.pctEdit { display: inline-flex; align-items: center; gap: 4px; }
+.pctEdit input { width: 64px; font: inherit; font-size: 14px; border: 1px solid var(--border); border-radius: 8px; padding: 5px 7px; }
+.pctEdit button, .ghost { font: inherit; font-size: 13px; border: 1px solid var(--border); background: var(--blue-light); color: var(--navy); border-radius: 999px; padding: 5px 12px; cursor: pointer; }
+.ghost { background: white; }

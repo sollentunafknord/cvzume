@@ -6,6 +6,7 @@ import { useLocale } from 'next-intl';
 import styles from './admin.module.css';
 import AdminInsights from './AdminInsights';
 import AdminSocial from './AdminSocial';
+import AdminPromo from './AdminPromo';
 
 interface AdminUser {
   id: string;
@@ -49,6 +50,9 @@ export default function AdminClient() {
   const [toast, setToast] = useState('');
   const [toastType, setToastType] = useState<'success' | 'error'>('success');
   const [actionLoading, setActionLoading] = useState<string | null>(null);
+  // Silme onayı: kullanıcının adı soyadı (adı yoksa e-postası) aynen yazılınca düğme açılır
+  const [deleting, setDeleting] = useState<AdminUser | null>(null);
+  const [confirmText, setConfirmText] = useState('');
 
   const showToast = (msg: string, type: 'success' | 'error' = 'success') => {
     setToast(msg); setToastType(type);
@@ -121,6 +125,31 @@ export default function AdminClient() {
     }
   }
 
+  const nameOf = (u: AdminUser) => `${u.first_name || ''} ${u.last_name || ''}`.replace(/\s+/g, ' ').trim() || u.email;
+  const norm = (v: string) => v.toLocaleLowerCase('tr').replace(/\s+/g, ' ').trim();
+
+  async function deleteUser() {
+    if (!deleting) return;
+    const u = deleting;
+    setActionLoading(u.id + '_delete');
+    try {
+      const res = await authFetch('/api/admin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'delete_user', userId: u.id, confirm: confirmText }),
+      });
+      const d = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(d.error || 'Silinemedi');
+      showToast(`🗑️ ${nameOf(u)} silindi${d.cancelledSubscriptions ? ' (Pro aboneliği iptal edildi)' : ''}`, 'success');
+      setDeleting(null); setConfirmText('');
+      await loadData();
+    } catch (e: unknown) {
+      showToast('❌ ' + (e instanceof Error ? e.message : 'Silinemedi'), 'error');
+    } finally {
+      setActionLoading(null);
+    }
+  }
+
   const filtered = users.filter(u =>
     (u.email || '').toLowerCase().includes(search.toLowerCase()) ||
     (u.first_name || '').toLowerCase().includes(search.toLowerCase()) ||
@@ -179,6 +208,8 @@ export default function AdminClient() {
       )}
 
       <AdminInsights />
+
+      <AdminPromo />
 
       <AdminSocial />
 
@@ -254,6 +285,13 @@ export default function AdminClient() {
                         >
                           {actionLoading === u.id + '_reset' ? '…' : '🔑 Reset'}
                         </button>
+                        <button
+                          className={styles.actionBtnDelete}
+                          onClick={() => { setDeleting(u); setConfirmText(''); }}
+                          title="Kullanıcıyı sil"
+                        >
+                          🗑️ Sil
+                        </button>
                       </div>
                     </td>
                   </tr>
@@ -263,6 +301,23 @@ export default function AdminClient() {
           </div>
         )}
       </div>
+
+      {deleting && (
+        <div className={styles.modalBack} onClick={() => setDeleting(null)}>
+          <div className={styles.modal} role="dialog" aria-modal="true" aria-labelledby="del-h" onClick={e => e.stopPropagation()}>
+            <h3 id="del-h">Kullanıcıyı sil</h3>
+            <p><strong>{nameOf(deleting)}</strong> ({deleting.email}) kalıcı olarak silinecek: hesabı, CV'si, başvuruları ve fotoğrafları.{deleting.isPro ? ' Aktif Pro aboneliği varsa iptal edilecek.' : ''} Bu işlem geri alınamaz.</p>
+            <label htmlFor="del-confirm">Onaylamak için {deleting.first_name || deleting.last_name ? 'adını ve soyadını' : 'e-posta adresini'} yazın: <strong>{nameOf(deleting)}</strong></label>
+            <input id="del-confirm" autoFocus value={confirmText} onChange={e => setConfirmText(e.target.value)} autoComplete="off" />
+            <div className={styles.modalActions}>
+              <button className={styles.actionBtnReset} onClick={() => setDeleting(null)}>Vazgeç</button>
+              <button className={styles.dangerBtn} disabled={norm(confirmText) !== norm(nameOf(deleting)) || actionLoading === deleting.id + '_delete'} onClick={deleteUser}>
+                {actionLoading === deleting.id + '_delete' ? 'Siliniyor…' : 'Kalıcı olarak sil'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className={`${styles.toast} ${toast ? styles.toastShow : ''} ${toastType === 'error' ? styles.toastError : styles.toastSuccess}`}>
         {toast}
