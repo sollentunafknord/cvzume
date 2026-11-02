@@ -1,5 +1,9 @@
 # CVzume Changelog
 
+## v4.4 — 2026-11-02
+- Sosyal medya: Instagram'a da günlük otomatik gönderi (anahtar eklendi)
+- Forum İsveç sayfasına pazartesi/çarşamba/cuma Türkçe, İsveç'e göre uyarlanmış ipucu (FORUM_PAGE_ID/FORUM_PAGE_TOKEN)
+
 ## v4.3 — 2026-11-02
 - Yeni başvuruda belge dili seçimi: CV ve mektup ilanın dilinde (otomatik) ya da seçilen dilde; uyum analizi ve ipuçları arayüz dilinde kalır (ör. Türkçe arayüz, İsveççe CV)
 - Uyarlanmış CV'de unvan, eğitim, beceriler ve diller de belge diline çevriliyor; karşılığı olmayan dereceler açıklamayla korunuyor

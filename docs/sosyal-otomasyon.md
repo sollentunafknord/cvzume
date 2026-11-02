@@ -18,3 +18,9 @@ Her gün 07:00 UTC (`vercel.json` → `/api/cron/social`):
    `pages_show_list, pages_read_engagement, pages_manage_posts, instagram_basic, instagram_content_publish, business_management` → **Generate Access Token** → CVzume sayfasını ve Instagram hesabını işaretleyin.
 4. Terminalde: `scripts/setup-meta.sh <APP_ID>` → önce App Secret'ı, sonra Explorer'daki token'ı kopyalayın. Betik süresiz sayfa anahtarını Vercel'e yazar.
 5. Sonraki yayından itibaren çalışır.
+
+## Forum İsveç (ikinci sayfa)
+- Pazartesi/çarşamba/cuma 07:00 UTC, Türkçe; Türkiye'ye özgü ipuçlarının İsveç sürümü `tips.ts` → `trSE`
+- Bağlantı: Explorer'da token üretirken Forum İsveç sayfasını da seçin, sonra
+  `scripts/setup-meta.sh <APP_ID> "forum" FORUM` → `FORUM_PAGE_ID`, `FORUM_PAGE_TOKEN`
+- Env eklendikten sonra yeniden yayın gerekir (`vercel redeploy <prod-url> --target production`)

@@ -6,7 +6,8 @@
 export const SOCIAL_LANGS = ['sv', 'en', 'de', 'es', 'tr'] as const
 export type SocialLang = (typeof SOCIAL_LANGS)[number]
 type Text = { title: string; body: string }
-export type Tip = { id: string } & Record<SocialLang, Text>
+// trSE: İsveç'te yaşayan Türkler için (Forum İsveç sayfası); yoksa tr kullanılır.
+export type Tip = { id: string; trSE?: Text } & Record<SocialLang, Text>
 
 export const TIPS: Tip[] = [
   {
@@ -55,6 +56,7 @@ export const TIPS: Tip[] = [
     en: { title: 'Cover letter: why them, why you', body: 'A good cover letter answers two questions: why do you want to work there, and why are you the right person? Keep it to one page and don’t repeat your whole resume.' },
     de: { title: 'Anschreiben: Warum die Firma, warum Sie', body: 'Ein gutes Anschreiben beantwortet zwei Fragen: Warum möchten Sie genau dort arbeiten, und warum sind Sie die richtige Person? Bleiben Sie bei einer Seite und wiederholen Sie nicht den ganzen Lebenslauf.' },
     es: { title: 'Carta: por qué ellos, por qué tú', body: 'Una buena carta de presentación responde a dos preguntas: ¿por qué quieres trabajar allí? y ¿por qué eres la persona adecuada? Que no pase de una página y no repitas todo el CV.' },
+    trSE: { title: 'Personligt brev: neden onlar, neden siz', body: 'İsveç’te ilanların çoğu bir personligt brev (ön yazı) ister. İyi bir mektup iki soruya cevap verir: Neden tam orada çalışmak istiyorsunuz ve neden doğru kişi sizsiniz? Bir sayfayı geçmesin, CV’nizi tekrar etmesin.' },
     tr: { title: 'Ön yazı: neden onlar, neden siz', body: 'İyi bir ön yazı iki soruya cevap verir: Neden tam orada çalışmak istiyorsunuz ve neden doğru kişi sizsiniz? Bir sayfayı geçmesin ve CV’nizin tamamını tekrar etmeyin.' },
   },
   {
@@ -96,6 +98,7 @@ export const TIPS: Tip[] = [
     de: { title: 'Professionelle Kontaktdaten', body: 'Nutzen Sie eine neutrale E-Mail-Adresse (vorname.nachname@…), eine Telefonnummer, unter der Sie erreichbar sind, und Ihren Wohnort. Ausweisnummern gehören nicht in den Lebenslauf.' },
     es: { title: 'Datos de contacto profesionales', body: 'Usa un correo neutro (nombre.apellido@…), un teléfono en el que contestes y tu ciudad. El DNI y la dirección completa casi nunca hacen falta en el primer paso.' },
     tr: { title: 'Profesyonel görünen iletişim bilgileri', body: 'Sade bir e-posta adresi (ad.soyad@…), gerçekten açtığınız bir telefon numarası ve şehrinizi yazın. TC kimlik numarası CV’de yer almamalı.' },
+    trSE: { title: 'İsveç usulü iletişim bilgileri', body: 'Sade bir e-posta (ad.soyad@…), İsveç telefon numaranız (+46…) ve oturduğunuz şehir yeterli. Personnummer, medeni hal, doğum yeri ve askerlik durumu İsveç’te CV’ye yazılmaz.' },
   },
   {
     id: 'pdf',
@@ -111,6 +114,7 @@ export const TIPS: Tip[] = [
     en: { title: 'Apply early – don’t wait for the deadline', body: 'Many employers review applications as they come in and may fill the role before the deadline. If you find a job that fits, try to apply within a few days.' },
     de: { title: 'Früh bewerben – nicht bis zur Frist warten', body: 'Viele Arbeitgeber sichten Bewerbungen laufend und besetzen die Stelle manchmal vor Ablauf der Frist. Wenn eine Stelle passt, bewerben Sie sich am besten innerhalb weniger Tage.' },
     es: { title: 'Envía pronto, no esperes al último día', body: 'Muchas empresas revisan candidaturas según llegan y pueden cubrir el puesto antes de que acabe el plazo. Si encuentras una oferta que encaja, intenta enviarla en pocos días.' },
+    trSE: { title: '“Löpande urval” gördüyseniz acele edin', body: 'İlanda “löpande urval” yazıyorsa işveren başvuruları geldikçe değerlendirir ve pozisyonu son tarihten önce doldurabilir. Size uygun bir ilan bulduysanız birkaç gün içinde başvurun.' },
     tr: { title: 'Erken başvurun – son günü beklemeyin', body: 'Birçok işveren başvuruları geldikçe değerlendirir ve pozisyonu son tarihten önce doldurabilir. Size uygun bir ilan bulduysanız birkaç gün içinde başvurmaya çalışın.' },
   },
   {
@@ -176,5 +180,6 @@ export const TIPS: Tip[] = [
     de: { title: 'Mit oder ohne Foto?', body: 'In Deutschland ist ein Bewerbungsfoto üblich, aber keine Pflicht. Wenn Sie eins verwenden: neutraler Hintergrund, freundlicher Blick, kein Urlaubsbild. Kein Foto ist besser als ein schlechtes.' },
     es: { title: '¿Con foto o sin foto?', body: 'En España la foto es habitual, pero no obligatoria. Si la pones: fondo neutro, expresión amable y nada de fotos de vacaciones. Mejor sin foto que con una mala.' },
     tr: { title: 'Fotoğraf koymalı mı?', body: 'Türkiye’de CV’de fotoğraf yaygındır. Koyacaksanız: sade bir arka plan, güler yüz ve tatil fotoğrafı olmasın. Kötü bir fotoğraftansa hiç olmaması daha iyidir.' },
+    trSE: { title: 'İsveç’te CV’ye fotoğraf koymalı mı?', body: 'İsveç’te fotoğraf yaygın ama zorunlu değil. Koyacaksanız: sade bir arka plan, güler yüz ve tatil fotoğrafı olmasın. Kötü bir fotoğraftansa hiç olmaması daha iyidir.' },
   },
 ]

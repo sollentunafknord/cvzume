@@ -56,3 +56,23 @@ export function groupText(tip: Tip, lang: SocialLang) {
 }
 
 export const groupFor = (lang: SocialLang, day: number): Group => GROUPS[lang][day % GROUPS[lang].length]
+
+// ── Forum İsveç (İsveç'teki Türkler sayfası): pazartesi, çarşamba, cuma; Türkçe, İsveç'e göre ipucu ──
+const FORUM_DAYS = [1, 3, 5] // 0 = pazar
+export const weekday = (day: number) => (day + 4) % 7 // 1970-01-01 perşembe
+
+// Gönderi günlerini sırayla sayar; böylece 21 ipucunun hepsi sırayla çıkar (gün numarasının kalanı bunu sağlamazdı).
+export function forumToday(day = dayNumber()) {
+  const slot = FORUM_DAYS.indexOf(weekday(day))
+  if (slot < 0) return null
+  const week = Math.floor((day + 3) / 7) // pazartesi başlayan hafta
+  return TIPS[(week * FORUM_DAYS.length + slot) % TIPS.length]
+}
+
+export const forumText = (tip: Tip) => tip.trSE ?? tip.tr
+export const forumCardUrl = (tip: Tip) => `${cardUrl(tip, 'tr')}&ctx=se`
+
+export function forumCaption(tip: Tip) {
+  const t = forumText(tip)
+  return `💡 ${t.title}\n\n${t.body}\n\nİsveççe bir ilan yapıştırın, CV ve personligt brev'iniz İsveççe hazırlansın – siz her şeyi Türkçe görün. Ücretsiz başlayın 👉 ${SITE}/tr?utm_source=facebook&utm_medium=forum-isvec&utm_campaign=tip-${tip.id}\n\n#İsveç #İsveçteİş #İsveçteYaşam #cvzume`
+}

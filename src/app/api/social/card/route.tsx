@@ -21,7 +21,8 @@ export async function GET(request: Request) {
   const tip = TIPS.find(t => t.id === q.get('tip'))
   const lang = q.get('lang') as SocialLang
   if (!tip || !SOCIAL_LANGS.includes(lang)) return new Response('Not found', { status: 404 })
-  const t = tip[lang]
+  // ctx=se: Forum İsveç için İsveç'e göre yazılmış Türkçe metin
+  const t = lang === 'tr' && q.get('ctx') === 'se' && tip.trSE ? tip.trSE : tip[lang]
   const [regular, semibold] = await loadFonts()
   const titleSize = t.title.length > 42 ? 68 : 78
 
