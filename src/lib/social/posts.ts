@@ -41,7 +41,8 @@ export function today(day = dayNumber()) {
   return { day, tip, pageLang }
 }
 
-export const cardUrl = (tip: Tip, lang: SocialLang) => `${SITE}/api/social/card?tip=${tip.id}&lang=${lang}`
+export const cardPath = (tip: Tip, lang: SocialLang, se = false) => `/api/social/card?tip=${tip.id}&lang=${lang}${se ? '&ctx=se' : ''}`
+export const cardUrl = (tip: Tip, lang: SocialLang) => `${SITE}${cardPath(tip, lang)}`
 
 export function pageCaption(tip: Tip, lang: SocialLang, network: 'facebook' | 'instagram') {
   const t = tip[lang]
@@ -70,7 +71,7 @@ export function forumToday(day = dayNumber()) {
 }
 
 export const forumText = (tip: Tip) => tip.trSE ?? tip.tr
-export const forumCardUrl = (tip: Tip) => `${cardUrl(tip, 'tr')}&ctx=se`
+export const forumCardUrl = (tip: Tip) => `${SITE}${cardPath(tip, 'tr', true)}`
 
 export function forumCaption(tip: Tip) {
   const t = forumText(tip)

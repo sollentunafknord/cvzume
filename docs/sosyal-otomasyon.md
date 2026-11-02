@@ -2,7 +2,7 @@
 
 Her gün 07:00 UTC (`vercel.json` → `/api/cron/social`):
 1. **Facebook sayfası + Instagram**: günün ipucu, günün dilinde (sv → en → de → es → tr sırasıyla döner), kart görseliyle.
-2. **E-posta** (`hello@cvzume.com`, değiştirmek için `SOCIAL_DIGEST_TO`): 5 dilde hazır grup metni + her dil için o günün grubu. Gruplara elle yapıştırılır — Meta, gruplara API ile paylaşımı 2024'te kapattı.
+2. **Elle paylaşım**: Admin → "Paylaşım hazırlığı" — her ipucu/dil için görsel + Facebook/Instagram metni + önerilen gruplar. Gruplara elle yapıştırılır — Meta, gruplara API ile paylaşımı 2024'te kapattı. (Günlük e-posta v4.5'te kaldırıldı.)
 
 ## Dosyalar
 - `src/lib/social/tips.ts` — 21 ipucu × 5 dil (sayı 5'in katı olmasın)

@@ -1,9 +1,8 @@
-// Günlük sosyal medya cron'u (vercel.json): Facebook sayfası + Instagram'a günün ipucu, ardından
-// gruplar için hazır metinlerle e-posta. ?dry=1 hiçbir şey göndermeden günün içeriğini döndürür.
+// Günlük sosyal medya cron'u (vercel.json): Facebook sayfası + Instagram'a günün ipucu, pzt/çar/cum Forum İsveç'e.
+// Gruplar için hazır metin ve görsel admin panelinde (AdminSocial). ?dry=1 hiçbir şey göndermeden günün içeriğini döndürür.
 import { NextResponse } from 'next/server'
 import { cardUrl, forumCaption, forumCardUrl, forumToday, pageCaption, today } from '@/lib/social/posts'
 import { forumConfigured, metaConfigured, postToFacebook, postToForum, postToInstagram } from '@/lib/social/meta'
-import { digestHtml, sendDigest } from '@/lib/social/digest'
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 60
@@ -24,7 +23,6 @@ export async function GET(request: Request) {
       facebook: pageCaption(tip, pageLang, 'facebook'),
       instagram: pageCaption(tip, pageLang, 'instagram'),
       forum: forumTip ? { image: forumCardUrl(forumTip), caption: forumCaption(forumTip) } : 'bugün yok (pzt/çar/cum)',
-      digest: q.get('dry') === 'html' ? digestHtml(tip, day, {}) : undefined,
     })
   }
 
@@ -39,8 +37,5 @@ export async function GET(request: Request) {
   if (forumTip && forumConfigured()) {
     results.forum = await postToForum(forumCardUrl(forumTip), forumCaption(forumTip)).catch(e => `error: ${e.message}`)
   }
-  // Aynı gün ikinci çalışmada e-posta da tekrar gitmesin.
-  if (results.facebook.startsWith('skipped (already')) return NextResponse.json({ ok: true, day, tip: tip.id, pageLang, results })
-  results.digest = await sendDigest(tip, day, results).catch(e => `error: ${e.message}`)
   return NextResponse.json({ ok: true, day, tip: tip.id, pageLang, results })
 }

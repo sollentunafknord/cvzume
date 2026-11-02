@@ -1,5 +1,9 @@
 # CVzume Changelog
 
+## v4.5 — 2026-11-02
+- Admin: "Paylaşım hazırlığı" bölümü — her ipucu ve dil (Forum İsveç dahil) için indirilebilir görsel, kopyalanabilir Facebook ve Instagram metni, önerilen gruplar
+- Günlük grup e-postası kaldırıldı (içerik artık admin panelinde)
+
 ## v4.4 — 2026-11-02
 - Sosyal medya: Instagram'a da günlük otomatik gönderi (anahtar eklendi)
 - Forum İsveç sayfasına pazartesi/çarşamba/cuma Türkçe, İsveç'e göre uyarlanmış ipucu (FORUM_PAGE_ID/FORUM_PAGE_TOKEN)

@@ -5,6 +5,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useLocale } from 'next-intl';
 import styles from './admin.module.css';
 import AdminInsights from './AdminInsights';
+import AdminSocial from './AdminSocial';
 
 interface AdminUser {
   id: string;
@@ -178,6 +179,8 @@ export default function AdminClient() {
       )}
 
       <AdminInsights />
+
+      <AdminSocial />
 
       <div className={styles.tableCard}>
         <div className={styles.tableHeader}>

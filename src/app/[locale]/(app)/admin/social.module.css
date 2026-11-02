@@ -1,0 +1,25 @@
+/* Admin → Paylaşım hazırlığı (Nane paleti, Lexend) */
+.wrap { display: flex; flex-direction: column; gap: 14px; margin: 8px 0 32px; font-family: 'Lexend', system-ui, sans-serif; color: var(--navy); }
+.head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.h2 { font-size: 20px; font-weight: 600; margin: 0; }
+.nav { display: flex; gap: 6px; align-items: center; min-width: 0; }
+.nav button, .nav select { font: inherit; font-size: 14px; border: 1px solid var(--border); background: white; color: var(--navy); border-radius: 10px; padding: 8px 12px; cursor: pointer; }
+.nav select { max-width: 320px; min-width: 0; }
+.nav button:hover { background: var(--blue-light); }
+.note { font-size: 13px; color: var(--muted); margin: 0; }
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.tabs button { font: inherit; font-size: 14px; border: 1px solid var(--border); background: white; color: var(--navy); border-radius: 999px; padding: 8px 14px; cursor: pointer; }
+.tabs button[aria-selected='true'] { background: var(--navy); border-color: var(--navy); color: white; }
+.grid { display: grid; grid-template-columns: 320px minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 800px) { .grid { grid-template-columns: minmax(0, 1fr); } .nav { width: 100%; } .nav select { flex: 1; max-width: none; } }
+.imgCol { display: flex; flex-direction: column; gap: 10px; }
+.img { width: 100%; aspect-ratio: 4 / 5; border-radius: 14px; border: 1px solid var(--border); background: var(--off-white); object-fit: cover; }
+.download { text-align: center; background: var(--blue); color: white; border-radius: 999px; padding: 10px 16px; font-weight: 600; font-size: 14px; text-decoration: none; }
+.download:hover { filter: brightness(1.08); }
+.textCol { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.box { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; }
+.boxHead { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 15px; }
+.copy { font: inherit; font-size: 13px; font-weight: 600; border: 1px solid var(--border); background: var(--blue-light); color: var(--navy); border-radius: 999px; padding: 6px 14px; cursor: pointer; }
+.text { white-space: pre-wrap; word-break: break-word; font-family: inherit; font-size: 14px; line-height: 1.55; margin: 0; background: var(--off-white); border-radius: 10px; padding: 12px 14px; }
+.groups { margin: 0 0 8px; padding-left: 18px; font-size: 14px; line-height: 1.8; }
+.groups a { color: var(--blue); }
