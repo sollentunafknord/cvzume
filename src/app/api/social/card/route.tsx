@@ -7,6 +7,7 @@ import { join } from 'node:path'
 import sharp from 'sharp'
 import { SOCIAL_LANGS, TIPS, type SocialLang } from '@/lib/social/tips'
 import { LABEL } from '@/lib/social/posts'
+import { CARD_CTA } from '@/lib/social/cta'
 
 export const runtime = 'nodejs'
 
@@ -44,9 +45,10 @@ export async function GET(request: Request) {
           <div style={{ fontSize: t.body.length > 200 ? 31 : 34, lineHeight: 1.5, color: '#3A4C52' }}>{t.body}</div>
         </div>
 
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 32, color: '#4F6168' }}>
-          <span>cvzume.com</span>
-          <span style={{ background: '#3E7F6C', color: 'white', borderRadius: 999, padding: '14px 30px', fontWeight: 600 }}>CV · PDF · Word</span>
+        {/* Alt şerit: sitede ne yapılacağı (eskiden "CV · PDF · Word" yazıyordu, anlaşılmıyordu) */}
+        <div style={{ display: 'flex', flexDirection: 'column', background: '#3E7F6C', color: 'white', borderRadius: 28, padding: '28px 36px' }}>
+          <span style={{ fontSize: 38, fontWeight: 600, lineHeight: 1.2 }}>{CARD_CTA[lang]}</span>
+          <span style={{ fontSize: 28, marginTop: 8, color: '#D6EEE4' }}>cvzume.com</span>
         </div>
       </div>
     ),

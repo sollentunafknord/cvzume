@@ -6,7 +6,7 @@
 import { useState } from 'react';
 import { TIPS, type SocialLang } from '@/lib/social/tips';
 import { GROUPS } from '@/lib/social/groups';
-import { cardPath, forumCaption, forumText, groupText, pageCaption, today } from '@/lib/social/posts';
+import { cardPath, forumCaption, forumInstagram, forumText, groupText, pageCaption, today } from '@/lib/social/posts';
 import s from './social.module.css';
 
 type Target = SocialLang | 'forum';
@@ -37,7 +37,6 @@ export default function AdminSocial() {
   const lang: SocialLang = forum ? 'tr' : target;
   const img = cardPath(tip, lang, forum);
   const title = forum ? forumText(tip).title : tip[lang].title;
-  const igForum = `💡 ${forumText(tip).title}\n\n${forumText(tip).body}\n\nİsveççe ilana İsveççe CV – ücretsiz başlayın. Link profilde 👆\n\n#İsveç #İsveçteİş #İsveçteYaşam #cvzume`;
   const step = (d: number) => setI(v => (v + d + TIPS.length) % TIPS.length);
 
   return (
@@ -66,7 +65,7 @@ export default function AdminSocial() {
         </div>
         <div className={s.textCol}>
           <CopyBox title={forum ? 'Facebook (Forum İsveç)' : 'Facebook (grup ya da sayfa)'} text={forum ? forumCaption(tip) : groupText(tip, lang)} />
-          <CopyBox title="Instagram" text={forum ? igForum : pageCaption(tip, lang, 'instagram')} />
+          <CopyBox title="Instagram" text={forum ? forumInstagram(tip) : pageCaption(tip, lang, 'instagram')} />
           {!forum && (
             <div className={s.box}>
               <div className={s.boxHead}><strong>Önerilen gruplar</strong></div>

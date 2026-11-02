@@ -2,6 +2,7 @@
 // Günün gönderisi: hangi ipucu, hangi dil, hangi metin. Cron, kart görseli ve e-posta aynı hesabı kullanır.
 import { SOCIAL_LANGS, TIPS, type SocialLang, type Tip } from './tips'
 import { GROUPS, type Group } from './groups'
+import { howBlock } from './cta'
 
 const SITE = 'https://www.cvzume.com'
 const DAY = 86_400_000
@@ -11,11 +12,11 @@ export const LABEL: Record<SocialLang, string> = {
 }
 
 const CTA: Record<SocialLang, { link: string; bio: string }> = {
-  sv: { link: 'Anpassa ditt CV och personliga brev till annonsen – gratis att börja 👉', bio: 'Anpassa ditt CV till annonsen – gratis att börja. Länk i bion 👆' },
-  en: { link: 'Tailor your CV and cover letter to the job ad – free to start 👉', bio: 'Tailor your CV to the job ad – free to start. Link in bio 👆' },
-  de: { link: 'Lebenslauf und Anschreiben passend zur Anzeige – kostenlos starten 👉', bio: 'Lebenslauf passend zur Anzeige – kostenlos starten. Link in der Bio 👆' },
-  es: { link: 'Adapta tu CV y tu carta a cada oferta, gratis para empezar 👉', bio: 'Adapta tu CV a cada oferta, gratis para empezar. Enlace en la bio 👆' },
-  tr: { link: 'CV’nizi ve ön yazınızı ilana göre uyarlayın – ücretsiz başlayın 👉', bio: 'CV’nizi ilana göre uyarlayın – ücretsiz başlayın. Link profilde 👆' },
+  sv: { link: 'Gratis att börja 👉', bio: 'Gratis att börja – länk i bion 👆' },
+  en: { link: 'Free to start 👉', bio: 'Free to start – link in bio 👆' },
+  de: { link: 'Kostenlos starten 👉', bio: 'Kostenlos starten – Link in der Bio 👆' },
+  es: { link: 'Gratis para empezar 👉', bio: 'Gratis para empezar: enlace en la bio 👆' },
+  tr: { link: 'Ücretsiz başlayın 👉', bio: 'Ücretsiz başlayın – link profilde 👆' },
 }
 
 // #cvzume her otomatik gönderide var: cron aynı gün ikinci kez çalışırsa bunu görüp atlar.
@@ -47,13 +48,13 @@ export const cardUrl = (tip: Tip, lang: SocialLang) => `${SITE}${cardPath(tip, l
 export function pageCaption(tip: Tip, lang: SocialLang, network: 'facebook' | 'instagram') {
   const t = tip[lang]
   const cta = network === 'facebook' ? `${CTA[lang].link} ${link(lang, 'page', tip)}` : CTA[lang].bio
-  return `💡 ${t.title}\n\n${t.body}\n\n${cta}\n\n${TAGS[lang]}`
+  return `💡 ${t.title}\n\n${t.body}\n\n${howBlock(tip, lang)}\n\n${cta}\n\n${TAGS[lang]}`
 }
 
 // Grup metni: etiketsiz, satış dili hafif; link en sonda (grup kuralları çoğunlukla bunu kabul ediyor).
 export function groupText(tip: Tip, lang: SocialLang) {
   const t = tip[lang]
-  return `💡 ${t.title}\n\n${t.body}\n\n${CTA[lang].link} ${link(lang, 'group', tip)}`
+  return `💡 ${t.title}\n\n${t.body}\n\n${howBlock(tip, lang)}\n\n${CTA[lang].link} ${link(lang, 'group', tip)}`
 }
 
 export const groupFor = (lang: SocialLang, day: number): Group => GROUPS[lang][day % GROUPS[lang].length]
@@ -73,7 +74,12 @@ export function forumToday(day = dayNumber()) {
 export const forumText = (tip: Tip) => tip.trSE ?? tip.tr
 export const forumCardUrl = (tip: Tip) => `${SITE}${cardPath(tip, 'tr', true)}`
 
+export function forumInstagram(tip: Tip) {
+  const t = forumText(tip)
+  return `💡 ${t.title}\n\n${t.body}\n\n${howBlock(tip, 'tr', true)}\n\nÜcretsiz başlayın – link profilde 👆\n\n#İsveç #İsveçteİş #İsveçteYaşam #cvzume`
+}
+
 export function forumCaption(tip: Tip) {
   const t = forumText(tip)
-  return `💡 ${t.title}\n\n${t.body}\n\nİsveççe bir ilan yapıştırın, CV ve personligt brev'iniz İsveççe hazırlansın – siz her şeyi Türkçe görün. Ücretsiz başlayın 👉 ${SITE}/tr?utm_source=facebook&utm_medium=forum-isvec&utm_campaign=tip-${tip.id}\n\n#İsveç #İsveçteİş #İsveçteYaşam #cvzume`
+  return `💡 ${t.title}\n\n${t.body}\n\n${howBlock(tip, 'tr', true)}\n\nSiz her şeyi Türkçe görürsünüz. Ücretsiz başlayın 👉 ${SITE}/tr?utm_source=facebook&utm_medium=forum-isvec&utm_campaign=tip-${tip.id}\n\n#İsveç #İsveçteİş #İsveçteYaşam #cvzume`
 }
