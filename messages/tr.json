@@ -1117,7 +1117,9 @@
       "text": "İlanın linkini veya metnini yapıştırın.",
       "or_text": "veya ilan metni",
       "your_cv": "CV'niz: {name}",
-      "compare": "Karşılaştır"
+      "compare": "Karşılaştır",
+      "doc_lang": "Belgeleriniz hangi dilde olsun?",
+      "doc_lang_hint": "İlanın dili otomatik seçilir. CV ve ön yazınız bu dilde hazırlanır; analiz ve ipuçları Türkçe kalır."
     },
     "analyzing": {
       "title": "İlan ile CV'niz karşılaştırılıyor…",

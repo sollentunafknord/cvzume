@@ -1129,7 +1129,9 @@
       "text": "Fügen Sie den Link zur Anzeige oder den Anzeigentext ein.",
       "or_text": "oder den Anzeigentext",
       "your_cv": "Ihr Lebenslauf: {name}",
-      "compare": "Vergleichen"
+      "compare": "Vergleichen",
+      "doc_lang": "In welcher Sprache sollen Ihre Unterlagen sein?",
+      "doc_lang_hint": "Die Sprache der Anzeige wird automatisch gewählt. Lebenslauf und Anschreiben werden in dieser Sprache erstellt – Analyse und Tipps bleiben auf Deutsch."
     },
     "analyzing": {
       "title": "Die Anzeige wird mit Ihrem Lebenslauf verglichen…",

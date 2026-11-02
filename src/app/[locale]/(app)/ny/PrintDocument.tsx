@@ -3,14 +3,17 @@
 // PDF dışa aktarma görünümü: body'ye portal, ekranda gizli; yazdırırken (window.print) tek görünen şey.
 // Stiller ny.module.css'teki @media print kurallarında. "Ny ansökan" ve "Mina ansökningar" kullanır.
 import { createPortal } from 'react-dom';
-import { useTranslations } from 'next-intl';
+import { useLocale } from 'next-intl';
 import styles from './ny.module.css';
-import { descLines, period, type ExportCv, type ExportPerson, type LetterMeta } from '@/lib/export-docs';
+import { cvLabelsFor, cvText, descLines, docLang, period, type ExportCv, type ExportPerson, type LetterMeta } from '@/lib/export-docs';
 
 export default function PrintDocument({ kind, person, cv, letter, footer, style, meta }: { kind: 'cv' | 'letter'; person: ExportPerson; cv?: ExportCv | null; letter?: string; footer?: string; style?: React.CSSProperties; meta?: LetterMeta }) {
-  const t = useTranslations('ny');
+  // Başlıklar belgenin kendi dilinde (arayüz Türkçe, CV İsveççe olabilir)
+  const locale = useLocale();
+  const lang = docLang(kind === 'cv' && cv ? cvText(cv) : letter || '', locale);
+  const L = cvLabelsFor(lang);
   return createPortal(
-    <div className={`${styles.printArea} cvzume-print`} style={style}>
+    <div className={`${styles.printArea} cvzume-print`} style={style} lang={lang}>
       {kind === 'cv' ? (
         <div className={styles.pHead}>
           <div>
@@ -30,21 +33,21 @@ export default function PrintDocument({ kind, person, cv, letter, footer, style,
       )}
       {kind === 'cv' && cv ? (
         <>
-          {cv.summary && (<><h3>{t('cv.profile')}</h3><p>{cv.summary}</p></>)}
-          {cv.experiences.length > 0 && <h3>{t('cv.experience')}</h3>}
+          {cv.summary && (<><h3>{L.profile}</h3><p>{cv.summary}</p></>)}
+          {cv.experiences.length > 0 && <h3>{L.experience}</h3>}
           {cv.experiences.map((e, i) => (
             <div key={i} className={styles.pExp}>
               <div><strong>{e.role}</strong>{e.company && ` — ${e.company}`}</div>
-              <div className={styles.pPeriod}>{period(e.start, e.end, t('cv.present'))}</div>
+              <div className={styles.pPeriod}>{period(e.start, e.end, L.present)}</div>
               <ul>{descLines(e.desc).map(l => <li key={l}>{l}</li>)}</ul>
             </div>
           ))}
-          {cv.educations.length > 0 && <h3>{t('cv.education')}</h3>}
+          {cv.educations.length > 0 && <h3>{L.education}</h3>}
           {cv.educations.map((e, i) => (
             <div key={i} className={styles.pEdu}><strong>{[e.degree, e.field].filter(Boolean).join(', ')}</strong>{e.school && ` — ${e.school}`} <span className={styles.pPeriod}>{e.years}</span></div>
           ))}
-          {cv.skills.length > 0 && (<><h3>{t('cv.skills')}</h3><p>{cv.skills.join('  ·  ')}</p></>)}
-          {cv.languages.length > 0 && (<><h3>{t('cv.languages')}</h3><p>{cv.languages.join('  ·  ')}</p></>)}
+          {cv.skills.length > 0 && (<><h3>{L.skills}</h3><p>{cv.skills.join('  ·  ')}</p></>)}
+          {cv.languages.length > 0 && (<><h3>{L.languages}</h3><p>{cv.languages.join('  ·  ')}</p></>)}
         </>
       ) : (
         <div className={styles.pLetter}>

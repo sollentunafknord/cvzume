@@ -188,6 +188,19 @@ export function docLang(text: string, fallback: string): DocLang {
   }
   return best && n >= 3 ? best : ((['sv', 'en', 'tr', 'de', 'es'] as string[]).includes(fallback) ? fallback as DocLang : 'en')
 }
+export const DOC_LANGS: DocLang[] = ['sv', 'en', 'de', 'es', 'tr']
+/** Dil seçicide her dil kendi adıyla görünür. */
+export const DOC_LANG_NAMES: Record<DocLang, string> = { sv: 'Svenska', en: 'English', de: 'Deutsch', es: 'Español', tr: 'Türkçe' }
+export const isDocLang = (v: string): v is DocLang => (DOC_LANGS as string[]).includes(v)
+/** CV bölüm başlıkları belgenin dilinde (arayüz dili değil): Türkçe arayüzde İsveççe CV → İsveççe başlıklar. */
+const CV_LABELS: Record<DocLang, CvLabels> = {
+  sv: { profile: 'Profil', experience: 'Arbetslivserfarenhet', education: 'Utbildning', skills: 'Kompetenser', languages: 'Språk', present: 'nu' },
+  en: { profile: 'Profile', experience: 'Work experience', education: 'Education', skills: 'Skills', languages: 'Languages', present: 'present' },
+  de: { profile: 'Profil', experience: 'Berufserfahrung', education: 'Ausbildung', skills: 'Kompetenzen', languages: 'Sprachen', present: 'heute' },
+  es: { profile: 'Perfil', experience: 'Experiencia laboral', education: 'Formación', skills: 'Competencias', languages: 'Idiomas', present: 'actualidad' },
+  tr: { profile: 'Profil', experience: 'İş deneyimi', education: 'Eğitim', skills: 'Yetkinlikler', languages: 'Diller', present: 'halen' },
+}
+export const cvLabelsFor = (lang: DocLang) => CV_LABELS[lang]
 const FREE_FOOTER: Record<DocLang, string> = {
   sv: 'Skapad med CVzume · cvzume.com', en: 'Made with CVzume · cvzume.com', tr: 'CVzume ile oluşturuldu · cvzume.com',
   de: 'Erstellt mit CVzume · cvzume.com', es: 'Creado con CVzume · cvzume.com',

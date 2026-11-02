@@ -1129,7 +1129,9 @@
       "text": "Pega el enlace de la oferta o su texto.",
       "or_text": "o el texto de la oferta",
       "your_cv": "Tu CV: {name}",
-      "compare": "Comparar"
+      "compare": "Comparar",
+      "doc_lang": "¿En qué idioma quieres tus documentos?",
+      "doc_lang_hint": "Se elige automáticamente el idioma de la oferta. Tu CV y tu carta se redactan en ese idioma; el análisis y los consejos siguen en español."
     },
     "analyzing": {
       "title": "Comparando la oferta con tu CV…",

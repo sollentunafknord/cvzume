@@ -17,7 +17,7 @@ import { RETURN_KEY } from '@/lib/market';
 import PrintDocument from '../(app)/ny/PrintDocument';
 import { authFetch, keepTokenFresh } from '@/lib/auth-client';
 import { EMPTY_PROFILE, hasCvContent, loadCvPhoto, loadProfile, saveAvatarUrl, saveProfile, uploadPhoto, type Profile } from '@/lib/profile-store';
-import { cvText, descLines, docLang, exportCvDocx, exportLetterDocx, freeFooter, letterMeta, period, printPortal, safeFileName, type ExportPerson } from '@/lib/export-docs';
+import { cvLabelsFor, cvText, descLines, docLang, DOC_LANG_NAMES, DOC_LANGS, exportCvDocx, isDocLang, type DocLang, exportLetterDocx, freeFooter, letterMeta, period, printPortal, safeFileName, type ExportPerson } from '@/lib/export-docs';
 
 type Screen = 'welcome' | 'hasCv' | 'upload' | 'reading' | 'name' | 'contact' | 'photo' | 'target' | 'worked' | 'nowork' | 'job' | 'jobai'
   | 'edu' | 'lang' | 'licence' | 'skills' | 'building' | 'panel' | 'preview' | 'ad' | 'analyzing' | 'match' | 'tailored' | 'tailoredEdit'
@@ -30,7 +30,7 @@ type Draft = {
 };
 type Req = { text: string; met: boolean };
 type Result = { role: string; employer?: string; matchScore: number | null; requirements: Req[]; tips: string[]; cv: Profile; creditToken?: string };
-type State = { screen: Screen; history: Screen[]; path: 'yes' | 'no' | ''; draft: Draft; ad: string; role: string; result: Result | null; letter: string; asks: Record<number, 'yes' | 'no' | ''>; notes: Record<number, string>; saved: boolean };
+type State = { screen: Screen; history: Screen[]; path: 'yes' | 'no' | ''; draft: Draft; ad: string; role: string; result: Result | null; letter: string; asks: Record<number, 'yes' | 'no' | ''>; notes: Record<number, string>; saved: boolean; docLang?: DocLang };
 
 const STORE = 'cvzume_akis_v1';
 const lexend = Lexend({ subsets: ['latin', 'latin-ext'], weight: ['300', '400', '500', '600', '700'], variable: '--font-lexend', display: 'swap' });
@@ -149,24 +149,26 @@ function Loading({ title, sub }: { title: string; sub?: string }) {
 }
 
 // CV kağıdı (ekranda; PDF aynı düzeni PrintDocument ile basar)
-function Sheet({ cv, name, email, photo, footer, tn }: { cv: Profile; name: string; email: string; photo: string; footer: string; tn: T }) {
+function Sheet({ cv, name, email, photo, footer, lang }: { cv: Profile; name: string; email: string; photo: string; footer: string; lang: DocLang }) {
+  const L = cvLabelsFor(lang);
+  // lang: büyük harf dönüşümü belgenin dilinde olsun (Türkçe sayfada İsveççe "Profil" → "PROFIL", "PROFİL" değil)
   return (
-    <div className={styles.paper}>
+    <div className={styles.paper} lang={lang}>
       <div className={styles.pHead}>
         <div><div className={styles.pName}>{name}</div>{cv.title && <div className={styles.pTitle}>{cv.title}</div>}
           <div className={styles.pContact}>{[cv.location, cv.phone, email].filter(Boolean).join('  ·  ')}</div></div>
         {photo && <img className={styles.pPhoto} src={photo} alt="" />}
       </div>
-      {cv.summary && <><h4>{tn('cv.profile')}</h4><p>{cv.summary}</p></>}
-      {cv.experiences.length > 0 && <h4>{tn('cv.experience')}</h4>}
+      {cv.summary && <><h4>{L.profile}</h4><p>{cv.summary}</p></>}
+      {cv.experiences.length > 0 && <h4>{L.experience}</h4>}
       {cv.experiences.map((e, i) => (
-        <div key={i}><p><strong>{e.role}</strong>{e.company && ` — ${e.company}`} <span className={styles.pPeriod}>{period(e.start, e.end, tn('cv.present'))}</span></p>
+        <div key={i}><p><strong>{e.role}</strong>{e.company && ` — ${e.company}`} <span className={styles.pPeriod}>{period(e.start, e.end, L.present)}</span></p>
           <ul>{descLines(e.desc).map(l => <li key={l}>{l}</li>)}</ul></div>
       ))}
-      {cv.educations.length > 0 && <h4>{tn('cv.education')}</h4>}
+      {cv.educations.length > 0 && <h4>{L.education}</h4>}
       {cv.educations.map((e, i) => <p key={i}><strong>{[e.degree, e.field].filter(Boolean).join(', ')}</strong>{e.school && ` — ${e.school}`} <span className={styles.pPeriod}>{e.years}</span></p>)}
-      {cv.skills.length > 0 && <><h4>{tn('cv.skills')}</h4><p>{cv.skills.join('  ·  ')}</p></>}
-      {cv.languages.length > 0 && <><h4>{tn('cv.languages')}</h4><p>{cv.languages.join('  ·  ')}</p></>}
+      {cv.skills.length > 0 && <><h4>{L.skills}</h4><p>{cv.skills.join('  ·  ')}</p></>}
+      {cv.languages.length > 0 && <><h4>{L.languages}</h4><p>{cv.languages.join('  ·  ')}</p></>}
       {footer && <div className={styles.pFooter}>{footer}</div>}
     </div>
   );
@@ -262,7 +264,10 @@ export default function AkisClient() {
   const pal = PALETTES[palette];
   const pickPalette = (v: Palette) => { setChosen(v); try { localStorage.setItem(PALETTE_KEY, v); } catch { /* yok */ } };
   const docColors = { accent: pal.strong.slice(1), ink: pal.ink.slice(1) };
-  const cvLabels = { profile: tn('cv.profile'), experience: tn('cv.experience'), education: tn('cv.education'), skills: tn('cv.skills'), languages: tn('cv.languages'), present: tn('cv.present') };
+  // Belgenin dili: CV içeriğinden tahmin (başlıklar için) ve yeni başvuruda seçilen dil (yapay zeka çıktısı için).
+  // Seçilmediyse ilanın dili; böylece Türkçe arayüzde İsveççe ilana İsveççe CV ve mektup çıkar.
+  const cvLang = (cv: Profile) => docLang(cvText(cv), locale);
+  const outLang: DocLang = s?.docLang || (s && s.ad.trim().length >= 80 ? docLang(s.ad, locale) : isDocLang(locale) ? locale : 'en');
 
   // ── Yapay zeka çağrıları ──
   async function assist<T>(body: Record<string, unknown>): Promise<T | null> {
@@ -366,7 +371,7 @@ export default function AkisClient() {
     const cv = { ...profile, skills: [...profile.skills, ...extraSkills.filter(x => !profile.skills.includes(x))] };
     go('analyzing');
     try {
-      const res = await authFetch('/api/ai/tailor', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ jobAd: s.ad, cv, locale, creditToken: s.result?.creditToken }) });
+      const res = await authFetch('/api/ai/tailor', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ jobAd: s.ad, cv, locale, docLocale: outLang, creditToken: s.result?.creditToken }) });
       if (res.status === 402) { setS(prev => (prev ? { ...prev, screen: 'limit' } : prev)); return; }
       const data = await res.json();
       if (!res.ok) throw new Error();
@@ -395,7 +400,7 @@ export default function AkisClient() {
     if (s.letter) return;
     setBusy('letter');
     try {
-      const res = await authFetch('/api/ai/letter', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ jobAd: s.ad, cv: s.result.cv, name: fullName, locale }) });
+      const res = await authFetch('/api/ai/letter', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ jobAd: s.ad, cv: s.result.cv, name: fullName, locale: outLang }) });
       const data = await res.json();
       if (!res.ok || !data.letter) throw new Error();
       up({ letter: data.letter });
@@ -417,7 +422,7 @@ export default function AkisClient() {
 
   function exportCv(cv: Profile, format: 'pdf' | 'docx') {
     const name = safeFileName(fullName, 'CV', s?.result?.role || cv.title || '');
-    if (format === 'docx') exportCvDocx(person(cv), cv, cvLabels, name, { footer: footerFor(cvText(cv)), ...docColors });
+    if (format === 'docx') exportCvDocx(person(cv), cv, cvLabelsFor(cvLang(cv)), name, { footer: footerFor(cvText(cv)), ...docColors });
     else { setPrinting('cv'); printPortal(name).finally(() => setPrinting('')); }
   }
   function exportLetter(format: 'pdf' | 'docx') {
@@ -566,7 +571,7 @@ export default function AkisClient() {
       foot = <Next label={t('panel.save')} onClick={async () => { await saveProfile(locale, profile, { firstName: names.first, lastName: names.last }); go('preview'); }} />;
       break;
     case 'preview':
-      body = <><h1 className={styles.q}>{t('preview.title')}</h1><Sheet cv={profile} name={fullName} email={email} photo={photo} footer={footerFor(cvText(profile))} tn={tn} /></>;
+      body = <><h1 className={styles.q}>{t('preview.title')}</h1><Sheet cv={profile} name={fullName} email={email} photo={photo} footer={footerFor(cvText(profile))} lang={cvLang(profile)} /></>;
       foot = <><div className={styles.btnRow}><button className={`${styles.btn} ${styles.ghost}`} onClick={() => exportCv(profile, 'pdf')}>{t('pdf')}</button><button className={`${styles.btn} ${styles.ghost}`} onClick={() => exportCv(profile, 'docx')}>{t('word')}</button></div>
         <button className={`${styles.btn} ${styles.ghost}`} onClick={() => go('panel')}>{t('edit')}</button>
         <Next onClick={() => go('ad')} label={t('preview.next')} /></>;
@@ -575,6 +580,11 @@ export default function AkisClient() {
       body = <><h1 className={styles.q}>{t('ad.title')}</h1><p className={styles.hint}>{t('ad.text')}</p>
         <AdLinkInput generic aside={<JobSearchButton from="akis" />} onFetched={(a: FetchedAd) => up({ ad: a.text, role: [a.title, a.company].filter(Boolean).join(' — ') })} />
         <label className={styles.f} htmlFor="ad-text">{t('ad.or_text')}<textarea id="ad-text" className={styles.textarea} style={{ minHeight: 220 }} value={s.ad} onChange={e => up({ ad: e.target.value, result: null })} /></label>
+        <label className={styles.f} htmlFor="doc-lang">{t('ad.doc_lang')}
+          <select id="doc-lang" className={styles.select} value={outLang} onChange={e => up({ docLang: e.target.value as DocLang, result: null, letter: '' })}>
+            {DOC_LANGS.map(l => <option key={l} value={l}>{DOC_LANG_NAMES[l]}</option>)}
+          </select></label>
+        <p className={styles.small}>{t('ad.doc_lang_hint')}</p>
         {error && <p className={styles.err}>{error}</p>}
         {hasCvContent(profile) && <p className={styles.small}>{t('ad.your_cv', { name: fullName })} · <button className={styles.rm} style={{ color: 'var(--blue)' }} onClick={() => go('panel')}>{t('edit')}</button></p>}</>;
       foot = <Next label={t('ad.compare')} onClick={() => tailor()} disabled={s.ad.trim().length < 80} />;
@@ -611,7 +621,7 @@ export default function AkisClient() {
       break;
     }
     case 'tailored':
-      body = <><h1 className={styles.q}>{t('tailored.title')}</h1><p className={styles.hint}>{t('tailored.text')}</p><Sheet cv={s.result!.cv} name={fullName} email={email} photo={photo} footer={footerFor(cvText(s.result!.cv))} tn={tn} /></>;
+      body = <><h1 className={styles.q}>{t('tailored.title')}</h1><p className={styles.hint}>{t('tailored.text')}</p><Sheet cv={s.result!.cv} name={fullName} email={email} photo={photo} footer={footerFor(cvText(s.result!.cv))} lang={cvLang(s.result!.cv)} /></>;
       foot = <><div className={styles.btnRow}><button className={`${styles.btn} ${styles.ghost}`} onClick={() => exportCv(s.result!.cv, 'pdf')}>{t('pdf')}</button><button className={`${styles.btn} ${styles.ghost}`} onClick={() => exportCv(s.result!.cv, 'docx')}>{t('word')}</button></div>
         <button className={`${styles.btn} ${styles.ghost}`} onClick={() => go('tailoredEdit')}>{t('edit')}</button>
         <Next label={t('tailored.letter')} onClick={writeLetter} /></>;

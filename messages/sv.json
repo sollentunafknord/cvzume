@@ -1093,7 +1093,9 @@
       "text": "Klistra in länken till annonsen eller annonstexten.",
       "or_text": "eller annonstexten",
       "your_cv": "Ditt CV: {name}",
-      "compare": "Jämför"
+      "compare": "Jämför",
+      "doc_lang": "Vilket språk ska dokumenten vara på?",
+      "doc_lang_hint": "Annonsens språk väljs automatiskt. Ditt CV och personliga brev skrivs på det språket – analysen och tipsen visas på svenska."
     },
     "analyzing": {
       "title": "Annonsen jämförs med ditt CV…",

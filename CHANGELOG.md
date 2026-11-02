@@ -1,5 +1,10 @@
 # CVzume Changelog
 
+## v4.3 — 2026-11-02
+- Yeni başvuruda belge dili seçimi: CV ve mektup ilanın dilinde (otomatik) ya da seçilen dilde; uyum analizi ve ipuçları arayüz dilinde kalır (ör. Türkçe arayüz, İsveççe CV)
+- Uyarlanmış CV'de unvan, eğitim, beceriler ve diller de belge diline çevriliyor; karşılığı olmayan dereceler açıklamayla korunuyor
+- CV başlıkları belgenin dilinde (önizleme, PDF, Word); dil seviyeleri abartılmıyor
+
 ## v4.2 — 2026-11-01
 - Sosyal medya: her gün 07:00 UTC'de Facebook sayfası ve Instagram'a o günün dilinde iş arama ipucu (21 ipucu × 5 dil, otomatik kart görseli)
 - Her sabah hello@cvzume.com'a gruplar için 5 dilde hazır metin ve önerilen grup listesi

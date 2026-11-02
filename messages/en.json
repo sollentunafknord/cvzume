@@ -1093,7 +1093,9 @@
       "text": "Paste the link to the job ad or the ad text.",
       "or_text": "or the ad text",
       "your_cv": "Your resume: {name}",
-      "compare": "Compare"
+      "compare": "Compare",
+      "doc_lang": "What language should your documents be in?",
+      "doc_lang_hint": "The job ad's language is picked automatically. Your CV and cover letter are written in it – the analysis and tips stay in English."
     },
     "analyzing": {
       "title": "Comparing the job ad with your resume…",
