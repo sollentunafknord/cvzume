@@ -94,3 +94,79 @@ Bunu sayfa adına sen yaparsın (Facebook grupları otomatik paylaşıma izin ve
 
 **Faydalı cevap örneği (İsveççe)**
 > Tips: börja brevet med varför just den här arbetsplatsen och tjänsten, inte "Jag heter …". Ta sedan 2–3 krav ur annonsen och visa med ett konkret exempel att du klarar dem.
+
+---
+
+# Facebook grupları — İsveççe tanıtım (2026-11-07)
+
+Görsel: `public/brand/social/grupp/grupp-sv.png` (1080×1350). Aynı gün iki gruba aynı metni atma: A ve B'yi dönüşümlü kullan, link kampanya adını grup başına değiştir (`utm_campaign=grupp-<grupadı>`).
+
+## A — yeni gelenlere
+```
+Har du erfarenhet men känner att svenskan sätter stopp när du ska skriva CV och personligt brev?
+
+Det är vanligt – och synd, för många söker inte ens jobb som de skulle klara bra.
+
+Därför har jag byggt CVzume:
+✔ Klistra in jobbannonsen (t.ex. från Platsbanken)
+✔ Ladda upp ditt CV – eller svara på några enkla frågor
+✔ Se direkt hur väl du matchar och vad som saknas
+✔ Få ett CV och personligt brev på korrekt svenska, anpassat efter just den annonsen (PDF eller Word)
+
+Inget hittas på – allt bygger på din egen erfarenhet.
+
+Gratis att testa: 2 ansökningar i månaden, inget kort krävs 👉 https://www.cvzume.com/sv?utm_source=facebook&utm_medium=group&utm_campaign=grupp-sv-a
+
+Frågor eller tips? Skriv i kommentarerna, jag svarar gärna!
+```
+
+## B — tips önce
+```
+Ett tips till alla som söker jobb just nu: anpassa CV:t efter varje annons.
+
+Rekryterare letar efter samma ord som står i annonsen. Står det "självständigt" och "serviceinriktad" – och det stämmer på dig – ska de orden synas i ditt CV och brev.
+
+Det tar tid att göra för hand, särskilt om svenska inte är ditt modersmål. Så jag gjorde ett verktyg för det: CVzume. Du klistrar in annonsen, ser hur väl du matchar, och får ett anpassat CV + personligt brev på korrekt svenska på några minuter.
+
+Gratis att börja (inget kort) 👉 https://www.cvzume.com/sv?utm_source=facebook&utm_medium=group&utm_campaign=grupp-sv-b
+
+Lycka till med jobbsökandet! 🍀
+```
+
+Grup link yasaklıyorsa: linki gönderiden çıkar, sona "Länk i första kommentaren" yaz ve linki ilk yoruma koy.
+
+# Facebook grupları — Türkçe tanıtım (2026-11-07, kullanıcı daha akıcı Türkçe istedi)
+
+Görsel: `public/brand/social/grupp/grupp-tr.png`. İsveç'teki Türk gruplarına. A ve B'yi dönüşümlü kullan.
+
+## A
+```
+İsveç'te iş ararken sizi en çok ne zorluyor?
+
+Birçoğumuzun yıllara dayanan iş deneyimi var. Ama İsveççe CV ve ön yazı (personligt brev) hazırlamak söz konusu olunca zorlanıyoruz. Bu yüzden rahatlıkla yapabileceğimiz işlere bile başvurmaktan vazgeçiyoruz.
+
+Bu sorunu çözmek için CVzume'yi geliştirdim. Nasıl çalışıyor?
+✔ Başvurmak istediğiniz ilanı kopyalayıp yapıştırıyorsunuz (örneğin Platsbanken'den)
+✔ CV'nizi yüklüyorsunuz ya da birkaç kısa soruyu cevaplıyorsunuz
+✔ İlana ne kadar uygun olduğunuzu ve neyin eksik kaldığını hemen görüyorsunuz
+✔ O ilana özel hazırlanmış, düzgün İsveççe bir CV ve ön yazı alıyorsunuz (PDF ya da Word)
+
+CVzume sizin adınıza bilgi uydurmaz; her şey sizin gerçek deneyiminize dayanır.
+
+Ücretsiz deneyebilirsiniz: ayda 2 başvuru hakkı var, kredi kartı gerekmiyor 👉 https://www.cvzume.com/tr?utm_source=facebook&utm_medium=group&utm_campaign=grupp-tr-a
+
+Sorularınızı yorumlara yazabilirsiniz, hepsine cevap vereceğim.
+```
+
+## B — önce ipucu
+```
+İsveç'te iş arayanlar için küçük bir ipucu: CV'nizi her ilana göre yeniden düzenleyin.
+
+İşverenler, ilanda kullandıkları kelimeleri CV'nizde görmek ister. Örneğin ilanda "självständigt" (bağımsız çalışabilen) ve "serviceinriktad" (müşteri odaklı) yazıyorsa ve bu özellikler sizde varsa, bu kelimeler CV'nizde ve ön yazınızda da yer almalı.
+
+Bunu her başvuruda tek tek yapmak zaman alıyor, hele İsveççe ana diliniz değilse. Ben de bu yüzden CVzume'yi geliştirdim: ilanı yapıştırıyorsunuz, ilana ne kadar uygun olduğunuzu görüyorsunuz ve birkaç dakika içinde o ilana uygun İsveççe CV'niz ve ön yazınız hazır oluyor.
+
+Ücretsiz başlayabilirsiniz, kredi kartı gerekmiyor 👉 https://www.cvzume.com/tr?utm_source=facebook&utm_medium=group&utm_campaign=grupp-tr-b
+
+İş aramanızda başarılar! 🍀
+```

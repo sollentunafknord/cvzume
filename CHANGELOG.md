@@ -1,5 +1,11 @@
 # CVzume Changelog
 
+## v4.7 — 2026-11-07
+- Google ile giriş onarıldı: dönüş sayfası (auth-callback.html) eski statik dosyalarla silinmişti; dönüş artık /<dil>/auth?mode=oauth, oturum açılıp doğrudan başvuru akışına geçiliyor
+- Facebook ile giriş/kayıt eklendi (Supabase'de Facebook sağlayıcısı açılınca düğme kendiliğinden görünür); GitHub düğmesi kaldırıldı
+- Google/Facebook hesaplarında ad-soyad given_name/family_name ya da full_name'den alınıyor
+- Türkçe sosyal giriş düğmeleri "siz" hitabıyla
+
 ## v4.6 — 2026-11-02
 - Sosyal gönderiler: her ipucunda CVzume'nin o konuda ne yaptığı + 3 adım (ilanı yapıştır → CV yükle → indir); kartta net çağrı şeridi
 - Admin: indirim kodları — oran, süre (ilk ödeme / ilk N ay / her ödeme), son kullanma, kullanım sınırı; oranı listeden değiştir, kapat/aç (Stripe promosyon kodları)

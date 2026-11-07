@@ -29,6 +29,11 @@ export default function AuthClient() {
   const router = useRouter();
 
   const [tab, setTab] = useState<Tab>('login');
+  const [fbEnabled, setFbEnabled] = useState(false);
+  useEffect(() => {
+    fetch(`${SUPABASE_URL}/auth/v1/settings`, { headers: { apikey: SUPABASE_ANON_KEY } })
+      .then(r => r.json()).then(d => setFbEnabled(!!d?.external?.facebook)).catch(() => {});
+  }, []);
   // Şifre sıfırlama: 'request' = link iste, 'reset' = e-postadaki linkten gelindi (yeni şifre)
   const [confirmState, setConfirmState] = useState<'' | 'working' | 'expired'>('');
   const [forgot, setForgot] = useState<{ mode: 'request' | 'reset'; token?: string; expired?: boolean } | null>(null);
@@ -37,7 +42,10 @@ export default function AuthClient() {
     const hash = new URLSearchParams(window.location.hash.slice(1));
     const query = new URLSearchParams(window.location.search);
     // Kayıt doğrulama linkinden dönüş: oturumu aç ve akışa geç
-    if (hash.get('type') === 'signup' || query.get('mode') === 'confirmed') {
+    // Kayıt doğrulama linkinden ya da Google/Facebook girişinden dönüş (?mode=oauth): oturumu aç ve akışa geç
+    const oauth = query.get('mode') === 'oauth'
+    if (oauth && (hash.get('error') || query.get('error'))) { window.history.replaceState(null, '', window.location.pathname); return; }
+    if (hash.get('type') === 'signup' || query.get('mode') === 'confirmed' || (oauth && hash.get('access_token'))) {
       const at = hash.get('access_token'), rt = hash.get('refresh_token'), exp = Number(hash.get('expires_in') || 3600);
       window.history.replaceState(null, '', window.location.pathname);
       if (!at || !rt) { setConfirmState('expired'); return; } // eslint-disable-line react-hooks/set-state-in-effect
@@ -49,6 +57,7 @@ export default function AuthClient() {
           localStorage.setItem('cvita_refresh_token', rt);
           localStorage.setItem('cvita_token_expiry', String(Date.now() + exp * 1000));
           localStorage.setItem('cvita_user', JSON.stringify({ id: u.id, email: u.email, firstName: u.firstName, lastName: u.lastName }));
+          if (oauth) ['cvita_active_page','cvita_profile','cvita_last_result','cvita_pdf_count','cvita_avatar','cvita_open_app','cvita_plan_label','cvita_is_pro'].forEach(k => localStorage.removeItem(k));
           window.location.replace(flowPath(locale));
         })
         .catch(() => setConfirmState('expired'));
@@ -213,10 +222,11 @@ export default function AuthClient() {
     }
   }
 
-  async function signInWithOAuth(provider: 'google' | 'github') {
+  async function signInWithOAuth(provider: 'google' | 'facebook') {
+    localStorage.setItem('cvita_language', selectedLang);
     await supabase.auth.signInWithOAuth({
       provider,
-      options: { redirectTo: `${window.location.origin}/auth-callback.html?lang=${selectedLang}` },
+      options: { redirectTo: `${window.location.origin}/${locale}/auth?mode=oauth`, ...(provider === 'facebook' ? { scopes: 'email' } : {}) },
     });
   }
 
@@ -233,9 +243,9 @@ export default function AuthClient() {
     </svg>
   );
 
-  const GitHubIcon = () => (
-    <svg viewBox="0 0 24 24" style={{ fill: '#24292e', width: 20, height: 20 }}>
-      <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+  const FacebookIcon = () => (
+    <svg viewBox="0 0 24 24" style={{ width: 20, height: 20 }}>
+      <path fill="#1877F2" d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.23 2.68.23v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.26h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/>
     </svg>
   );
 
@@ -250,9 +260,11 @@ export default function AuthClient() {
         <button className={styles.btnSocial} onClick={() => signInWithOAuth('google')}>
           <GoogleIcon/> {t('google_btn')}
         </button>
-        <button className={styles.btnSocial} onClick={() => signInWithOAuth('github')}>
-          <GitHubIcon/> {t('github_btn')}
-        </button>
+        {fbEnabled && (
+          <button className={styles.btnSocial} onClick={() => signInWithOAuth('facebook')}>
+            <FacebookIcon/> {t('facebook_btn')}
+          </button>
+        )}
       </div>
     </>
   );
