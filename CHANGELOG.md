@@ -1,5 +1,8 @@
 # CVzume Changelog
 
+## v4.9 — 2026-11-08
+- Grup gönderileri için kısa link: cvzume.com/g/<dil>-<kod> (ör. /g/sv-d) → UTM'li ana sayfa, doğrudan kayıtsız deneme bölümü
+
 ## v4.8 — 2026-11-08
 - Kayıtsız deneme (landing): CV özeti artık yalnızca kullanıcının yazdığı bilgilerle; role özgü görev/beceri eklemesi yasak (test özette yazılmamış "plockning, lagerstyrning" uydurmuştu)
 - Deneme şart listesinde istihdam koşulları (provanställning, tillsvidare vb.) artık şart sayılmıyor; "karşılandı" yalnızca açıkça yazılmışsa

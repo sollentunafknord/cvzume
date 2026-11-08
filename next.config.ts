@@ -13,7 +13,11 @@ const nextConfig: NextConfig = {
     return { beforeFiles: Object.entries(FLOW_SLUG).map(([l, slug]) => ({ source: `/${l}/${slug}`, destination: `/${l}/akis` })), afterFiles: [], fallback: [] };
   },
   async redirects() {
-    return Object.entries(FLOW_SLUG).map(([l, slug]) => ({ source: `/${l}/akis`, destination: `/${l}/${slug}`, permanent: false }));
+    return [
+      ...Object.entries(FLOW_SLUG).map(([l, slug]) => ({ source: `/${l}/akis`, destination: `/${l}/${slug}`, permanent: false })),
+      // Grup gönderileri için kısa link: /g/sv-d → /sv?utm_…&utm_campaign=grupp-sv-d#testa (kayıtsız deneme)
+      { source: "/g/:lang(sv|tr|en|de|es)-:id([a-z0-9-]+)", destination: "/:lang?utm_source=facebook&utm_medium=group&utm_campaign=grupp-:lang-:id#testa", permanent: false },
+    ];
   },
   // Güvenlik başlıkları: başka sitede iframe'e gömülmeyi (clickjacking), MIME tahminini ve
   // gereksiz tarayıcı izinlerini engeller. script-src kısıtlaması yok (Next'in satır içi script'leri).
