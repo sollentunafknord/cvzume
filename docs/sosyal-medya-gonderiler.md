@@ -149,11 +149,13 @@ Bu sorunu çözmek için CVzume'yi geliştirdim. Nasıl çalışıyor?
 ✔ Başvurmak istediğiniz ilanı kopyalayıp yapıştırıyorsunuz (örneğin Platsbanken'den)
 ✔ CV'nizi yüklüyorsunuz ya da birkaç kısa soruyu cevaplıyorsunuz
 ✔ İlana ne kadar uygun olduğunuzu ve neyin eksik kaldığını hemen görüyorsunuz
-✔ O ilana özel hazırlanmış, düzgün İsveççe bir CV ve ön yazı alıyorsunuz (PDF ya da Word)
+✔ Başvurduğunuz ilana özel hazırlanmış, düzgün İsveççe bir CV ve ön yazı alıyorsunuz (PDF ya da Word)
 
 CVzume sizin adınıza bilgi uydurmaz; her şey sizin gerçek deneyiminize dayanır.
 
-Ücretsiz deneyebilirsiniz: ayda 2 başvuru hakkı var, kredi kartı gerekmiyor 👉 https://www.cvzume.com/tr?utm_source=facebook&utm_medium=group&utm_campaign=grupp-tr-a
+Hemen deneyin, kayıt bile gerekmiyor: bir iş ilanını yapıştırın, ilana ne kadar uygun olduğunuzu görün 👉 https://www.cvzume.com/tr?utm_source=facebook&utm_medium=group&utm_campaign=grupp-tr-a#testa
+
+Beğenirseniz Google hesabınızla tek tıkla kayıt olabilirsiniz. Ayda 2 başvuru ücretsiz, kredi kartı gerekmiyor.
 
 Sorularınızı yorumlara yazabilirsiniz, hepsine cevap vereceğim.
 ```
@@ -169,4 +171,20 @@ Bunu her başvuruda tek tek yapmak zaman alıyor, hele İsveççe ana diliniz de
 Ücretsiz başlayabilirsiniz, kredi kartı gerekmiyor 👉 https://www.cvzume.com/tr?utm_source=facebook&utm_medium=group&utm_campaign=grupp-tr-b
 
 İş aramanızda başarılar! 🍀
+```
+
+## C — uyum testi (2026-11-08)
+Görsel: `public/brand/social/grupp/uyum-tr.png`
+```
+Platsbanken'de bir ilan görüp "Bu işe başvursam alırlar mı?" diye düşündüğünüz ve sonra vazgeçtiğiniz oldu mu?
+
+Artık tahmin etmenize gerek yok. İlanı CVzume'ye yapıştırın, kendinizle ilgili birkaç cümle yazın. İlana ne kadar uygun olduğunuzu ve neyin eksik kaldığını hemen görün. Bunun için kayıt olmanız bile gerekmiyor.
+
+İlana uygunsanız, aynı yerden başvurduğunuz ilana özel İsveççe CV'nizi ve ön yazınızı da hazırlayabilirsiniz. Her şey sizin gerçek deneyiminize dayanır; hiçbir bilgi uydurulmaz.
+
+👉 Hemen deneyin: https://www.cvzume.com/tr?utm_source=facebook&utm_medium=group&utm_campaign=grupp-tr-c#testa
+
+Ayda 2 başvuru ücretsiz, kredi kartı gerekmiyor. Google hesabınızla tek tıkla kayıt olabilirsiniz.
+
+Sorularınızı yorumlara yazabilirsiniz, hepsine cevap vereceğim.
 ```
