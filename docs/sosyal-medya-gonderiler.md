@@ -188,3 +188,19 @@ Ayda 2 başvuru ücretsiz, kredi kartı gerekmiyor. Google hesabınızla tek tı
 
 Sorularınızı yorumlara yazabilirsiniz, hepsine cevap vereceğim.
 ```
+
+## C (sv) — matchningstest (2026-11-08)
+Görsel: `public/brand/social/grupp/uyum-sv.png`
+```
+Har du sett en annons på Platsbanken, tänkt "har jag ens en chans?" – och sedan låtit bli att söka?
+
+Du behöver inte gissa längre. Klistra in annonsen i CVzume och skriv några meningar om dig själv. Du ser direkt hur väl du matchar och vad som saknas. Du behöver inte ens skapa ett konto.
+
+Om du matchar kan du sedan skapa ett CV och personligt brev på korrekt svenska, anpassade efter just den annonsen. Allt bygger på din egen erfarenhet – inget hittas på.
+
+👉 Testa direkt: https://www.cvzume.com/sv?utm_source=facebook&utm_medium=group&utm_campaign=grupp-sv-c#testa
+
+2 ansökningar i månaden är gratis och inget kort krävs. Du kan registrera dig med ett klick via ditt Google-konto.
+
+Har du frågor? Skriv i kommentarerna, jag svarar på alla!
+```
