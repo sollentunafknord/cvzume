@@ -204,3 +204,23 @@ Om du matchar kan du sedan skapa ett CV och personligt brev på korrekt svenska,
 
 Har du frågor? Skriv i kommentarerna, jag svarar på alla!
 ```
+
+## D (sv) — personligt brev (2026-11-08)
+```
+Hur många gånger har du börjat på ett personligt brev – och fastnat efter "Hej, jag heter …"?
+
+Det personliga brevet är ofta det svåraste i hela ansökan. Särskilt när svenska inte är ditt modersmål och du vet att varje formulering blir bedömd.
+
+Med CVzume klistrar du in annonsen och berättar kort om din erfarenhet. Sedan får du:
+✔ Ett personligt brev som svarar på just den annonsens krav
+✔ Ett CV där det som är viktigast för jobbet syns först
+✔ En tydlig bild av vad du matchar – och vad som saknas
+
+Allt bygger på det du själv har skrivit, inget hittas på. Du får allt som PDF eller Word, så du kan ändra innan du skickar.
+
+👉 Testa först utan konto: https://www.cvzume.com/sv?utm_source=facebook&utm_medium=group&utm_campaign=grupp-sv-d#testa
+
+Sedan är 2 ansökningar i månaden gratis – inget kort krävs.
+
+Vad tycker du är svårast med personliga brev? Skriv gärna i kommentarerna!
+```
