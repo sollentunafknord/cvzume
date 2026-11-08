@@ -1,5 +1,9 @@
 # CVzume Changelog
 
+## v4.8 — 2026-11-08
+- Kayıtsız deneme (landing): CV özeti artık yalnızca kullanıcının yazdığı bilgilerle; role özgü görev/beceri eklemesi yasak (test özette yazılmamış "plockning, lagerstyrning" uydurmuştu)
+- Deneme şart listesinde istihdam koşulları (provanställning, tillsvidare vb.) artık şart sayılmıyor; "karşılandı" yalnızca açıkça yazılmışsa
+
 ## v4.7 — 2026-11-07
 - Google ile giriş onarıldı: dönüş sayfası (auth-callback.html) eski statik dosyalarla silinmişti; dönüş artık /<dil>/auth?mode=oauth, oturum açılıp doğrudan başvuru akışına geçiliyor
 - Facebook ile giriş/kayıt eklendi (Supabase'de Facebook sağlayıcısı açılınca düğme kendiliğinden görünür); GitHub düğmesi kaldırıldı

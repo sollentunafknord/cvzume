@@ -122,9 +122,10 @@ CANDIDATE>>>
 ` : ''}
 Instructions:
 - "role": the job title from the ad (short).
-- "requirements": the 5-8 most important requirements/keywords an applicant must show (short phrases)${hasProfile ? ', each with "met": true if the candidate clearly shows it, false if not' : ', each with "met": null'}.
+- "requirements": the 5-8 most important requirements/keywords an applicant must show (short phrases). Only requirements on the applicant (experience, skills, licences, education, languages, personal qualities) — never employment terms such as contract type, probation, salary, schedule offered or start date${hasProfile ? ', each with "met": true if the candidate clearly shows it, false if not' : ', each with "met": null'}.
 ${hasProfile ? `- "matchScore": 0-100, honest fit between candidate and ad.
-- "cvSummary": a 3-4 sentence CV profile summary for THIS candidate, tailored to the ad. Use only facts from the candidate text, never invent employers, degrees or years.` : `- "matchScore": null.
+- "met" is true ONLY if the candidate text explicitly states it (or a clear equivalent). Do not assume.
+- "cvSummary": a CV profile summary for THIS candidate, tailored to the ad, in first person. STRICT NO-INVENTION RULE: every fact must come from the candidate text. Do not add tasks, duties, tools, systems, skills, qualities, employers, degrees, years or results that are not written there — not even ones that are typical for the role. You may rephrase the candidate's own facts using the ad's wording and say which kind of job the candidate is looking for. If the candidate text is short, keep the summary short (2-3 sentences) rather than padding it.` : `- "matchScore": null.
 - "cvSummary": a 3-4 sentence example CV profile summary showing how a strong applicant would present themselves for this ad. Write it as a template with [brackets] for personal details.`}
 - "tips": 3 concrete, specific tips for applying to THIS job in its country.
 
