@@ -1,6 +1,5 @@
 import { ImageResponse } from 'next/og';
 
-export const runtime = 'edge';
 export const alt = 'CVzume — AI-powered CV builder for Swedish jobs';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
@@ -16,6 +15,11 @@ const TITLES: Record<string, { headline: string; sub: string }> = {
 const MARK = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect x="1" y="1" width="62" height="62" rx="15" fill="#23343A" stroke="rgba(255,255,255,0.22)" stroke-width="2"/><rect x="14" y="16" width="22" height="30" rx="3.5" fill="#FBE3A6" transform="rotate(-10 25 31)"/><rect x="27" y="17" width="22" height="30" rx="3.5" fill="#fff" transform="rotate(8 38 32)"/><g transform="rotate(8 38 32)" fill="#3E7F6C"><rect x="31" y="24" width="12" height="2.8" rx="1.4"/><rect x="31" y="30" width="14" height="2.8" rx="1.4"/><rect x="31" y="36" width="9" height="2.8" rx="1.4"/></g></svg>`;
 
 type Props = { params: Promise<{ locale: string }> };
+
+// Her dil için derlemede bir kez üretilir (her paylaşım önizlemesinde yeniden çizilmez)
+export function generateStaticParams() {
+  return Object.keys(TITLES).map(locale => ({ locale }));
+}
 
 export default async function Image({ params }: Props) {
   const { locale } = await params;

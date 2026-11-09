@@ -1,5 +1,10 @@
 # CVzume Changelog
 
+## v4.10 — 2026-11-09
+- Performans / Vercel CPU kotası: sayfalar artık her ziyarette sunucuda üretilmiyor, önceden üretilip önbellekten geliyor (dil layout'u generateStaticParams + setRequestLocale)
+- Açılış sayfası her dil × pazar (se/local/intl) için önceden üretilir; pazarı middleware ülkeye göre seçer ve /[locale]/pazar/[market]'a iç yönlendirir (?market= önizlemesi korunuyor, adres değişmiyor)
+- Paylaşım görselleri (opengraph-image) dil başına derlemede bir kez üretiliyor; kullanımdan kalkan edge runtime kaldırıldı
+
 ## v4.9 — 2026-11-08
 - Grup gönderileri için kısa link: cvzume.com/g/<dil>-<kod> (ör. /g/sv-d) → UTM'li ana sayfa, doğrudan kayıtsız deneme bölümü
 

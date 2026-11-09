@@ -1,7 +1,7 @@
 import createMiddleware from "next-intl/middleware";
 import { defineRouting } from "next-intl/routing";
 import { NextRequest, NextResponse } from "next/server";
-import { COUNTRY_COOKIE } from "./src/lib/market";
+import { COUNTRY_COOKIE, marketFor } from "./src/lib/market";
 
 export const routing = defineRouting({
   locales: ["sv", "en", "es", "tr", "de"],
@@ -50,7 +50,33 @@ export default function middleware(req: NextRequest) {
     }
   }
 
-  const res = intlMiddleware(req);
+  // Açılış sayfasının pazar varyantları önceden üretilmiş sayfalardır (src/app/[locale]/pazar/[market]);
+  // doğrudan adresleri yok, açılış adresine gönder
+  const seg = pathname.split("/");
+  if (seg[2] === "pazar" && LOCALES.includes(seg[1])) {
+    const url = req.nextUrl.clone();
+    url.pathname = `/${seg[1]}`;
+    return NextResponse.redirect(url);
+  }
+
+  let res = intlMiddleware(req);
+
+  // Açılış sayfası (/sv, /tr …): ülkeye göre pazar. Varsayılan pazar /[locale] sayfasının kendisi,
+  // diğerleri iç yönlendirme ile hazır varyanta. ?market=se|local|intl varyantları önizlemek için.
+  const landing = LOCALES.find((l) => pathname === `/${l}`);
+  if (landing && !res.headers.get("location")) {
+    const forced = req.nextUrl.searchParams.get("market");
+    const country = req.headers.get("x-vercel-ip-country") ?? "";
+    const market = forced === "se" || forced === "local" || forced === "intl" ? forced : marketFor(country, landing);
+    if (market !== marketFor("", landing)) {
+      const url = req.nextUrl.clone();
+      url.pathname = `/${landing}/pazar/${market}`;
+      const rewrite = NextResponse.rewrite(url);
+      for (const c of res.cookies.getAll()) rewrite.cookies.set(c);
+      res = rewrite;
+    }
+  }
+
   // Ülkeyi client'a da ver (uygulama içi iş arama kaynağı, bkz. src/lib/market.ts)
   const country = req.headers.get("x-vercel-ip-country");
   if (country && req.cookies.get(COUNTRY_COOKIE)?.value !== country) {
